@@ -1,0 +1,122 @@
+﻿
+<script src="~/Scripts/chosen.jquery.js" type="text/javascript"></script>
+
+@{
+    ViewBag.Title = "Contract";
+}
+
+
+
+
+
+<div>
+    Стандартный полис страхования медицина/невыезд
+    <div style="font-weight:bold; font-size:x-small">Дата выдачи: @DateTime.Now.ToShortDateString()</div>
+</div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+
+    <div class="panel panel-default">
+        <p></p>
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-2">Номер:</div>
+                <div class="col-md-10">@Html.TextBox("number", "", new { @class = "form-control input-sm" })</div>
+            </div>
+            <p></p>
+            <div class="row">
+                <div class="col-md-2">Валюта:</div>
+                <div class="col-md-10">
+
+                    <select class="form-control input-sm">
+                        <option>USD</option>
+                        <option>EUR</option>
+                        <option>RUR</option>
+                    </select>
+                </div>
+            </div>
+            <p></p>
+
+            <div class="row">
+                <div class="col-md-2">Период страхования:</div>
+                <div class="col-md-10">
+                    @Html.TextBox("date_begin", "", new { @class = "form-control input-sm" })
+                    <span>/</span>
+                    @Html.TextBox("date_end", "", new { @class = "form-control input-sm" })
+                    <span>&nbsp;0 дня(ей)</span>
+                </div>
+            </div>
+            <p></p>
+            <div class="row">
+                <div class="col-md-2">Многократная поездка:</div>
+                <div class="col-md-10">
+                    @Html.TextBox("period_multy", "0", new { @class = "form-control input-sm" }) дней
+                <select class="form-control input-sm">
+                    <option>за весь период
+                    </option>
+                    <option>за одну поездку</option>
+                </select>
+            </div>
+        </div>
+
+
+    </div> <!--container-->
+    <p> </p>
+
+
+
+</div> <!--panel-->
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1">Территория:</div>
+            <div class="col-md-11">
+                
+                <select id="idterritory" class="chosen-select chosen-default" multiple style="max-width:1000px;">
+
+                    <option value=""></option>
+                    <option value="United States">United States</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Afghanistan">Afghanistan</option>
+                    <option value="Aland Islands">Aland Islands</option>
+                    <option value="Albania">Albania</option>
+
+                    <option value="Burkina Faso">Burkina Faso</option>
+                    <option value="Burundi">Burundi</option>
+                    <option value="Cambodia">Cambodia</option>
+
+
+                </select>
+            </div>
+        </div>
+        
+       
+
+    </div>
+
+
+
+
+
+
+    <div class="panel-footer">
+        <button class="btn-primary">Сохранить</button>
+    </div>
+}
+
+
+
+
+
+
+
+<script>
+
+    $(function () {
+        $(".chosen-select").chosen();
+
+    })
+
+</script>

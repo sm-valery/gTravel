@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
+
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+</head>
+<body>
+
+
+
+    <div class="navbar ">
+
+        
+        <div class="container">
+            @*<div class="row">
+                <div class="col-md-1">logo</div>
+                <div class="col-md-1">text</div>
+                <div class="col-md-1">agent-user-out</div>
+            </div>*@
+            <div class="alert alert-info">Info text
+            
+            </div> 
+            <div class="navbar-header navbar-default" role="navigation">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("TIT goTravel", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav ">
+                    <li>@Html.ActionLink("Список договоров", "List", "Contract")</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Новый договор<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("TO медицина","Contract","Contract")</li>
+                            <li><a href="#">TOI мед. эл</a></li>
+                            <li><a href="#">TR </a></li>
+                            </ul>
+</li>
+                    <li>@Html.ActionLink("Импорт", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Отчеты", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Помощь", "Contact", "Home")</li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Номер договора" />
+                    </div>
+                    <button type="submit" class="btn btn-default">Search</button> 
+                </form>
+                
+                @*@Html.Partial("_LoginPartial")*@
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+
+ 
+    @RenderSection("scripts", required: false)
+</body>
+</html>
