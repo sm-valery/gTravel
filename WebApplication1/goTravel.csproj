@@ -185,6 +185,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="about.txt" />
     <Content Include="Content\1200px-BlankMap-World-noborders.png" />
     <Content Include="Content\bootstrap-chosen.css" />
     <Content Include="Content\bootstrap-theme.css" />
