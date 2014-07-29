@@ -42,9 +42,9 @@
             <div class="row">
                 <div class="col-md-2">Период страхования:</div>
                 <div class="col-md-10">
-                    @Html.TextBox("date_begin", "", new { @class = "form-control input-sm" })
+                    @Html.TextBox("date_begin", "", new { @class = "form-control input-sm date3" })
                     <span>/</span>
-                    @Html.TextBox("date_end", "", new { @class = "form-control input-sm" })
+                    @Html.TextBox("date_end", "", new { @class = "form-control input-sm date3" })
                     <span>&nbsp;0 дня(ей)</span>
                 </div>
             </div>
@@ -74,7 +74,7 @@
             <div class="col-md-1">Территория:</div>
             <div class="col-md-11">
                 
-                <select id="idterritory" class="chosen-select chosen-default" multiple style="max-width:1000px;">
+                <select id="idterritory" class="chosen-select chosen-default" multiple >
 
                     <option value=""></option>
                     <option value="United States">United States</option>
@@ -116,6 +116,8 @@
 
     $(function () {
         $(".chosen-select").chosen();
+
+
 
     })
 

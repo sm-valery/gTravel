@@ -12,6 +12,26 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
 
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.ru.js" charset="UTF-8"></script>
+
+
+    <script>
+
+    $(function () {
+
+
+        $(".date3").datepicker({
+            format: "dd.mm.yyyy",
+            language: "ru",
+            autoclose: true
+        });
+
+    })
+
+    </script>
+
 </head>
 <body>
 
@@ -76,3 +96,4 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
