@@ -185,6 +185,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\goDb.mdf" />
+    <Content Include="App_Data\goDb_log.ldf">
+      <DependentUpon>goDb.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker3.css" />
     <Content Include="readme.txt" />
@@ -306,9 +310,7 @@
     <Content Include="Views\Contract\List.cshtml" />
     <Content Include="Views\Contract\Contract.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
