@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
     public class ContractController : Controller
     {
+        private goDbEntities db = new goDbEntities();
+
         //
         // GET: /Contract/
         public ActionResult Index()
@@ -23,8 +26,20 @@ namespace WebApplication1.Controllers
 
         public ActionResult Contract(FormCollection oform)
         {
-            string aaa = "";
+
+
+            ViewBag.territory = new SelectList(db.Territories.ToList());
+
             return View();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
 	}
 }
