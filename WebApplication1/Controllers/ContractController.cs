@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebApplication1.Models;
+using gTravel.Models;
 
-namespace WebApplication1.Controllers
+namespace gTravel.Controllers
 {
     public class ContractController : Controller
     {
@@ -24,13 +24,28 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Contract(FormCollection oform)
+        private void Contract_ini()
         {
+            ViewBag.currency = new SelectList(db.Currencies.ToList(), "currencyid", "code");
+            ViewBag.territory = new SelectList(db.Territories.ToList(), "TerritoryId", "name");
 
+        }
 
-            ViewBag.territory = new SelectList(db.Territories.ToList());
+        public ActionResult Contract()
+        {
+            Contract_ini();
 
+    
             return View();
+        }
+
+        public ActionResult Contract_create()
+        {
+            Contract_ini();
+
+            Contract c = new Contract();
+
+            return View("Contract", c);
         }
 
         protected override void Dispose(bool disposing)

@@ -8,9 +8,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
-using WebApplication1.Models;
+using gTravel.Models;
 
-namespace WebApplication1.Controllers
+namespace gTravel.Controllers
 {
     [Authorize]
     public class AccountController : Controller

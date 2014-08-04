@@ -1,5 +1,6 @@
-﻿
-<script src="~/Scripts/chosen.jquery.js" type="text/javascript"></script>
+﻿@model gTravel.Models.Contract
+
+@*<script src="~/Scripts/chosen.jquery.js" type="text/javascript"></script>*@
 
 @{
     ViewBag.Title = "Contract";
@@ -14,7 +15,7 @@
     <div style="font-weight:bold; font-size:x-small">Дата выдачи: @DateTime.Now.ToShortDateString()</div>
 </div>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form", autofocus = true }))
 {
 
     <div class="panel panel-default">
@@ -23,18 +24,21 @@
 
             <div class="row">
                 <div class="col-md-2">Номер:</div>
-                <div class="col-md-10">@Html.TextBox("number", "", new { @class = "form-control input-sm" })</div>
+                <div class="col-md-10">@Html.TextBox("number", "", new { @class = "form-control input-sm",  })</div>
             </div>
             <p></p>
             <div class="row">
                 <div class="col-md-2">Валюта:</div>
                 <div class="col-md-10">
 
-                    <select class="form-control input-sm">
+                    @Html.DropDownListFor(model=>Model.currencyid,(SelectList)ViewBag.)
+
+
+                    @*<select class="form-control input-sm">
                         <option>USD</option>
                         <option>EUR</option>
                         <option>RUR</option>
-                    </select>
+                    </select>*@
                 </div>
             </div>
             <p></p>
@@ -42,9 +46,9 @@
             <div class="row">
                 <div class="col-md-2">Период страхования:</div>
                 <div class="col-md-10">
-                    @Html.TextBox("date_begin", "", new { @class = "form-control input-sm date3" })
+                    @Html.TextBox("date_begin", "", new { @class = "form-control input-sm date3", type= "date"})
                     <span>/</span>
-                    @Html.TextBox("date_end", "", new { @class = "form-control input-sm date3" })
+                    @Html.TextBox("date_end", "", new { @class = "form-control input-sm date3", type = "date" })
                     <span>&nbsp;0 дня(ей)</span>
                 </div>
             </div>
@@ -97,9 +101,7 @@
     </div>
 
 
-
-    
-    @Html.DropDownList("territory")
+@Html.DropDownList("territory", (SelectList)ViewBag.territory, new { @class = "chosen-select chosen-default", multiple=true })
 
 
     <div class="panel-footer">
@@ -111,15 +113,3 @@
 
 
 
-
-
-<script>
-
-    $(function () {
-        $(".chosen-select").chosen();
-
-
-
-    })
-
-</script>

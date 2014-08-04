@@ -28,6 +28,11 @@
             autoclose: true
         });
 
+        
+
+       $(".chosen-select").chosen();
+
+
     })
 
     </script>
@@ -63,7 +68,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Новый договор<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("TO медицина","Contract","Contract")</li>
+                            <li>@Html.ActionLink("TO медицина", "Contract_create", "Contract")</li>
                             <li><a href="#">TOI мед. эл</a></li>
                             <li><a href="#">TR </a></li>
                             </ul>
@@ -71,6 +76,13 @@
                     <li>@Html.ActionLink("Импорт", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Отчеты", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Помощь", "Contact", "Home")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Настройки<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Валюты", "Currency", "Settings")</li>
+                            <li>@Html.ActionLink("Территории", "territory", "Settings")</li>
+                        </ul>
+                    </li>
                 </ul>
                 <form class="navbar-form navbar-right" role="search">
                     <div class="form-group">

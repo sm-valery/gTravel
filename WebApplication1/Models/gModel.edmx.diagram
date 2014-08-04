@@ -6,6 +6,11 @@
     <edmx:Diagrams>
       <Diagram DiagramId="1d19ac09de5844c5a199252f9092f548" Name="Diagram1">
         <EntityTypeShape EntityType="goDbModel.Territory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="goDbModel.Currency" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="goDbModel.Contract" Width="1.5" PointX="6.125" PointY="0.875" />
+        <EntityTypeShape EntityType="goDbModel.seria" Width="1.5" PointX="9.125" PointY="0.75" />
+        <AssociationConnector Association="goDbModel.FK_Contract_ToTable" />
+        <AssociationConnector Association="goDbModel.FK_Contract_ToTable_1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebApplication1.Models
+namespace gTravel.Models
 {
     using System;
     using System.Collections.Generic;

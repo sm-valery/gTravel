@@ -4,7 +4,32 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="goDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="goDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Contract">
+          <Key>
+            <PropertyRef Name="ContractId" />
+          </Key>
+          <Property Name="ContractId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="currencyid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="seriaid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Currency">
+          <Key>
+            <PropertyRef Name="CurrencyId" />
+          </Key>
+          <Property Name="CurrencyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="255" />
+          <Property Name="code" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="seria">
+          <Key>
+            <PropertyRef Name="SeriaId" />
+          </Key>
+          <Property Name="SeriaId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="nchar" MaxLength="10" />
+          <Property Name="Name" Type="nchar" MaxLength="512" />
+        </EntityType>
         <EntityType Name="Territory">
           <Key>
             <PropertyRef Name="TerritoryId" />
@@ -12,11 +37,45 @@
           <Property Name="TerritoryId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nchar" MaxLength="512" />
         </EntityType>
+        <Association Name="FK_Contract_ToTable">
+          <End Role="Currency" Type="Self.Currency" Multiplicity="1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurrencyId" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="currencyid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_ToTable_1">
+          <End Role="seria" Type="Self.seria" Multiplicity="1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seria">
+              <PropertyRef Name="SeriaId" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="seriaid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="goDbModelStoreContainer">
+          <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="seria" EntityType="Self.seria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Territory" EntityType="Self.Territory" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Contract_ToTable" Association="Self.FK_Contract_ToTable">
+            <End Role="Currency" EntitySet="Currency" />
+            <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_ToTable_1" Association="Self.FK_Contract_ToTable_1">
+            <End Role="seria" EntitySet="seria" />
+            <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="goDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -29,7 +88,71 @@
         </EntityType>
         <EntityContainer Name="goDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Territories" EntityType="Self.Territory" />
+          <EntitySet Name="Currencies" EntityType="goDbModel.Currency" />
+          <EntitySet Name="Contracts" EntityType="goDbModel.Contract" />
+          <EntitySet Name="serias" EntityType="goDbModel.seria" />
+          <AssociationSet Name="FK_Contract_ToTable" Association="goDbModel.FK_Contract_ToTable">
+            <End Role="Currency" EntitySet="Currencies" />
+            <End Role="Contract" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_ToTable_1" Association="goDbModel.FK_Contract_ToTable_1">
+            <End Role="seria" EntitySet="serias" />
+            <End Role="Contract" EntitySet="Contracts" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Currency">
+          <Key>
+            <PropertyRef Name="CurrencyId" />
+          </Key>
+          <Property Name="CurrencyId" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable" FromRole="Currency" ToRole="Contract" />
+        </EntityType>
+        <EntityType Name="Contract">
+          <Key>
+            <PropertyRef Name="ContractId" />
+          </Key>
+          <Property Name="ContractId" Type="Guid" Nullable="false" />
+          <Property Name="currencyid" Type="Guid" Nullable="false" />
+          <Property Name="contractnumber" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="seriaid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Currency" Relationship="goDbModel.FK_Contract_ToTable" FromRole="Contract" ToRole="Currency" />
+          <NavigationProperty Name="seria" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="Contract" ToRole="seria" />
+        </EntityType>
+        <EntityType Name="seria">
+          <Key>
+            <PropertyRef Name="SeriaId" />
+          </Key>
+          <Property Name="SeriaId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="512" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="seria" ToRole="Contract" />
+        </EntityType>
+        <Association Name="FK_Contract_ToTable">
+          <End Type="goDbModel.Currency" Role="Currency" Multiplicity="1" />
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurrencyId" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="currencyid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_ToTable_1">
+          <End Type="goDbModel.seria" Role="seria" Multiplicity="1" />
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seria">
+              <PropertyRef Name="SeriaId" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="seriaid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -41,6 +164,34 @@
               <MappingFragment StoreEntitySet="Territory">
                 <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Currencies">
+            <EntityTypeMapping TypeName="goDbModel.Currency">
+              <MappingFragment StoreEntitySet="Currency">
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contracts">
+            <EntityTypeMapping TypeName="goDbModel.Contract">
+              <MappingFragment StoreEntitySet="Contract">
+                <ScalarProperty Name="seriaid" ColumnName="seriaid" />
+                <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
+                <ScalarProperty Name="currencyid" ColumnName="currencyid" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="serias">
+            <EntityTypeMapping TypeName="goDbModel.seria">
+              <MappingFragment StoreEntitySet="seria">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

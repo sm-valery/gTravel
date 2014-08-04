@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebApplication1.Models
+namespace gTravel.Models
 {
     using System;
     using System.Data.Entity;
@@ -26,5 +26,8 @@ namespace WebApplication1.Models
         }
     
         public virtual DbSet<Territory> Territories { get; set; }
+        public virtual DbSet<Currency> Currencies { get; set; }
+        public virtual DbSet<Contract> Contracts { get; set; }
+        public virtual DbSet<seria> serias { get; set; }
     }
 }
