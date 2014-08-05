@@ -1,36 +1,54 @@
-﻿
+﻿@model IEnumerable<gTravel.Models.Contract>
+
 @{
-    ViewBag.Title = "Список договоров";
+    ViewBag.Title = "List";
 }
 
+<h2>List</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Contract_Create")
+</p>
 <table class="table table-striped">
-    <thead>
+    <tr>
+        <th>
+            Номер
+        </th>
+        <th>
+            Серия
+        </th>
+        <th>
+            Валюта
+        </th>
+        <th>
+            Период
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>Серия</th>
-            <th>Номер</th>
-            <th>Дата выдачи</th>
-            <th>Период</th>
-            <th>Страхователь</th>
-            <th>Территория</th>
+            <td>
+                @item.contractnumber
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.seria.Code)
+                
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Currency.name)
+            </td>
+            <td>
+               @item.date_begin.Value.ToShortDateString() - @item.date_end.Value.ToShortDateString()
+                (@item.date_diff)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Contract_edit", new { id = item.ContractId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ContractId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ContractId })
+            </td>
         </tr>
-    </thead>
-    <tbody >
-        <tr >
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-        </tr>
-    </tbody>
+    }
+
 </table>

@@ -11,6 +11,9 @@
         <EntityTypeShape EntityType="goDbModel.seria" Width="1.5" PointX="9.125" PointY="0.75" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToTable" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToTable_1" />
+        <EntityTypeShape EntityType="goDbModel.Contract_territory" Width="1.5" PointX="3" PointY="4.125" />
+        <AssociationConnector Association="goDbModel.FK_Contract_territory_ToContract" />
+        <AssociationConnector Association="goDbModel.FK_Contract_territory_ToTerritory" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

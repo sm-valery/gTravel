@@ -12,16 +12,13 @@ namespace gTravel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Territory
+    public partial class Contract_territory
     {
-        public Territory()
-        {
-            this.Contract_territory = new HashSet<Contract_territory>();
-        }
+        public System.Guid ContractTerritoryId { get; set; }
+        public System.Guid ContractId { get; set; }
+        public Nullable<System.Guid> TerritoryId { get; set; }
     
-        public System.Guid TerritoryId { get; set; }
-        public string Name { get; set; }
-    
-        public virtual ICollection<Contract_territory> Contract_territory { get; set; }
+        public virtual Contract Contract { get; set; }
+        public virtual Territory Territory { get; set; }
     }
 }

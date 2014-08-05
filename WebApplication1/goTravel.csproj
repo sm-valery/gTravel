@@ -192,11 +192,15 @@
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\testController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Contract.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Contract_territory.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Currency.cs">
@@ -367,10 +371,14 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Contract\List.cshtml" />
     <Content Include="Views\Contract\Contract.cshtml" />
     <Content Include="Views\Settings\Currency.cshtml" />
     <Content Include="Views\Settings\Currency_create.cshtml" />
+    <Content Include="Views\Settings\seria.cshtml" />
+    <Content Include="Views\Settings\Seria_Create.cshtml" />
+    <Content Include="Views\Contract\List.cshtml" />
+    <Content Include="Views\Settings\Territory.cshtml" />
+    <Content Include="Views\Settings\Territory_Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -379,7 +387,9 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\test\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

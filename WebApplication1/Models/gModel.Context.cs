@@ -29,5 +29,6 @@ namespace gTravel.Models
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<Contract> Contracts { get; set; }
         public virtual DbSet<seria> serias { get; set; }
+        public virtual DbSet<Contract_territory> Contract_territory { get; set; }
     }
 }

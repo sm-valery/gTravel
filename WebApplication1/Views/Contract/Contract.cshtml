@@ -1,6 +1,5 @@
 ﻿@model gTravel.Models.Contract
 
-@*<script src="~/Scripts/chosen.jquery.js" type="text/javascript"></script>*@
 
 @{
     ViewBag.Title = "Contract";
@@ -17,6 +16,7 @@
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form", autofocus = true }))
 {
+    @Html.HiddenFor(m=>Model.ContractId)
 
     <div class="panel panel-default">
         <p></p>
@@ -24,21 +24,18 @@
 
             <div class="row">
                 <div class="col-md-2">Номер:</div>
-                <div class="col-md-10">@Html.TextBox("number", "", new { @class = "form-control input-sm",  })</div>
+                <div class="col-md-10">
+                @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm", type= "tel" })
+                </div>
             </div>
             <p></p>
             <div class="row">
                 <div class="col-md-2">Валюта:</div>
                 <div class="col-md-10">
 
-                    @Html.DropDownListFor(model=>Model.currencyid,(SelectList)ViewBag.)
+                    @Html.DropDownListFor(model => Model.currencyid, (SelectList)ViewBag.currency, new { @class = "form-control input-sm" })
 
 
-                    @*<select class="form-control input-sm">
-                        <option>USD</option>
-                        <option>EUR</option>
-                        <option>RUR</option>
-                    </select>*@
                 </div>
             </div>
             <p></p>
@@ -46,10 +43,16 @@
             <div class="row">
                 <div class="col-md-2">Период страхования:</div>
                 <div class="col-md-10">
-                    @Html.TextBox("date_begin", "", new { @class = "form-control input-sm date3", type= "date"})
+                    @Html.TextBoxFor(model => Model.date_begin, "{0:d}", new { @class = "form-control input-sm date3 date_period" })
+                    
                     <span>/</span>
-                    @Html.TextBox("date_end", "", new { @class = "form-control input-sm date3", type = "date" })
-                    <span>&nbsp;0 дня(ей)</span>
+                    @Html.TextBoxFor(m => Model.date_end, "{0:d}", new { @class = "form-control input-sm date3 date_period" })
+                    
+                    <span>&nbsp;
+
+                    <span id="period_day_count">
+                        @Html.DisplayFor(m=>Model.date_diff)</span>
+                     дня(ей)</span>
                 </div>
             </div>
             <p></p>
@@ -78,21 +81,9 @@
             <div class="col-md-1">Территория:</div>
             <div class="col-md-11">
                 
-                <select id="idterritory" class="chosen-select chosen-default" multiple >
+                @Html.DropDownList("territory", (SelectList)ViewBag.territory, new { @class = "chosen-select chosen-default", multiple = true })
 
-                    <option value=""></option>
-                    <option value="United States">United States</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="Afghanistan">Afghanistan</option>
-                    <option value="Aland Islands">Aland Islands</option>
-                    <option value="Albania">Albania</option>
-
-                    <option value="Burkina Faso">Burkina Faso</option>
-                    <option value="Burundi">Burundi</option>
-                    <option value="Cambodia">Cambodia</option>
-
-
-                </select>
+                @*@Html.DropDownListFor(m => Model.Contract_territory, (SelectList)ViewBag.territory, new { @class = "chosen-select chosen-default", multiple = true })*@
             </div>
         </div>
         
@@ -101,7 +92,6 @@
     </div>
 
 
-@Html.DropDownList("territory", (SelectList)ViewBag.territory, new { @class = "chosen-select chosen-default", multiple=true })
 
 
     <div class="panel-footer">
@@ -111,5 +101,30 @@
 
 
 
+<script type="text/javascript">
 
 
+    $(function () {
+       
+        $(".date_period").change(function () {
+           
+            var d1 = $("#date_begin").val();
+            var d2 = $("#date_end").val();
+
+    
+            $.ajax({
+                url: '@Url.Action("get_strperiodday")',
+                data: {
+                    date_from: d1,
+                    date_to: d2
+                },
+                success: function (data) {
+                    $("#period_day_count").html(data);
+                }
+            });
+        });
+
+    }
+    )
+
+</script>

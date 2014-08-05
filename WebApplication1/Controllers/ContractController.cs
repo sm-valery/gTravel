@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using gTravel.Models;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity;
 
 namespace gTravel.Controllers
 {
@@ -21,7 +23,7 @@ namespace gTravel.Controllers
         public ActionResult List()
         {
 
-            return View();
+            return View(db.Contracts.ToList());
         }
 
         private void Contract_ini()
@@ -45,8 +47,88 @@ namespace gTravel.Controllers
 
             Contract c = new Contract();
 
+            c.ContractId = Guid.NewGuid();
+            c.seriaid = Guid.Parse("00000000-0000-0000-0000-000000000000");
+            c.date_begin = null;
+            c.date_end = null;
+
             return View("Contract", c);
         }
+
+        [HttpPost]
+        public ActionResult Contract_create(Contract c)
+        {
+            if(ModelState.IsValid)
+            {
+
+                contract_before_save(ref c);
+
+                db.Contracts.Add(c);
+                db.SaveChanges();
+
+                return RedirectToAction("List");
+            }
+
+            Contract_ini();
+            return View("contract",c);
+        }
+
+        public ActionResult Contract_edit(Guid id)
+        {
+            var c = db.Contracts.SingleOrDefault(x => x.ContractId == id);
+  
+            Contract_ini();
+
+            return View("contract",c);
+        }
+
+        [HttpPost]
+        public ActionResult Contract_edit(Contract c, string[] territory)
+        {
+            if(ModelState.IsValid)
+            {
+                contract_before_save(ref c);
+
+                db.Entry(c).State = EntityState.Modified;
+
+                db.SaveChanges();
+
+                return RedirectToAction("List");
+            }
+
+            Contract_ini();
+            return View("contract", c);
+        }
+
+        private void contract_before_save(ref Contract c)
+    {
+        c.date_diff = get_period_diff(c.date_begin, c.date_end);
+    }
+
+
+        private int get_period_diff(DateTime? d1, DateTime? d2)
+        {
+            return (d2.Value - d1.Value).Days + 1;
+        }
+
+        public string get_strperiodday(string date_from, string date_to)
+        {
+            DateTime d1=DateTime.Now, d2=DateTime.Now;
+            bool isparsed;
+            string retval = "0";
+
+            isparsed= DateTime.TryParse(date_from, out d1);
+            isparsed = isparsed && DateTime.TryParse(date_to, out d2);
+            
+            if(isparsed)
+            {
+
+                retval = get_period_diff(d1,d2).ToString();
+            }
+
+            return retval;
+        }
+
 
         protected override void Dispose(bool disposing)
         {
