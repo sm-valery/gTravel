@@ -75,7 +75,7 @@ namespace gTravel.Controllers
 
         public ActionResult Contract_edit(Guid id)
         {
-            var c = db.Contracts.SingleOrDefault(x => x.ContractId == id);
+            var c = db.Contracts.Include("Contract_territory").SingleOrDefault(x => x.ContractId == id);
   
             Contract_ini();
 
@@ -88,6 +88,9 @@ namespace gTravel.Controllers
             if(ModelState.IsValid)
             {
                 contract_before_save(ref c);
+                
+                //обновление территории
+                contract_update_territory(c.ContractId, territory);
 
                 db.Entry(c).State = EntityState.Modified;
 
@@ -98,6 +101,35 @@ namespace gTravel.Controllers
 
             Contract_ini();
             return View("contract", c);
+        }
+
+        private void contract_update_territory(Guid contractid,string[] territory)
+        {
+
+            var t_old = db.Contract_territory.Where(x => x.ContractId == contractid).ToList();
+            foreach(var item in t_old)
+            {
+               //удалить
+            }
+
+            foreach(string id in territory)
+            {
+                Guid tid= Guid.Parse(id);
+                //добавить
+                if(t_old.Where(x=>x.TerritoryId== tid).Count()==0 )
+                {
+                    var tnew = new Contract_territory();
+                    
+                    tnew.ContractTerritoryId = Guid.NewGuid();
+                    tnew.TerritoryId=tid;
+                    tnew.ContractId=contractid;
+
+                    db.Contract_territory.Add(tnew);
+                }
+
+            }
+
+           
         }
 
         private void contract_before_save(ref Contract c)
