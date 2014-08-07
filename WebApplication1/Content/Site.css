@@ -45,3 +45,22 @@ input[type="checkbox"].input-validation-error {
 {
     background-image:url("\Content\1200px-BlankMap-World-noborders.png")
 }
+
+.input-label {
+    color: lightblue;
+}
+.input-value {
+    color: Maroon;
+        /*darkslategray;*/
+}
+
+form label
+{
+    color: gray;
+    font-weight:normal;
+}
+
+.alert-caption
+{
+    background-color:whitesmoke;
+}

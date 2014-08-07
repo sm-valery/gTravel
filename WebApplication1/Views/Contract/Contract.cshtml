@@ -6,90 +6,134 @@
 }
 
 
-
-
-
-<div>
+@*<p class="bg-primary">
     Стандартный полис страхования медицина/невыезд
     <div style="font-weight:bold; font-size:x-small">Дата выдачи: @DateTime.Now.ToShortDateString()</div>
-</div>
+</p>*@
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form", autofocus = true }))
+<blockquote>
+    <p>Стандартный полис страхования медицина/невыезд</p>
+    <footer>Дата выдачи: @DateTime.Now.ToShortDateString()</footer>
+</blockquote>
+
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.HiddenFor(m=>Model.ContractId)
 
     <div class="panel panel-default">
-        <p></p>
-        <div class="container-fluid">
+        <div class="panel-heading">Основные сведения</div>
+        <div class="panel-body">
+            @*<div class="container-fluid">*@
 
-            <div class="row">
-                <div class="col-md-2">Номер:</div>
-                <div class="col-md-10">
-                @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm", type= "tel" })
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Номер:</label>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", type = "tel", autofocus = true })
+                    </div>
                 </div>
-            </div>
-            <p></p>
-            <div class="row">
-                <div class="col-md-2">Валюта:</div>
-                <div class="col-md-10">
+                <p></p>
+                <div class="row">
+                    <div class="col-md-2"><label>Валюта:</label></div>
+                    <div class="col-md-10">
 
-                    @Html.DropDownListFor(model => Model.currencyid, (SelectList)ViewBag.currency, new { @class = "form-control input-sm" })
+                        @Html.DropDownListFor(model => Model.currencyid, (SelectList)ViewBag.currency, new { @class = "form-control input-sm input-value" })
 
 
+                    </div>
                 </div>
-            </div>
-            <p></p>
+                <p></p>
 
-            <div class="row">
-                <div class="col-md-2">Период страхования:</div>
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => Model.date_begin, "{0:d}", new { @class = "form-control input-sm date3 date_period" })
-                    
-                    <span>/</span>
-                    @Html.TextBoxFor(m => Model.date_end, "{0:d}", new { @class = "form-control input-sm date3 date_period" })
-                    
-                    <span>&nbsp;
+                <div class="row">
+                    <div class="col-md-2"><label>Период страхования:</label> </div>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => Model.date_begin, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
 
-                    <span id="period_day_count">
-                        @Html.DisplayFor(m=>Model.date_diff)</span>
-                     дня(ей)</span>
+                        <span>/</span>
+                        @Html.TextBoxFor(m => Model.date_end, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
+
+                        <span>
+                            &nbsp;
+
+                            <span id="period_day_count">
+                                @Html.DisplayFor(m => Model.date_diff)
+                            </span>
+                            дня(ей)
+                        </span>
+                    </div>
                 </div>
-            </div>
-            <p></p>
-            <div class="row">
-                <div class="col-md-2">Многократная поездка:</div>
-                <div class="col-md-10">
-                    @Html.TextBox("period_multy", "0", new { @class = "form-control input-sm" }) дней
-                <select class="form-control input-sm">
-                    <option>за весь период
-                    </option>
-                    <option>за одну поездку</option>
-                </select>
-            </div>
-        </div>
+                <p></p>
+                <div class="row">
+                    <div class="col-md-2"><label>Многократная поездка:</label> </div>
+                    <div class="col-md-10">
+                        @Html.TextBox("period_multy", "0", new { @class = "form-control input-sm input-value" }) дней
+                        <select class="form-control input-sm">
+                            <option>
+                                за весь период
+                            </option>
+                            <option>за одну поездку</option>
+                        </select>
+                    </div>
+                </div>
 
 
-    </div> <!--container-->
-    <p> </p>
+            @*</div>*@ <!--container-->
+        </div> @*panel body*@
+
 
 
 
 </div> <!--panel-->
 
-    <div class="container-fluid">
+
+    <div class="panel panel-info">
+        <div class="panel-heading small">Территория</div>
+
+        <div class="panel-body">
+            <div class="text-info small">Выберите значение и нажмите "Добавить"</div>
+
+            @Html.DropDownList("d_territory", (SelectList)ViewBag.territory, "", new Dictionary<string, object> { { "data-placeholder", "..." }, { "class", "form-control chosen-select" } })
+            <button class="btn btn-sm btn-info">Добавить</button>
+            <button class="btn btn-sm btn-default">Исключая</button>
+
+        </div>
+
+        <table class="table table-condensed table-hover">
+
+
+            @foreach (var item in Model.Contract_territory)
+            {
+                <tr>
+                    <td class="input-value">
+
+                        @item.Territory.Name
+                    </td>
+                    <td>
+                        <button class="btn btn-default btn-sm">x</button>
+                    </td>
+                </tr>
+            }
+            
+        </table>
+    </div>
+    
+    @*<div class="container-fluid">
         <div class="row">
             <div class="col-md-1">Территория:</div>
             <div class="col-md-11">
                 
                 @Html.DropDownList("territory", (SelectList)ViewBag.territory, new { @class = "chosen-select chosen-default", multiple = true })
 
-                @*@Html.DropDownListFor(m => Model.Contract_territory, (SelectList)ViewBag.territory, new { @class = "chosen-select chosen-default", multiple = true })*@
+               
             </div>
         </div>
         
        
 
-    </div>
+    </div>*@
 
 
 
