@@ -1,9 +1,25 @@
-﻿@model gTravel.Models.Contract
+﻿@functions
+{
+
+string get_terr_id(string id)
+    {
+        return "terr_" + id;
+    }
+}
+
+
+@model gTravel.Models.Contract
 
 
 @{
     ViewBag.Title = "Contract";
 }
+
+
+<script src="@Url.Content("~/Scripts/contract.js")"></script>
+
+
+
 
 
 @*<p class="bg-primary">
@@ -96,9 +112,9 @@
             <div class="text-info small">Выберите значение и нажмите "Добавить"</div>
 
             @Html.DropDownList("d_territory", (SelectList)ViewBag.territory, "", new Dictionary<string, object> { { "data-placeholder", "..." }, { "class", "form-control chosen-select" } })
-            <button class="btn btn-sm btn-info">Добавить</button>
+            <button id="territory_add" class="btn btn-sm btn-info">Добавить</button>
             <button class="btn btn-sm btn-default">Исключая</button>
-
+            
         </div>
 
         <table class="table table-condensed table-hover">
@@ -108,15 +124,15 @@
             {
                 <tr>
                     <td class="input-value">
-
+                        <input id="@get_terr_id(item.TerritoryId.ToString())" type="hidden" name="territory" value="@item.TerritoryId" />
                         @item.Territory.Name
                     </td>
                     <td>
-                        <button class="btn btn-default btn-sm">x</button>
+                        <button class="btn btn-default btn-sm btn_terr_dell">x</button>
                     </td>
                 </tr>
             }
-            
+            <tr id="territory_newrow"></tr>
         </table>
     </div>
     
@@ -144,31 +160,3 @@
 }
 
 
-
-<script type="text/javascript">
-
-
-    $(function () {
-       
-        $(".date_period").change(function () {
-           
-            var d1 = $("#date_begin").val();
-            var d2 = $("#date_end").val();
-
-    
-            $.ajax({
-                url: '@Url.Action("get_strperiodday")',
-                data: {
-                    date_from: d1,
-                    date_to: d2
-                },
-                success: function (data) {
-                    $("#period_day_count").html(data);
-                }
-            });
-        });
-
-    }
-    )
-
-</script>

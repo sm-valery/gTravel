@@ -35,10 +35,10 @@ namespace gTravel.Controllers
 
         public ActionResult Contract()
         {
-            Contract_ini();
+            //Contract_ini();
 
-    
-            return View();
+
+            return RedirectToAction("List");
         }
 
         public ActionResult Contract_create()
@@ -137,7 +137,12 @@ namespace gTravel.Controllers
         c.date_diff = get_period_diff(c.date_begin, c.date_end);
     }
 
+        public string   contract_terr_insert_row(string id, string name)
+        {
 
+            return string.Format("<tr><td  class='input-value'> <input id='{2}' type='hidden' name='territory' value='{0}' /> {1}</td><td><button class='btn btn-default btn-sm'>x</button></td></tr>",
+                id,name,"terr_" + id);
+        }
         private int get_period_diff(DateTime? d1, DateTime? d2)
         {
             return (d2.Value - d1.Value).Days + 1;
