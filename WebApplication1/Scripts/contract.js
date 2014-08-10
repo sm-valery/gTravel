@@ -19,17 +19,16 @@
         
         if (vid != "") {
 
-            alert("uuu");
 
             $.ajax({
-                url: '@Url.Action("contract_terr_insert_row")',
+                url: '@Url.Action("Index", "Home")',
                 data: {
                     id: vid,
                     name: vname
                 },
-                error: function(data)
+                error: function(request,status,error)
                 {
-                    alert(data.complete);
+                    alert(error);
                 },
                 success: function (data) {
 
@@ -56,11 +55,15 @@
         var d2 = $("#date_end").val();
 
 
+
         $.ajax({
             url: '@Url.Action("get_strperiodday","Contract")',
             data: {
                 date_from: d1,
                 date_to: d2
+            },
+            error: function (request, status, error) {
+                alert(error);
             },
             success: function (data) {
                 $("#period_day_count").html(data);

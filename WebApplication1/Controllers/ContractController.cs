@@ -137,7 +137,7 @@ namespace gTravel.Controllers
         c.date_diff = get_period_diff(c.date_begin, c.date_end);
     }
 
-        public string   contract_terr_insert_row(string id, string name)
+        public string contract_terr_insert_row(string id, string name)
         {
 
             return string.Format("<tr><td  class='input-value'> <input id='{2}' type='hidden' name='territory' value='{0}' /> {1}</td><td><button class='btn btn-default btn-sm'>x</button></td></tr>",
@@ -148,7 +148,7 @@ namespace gTravel.Controllers
             return (d2.Value - d1.Value).Days + 1;
         }
 
-        public string get_strperiodday(string date_from, string date_to)
+        public ActionResult get_strperiodday(string date_from, string date_to)
         {
             DateTime d1=DateTime.Now, d2=DateTime.Now;
             bool isparsed;
@@ -163,7 +163,7 @@ namespace gTravel.Controllers
                 retval = get_period_diff(d1,d2).ToString();
             }
 
-            return retval;
+            return Content( retval);
         }
 
 

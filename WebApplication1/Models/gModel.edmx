@@ -5,6 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="goDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Condition">
+          <Key>
+            <PropertyRef Name="ConditionId" />
+          </Key>
+          <Property Name="ConditionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="nchar" MaxLength="25" />
+          <Property Name="Name" Type="nchar" MaxLength="255" />
+          <Property Name="Type" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="ConditionSeria">
+          <Key>
+            <PropertyRef Name="ConditionSeriaId" />
+          </Key>
+          <Property Name="ConditionSeriaId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ConditionId" Type="uniqueidentifier" />
+          <Property Name="SeriaId" Type="uniqueidentifier" />
+        </EntityType>
         <EntityType Name="Contract">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -24,6 +41,17 @@
           <Property Name="ContractTerritoryId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ContractId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TerritoryId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="ContractCondition">
+          <Key>
+            <PropertyRef Name="ContractCondId" />
+          </Key>
+          <Property Name="ContractCondId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ConditionId" Type="uniqueidentifier" />
+          <Property Name="Contractid" Type="uniqueidentifier" />
+          <Property Name="Val_c" Type="nvarchar" MaxLength="255" />
+          <Property Name="Val_n" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Val_l" Type="bit" />
         </EntityType>
         <EntityType Name="Currency">
           <Key>
@@ -48,6 +76,30 @@
           <Property Name="TerritoryId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nchar" MaxLength="512" />
         </EntityType>
+        <Association Name="FK_ConditionSeria_ToCondition">
+          <End Role="Condition" Type="Self.Condition" Multiplicity="0..1" />
+          <End Role="ConditionSeria" Type="Self.ConditionSeria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Condition">
+              <PropertyRef Name="ConditionId" />
+            </Principal>
+            <Dependent Role="ConditionSeria">
+              <PropertyRef Name="ConditionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConditionSeria_ToSeria">
+          <End Role="seria" Type="Self.seria" Multiplicity="0..1" />
+          <End Role="ConditionSeria" Type="Self.ConditionSeria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seria">
+              <PropertyRef Name="SeriaId" />
+            </Principal>
+            <Dependent Role="ConditionSeria">
+              <PropertyRef Name="SeriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Contract_territory_ToContract">
           <End Role="Contract" Type="Self.Contract" Multiplicity="1" />
           <End Role="Contract_territory" Type="Self.Contract_territory" Multiplicity="*" />
@@ -96,12 +148,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Table_ToCondition">
+          <End Role="Condition" Type="Self.Condition" Multiplicity="0..1" />
+          <End Role="ContractCondition" Type="Self.ContractCondition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Condition">
+              <PropertyRef Name="ConditionId" />
+            </Principal>
+            <Dependent Role="ContractCondition">
+              <PropertyRef Name="ConditionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToContract">
+          <End Role="Contract" Type="Self.Contract" Multiplicity="0..1" />
+          <End Role="ContractCondition" Type="Self.ContractCondition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="ContractId" />
+            </Principal>
+            <Dependent Role="ContractCondition">
+              <PropertyRef Name="Contractid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="goDbModelStoreContainer">
+          <EntitySet Name="Condition" EntityType="Self.Condition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConditionSeria" EntityType="Self.ConditionSeria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contract_territory" EntityType="Self.Contract_territory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractCondition" EntityType="Self.ContractCondition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="seria" EntityType="Self.seria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Territory" EntityType="Self.Territory" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ConditionSeria_ToCondition" Association="Self.FK_ConditionSeria_ToCondition">
+            <End Role="Condition" EntitySet="Condition" />
+            <End Role="ConditionSeria" EntitySet="ConditionSeria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConditionSeria_ToSeria" Association="Self.FK_ConditionSeria_ToSeria">
+            <End Role="seria" EntitySet="seria" />
+            <End Role="ConditionSeria" EntitySet="ConditionSeria" />
+          </AssociationSet>
           <AssociationSet Name="FK_Contract_territory_ToContract" Association="Self.FK_Contract_territory_ToContract">
             <End Role="Contract" EntitySet="Contract" />
             <End Role="Contract_territory" EntitySet="Contract_territory" />
@@ -117,6 +204,14 @@
           <AssociationSet Name="FK_Contract_ToTable_1" Association="Self.FK_Contract_ToTable_1">
             <End Role="seria" EntitySet="seria" />
             <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToCondition" Association="Self.FK_Table_ToCondition">
+            <End Role="Condition" EntitySet="Condition" />
+            <End Role="ContractCondition" EntitySet="ContractCondition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToContract" Association="Self.FK_Table_ToContract">
+            <End Role="Contract" EntitySet="Contract" />
+            <End Role="ContractCondition" EntitySet="ContractCondition" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -153,6 +248,25 @@
             <End Role="Territory" EntitySet="Territories" />
             <End Role="Contract_territory" EntitySet="Contract_territory" />
           </AssociationSet>
+          <EntitySet Name="Conditions" EntityType="goDbModel.Condition" />
+          <EntitySet Name="ConditionSerias" EntityType="goDbModel.ConditionSeria" />
+          <EntitySet Name="ContractConditions" EntityType="goDbModel.ContractCondition" />
+          <AssociationSet Name="FK_ConditionSeria_ToCondition" Association="goDbModel.FK_ConditionSeria_ToCondition">
+            <End Role="Condition" EntitySet="Conditions" />
+            <End Role="ConditionSeria" EntitySet="ConditionSerias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToCondition" Association="goDbModel.FK_Table_ToCondition">
+            <End Role="Condition" EntitySet="Conditions" />
+            <End Role="ContractCondition" EntitySet="ContractConditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConditionSeria_ToSeria" Association="goDbModel.FK_ConditionSeria_ToSeria">
+            <End Role="seria" EntitySet="serias" />
+            <End Role="ConditionSeria" EntitySet="ConditionSerias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToContract" Association="goDbModel.FK_Table_ToContract">
+            <End Role="Contract" EntitySet="Contracts" />
+            <End Role="ContractCondition" EntitySet="ContractConditions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Currency">
           <Key>
@@ -177,6 +291,7 @@
           <Property Name="date_end" Type="DateTime" Precision="0" />
           <Property Name="date_diff" Type="Int32" />
           <NavigationProperty Name="Contract_territory" Relationship="goDbModel.FK_Contract_territory_ToContract" FromRole="Contract" ToRole="Contract_territory" />
+          <NavigationProperty Name="ContractConditions" Relationship="goDbModel.FK_Table_ToContract" FromRole="Contract" ToRole="ContractCondition" />
         </EntityType>
         <EntityType Name="seria">
           <Key>
@@ -186,6 +301,7 @@
           <Property Name="Code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="512" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="seria" ToRole="Contract" />
+          <NavigationProperty Name="ConditionSerias" Relationship="goDbModel.FK_ConditionSeria_ToSeria" FromRole="seria" ToRole="ConditionSeria" />
         </EntityType>
         <Association Name="FK_Contract_ToTable">
           <End Type="goDbModel.Currency" Role="Currency" Multiplicity="1" />
@@ -245,6 +361,88 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Condition">
+          <Key>
+            <PropertyRef Name="ConditionId" />
+          </Key>
+          <Property Name="ConditionId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="ConditionSerias" Relationship="goDbModel.FK_ConditionSeria_ToCondition" FromRole="Condition" ToRole="ConditionSeria" />
+          <NavigationProperty Name="ContractConditions" Relationship="goDbModel.FK_Table_ToCondition" FromRole="Condition" ToRole="ContractCondition" />
+        </EntityType>
+        <EntityType Name="ConditionSeria">
+          <Key>
+            <PropertyRef Name="ConditionSeriaId" />
+          </Key>
+          <Property Name="ConditionSeriaId" Type="Guid" Nullable="false" />
+          <Property Name="ConditionId" Type="Guid" />
+          <Property Name="SeriaId" Type="Guid" />
+          <NavigationProperty Name="Condition" Relationship="goDbModel.FK_ConditionSeria_ToCondition" FromRole="ConditionSeria" ToRole="Condition" />
+          <NavigationProperty Name="seria" Relationship="goDbModel.FK_ConditionSeria_ToSeria" FromRole="ConditionSeria" ToRole="seria" />
+        </EntityType>
+        <EntityType Name="ContractCondition">
+          <Key>
+            <PropertyRef Name="ContractCondId" />
+          </Key>
+          <Property Name="ContractCondId" Type="Guid" Nullable="false" />
+          <Property Name="ConditionId" Type="Guid" />
+          <Property Name="Contractid" Type="Guid" />
+          <Property Name="Val_c" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Val_n" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Val_l" Type="Boolean" />
+          <NavigationProperty Name="Condition" Relationship="goDbModel.FK_Table_ToCondition" FromRole="ContractCondition" ToRole="Condition" />
+          <NavigationProperty Name="Contract" Relationship="goDbModel.FK_Table_ToContract" FromRole="ContractCondition" ToRole="Contract" />
+        </EntityType>
+        <Association Name="FK_ConditionSeria_ToCondition">
+          <End Type="goDbModel.Condition" Role="Condition" Multiplicity="0..1" />
+          <End Type="goDbModel.ConditionSeria" Role="ConditionSeria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Condition">
+              <PropertyRef Name="ConditionId" />
+            </Principal>
+            <Dependent Role="ConditionSeria">
+              <PropertyRef Name="ConditionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToCondition">
+          <End Type="goDbModel.Condition" Role="Condition" Multiplicity="0..1" />
+          <End Type="goDbModel.ContractCondition" Role="ContractCondition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Condition">
+              <PropertyRef Name="ConditionId" />
+            </Principal>
+            <Dependent Role="ContractCondition">
+              <PropertyRef Name="ConditionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConditionSeria_ToSeria">
+          <End Type="goDbModel.seria" Role="seria" Multiplicity="0..1" />
+          <End Type="goDbModel.ConditionSeria" Role="ConditionSeria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seria">
+              <PropertyRef Name="SeriaId" />
+            </Principal>
+            <Dependent Role="ConditionSeria">
+              <PropertyRef Name="SeriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToContract">
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="0..1" />
+          <End Type="goDbModel.ContractCondition" Role="ContractCondition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="ContractId" />
+            </Principal>
+            <Dependent Role="ContractCondition">
+              <PropertyRef Name="Contractid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -296,6 +494,37 @@
                 <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
                 <ScalarProperty Name="ContractId" ColumnName="ContractId" />
                 <ScalarProperty Name="ContractTerritoryId" ColumnName="ContractTerritoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conditions">
+            <EntityTypeMapping TypeName="goDbModel.Condition">
+              <MappingFragment StoreEntitySet="Condition">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ConditionId" ColumnName="ConditionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConditionSerias">
+            <EntityTypeMapping TypeName="goDbModel.ConditionSeria">
+              <MappingFragment StoreEntitySet="ConditionSeria">
+                <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
+                <ScalarProperty Name="ConditionId" ColumnName="ConditionId" />
+                <ScalarProperty Name="ConditionSeriaId" ColumnName="ConditionSeriaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractConditions">
+            <EntityTypeMapping TypeName="goDbModel.ContractCondition">
+              <MappingFragment StoreEntitySet="ContractCondition">
+                <ScalarProperty Name="Val_l" ColumnName="Val_l" />
+                <ScalarProperty Name="Val_n" ColumnName="Val_n" />
+                <ScalarProperty Name="Val_c" ColumnName="Val_c" />
+                <ScalarProperty Name="Contractid" ColumnName="Contractid" />
+                <ScalarProperty Name="ConditionId" ColumnName="ConditionId" />
+                <ScalarProperty Name="ContractCondId" ColumnName="ContractCondId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

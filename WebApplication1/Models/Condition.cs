@@ -12,19 +12,20 @@ namespace gTravel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class seria
+    public partial class Condition
     {
-        public seria()
+        public Condition()
         {
-            this.Contracts = new HashSet<Contract>();
             this.ConditionSerias = new HashSet<ConditionSeria>();
+            this.ContractConditions = new HashSet<ContractCondition>();
         }
     
-        public System.Guid SeriaId { get; set; }
+        public System.Guid ConditionId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
+        public string Type { get; set; }
     
-        public virtual ICollection<Contract> Contracts { get; set; }
         public virtual ICollection<ConditionSeria> ConditionSerias { get; set; }
+        public virtual ICollection<ContractCondition> ContractConditions { get; set; }
     }
 }

@@ -16,10 +16,6 @@ string get_terr_id(string id)
 }
 
 
-<script src="@Url.Content("~/Scripts/contract.js")"></script>
-
-
-
 
 
 @*<p class="bg-primary">
@@ -104,7 +100,7 @@ string get_terr_id(string id)
 
 </div> <!--panel-->
 
-
+    
     <div class="panel panel-info">
         <div class="panel-heading small">Территория</div>
 
@@ -160,3 +156,80 @@ string get_terr_id(string id)
 }
 
 
+<script type="text/javascript">
+
+    $(function () {
+
+
+
+        //добавление территоиии в грид
+        $("#territory_add").click(function (e) {
+
+            var vid = $("#d_territory").val();
+            var vname = $("#d_territory_chosen a span").text();
+
+            var terr_exist = $("#terr_" + vid).length > 0;
+
+            if (terr_exist) {
+
+                e.preventDefault();
+                return;
+            }
+
+            if (vid != "") {
+
+
+                $.ajax({
+                    url: '@Url.Action("contract_terr_insert_row")',
+                    data: {
+                        id: vid,
+                        name: vname
+                    },
+                    error: function (request, status, error) {
+                        alert(error);
+                    },
+                    success: function (data) {
+
+                        $(data).insertBefore("#territory_newrow");
+                    }
+                });
+            }
+
+            e.preventDefault();
+        });
+
+
+        $(".btn_terr_dell").click(function (e) {
+
+
+            $(this).parent().parent().remove();
+            e.preventDefault();
+        })
+
+        $(".date_period").change(function () {
+
+            var d1 = $("#date_begin").val();
+            var d2 = $("#date_end").val();
+
+
+
+            $.ajax({
+                url: '@Url.Action("get_strperiodday","Contract")',
+                data: {
+                    date_from: d1,
+                    date_to: d2
+                },
+                error: function (request, status, error) {
+                    alert(error);
+                },
+                success: function (data) {
+                    $("#period_day_count").html(data);
+                }
+            });
+        });
+
+    }
+  )
+
+
+</script>

@@ -30,5 +30,8 @@ namespace gTravel.Models
         public virtual DbSet<Contract> Contracts { get; set; }
         public virtual DbSet<seria> serias { get; set; }
         public virtual DbSet<Contract_territory> Contract_territory { get; set; }
+        public virtual DbSet<Condition> Conditions { get; set; }
+        public virtual DbSet<ConditionSeria> ConditionSerias { get; set; }
+        public virtual DbSet<ContractCondition> ContractConditions { get; set; }
     }
 }

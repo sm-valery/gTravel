@@ -14,6 +14,13 @@
         <EntityTypeShape EntityType="goDbModel.Contract_territory" Width="1.5" PointX="3" PointY="4.125" />
         <AssociationConnector Association="goDbModel.FK_Contract_territory_ToContract" />
         <AssociationConnector Association="goDbModel.FK_Contract_territory_ToTerritory" />
+        <EntityTypeShape EntityType="goDbModel.Condition" Width="1.5" PointX="9.125" PointY="7.625" />
+        <EntityTypeShape EntityType="goDbModel.ConditionSeria" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="goDbModel.ContractCondition" Width="1.5" PointX="8.375" PointY="4.125" />
+        <AssociationConnector Association="goDbModel.FK_ConditionSeria_ToCondition" />
+        <AssociationConnector Association="goDbModel.FK_Table_ToCondition" />
+        <AssociationConnector Association="goDbModel.FK_ConditionSeria_ToSeria" />
+        <AssociationConnector Association="goDbModel.FK_Table_ToContract" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

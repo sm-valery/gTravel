@@ -13,12 +13,19 @@ namespace gTravel.Controllers
             return View();
         }
 
+        public ActionResult test()
+        {
+            return Content("<span>111</span>");
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
 
             return View();
         }
+
+
 
         public ActionResult Contact()
         {
