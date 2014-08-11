@@ -12,7 +12,7 @@
           <Property Name="ConditionId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Code" Type="nchar" MaxLength="25" />
           <Property Name="Name" Type="nchar" MaxLength="255" />
-          <Property Name="Type" Type="nchar" MaxLength="10" />
+          <Property Name="Type" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -368,7 +368,7 @@
           <Property Name="ConditionId" Type="Guid" Nullable="false" />
           <Property Name="Code" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
-          <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="ConditionSerias" Relationship="goDbModel.FK_ConditionSeria_ToCondition" FromRole="Condition" ToRole="ConditionSeria" />
           <NavigationProperty Name="ContractConditions" Relationship="goDbModel.FK_Table_ToCondition" FromRole="Condition" ToRole="ContractCondition" />
         </EntityType>

@@ -389,6 +389,8 @@
     <Content Include="Views\Contract\List.cshtml" />
     <Content Include="Views\Settings\Territory.cshtml" />
     <Content Include="Views\Settings\Territory_Create.cshtml" />
+    <Content Include="Views\Settings\ConditionSeria.cshtml" />
+    <Content Include="Views\Settings\ConditionSeriaCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -82,6 +82,7 @@ namespace gTravel.Controllers
 
         #endregion
 
+        #region territory
         public ActionResult Territory()
         {
             return View(db.Territories.ToList());
@@ -109,8 +110,44 @@ namespace gTravel.Controllers
 
             return View(t);
         }
+        #endregion
 
+#region ConditionSeria
+        public ActionResult ConditionSeria()
+        {
+            return View(db.ConditionSerias.OrderBy(o=>o.seria.Code).ToList());
+        }
 
+        public ActionResult ConditionSeriaCreate()
+        {
+            ConditionSeria cc = new ConditionSeria();
+
+            ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code");
+            ViewBag.ConditionId = new SelectList(db.Conditions, "ConditionId", "Name");
+
+            return View(cc);
+        }
+
+        [HttpPost]
+        public ActionResult ConditionSeriaCreate(ConditionSeria cc)
+        {
+            if(ModelState.IsValid)
+            {
+                cc.ConditionSeriaId = Guid.NewGuid();
+
+                db.ConditionSerias.Add(cc);
+                db.SaveChanges();
+
+                return RedirectToAction("ConditionSeria");
+            }
+
+            ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code");
+            ViewBag.ConditionId = new SelectList(db.Conditions, "ConditionId", "Name");
+
+            return View(cc);
+        }
+
+#endregion
         protected override void Dispose(bool disposing)
         {
             if (disposing)

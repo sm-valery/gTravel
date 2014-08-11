@@ -1,4 +1,17 @@
-﻿@functions
+﻿@helper BuildCond(gTravel.Models.ContractCondition ContractCondition)
+{
+
+    <div>
+        <label>@ContractCondition.Condition.Name</label>
+        @if (ContractCondition.Condition.Type == "L")
+        {
+            @Html.CheckBoxFor(m => ContractCondition.Val_l.Value)
+        }
+
+    </div>
+}
+
+@functions
 {
 
 string get_terr_id(string id)
@@ -30,7 +43,8 @@ string get_terr_id(string id)
 
 
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
+@*@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form" }))*@
+@using (Html.BeginForm())
 {
     @Html.HiddenFor(m=>Model.ContractId)
 
@@ -90,8 +104,38 @@ string get_terr_id(string id)
                         </select>
                     </div>
                 </div>
+        @*Доп параметры*@
 
 
+@foreach (var cond in Model.ContractConditions)
+{
+
+    @Html.HiddenFor(m => cond.ConditionId)
+    @Html.HiddenFor(m => cond.Contractid)
+    
+     @*if (ContractCondition.Condition.Type == "L")
+     {
+         <div class="checkbox">
+    <label>
+     
+      @ContractCondition.Condition.Name
+        @Html.CheckBoxFor(m => ContractCondition.Val_l.Value)
+        
+    </label>
+  </div>
+     }*@
+
+
+
+    @*<div>
+        <label>@item.Condition.Name</label>
+        @if(item.Condition.Type=="L")
+        {
+            @Html.CheckBoxFor(m=>item.Val_l.Value)    
+        }
+        
+    </div>*@
+}
             @*</div>*@ <!--container-->
         </div> @*panel body*@
 
@@ -120,6 +164,7 @@ string get_terr_id(string id)
             {
                 <tr>
                     <td class="input-value">
+
                         <input id="@get_terr_id(item.TerritoryId.ToString())" type="hidden" name="territory" value="@item.TerritoryId" />
                         @item.Territory.Name
                     </td>

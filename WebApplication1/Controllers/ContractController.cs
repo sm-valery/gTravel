@@ -26,11 +26,12 @@ namespace gTravel.Controllers
             return View(db.Contracts.ToList());
         }
 
-        private void Contract_ini()
+        private void Contract_ini(Guid seria)
         {
             ViewBag.currency = new SelectList(db.Currencies.ToList(), "currencyid", "code");
             ViewBag.territory = new SelectList(db.Territories.ToList(), "TerritoryId", "name");
 
+            ViewBag.Cond = db.ConditionSerias.Where(x => x.SeriaId == seria).ToList();
         }
 
         public ActionResult Contract()
@@ -43,7 +44,7 @@ namespace gTravel.Controllers
 
         public ActionResult Contract_create()
         {
-            Contract_ini();
+            Contract_ini(Guid.Parse("00000000-0000-0000-0000-000000000000"));
 
             Contract c = new Contract();
 
@@ -52,14 +53,42 @@ namespace gTravel.Controllers
             c.date_begin = null;
             c.date_end = null;
 
+            var cs = db.ConditionSerias.Where(x => x.SeriaId == c.seriaid);
+
+            foreach(var item in cs)
+            {
+                ContractCondition cc = new ContractCondition();
+                cc.ContractCondId = Guid.NewGuid();
+                cc.ConditionId = item.ConditionId;
+                cc.Contractid = c.ContractId;
+                cc.Condition = item.Condition;
+
+                if (item.Condition.Type == "L")
+                    cc.Val_l = false;
+
+                c.ContractConditions.Add(cc);
+            }
+
             return View("Contract", c);
         }
 
         [HttpPost]
-        public ActionResult Contract_create(Contract c)
+        public ActionResult Contract_create(Contract c, FormCollection oform)
         {
             if(ModelState.IsValid)
             {
+                try
+                {
+                    UpdateModel(c.ContractConditions, "cond", oform);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    string aee = "err";
+                    // provide feedback to user
+                }
+
+
+                
 
                 contract_before_save(ref c);
 
@@ -69,15 +98,15 @@ namespace gTravel.Controllers
                 return RedirectToAction("List");
             }
 
-            Contract_ini();
+            Contract_ini(Guid.Parse("00000000-0000-0000-0000-000000000000"));
             return View("contract",c);
         }
 
         public ActionResult Contract_edit(Guid id)
         {
             var c = db.Contracts.Include("Contract_territory").SingleOrDefault(x => x.ContractId == id);
-  
-            Contract_ini();
+
+            Contract_ini(Guid.Parse("00000000-0000-0000-0000-000000000000"));
 
             return View("contract",c);
         }
@@ -99,7 +128,7 @@ namespace gTravel.Controllers
                 return RedirectToAction("List");
             }
 
-            Contract_ini();
+            Contract_ini(c.seriaid);
             return View("contract", c);
         }
 
