@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using gTravel.Models;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity;
+using System.Net;
 
 namespace gTravel.Controllers
 {
@@ -69,27 +70,18 @@ namespace gTravel.Controllers
                 c.ContractConditions.Add(cc);
             }
 
+
+
             return View("Contract", c);
         }
 
         [HttpPost]
-        public ActionResult Contract_create(Contract c, FormCollection oform)
+        public ActionResult Contract_create(Contract c, 
+            string[] ConditionId,
+            bool[] cond_Val_l_Value)
         {
             if(ModelState.IsValid)
             {
-                try
-                {
-                    UpdateModel(c.ContractConditions, "cond", oform);
-                }
-                catch (InvalidOperationException ex)
-                {
-                    string aee = "err";
-                    // provide feedback to user
-                }
-
-
-                
-
                 contract_before_save(ref c);
 
                 db.Contracts.Add(c);
@@ -102,9 +94,17 @@ namespace gTravel.Controllers
             return View("contract",c);
         }
 
-        public ActionResult Contract_edit(Guid id)
+        public ActionResult Contract_edit(Guid? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             var c = db.Contracts.Include("Contract_territory").SingleOrDefault(x => x.ContractId == id);
+
+            if(c == null)
+                return HttpNotFound();
 
             Contract_ini(Guid.Parse("00000000-0000-0000-0000-000000000000"));
 

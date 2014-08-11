@@ -7,7 +7,7 @@
       <Diagram DiagramId="1d19ac09de5844c5a199252f9092f548" Name="Diagram1">
         <EntityTypeShape EntityType="goDbModel.Territory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="goDbModel.Currency" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="goDbModel.Contract" Width="1.5" PointX="6.125" PointY="0.875" />
+        <EntityTypeShape EntityType="goDbModel.Contract" Width="2.125" PointX="6.125" PointY="0.875" />
         <EntityTypeShape EntityType="goDbModel.seria" Width="1.5" PointX="9.125" PointY="0.75" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToTable" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToTable_1" />
@@ -16,7 +16,7 @@
         <AssociationConnector Association="goDbModel.FK_Contract_territory_ToTerritory" />
         <EntityTypeShape EntityType="goDbModel.Condition" Width="1.5" PointX="9.125" PointY="7.625" />
         <EntityTypeShape EntityType="goDbModel.ConditionSeria" Width="1.5" PointX="11.375" PointY="0.75" />
-        <EntityTypeShape EntityType="goDbModel.ContractCondition" Width="1.5" PointX="8.375" PointY="4.125" />
+        <EntityTypeShape EntityType="goDbModel.ContractCondition" Width="1.5" PointX="9.25" PointY="4.125" />
         <AssociationConnector Association="goDbModel.FK_ConditionSeria_ToCondition" />
         <AssociationConnector Association="goDbModel.FK_Table_ToCondition" />
         <AssociationConnector Association="goDbModel.FK_ConditionSeria_ToSeria" />

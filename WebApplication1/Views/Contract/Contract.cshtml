@@ -43,8 +43,7 @@ string get_terr_id(string id)
 
 
 
-@*@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form" }))*@
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.HiddenFor(m=>Model.ContractId)
 
@@ -109,21 +108,21 @@ string get_terr_id(string id)
 
 @foreach (var cond in Model.ContractConditions)
 {
+    @Html.Hidden("ConditionId",cond.ConditionId)
 
-    @Html.HiddenFor(m => cond.ConditionId)
-    @Html.HiddenFor(m => cond.Contractid)
     
-     @*if (ContractCondition.Condition.Type == "L")
+    
+     if (cond.Condition.Type == "L")
      {
          <div class="checkbox">
-    <label>
+          <label>
      
-      @ContractCondition.Condition.Name
-        @Html.CheckBoxFor(m => ContractCondition.Val_l.Value)
+        @cond.Condition.Name
+        @Html.CheckBoxFor(m=>cond.Val_l.Value)
         
     </label>
   </div>
-     }*@
+     }
 
 
 
