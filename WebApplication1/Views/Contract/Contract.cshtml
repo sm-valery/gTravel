@@ -169,9 +169,30 @@ string get_terr_id(string id)
     </div>
 
     <div class="panel panel-default">
-        <div class="panel-heading small">Страхователь</div>
+        <div class="panel-heading small">Страхователь:&nbsp;&nbsp; 
+     
+                <label class="radio">
+                    <input type="radio" name="Subject.Type" value="fiz" />
+                    физ-лицо
+                </label>
+            <label class="radio">
+                <input type="radio" name="Subject.Type" value="jur">
+                Юр-лицо
+            </label>
+ 
+        </div>
         <div class="panel-body">
+    
 
+            <div class="row">
+                <div class="col-md-2">
+                    <label>Имя:</label>
+                </div>
+                <div class="col-md-10">
+                    @Html.HiddenFor(model=>Model.SubjectId)
+                    @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value" })
+                </div>
+            </div>
         </div>
 
     </div>

@@ -33,6 +33,7 @@
           <Property Name="date_begin" Type="date" />
           <Property Name="date_end" Type="date" />
           <Property Name="date_diff" Type="int" />
+          <Property Name="SubjectId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Contract_territory">
           <Key>
@@ -68,6 +69,19 @@
           <Property Name="SeriaId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Code" Type="nchar" MaxLength="10" />
           <Property Name="Name" Type="nchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="SubjectId" />
+          </Key>
+          <Property Name="SubjectId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name1" Type="nchar" MaxLength="255" />
+          <Property Name="Type" Type="nchar" MaxLength="10" />
+          <Property Name="ContractId" Type="uniqueidentifier" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="Pasport" Type="nchar" MaxLength="12" />
+          <Property Name="Address" Type="nchar" MaxLength="255" />
+          <Property Name="Phone" Type="nchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Territory">
           <Key>
@@ -124,6 +138,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Contract_ToSubject">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="0..1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="SubjectId" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="SubjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Contract_ToTable">
           <End Role="Currency" Type="Self.Currency" Multiplicity="1" />
           <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
@@ -145,6 +171,18 @@
             </Principal>
             <Dependent Role="Contract">
               <PropertyRef Name="seriaid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subject_ToContract">
+          <End Role="Contract" Type="Self.Contract" Multiplicity="0..1" />
+          <End Role="Subject" Type="Self.Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="ContractId" />
+            </Principal>
+            <Dependent Role="Subject">
+              <PropertyRef Name="ContractId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -180,6 +218,7 @@
           <EntitySet Name="ContractCondition" EntityType="Self.ContractCondition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="seria" EntityType="Self.seria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Territory" EntityType="Self.Territory" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ConditionSeria_ToCondition" Association="Self.FK_ConditionSeria_ToCondition">
             <End Role="Condition" EntitySet="Condition" />
@@ -197,6 +236,10 @@
             <End Role="Territory" EntitySet="Territory" />
             <End Role="Contract_territory" EntitySet="Contract_territory" />
           </AssociationSet>
+          <AssociationSet Name="FK_Contract_ToSubject" Association="Self.FK_Contract_ToSubject">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
           <AssociationSet Name="FK_Contract_ToTable" Association="Self.FK_Contract_ToTable">
             <End Role="Currency" EntitySet="Currency" />
             <End Role="Contract" EntitySet="Contract" />
@@ -204,6 +247,10 @@
           <AssociationSet Name="FK_Contract_ToTable_1" Association="Self.FK_Contract_ToTable_1">
             <End Role="seria" EntitySet="seria" />
             <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subject_ToContract" Association="Self.FK_Subject_ToContract">
+            <End Role="Contract" EntitySet="Contract" />
+            <End Role="Subject" EntitySet="Subject" />
           </AssociationSet>
           <AssociationSet Name="FK_Table_ToCondition" Association="Self.FK_Table_ToCondition">
             <End Role="Condition" EntitySet="Condition" />
@@ -267,6 +314,15 @@
             <End Role="Contract" EntitySet="Contracts" />
             <End Role="ContractCondition" EntitySet="ContractConditions" />
           </AssociationSet>
+          <EntitySet Name="Subjects" EntityType="goDbModel.Subject" />
+          <AssociationSet Name="FK_Contract_ToSubject" Association="goDbModel.FK_Contract_ToSubject">
+            <End Role="Subject" EntitySet="Subjects" />
+            <End Role="Contract" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subject_ToContract" Association="goDbModel.FK_Subject_ToContract">
+            <End Role="Contract" EntitySet="Contracts" />
+            <End Role="Subject" EntitySet="Subjects" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Currency">
           <Key>
@@ -292,6 +348,9 @@
           <Property Name="date_diff" Type="Int32" />
           <NavigationProperty Name="Contract_territory" Relationship="goDbModel.FK_Contract_territory_ToContract" FromRole="Contract" ToRole="Contract_territory" />
           <NavigationProperty Name="ContractConditions" Relationship="goDbModel.FK_Table_ToContract" FromRole="Contract" ToRole="ContractCondition" />
+          <Property Name="SubjectId" Type="Guid" />
+          <NavigationProperty Name="Subject" Relationship="goDbModel.FK_Contract_ToSubject" FromRole="Contract" ToRole="Subject" />
+          <NavigationProperty Name="Subjects" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Contract" ToRole="Subject" />
         </EntityType>
         <EntityType Name="seria">
           <Key>
@@ -443,6 +502,45 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="SubjectId" />
+          </Key>
+          <Property Name="SubjectId" Type="Guid" Nullable="false" />
+          <Property Name="Name1" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ContractId" Type="Guid" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="Pasport" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToSubject" FromRole="Subject" ToRole="Contract" />
+          <NavigationProperty Name="Contract" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Subject" ToRole="Contract" />
+        </EntityType>
+        <Association Name="FK_Contract_ToSubject">
+          <End Type="goDbModel.Subject" Role="Subject" Multiplicity="0..1" />
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="SubjectId" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="SubjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subject_ToContract">
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="0..1" />
+          <End Type="goDbModel.Subject" Role="Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="ContractId" />
+            </Principal>
+            <Dependent Role="Subject">
+              <PropertyRef Name="ContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -469,6 +567,7 @@
           <EntitySetMapping Name="Contracts">
             <EntityTypeMapping TypeName="goDbModel.Contract">
               <MappingFragment StoreEntitySet="Contract">
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
                 <ScalarProperty Name="date_diff" ColumnName="date_diff" />
                 <ScalarProperty Name="date_end" ColumnName="date_end" />
                 <ScalarProperty Name="date_begin" ColumnName="date_begin" />
@@ -525,6 +624,20 @@
                 <ScalarProperty Name="Contractid" ColumnName="Contractid" />
                 <ScalarProperty Name="ConditionId" ColumnName="ConditionId" />
                 <ScalarProperty Name="ContractCondId" ColumnName="ContractCondId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subjects">
+            <EntityTypeMapping TypeName="goDbModel.Subject">
+              <MappingFragment StoreEntitySet="Subject">
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Pasport" ColumnName="Pasport" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name1" ColumnName="Name1" />
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

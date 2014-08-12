@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1d19ac09de5844c5a199252f9092f548" Name="Diagram1">
+      <Diagram DiagramId="1d19ac09de5844c5a199252f9092f548" Name="Diagram1" ZoomLevel="85">
         <EntityTypeShape EntityType="goDbModel.Territory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="goDbModel.Currency" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="goDbModel.Contract" Width="2.125" PointX="6.125" PointY="0.875" />
@@ -21,6 +21,9 @@
         <AssociationConnector Association="goDbModel.FK_Table_ToCondition" />
         <AssociationConnector Association="goDbModel.FK_ConditionSeria_ToSeria" />
         <AssociationConnector Association="goDbModel.FK_Table_ToContract" />
+        <EntityTypeShape EntityType="goDbModel.Subject" Width="1.5" PointX="9" PointY="11.25" />
+        <AssociationConnector Association="goDbModel.FK_Contract_ToSubject" />
+        <AssociationConnector Association="goDbModel.FK_Subject_ToContract" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
