@@ -51,6 +51,7 @@ input[type="checkbox"].input-validation-error {
 }
 .input-value {
     color: Maroon;
+   /*text-decoration: line-through;*/
         /*darkslategray;*/
 }
 

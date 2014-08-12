@@ -56,7 +56,7 @@ namespace gTravel.Controllers
 
             var cs = db.ConditionSerias.Where(x => x.SeriaId == c.seriaid);
 
-            foreach(var item in cs)
+            foreach (var item in cs)
             {
                 ContractCondition cc = new ContractCondition();
                 cc.ContractCondId = Guid.NewGuid();
@@ -71,27 +71,46 @@ namespace gTravel.Controllers
             }
 
 
-
             return View("Contract", c);
+
         }
 
         [HttpPost]
-        public ActionResult Contract_create(Contract c, 
-            string[] ConditionId,
-            bool[] cond_Val_l_Value)
+        public ActionResult Contract_create(Contract contract, FormCollection oform)
         {
             if(ModelState.IsValid)
             {
-                contract_before_save(ref c);
+                contract_before_save(ref contract);
 
-                db.Contracts.Add(c);
+                #region дополнительные параметры
+                var cond = db.ConditionSerias.Where(x => x.SeriaId == contract.seriaid);
+                foreach(var item in cond)
+                {
+                    ContractCondition cc = new ContractCondition();
+
+                    if (item.Condition.Type == "L")
+                    {
+                        cc.Val_l = oform.GetValues("cond_" + item.Condition.Code.Trim()).Contains("true");
+                    }
+
+                    cc.ContractCondId = Guid.NewGuid();
+                    cc.ConditionId = item.ConditionId;
+                    cc.Contractid = contract.ContractId;
+                    
+                    contract.ContractConditions.Add(cc);
+                }
+                #endregion
+
+                db.Contracts.Add(contract);
+
+
                 db.SaveChanges();
 
                 return RedirectToAction("List");
             }
 
             Contract_ini(Guid.Parse("00000000-0000-0000-0000-000000000000"));
-            return View("contract",c);
+            return View("contract",contract);
         }
 
         public ActionResult Contract_edit(Guid? id)
@@ -112,7 +131,7 @@ namespace gTravel.Controllers
         }
 
         [HttpPost]
-        public ActionResult Contract_edit(Contract c, string[] territory)
+        public ActionResult Contract_edit(Contract c, string[] territory, FormCollection oform)
         {
             if(ModelState.IsValid)
             {
@@ -120,6 +139,24 @@ namespace gTravel.Controllers
                 
                 //обновление территории
                 contract_update_territory(c.ContractId, territory);
+
+                #region дополнительные параметры
+                var cond = db.ContractConditions.Where(x => x.Contractid == c.ContractId);
+
+                foreach (var item in cond)
+                {
+                    bool ischecked = oform.GetValues("cond_" + item.Condition.Code.Trim()).Contains("true");
+                   
+                    if(item.Val_l!=ischecked)
+                    {
+                        item.Val_l = ischecked;
+                        db.Entry(item).State = EntityState.Modified;
+                    }
+
+                    
+                }
+                #endregion
+
 
                 db.Entry(c).State = EntityState.Modified;
 
@@ -132,8 +169,12 @@ namespace gTravel.Controllers
             return View("contract", c);
         }
 
+
+
         private void contract_update_territory(Guid contractid,string[] territory)
         {
+            if (territory == null)
+                return;
 
             var t_old = db.Contract_territory.Where(x => x.ContractId == contractid).ToList();
             foreach(var item in t_old)

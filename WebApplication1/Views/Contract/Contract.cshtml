@@ -1,14 +1,19 @@
-﻿@helper BuildCond(gTravel.Models.ContractCondition ContractCondition)
+﻿@helper BuildCond(string code, string name, bool istrue)
 {
 
-    <div>
-        <label>@ContractCondition.Condition.Name</label>
-        @if (ContractCondition.Condition.Type == "L")
-        {
-            @Html.CheckBoxFor(m => ContractCondition.Val_l.Value)
-        }
-
+    <div class="checkbox">
+        <label>
+            
+@Html.CheckBox("cond_"+code.Trim(),istrue)
+         
+            @name
+        </label>
     </div>
+    
+    
+
+
+
 }
 
 @functions
@@ -45,6 +50,7 @@ string get_terr_id(string id)
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
+
     @Html.HiddenFor(m=>Model.ContractId)
 
     <div class="panel panel-default">
@@ -104,37 +110,23 @@ string get_terr_id(string id)
                     </div>
                 </div>
         @*Доп параметры*@
+            <p></p>
+            <div class="panel panel-default" style="padding:5px;">
+                @foreach (var item in Model.ContractConditions)
+                {
 
 
-@foreach (var cond in Model.ContractConditions)
-{
-    @Html.Hidden("ConditionId",cond.ConditionId)
+                    if (item.Condition.Type == "L")
+                    {
+                        @BuildCond(item.Condition.Code, item.Condition.Name, item.Val_l.Value)
+                    }
+
+                    <br />
+                }
+            </div>
+
 
     
-    
-     if (cond.Condition.Type == "L")
-     {
-         <div class="checkbox">
-          <label>
-     
-        @cond.Condition.Name
-        @Html.CheckBoxFor(m=>cond.Val_l.Value)
-        
-    </label>
-  </div>
-     }
-
-
-
-    @*<div>
-        <label>@item.Condition.Name</label>
-        @if(item.Condition.Type=="L")
-        {
-            @Html.CheckBoxFor(m=>item.Val_l.Value)    
-        }
-        
-    </div>*@
-}
             @*</div>*@ <!--container-->
         </div> @*panel body*@
 
@@ -162,7 +154,7 @@ string get_terr_id(string id)
             @foreach (var item in Model.Contract_territory)
             {
                 <tr>
-                    <td class="input-value">
+                    <td class="input-value" >
 
                         <input id="@get_terr_id(item.TerritoryId.ToString())" type="hidden" name="territory" value="@item.TerritoryId" />
                         @item.Territory.Name
@@ -175,7 +167,14 @@ string get_terr_id(string id)
             <tr id="territory_newrow"></tr>
         </table>
     </div>
-    
+
+    <div class="panel panel-default">
+        <div class="panel-heading small">Страхователь</div>
+        <div class="panel-body">
+
+        </div>
+
+    </div>
     @*<div class="container-fluid">
         <div class="row">
             <div class="col-md-1">Территория:</div>
@@ -202,8 +201,9 @@ string get_terr_id(string id)
 
 <script type="text/javascript">
 
-    $(function () {
 
+
+    $(function () {
 
 
         //добавление территоиии в грид
