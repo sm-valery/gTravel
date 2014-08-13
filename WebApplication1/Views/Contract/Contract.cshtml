@@ -171,29 +171,77 @@ string get_terr_id(string id)
     <div class="panel panel-default">
         <div class="panel-heading small">Страхователь:&nbsp;&nbsp; 
      
-                <label class="radio">
-                    <input type="radio" name="Subject.Type" value="fiz" />
+            <label class="radio">
+                <input type="radio" name="Subject.Type" checked value="fiz" />
                     физ-лицо
-                </label>
+            </label>
             <label class="radio">
                 <input type="radio" name="Subject.Type" value="jur">
-                Юр-лицо
+                    Юр-лицо
             </label>
  
         </div>
         <div class="panel-body">
     
+            <div id="panel-f">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Имя:</label>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.HiddenFor(model => Model.SubjectId)
+                        @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value", name ="SubjectF.Name"})
 
-            <div class="row">
-                <div class="col-md-2">
-                    <label>Имя:</label>
+                    </div>
                 </div>
-                <div class="col-md-10">
-                    @Html.HiddenFor(model=>Model.SubjectId)
-                    @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value" })
+                <p></p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Дата рождения:</label>
+                    </div>
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(m => Model.Subject.DateOfBirth, new { @class = "form-control input-sm date3 date_period input-value" })
+
+                    </div>
+                </div>
+                <p></p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Паспорт:</label>
+                    </div>
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(m => Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
+
+                    </div>
+                </div>
+                <p></p>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Адрес:</label>
+                    </div>
+                    <div class="col-md-10">
+
+                        @Html.TextAreaFor(m => Model.Subject.Address, new { @class = "form-control input-sm input-value", style = "width:100%" })
+                        <label>Телефон:</label>
+                        @Html.TextBoxFor(m => Model.Subject.Phone, new { @class = "form-control input-sm input-value" })
+                    </div>
                 </div>
             </div>
-        </div>
+            <div id="panel-f">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label>Имя:</label>
+                    </div>
+                    <div class="col-md-10">
+                        @Html.HiddenFor(model => Model.SubjectId)
+                        @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value" })
+
+                    </div>
+                </div>
+            </div>
+        </div> @*панель страхователя*@
 
     </div>
     @*<div class="container-fluid">
