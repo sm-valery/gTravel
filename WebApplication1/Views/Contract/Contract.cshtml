@@ -3,113 +3,99 @@
 
     <div class="checkbox">
         <label>
-            
-@Html.CheckBox("cond_"+code.Trim(),istrue)
-         
+
+            @Html.CheckBox("cond_" + code.Trim(), istrue)
+
             @name
         </label>
     </div>
-    
-    
+
+
 
 
 
 }
-
 @functions
 {
 
-string get_terr_id(string id)
+    string get_terr_id(string id)
     {
         return "terr_" + id;
     }
 }
 
-
 @model gTravel.Models.Contract
-
 
 @{
     ViewBag.Title = "Contract";
 }
 
 
-
-
 @*<p class="bg-primary">
-    Стандартный полис страхования медицина/невыезд
-    <div style="font-weight:bold; font-size:x-small">Дата выдачи: @DateTime.Now.ToShortDateString()</div>
-</p>*@
-
+        Стандартный полис страхования медицина/невыезд
+        <div style="font-weight:bold; font-size:x-small">Дата выдачи: @DateTime.Now.ToShortDateString()</div>
+    </p>*@
 <blockquote>
     <p>Стандартный полис страхования медицина/невыезд</p>
     <footer>Дата выдачи: @DateTime.Now.ToShortDateString()</footer>
 </blockquote>
 
-
-
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
 
-    @Html.HiddenFor(m=>Model.ContractId)
+    @Html.HiddenFor(m => Model.ContractId)
 
     <div class="panel panel-default">
         <div class="panel-heading">Основные сведения</div>
         <div class="panel-body">
             @*<div class="container-fluid">*@
-
-                <div class="row">
-                    <div class="col-md-2">
-                        <label>Номер:</label>
-                    </div>
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", type = "tel", autofocus = true })
-                    </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label>Номер:</label>
                 </div>
-                <p></p>
-                <div class="row">
-                    <div class="col-md-2"><label>Валюта:</label></div>
-                    <div class="col-md-10">
-
-                        @Html.DropDownListFor(model => Model.currencyid, (SelectList)ViewBag.currency, new { @class = "form-control input-sm input-value" })
-
-
-                    </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", type = "tel", autofocus = true })
                 </div>
-                <p></p>
+            </div>
+            <p></p>
+            <div class="row">
+                <div class="col-md-2"><label>Валюта:</label></div>
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => Model.currencyid, (SelectList)ViewBag.currency, new { @class = "form-control input-sm input-value" })
 
-                <div class="row">
-                    <div class="col-md-2"><label>Период страхования:</label> </div>
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => Model.date_begin, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
+                </div>
+            </div>
+            <p></p>
+            <div class="row">
+                <div class="col-md-2"><label>Период страхования:</label> </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => Model.date_begin, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
+                    <span>/</span>
+                    @Html.TextBoxFor(m => Model.date_end, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
+                    <span>
+                        &nbsp;
 
-                        <span>/</span>
-                        @Html.TextBoxFor(m => Model.date_end, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
-
-                        <span>
-                            &nbsp;
-
-                            <span id="period_day_count">
-                                @Html.DisplayFor(m => Model.date_diff)
-                            </span>
-                            дня(ей)
+                        <span id="period_day_count">
+                            @Html.DisplayFor(m => Model.date_diff)
                         </span>
-                    </div>
+                        дня(ей)
+                    </span>
                 </div>
-                <p></p>
-                <div class="row">
-                    <div class="col-md-2"><label>Многократная поездка:</label> </div>
-                    <div class="col-md-10">
-                        @Html.TextBox("period_multy", "0", new { @class = "form-control input-sm input-value" }) дней
-                        <select class="form-control input-sm">
-                            <option>
-                                за весь период
-                            </option>
-                            <option>за одну поездку</option>
-                        </select>
-                    </div>
+            </div>
+            <p></p>
+            <div class="row">
+                <div class="col-md-2"><label>Многократная поездка:</label> </div>
+                <div class="col-md-10">
+                    @Html.TextBox("period_multy", "0", new { @class = "form-control input-sm input-value" }) дней
+                    <select class="form-control input-sm">
+                        <option>
+                            за весь период
+                        </option>
+                        <option>за одну поездку</option>
+                    </select>
                 </div>
-        @*Доп параметры*@
+            </div>
+            @*Доп параметры*@
             <p></p>
             <div class="panel panel-default" style="padding:5px;">
                 @foreach (var item in Model.ContractConditions)
@@ -126,36 +112,28 @@ string get_terr_id(string id)
             </div>
 
 
-    
             @*</div>*@ <!--container-->
         </div> @*panel body*@
 
 
+    </div> <!--panel-->
 
 
-</div> <!--panel-->
-
-    
     <div class="panel panel-info">
         <div class="panel-heading small">Территория</div>
-
         <div class="panel-body">
             <div class="text-info small">Выберите значение и нажмите "Добавить"</div>
-
             @Html.DropDownList("d_territory", (SelectList)ViewBag.territory, "", new Dictionary<string, object> { { "data-placeholder", "..." }, { "class", "form-control chosen-select" } })
             <button id="territory_add" class="btn btn-sm btn-info">Добавить</button>
             <button class="btn btn-sm btn-default">Исключая</button>
-            
+
         </div>
-
         <table class="table table-condensed table-hover">
-
 
             @foreach (var item in Model.Contract_territory)
             {
                 <tr>
-                    <td class="input-value" >
-
+                    <td class="input-value">
                         <input id="@get_terr_id(item.TerritoryId.ToString())" type="hidden" name="territory" value="@item.TerritoryId" />
                         @item.Territory.Name
                     </td>
@@ -168,98 +146,91 @@ string get_terr_id(string id)
         </table>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading small">Страхователь:&nbsp;&nbsp; 
-     
+    <div class="panel panel-warning">
+        <div class="panel-heading small">
+            Страхователь:&nbsp;&nbsp;
+
             <label class="radio">
-                <input type="radio" name="Subject.Type" checked value="fiz" />
-                    физ-лицо
+                <input type="radio" name="Subject.Type"
+                       @if (Model.Subject.Type == "fiz") { @: checked
+                                                  }
+                       value="fiz" />
+                физ-лицо
             </label>
             <label class="radio">
                 <input type="radio" name="Subject.Type" value="jur">
-                    Юр-лицо
+                Юр-лицо
             </label>
- 
+
         </div>
         <div class="panel-body">
-    
-            <div id="panel-f">
-                <div class="row">
-                    <div class="col-md-2">
-                        <label>Имя:</label>
-                    </div>
-                    <div class="col-md-10">
-                        @Html.HiddenFor(model => Model.SubjectId)
-                        @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value", name ="SubjectF.Name"})
 
-                    </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label id="subj_lab_name">Имя:</label>
                 </div>
-                <p></p>
-                <div class="row">
-                    <div class="col-md-2">
-                        <label>Дата рождения:</label>
-                    </div>
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(m => Model.Subject.DateOfBirth, new { @class = "form-control input-sm date3 date_period input-value" })
-
-                    </div>
-                </div>
-                <p></p>
-                <div class="row">
-                    <div class="col-md-2">
-                        <label>Паспорт:</label>
-                    </div>
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(m => Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
-
-                    </div>
-                </div>
-                <p></p>
-                <div class="row">
-                    <div class="col-md-2">
-                        <label>Адрес:</label>
-                    </div>
-                    <div class="col-md-10">
-
-                        @Html.TextAreaFor(m => Model.Subject.Address, new { @class = "form-control input-sm input-value", style = "width:100%" })
-                        <label>Телефон:</label>
-                        @Html.TextBoxFor(m => Model.Subject.Phone, new { @class = "form-control input-sm input-value" })
-                    </div>
+                <div class="col-md-10">
+                    @Html.HiddenFor(model => Model.SubjectId)
+                    @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value", name = "SubjectF.Name" })
                 </div>
             </div>
-            <div id="panel-f">
-                <div class="row">
-                    <div class="col-md-2">
-                        <label>Имя:</label>
-                    </div>
-                    <div class="col-md-10">
-                        @Html.HiddenFor(model => Model.SubjectId)
-                        @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value" })
-
-                    </div>
+            <p></p>
+            <div id="subj_dfb" class="row">
+                <div class="col-md-2">
+                    <label>Дата рождения:</label>
+                </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => Model.Subject.DateOfBirth, new { @class = "form-control input-sm date3 date_period input-value" })
                 </div>
             </div>
+            <p></p>
+            <div class="row">
+                <div class="col-md-2">
+                    <label id="subj_lab_id">Паспорт:</label>
+                </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
+                </div>
+            </div>
+            <p></p>
+            <div class="row">
+                <div class="col-md-2">
+                    <label>Адрес:</label>
+                </div>
+                <div class="col-md-10">
+                    @Html.TextAreaFor(m => Model.Subject.Address, new { @class = "form-control input-sm input-value", style = "width:100%" })
+                    <label>Телефон:</label>
+                    @Html.TextBoxFor(m => Model.Subject.Phone, new { @class = "form-control input-sm input-value" })
+                </div>
+            </div>
+
+
         </div> @*панель страхователя*@
+    </div>
+
+    <div class="panel panel-warning">
+        <div class="panel-heading small">Список застрахованных</div>
+
+        <div class="panel-body">
+
+        </div>
 
     </div>
+
     @*<div class="container-fluid">
-        <div class="row">
-            <div class="col-md-1">Территория:</div>
-            <div class="col-md-11">
-                
-                @Html.DropDownList("territory", (SelectList)ViewBag.territory, new { @class = "chosen-select chosen-default", multiple = true })
+            <div class="row">
+                <div class="col-md-1">Территория:</div>
+                <div class="col-md-11">
 
-               
+                    @Html.DropDownList("territory", (SelectList)ViewBag.territory, new { @class = "chosen-select chosen-default", multiple = true })
+
+
+                </div>
             </div>
-        </div>
-        
-       
-
-    </div>*@
 
 
+
+        </div>*@
 
 
     <div class="panel-footer">
@@ -274,6 +245,22 @@ string get_terr_id(string id)
 
     $(function () {
 
+
+        $("input[name='Subject.Type']").change(function () {
+
+            var stype = $(this).val();
+
+            if (stype == "fiz") {
+                $("#subj_lab_name").text("Имя:");
+                $("#subj_dfb").show();
+                $("#subj_lab_id").text("Паспорт:");
+            }
+            else {
+                $("#subj_lab_name").text("Наименование:");
+                $("#subj_dfb").hide();
+                $("#subj_lab_id").text("ИНН:");
+            }
+        });
 
         //добавление территоиии в грид
         $("#territory_add").click(function (e) {
@@ -340,6 +327,8 @@ string get_terr_id(string id)
                 }
             });
         });
+
+
 
     }
   )

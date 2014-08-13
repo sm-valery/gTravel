@@ -70,6 +70,8 @@ namespace gTravel.Controllers
                 c.ContractConditions.Add(cc);
             }
 
+            c.Subject = new Subject();
+            c.Subject.Type = "fiz";
 
             return View("Contract", c);
 
