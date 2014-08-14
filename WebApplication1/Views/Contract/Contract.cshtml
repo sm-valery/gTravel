@@ -208,10 +208,18 @@
                         </div>
 
                         <div class="panel panel-success">
-                            <div class="panel-heading small">Список застрахованных</div>
-                            <div class="panel-body">
-                                @Ajax.ActionLink("Новый", "_addInsuredRow", new { contractid = Model.ContractId }, new AjaxOptions { InsertionMode = InsertionMode.InsertBefore, HttpMethod = "POST", UpdateTargetId = "insured_newrow" })
-                                <table class="table table-condensed">
+                            <div class="panel-heading small">Список застрахованных
+                            @Ajax.ActionLink("Новый", "_addInsuredRow",
+                            new AjaxOptions
+                            {
+                                InsertionMode = InsertionMode.InsertBefore,
+                                HttpMethod = "POST",
+                                UpdateTargetId = "insured_newrow"
+                                 
+                            })
+
+                            </div>
+                                 <table class="table table-condensed">
                                     <thead>
                                         <tr >
                                             <th>ФИО</th>
@@ -220,10 +228,12 @@
                                         </tr>
                                        
                                     </thead>
-                                    <tbody id="insured_newrow"></tbody>
+                                    <tbody id="insured_newrow">
+
+                                    </tbody>
 
                                 </table>
-                            </div>
+                            
                         </div>
 
                         @*<div class="container-fluid">
