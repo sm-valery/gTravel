@@ -1,5 +1,7 @@
-﻿<tr>
-    <td>1</td>
-    <td>2</td>
-    <td>3</td>
+﻿@model gTravel.Models.Subject
+
+<tr>
+    <td>@Html.TextBoxFor(model=>Model.Name1)</td>
+    <td>@Html.TextBoxFor(model => Model.Pasport)</td>
+    <td>@Html.TextBoxFor(model => Model.DateOfBirth)</td>
 </tr>

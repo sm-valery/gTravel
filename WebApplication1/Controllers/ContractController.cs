@@ -247,9 +247,11 @@ namespace gTravel.Controllers
             return Content( retval);
         }
 
+        [HttpPost]
         public ActionResult _addInsuredRow(Guid contractid)
         {
-            return PartialView();
+
+            return PartialView(new Subject());
         }
 
         protected override void Dispose(bool disposing)

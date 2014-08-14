@@ -210,14 +210,18 @@
                         <div class="panel panel-success">
                             <div class="panel-heading small">Список застрахованных</div>
                             <div class="panel-body">
-                                @Ajax.ActionLink("Новый", "_addInsuredRow", new { contractid = Model.ContractId }, new AjaxOptions { InsertionMode = InsertionMode.InsertBefore, HttpMethod = "GET", UpdateTargetId = "insured_newrow" })
+                                @Ajax.ActionLink("Новый", "_addInsuredRow", new { contractid = Model.ContractId }, new AjaxOptions { InsertionMode = InsertionMode.InsertBefore, HttpMethod = "POST", UpdateTargetId = "insured_newrow" })
                                 <table class="table table-condensed">
-                                    <tr>
-                                        <th>ФИО</th>
-                                        <th>Дата рождения</th>
-                                        <th>Паспорт</th>
-                                    </tr>
-                                    <tr id="insured_newrow"></tr>
+                                    <thead>
+                                        <tr >
+                                            <th>ФИО</th>
+                                            <th>Дата рождения</th>
+                                            <th>Паспорт</th>
+                                        </tr>
+                                       
+                                    </thead>
+                                    <tbody id="insured_newrow"></tbody>
+  
                                 </table>
                             </div>
                         </div>
