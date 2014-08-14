@@ -105,6 +105,8 @@ namespace gTravel.Controllers
 
                 db.Contracts.Add(contract);
 
+                contract.Subject.SubjectId = Guid.NewGuid();
+                db.Subjects.Add(contract.Subject);
 
                 db.SaveChanges();
 
@@ -159,6 +161,13 @@ namespace gTravel.Controllers
                 }
                 #endregion
 
+                #region страхователь
+                if (c.Subject != null)
+                {
+                    c.Subject.SubjectId = c.SubjectId.Value;
+                    db.Entry(c.Subject).State = EntityState.Modified;
+                }
+                #endregion
 
                 db.Entry(c).State = EntityState.Modified;
 
@@ -238,6 +247,10 @@ namespace gTravel.Controllers
             return Content( retval);
         }
 
+        public ActionResult _addInsuredRow(Guid contractid)
+        {
+            return PartialView();
+        }
 
         protected override void Dispose(bool disposing)
         {
