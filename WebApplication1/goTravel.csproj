@@ -234,6 +234,9 @@
     <Compile Include="Models\seria.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Status.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Subject.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -403,6 +406,7 @@
     <Content Include="Views\Contracts\Index.cshtml" />
     <Content Include="Views\ContractsTest\Create.cshtml" />
     <Content Include="Views\Contract\_addInsuredRow.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\_edate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

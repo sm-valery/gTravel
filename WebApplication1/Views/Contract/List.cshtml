@@ -23,6 +23,7 @@
         <th>
             Период
         </th>
+        <th>Статус</th>
         <th></th>
     </tr>
 
@@ -40,8 +41,12 @@
                 @Html.DisplayFor(modelItem => item.Currency.name)
             </td>
             <td>
-               @item.date_begin.Value.ToShortDateString() - @item.date_end.Value.ToShortDateString()
+                @Html.DisplayFor(m=>item.date_begin,"_edate") - @Html.DisplayFor(m => item.date_end, "_edate") 
+               @*@item.date_begin.Value.ToShortDateString() - @item.date_end.Value.ToShortDateString()*@
                 (@item.date_diff)
+            </td>
+            <td>
+                @Html.DisplayFor(m=>item.Status.Name)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Contract_edit", new { id = item.ContractId }) |

@@ -24,6 +24,8 @@
         <EntityTypeShape EntityType="goDbModel.Subject" Width="1.5" PointX="9" PointY="11.25" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToSubject" />
         <AssociationConnector Association="goDbModel.FK_Subject_ToContract" />
+        <EntityTypeShape EntityType="goDbModel.Status" Width="1.5" PointX="5.375" PointY="5.875" />
+        <AssociationConnector Association="goDbModel.FK_Contract_ToStatus" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -29,6 +29,7 @@ namespace gTravel.Models
         public Nullable<System.DateTime> date_end { get; set; }
         public Nullable<int> date_diff { get; set; }
         public Nullable<System.Guid> SubjectId { get; set; }
+        public Nullable<System.Guid> StatusId { get; set; }
     
         public virtual Currency Currency { get; set; }
         public virtual seria seria { get; set; }
@@ -36,5 +37,6 @@ namespace gTravel.Models
         public virtual ICollection<ContractCondition> ContractConditions { get; set; }
         public virtual Subject Subject { get; set; }
         public virtual ICollection<Subject> Subjects { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

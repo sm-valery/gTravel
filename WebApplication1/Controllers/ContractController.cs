@@ -47,13 +47,32 @@ namespace gTravel.Controllers
         {
             Contract_ini(Guid.Parse("00000000-0000-0000-0000-000000000000"));
 
+            #region Subject
+            //c.Subject = new Subject();
+            //c.Subject.Type = "fiz";
+            Subject s = new Subject();
+
+            s.SubjectId = Guid.NewGuid();
+            s.Type = "fiz";
+
+            db.Subjects.Add(s);
+            #endregion
+
+            #region contract
             Contract c = new Contract();
 
             c.ContractId = Guid.NewGuid();
             c.seriaid = Guid.Parse("00000000-0000-0000-0000-000000000000");
             c.date_begin = null;
             c.date_end = null;
+            c.SubjectId = s.SubjectId;
 
+            c.StatusId = db.Status.SingleOrDefault(x=>x.Code.Trim()=="project").StatusId;
+
+            db.Contracts.Add(c);
+            #endregion
+
+            #region доп параметры
             var cs = db.ConditionSerias.Where(x => x.SeriaId == c.seriaid);
 
             foreach (var item in cs)
@@ -67,13 +86,14 @@ namespace gTravel.Controllers
                 if (item.Condition.Type == "L")
                     cc.Val_l = false;
 
-                c.ContractConditions.Add(cc);
+                db.ContractConditions.Add(cc);
+            //    c.ContractConditions.Add(cc);
             }
+            #endregion
 
-            c.Subject = new Subject();
-            c.Subject.Type = "fiz";
+            db.SaveChanges();
 
-            return View("Contract", c);
+            return View("Contract", db.Contracts.SingleOrDefault(x=>x.ContractId==c.ContractId));
 
         }
 

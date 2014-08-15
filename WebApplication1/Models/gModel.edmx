@@ -34,6 +34,7 @@
           <Property Name="date_end" Type="date" />
           <Property Name="date_diff" Type="int" />
           <Property Name="SubjectId" Type="uniqueidentifier" />
+          <Property Name="StatusId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Contract_territory">
           <Key>
@@ -69,6 +70,14 @@
           <Property Name="SeriaId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Code" Type="nchar" MaxLength="10" />
           <Property Name="Name" Type="nchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusId" />
+          </Key>
+          <Property Name="StatusId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="nchar" MaxLength="10" />
+          <Property Name="Name" Type="nchar" MaxLength="25" />
         </EntityType>
         <EntityType Name="Subject">
           <Key>
@@ -135,6 +144,18 @@
             </Principal>
             <Dependent Role="Contract_territory">
               <PropertyRef Name="TerritoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_ToStatus">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="StatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -218,6 +239,7 @@
           <EntitySet Name="ContractCondition" EntityType="Self.ContractCondition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="seria" EntityType="Self.seria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Territory" EntityType="Self.Territory" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ConditionSeria_ToCondition" Association="Self.FK_ConditionSeria_ToCondition">
@@ -235,6 +257,10 @@
           <AssociationSet Name="FK_Contract_territory_ToTerritory" Association="Self.FK_Contract_territory_ToTerritory">
             <End Role="Territory" EntitySet="Territory" />
             <End Role="Contract_territory" EntitySet="Contract_territory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_ToStatus" Association="Self.FK_Contract_ToStatus">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Contract" EntitySet="Contract" />
           </AssociationSet>
           <AssociationSet Name="FK_Contract_ToSubject" Association="Self.FK_Contract_ToSubject">
             <End Role="Subject" EntitySet="Subject" />
@@ -323,6 +349,11 @@
             <End Role="Contract" EntitySet="Contracts" />
             <End Role="Subject" EntitySet="Subjects" />
           </AssociationSet>
+          <EntitySet Name="Status" EntityType="goDbModel.Status" />
+          <AssociationSet Name="FK_Contract_ToStatus" Association="goDbModel.FK_Contract_ToStatus">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Contract" EntitySet="Contracts" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Currency">
           <Key>
@@ -351,6 +382,8 @@
           <Property Name="SubjectId" Type="Guid" />
           <NavigationProperty Name="Subject" Relationship="goDbModel.FK_Contract_ToSubject" FromRole="Contract" ToRole="Subject" />
           <NavigationProperty Name="Subjects" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Contract" ToRole="Subject" />
+          <Property Name="StatusId" Type="Guid" />
+          <NavigationProperty Name="Status" Relationship="goDbModel.FK_Contract_ToStatus" FromRole="Contract" ToRole="Status" />
         </EntityType>
         <EntityType Name="seria">
           <Key>
@@ -541,6 +574,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusId" />
+          </Key>
+          <Property Name="StatusId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToStatus" FromRole="Status" ToRole="Contract" />
+        </EntityType>
+        <Association Name="FK_Contract_ToStatus">
+          <End Type="goDbModel.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -567,6 +621,7 @@
           <EntitySetMapping Name="Contracts">
             <EntityTypeMapping TypeName="goDbModel.Contract">
               <MappingFragment StoreEntitySet="Contract">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
                 <ScalarProperty Name="date_diff" ColumnName="date_diff" />
                 <ScalarProperty Name="date_end" ColumnName="date_end" />
@@ -638,6 +693,15 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name1" ColumnName="Name1" />
                 <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="goDbModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
