@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using gTravel.Models;
-using System.Data.Entity.Core.Objects;
 using System.Data.Entity;
 using System.Net;
 
@@ -32,7 +29,7 @@ namespace gTravel.Controllers
             ViewBag.currency = new SelectList(db.Currencies.ToList(), "currencyid", "code");
             ViewBag.territory = new SelectList(db.Territories.ToList(), "TerritoryId", "name");
 
-            ViewBag.Cond = db.ConditionSerias.Where(x => x.SeriaId == seria).ToList();
+            //ViewBag.Cond = db.ConditionSerias.Where(x => x.SeriaId == seria).ToList();
         }
 
         public ActionResult Contract()
@@ -66,14 +63,14 @@ namespace gTravel.Controllers
             c.date_begin = null;
             c.date_end = null;
             c.SubjectId = s.SubjectId;
-
+            
             c.StatusId = db.Status.SingleOrDefault(x=>x.Code.Trim()=="project").StatusId;
 
             db.Contracts.Add(c);
             #endregion
 
             #region доп параметры
-            var cs = db.ConditionSerias.Where(x => x.SeriaId == c.seriaid);
+            var cs = db.ConditionSerias.Where(x => x.SeriaId == c.seriaid).OrderBy(o=>o.Condition.Code);
 
             foreach (var item in cs)
             {
@@ -105,28 +102,36 @@ namespace gTravel.Controllers
                 contract_before_save(ref contract);
 
                 #region дополнительные параметры
-                var cond = db.ConditionSerias.Where(x => x.SeriaId == contract.seriaid);
-                foreach(var item in cond)
+                foreach(var item in contract.ContractConditions)
                 {
-                    ContractCondition cc = new ContractCondition();
-
-                    if (item.Condition.Type == "L")
-                    {
-                        cc.Val_l = oform.GetValues("cond_" + item.Condition.Code.Trim()).Contains("true");
-                    }
-
-                    cc.ContractCondId = Guid.NewGuid();
-                    cc.ConditionId = item.ConditionId;
-                    cc.Contractid = contract.ContractId;
-                    
-                    contract.ContractConditions.Add(cc);
+                    db.Entry(item).State = EntityState.Modified;
                 }
+
+                //var cond = db.ConditionSerias.Where(x => x.SeriaId == contract.seriaid);
+                //foreach(var item in cond)
+                //{
+                //    ContractCondition cc = new ContractCondition();
+
+                //    if (item.Condition.Type == "L")
+                //    {
+                //        cc.Val_l = oform.GetValues("cond_" + item.Condition.Code.Trim()).Contains("true");
+                //    }
+
+                //    cc.ContractCondId = Guid.NewGuid();
+                //    cc.ConditionId = item.ConditionId;
+                //    cc.Contractid = contract.ContractId;
+                    
+                 //   contract.ContractConditions.Add(cc);
+                //}
                 #endregion
 
-                db.Contracts.Add(contract);
-
-                contract.Subject.SubjectId = Guid.NewGuid();
-                db.Subjects.Add(contract.Subject);
+                //db.Contracts.Add(contract);
+                contract.Subject.SubjectId = contract.SubjectId.Value;
+                db.Entry(contract.Subject).State = EntityState.Modified;
+                
+                db.Entry(contract).State = EntityState.Modified;
+                //contract.Subject.SubjectId = Guid.NewGuid();
+                //db.Subjects.Add(contract.Subject);
 
                 db.SaveChanges();
 
@@ -144,7 +149,8 @@ namespace gTravel.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var c = db.Contracts.Include("Contract_territory").SingleOrDefault(x => x.ContractId == id);
+            var c = db.Contracts.Include("Contract_territory").Include("ContractConditions").SingleOrDefault(x => x.ContractId == id);
+            c.ContractConditions = c.ContractConditions.OrderBy(o => o.Condition.Code).ToList();
 
             if(c == null)
                 return HttpNotFound();
@@ -238,15 +244,25 @@ namespace gTravel.Controllers
         c.date_diff = get_period_diff(c.date_begin, c.date_end);
     }
 
-        public string contract_terr_insert_row(string id, string name)
+        public string contract_terr_insert_row(Guid id, string name, Guid contractid)
         {
+            Contract_territory t = new Contract_territory();
+            t.ContractId = contractid;
+            t.ContractTerritoryId = Guid.NewGuid();
+            t.TerritoryId = id;
+
+            db.Contract_territory.Add(t);
+            db.SaveChanges();
 
             return string.Format("<tr><td  class='input-value'> <input id='{2}' type='hidden' name='territory' value='{0}' /> {1}</td><td><button class='btn btn-default btn-sm'>x</button></td></tr>",
                 id,name,"terr_" + id);
         }
         private int get_period_diff(DateTime? d1, DateTime? d2)
         {
+            if(d1.HasValue && d2.HasValue)
             return (d2.Value - d1.Value).Days + 1;
+
+            return 0;
         }
 
         public ActionResult get_strperiodday(string date_from, string date_to)

@@ -1,10 +1,15 @@
-﻿@helper BuildCond(string code, string name, bool istrue)
+﻿@helper BuildCond(int idx, gTravel.Models.ContractCondition cond)
 {
-
+    @*@Html.CheckBox("cond_" + code.Trim(), istrue)*@
+    @Html.Hidden("ContractConditions[" + idx.ToString() + "].ContractCondId", cond.ContractCondId)
+    @Html.Hidden("ContractConditions[" + idx.ToString() + "].ConditionId", cond.ConditionId.Value)
+    @Html.Hidden("ContractConditions[" + idx.ToString() + "].Contractid", cond.Contractid)
     <div class="checkbox">
         <label>
-            @Html.CheckBox("cond_" + code.Trim(), istrue)
-            @name
+
+            @Html.CheckBox("ContractConditions[" + idx.ToString() + "].Val_l",cond.Val_l.Value)
+
+            @cond.Condition.Name
         </label>
     </div>
 
@@ -91,16 +96,21 @@
             @*Доп параметры*@
             <p></p>
             <div class="panel panel-default" style="padding:5px;">
-                @foreach (var item in Model.ContractConditions)
-                {
+
+                @{
+    int idx = 0;
+    foreach (var item in Model.ContractConditions)
+    {
 
 
-                    if (item.Condition.Type == "L")
-                    {
-                        @BuildCond(item.Condition.Code, item.Condition.Name, item.Val_l.Value)
-                    }
-
-                    <br />
+        if (item.Condition.Type == "L")
+        {
+            @BuildCond(idx, item)
+        }
+        idx++;
+        
+        <br />
+    }
                 }
             </div>
 
@@ -109,152 +119,159 @@
 
     </div> <!--panel-->
 
-                //территория
-                <div class="panel panel-info">
-                    <div class="panel-heading small">Территория</div>
-                    <div class="panel-body">
-                        <div class="text-info small">Выберите значение и нажмите "Добавить"</div>
-                        @Html.DropDownList("d_territory", (SelectList)ViewBag.territory, "", new Dictionary<string, object> { { "data-placeholder", "..." }, { "class", "form-control chosen-select" } })
-                        <button id="territory_add" class="btn btn-sm btn-info">Добавить</button>
-                        <button class="btn btn-sm btn-default">Исключая</button>
-                    </div>
-                    <table class="table table-condensed table-hover">
-                        @foreach (var item in Model.Contract_territory)
-                        {
-                            <tr>
-                                <td class="input-value">
-                                    <input id="@get_terr_id(item.TerritoryId.ToString())" type="hidden" name="territory" value="@item.TerritoryId" />
-                                    @item.Territory.Name
-                                </td>
-                                <td>
-                                    <button class="btn btn-default btn-sm btn_terr_dell">x</button>
-                                </td>
-                            </tr>
-                        }
-                        <tr id="territory_newrow"></tr>
-                    </table>
-                </div>
-
-                        //страхователь
-                        <div class="panel panel-success">
-                            <div class="panel-heading small">
-                                Страхователь:&nbsp;&nbsp;
-
+    //территория
+    <div class="panel panel-info">
+        <div class="panel-heading small">Территория</div>
+        <div class="panel-body">
+            <div class="text-info small">Выберите значение и нажмите "Добавить"</div>
+            @Html.DropDownList("d_territory", (SelectList)ViewBag.territory, "", new Dictionary<string, object> { { "data-placeholder", "..." }, { "class", "form-control chosen-select" } })
+            <button id="territory_add" class="btn btn-sm btn-info">Добавить</button>
+            <button class="btn btn-sm btn-default">Исключая</button>
+        </div>
+        <table class="table table-condensed table-hover">
             @{
-            bool subj_f = Model.Subject.Type.Trim() == "fiz";
-            }
+                int iterrnum=0;
+    foreach (var item in Model.Contract_territory)
+    {
+                <tr>
+                    <td class="input-value">
+                        @Html.Hidden("Contract_territory[" + iterrnum + "].ContractTerritoryId",item.ContractTerritoryId)
+                        @Html.Hidden("Contract_territory[" + iterrnum + "].TerritoryId",item.TerritoryId)
+                         
+                        @*<input id="@get_terr_id(item.TerritoryId.ToString())" type="hidden" name="territory" value="@item.TerritoryId" />*@
+                       
+                         @item.Territory.Name
+                    </td>
+                    <td>
+                        <button class="btn btn-default btn-sm btn_terr_dell">x</button>
+                    </td>
+                </tr>
+                
+        iterrnum++;
+    }
+}
+            <tr id="territory_newrow"></tr>
+        </table>
+    </div>
 
-                                <label class="radio">
-                                    <input type="radio" name="Subject.Type"
-                                           @if (subj_f)
-                                           {  @: checked
-                                                                  }
-                                           value="fiz" />
-                                    физ-лицо
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="Subject.Type"
-                                    @if (!subj_f)
-                                    {  @: checked
-                                              }
-                                    value="jur">
-                                   юр-лицо
-                                </label>
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <label id="subj_lab_name">@( (subj_f)?"Имя":"Наименование"):</label>
-                                    </div>
-                                    <div class="col-md-10">
-                                        @Html.HiddenFor(model => Model.SubjectId)
-                                        @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value", name = "SubjectF.Name" })
-                                    </div>
-                                </div>
+            //страхователь
+            <div class="panel panel-success">
+                <div class="panel-heading small">
+                    Страхователь:&nbsp;&nbsp;
 
-        
-                                    <div id="subj_dfb" class="row" style="display:none;">
-                                        <p></p>
-                                        <div class="col-md-2">
-                                            <label>Дата рождения:</label>
-                                        </div>
-                                        <div class="col-md-10">
-                                            @Html.TextBoxFor(m => Model.Subject.DateOfBirth, new { @class = "form-control input-sm date3 date_period input-value" })
-                                        </div>
-                                    </div>
-                              
-                                <p></p>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <label id="subj_lab_id">@( (subj_f) ? "Паспорт" : "ИНН"):</label>
-                                    </div>
-                                    <div class="col-md-10">
-                                        @Html.TextBoxFor(m => Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
-                                    </div>
-                                </div>
-                                <p></p>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <label>Адрес:</label>
-                                    </div>
-                                    <div class="col-md-10">
-                                        @Html.TextAreaFor(m => Model.Subject.Address, new { @class = "form-control input-sm input-value", style = "width:100%" })
-                                        <label>Телефон:</label>
-                                        @Html.TextBoxFor(m => Model.Subject.Phone, new { @class = "form-control input-sm input-value" })
-                                    </div>
-                                </div>
+                    @{
+    bool subj_f = Model.Subject.Type.Trim() == "fiz";
+                    }
 
-                            </div> @*панель страхователя*@
+                    <label class="radio">
+                        <input type="radio" name="Subject.Type"
+                               @if (subj_f) {  @: checked
+                                                                                                                                            }
+                               value="fiz" />
+                        физ-лицо
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="Subject.Type"
+                               @if (!subj_f) {  @: checked
+                                                                                                                        }
+                               value="jur">
+                        юр-лицо
+                    </label>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label id="subj_lab_name">@( (subj_f) ? "Имя" : "Наименование"):</label>
                         </div>
+                        <div class="col-md-10">
+                            @Html.HiddenFor(model => Model.SubjectId)
+                        
+                            @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value", name = "SubjectF.Name" })
+                        </div>
+                    </div>
 
-                        <div class="panel panel-success">
-                            <div class="panel-heading small">Список застрахованных
-                            @Ajax.ActionLink("Новый", "_addInsuredRow",
+
+                    <div id="subj_dfb" class="row" style="display:none;">
+                        <p></p>
+                        <div class="col-md-2">
+                            <label>Дата рождения:</label>
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => Model.Subject.DateOfBirth, new { @class = "form-control input-sm date3 date_period input-value" })
+                        </div>
+                    </div>
+
+                    <p></p>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label id="subj_lab_id">@( (subj_f) ? "Паспорт" : "ИНН"):</label>
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>Адрес:</label>
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(m => Model.Subject.Address, new { @class = "form-control input-sm input-value", style = "width:100%" })
+                            <label>Телефон:</label>
+                            @Html.TextBoxFor(m => Model.Subject.Phone, new { @class = "form-control input-sm input-value" })
+                        </div>
+                    </div>
+
+                </div> @*панель страхователя*@
+            </div>
+
+            <div class="panel panel-success">
+                <div class="panel-heading small">
+                    Список застрахованных
+                    @Ajax.ActionLink("Новый", "_addInsuredRow",
                             new AjaxOptions
                             {
                                 InsertionMode = InsertionMode.InsertBefore,
                                 HttpMethod = "POST",
                                 UpdateTargetId = "insured_newrow"
-                                 
+
                             })
 
-                            </div>
-                                 <table class="table table-condensed">
-                                    <thead>
-                                        <tr >
-                                            <th>ФИО</th>
-                                            <th>Дата рождения</th>
-                                            <th>Паспорт</th>
-                                        </tr>
-                                       
-                                    </thead>
-                                    <tbody id="insured_newrow">
+                </div>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>ФИО</th>
+                            <th>Дата рождения</th>
+                            <th>Паспорт</th>
+                        </tr>
 
-                                    </tbody>
+                    </thead>
+                    <tbody id="insured_newrow"></tbody>
 
-                                </table>
-                            
+                </table>
+
+            </div>
+
+            @*<div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-1">Территория:</div>
+                        <div class="col-md-11">
+
+                            @Html.DropDownList("territory", (SelectList)ViewBag.territory, new { @class = "chosen-select chosen-default", multiple = true })
+
+
                         </div>
-
-                        @*<div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-1">Территория:</div>
-                                    <div class="col-md-11">
-
-                                        @Html.DropDownList("territory", (SelectList)ViewBag.territory, new { @class = "chosen-select chosen-default", multiple = true })
-
-
-                                    </div>
-                                </div>
+                    </div>
 
 
 
-                            </div>*@
+                </div>*@
 
 
-                        <div class="panel-footer">
-                            <button class="btn-primary">Сохранить</button>
-                        </div>
+            <div class="panel-footer">
+                <button class="btn-primary">Сохранить</button>
+            </div>
 }
 
 <script type="text/javascript">
@@ -301,7 +318,8 @@
                     url: '@Url.Action("contract_terr_insert_row")',
                     data: {
                         id: vid,
-                        name: vname
+                        name: vname,
+                        contractid: '@Model.ContractId'
                     },
                     error: function (request, status, error) {
                         alert(error);
@@ -346,7 +364,7 @@
             });
         });
 
-       
+
 
     }
   )
