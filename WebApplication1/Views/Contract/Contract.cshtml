@@ -229,15 +229,32 @@
 
             <div class="panel panel-success">
                 <div class="panel-heading small">
-                    Список застрахованных
-                    @Ajax.ActionLink("Новый", "_addInsuredRow",
+                    Список застрахованных:&nbsp;&nbsp;
+                 
+                    <a href="/Contract/_addInsuredRow?contractid=@Model.ContractId"
+                       data-ajax-update="#insured_newrow"
+                       data-ajax-mode="before"
+                       data-ajax-method="POST"
+                       data-ajax="true"><span class="glyphicon glyphicon-plus-sign"></span>Новый</a>
+                    
+                    &nbsp;
+
+                    <a href="/Contract/_addInsuredRow?contractid=@Model.ContractId"
+                       data-ajax-update="#insured_newrow"
+                       data-ajax-mode="before"
+                       data-ajax-method="POST"
+                       data-ajax="true"><span class="glyphicon glyphicon-user"></span>Страхователь</a>
+                  
+                        @*@Ajax.ActionLink("Новый", "_addInsuredRow",new {contractid = Model.ContractId},
                             new AjaxOptions
                             {
                                 InsertionMode = InsertionMode.InsertBefore,
                                 HttpMethod = "POST",
                                 UpdateTargetId = "insured_newrow"
 
-                            })
+                            })*@
+           
+
 
                 </div>
                 <table class="table table-condensed">

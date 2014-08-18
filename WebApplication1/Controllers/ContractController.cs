@@ -18,8 +18,13 @@ namespace gTravel.Controllers
             return View();
         }
 
-        public ActionResult List()
+        public ActionResult List(decimal? contractnumber)
         {
+
+            ViewBag.contractnumber = contractnumber;
+
+            if (contractnumber != null)
+                return View( db.Contracts.Where(x => x.contractnumber == contractnumber).ToList());
 
             return View(db.Contracts.ToList());
         }
@@ -151,6 +156,7 @@ namespace gTravel.Controllers
 
             var c = db.Contracts.Include("Contract_territory").Include("ContractConditions").SingleOrDefault(x => x.ContractId == id);
             c.ContractConditions = c.ContractConditions.OrderBy(o => o.Condition.Code).ToList();
+            ViewBag.terr_count = c.Contract_territory.Count();
 
             if(c == null)
                 return HttpNotFound();
@@ -168,23 +174,26 @@ namespace gTravel.Controllers
                 contract_before_save(ref c);
                 
                 //обновление территории
-                contract_update_territory(c.ContractId, territory);
+                //contract_update_territory(c.ContractId, territory);
 
                 #region дополнительные параметры
-                var cond = db.ContractConditions.Where(x => x.Contractid == c.ContractId);
+                foreach (var cond in c.ContractConditions)
+                    db.Entry(cond).State = EntityState.Modified;
 
-                foreach (var item in cond)
-                {
-                    bool ischecked = oform.GetValues("cond_" + item.Condition.Code.Trim()).Contains("true");
-                   
-                    if(item.Val_l!=ischecked)
-                    {
-                        item.Val_l = ischecked;
-                        db.Entry(item).State = EntityState.Modified;
-                    }
+                //var cond = db.ContractConditions.Where(x => x.Contractid == c.ContractId);
 
-                    
-                }
+                //foreach (var item in cond)
+                //{
+                //    bool ischecked = oform.GetValues("cond_" + item.Condition.Code.Trim()).Contains("true");
+
+                //    if (item.Val_l != ischecked)
+                //    {
+                //        item.Val_l = ischecked;
+                //        db.Entry(item).State = EntityState.Modified;
+                //    }
+
+
+                //}
                 #endregion
 
                 #region страхователь
@@ -257,8 +266,8 @@ namespace gTravel.Controllers
             db.Contract_territory.Add(t);
             db.SaveChanges();
 
-
-            ViewBag.terr_count = db.Contract_territory.Where(x => x.ContractId == contractid).Count();
+            int terr_count = db.Contract_territory.Where(x => x.ContractId == contractid).Count();
+            ViewBag.terr_count = terr_count;
 
 
             return PartialView(db.Contract_territory.Include("Territory").SingleOrDefault(x => x.ContractTerritoryId == t.ContractTerritoryId));
@@ -300,11 +309,22 @@ namespace gTravel.Controllers
         }
 
         [HttpPost]
-        public ActionResult _addInsuredRow()
+        public ActionResult _addInsuredRow(Guid contractid)
         {
-            
+            if (db.Subjects.Any(x => x.ContractId == contractid && (x.Name1 == null || x.Name1 == "")))
+                return null;
 
-            return PartialView();
+            Subject s = new Subject();
+            s.SubjectId = Guid.NewGuid();
+            s.ContractId = contractid;
+
+            db.Subjects.Add(s);
+            db.SaveChanges();
+
+            ViewBag.sbjcount = db.Subjects.Where(x => x.ContractId == contractid).Count();
+
+
+            return PartialView(s);
         }
 
         protected override void Dispose(bool disposing)

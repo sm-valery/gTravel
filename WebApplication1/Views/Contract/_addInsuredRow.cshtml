@@ -1,7 +1,23 @@
-﻿
+﻿@model gTravel.Models.Subject
+
+@{
+
+    decimal idx = ((decimal)ViewBag.sbjcount) - 1;
+    
+}
 <tr>
-    <td><input type="text" name="Subjects[0].Name1"  value=""/> </td>
-    <td></td>
-    <td></td>
+    <td>
+    @Html.Hidden(string.Format("Subjects[{0}].SubjectId", idx), Model.SubjectId)
+        @Html.Hidden(string.Format("Subjects[{0}].ContractId", idx), Model.ContractId)
+
+    @Html.TextBox(string.Format("Subjects[{0}].Name1", idx), Model.Name1)
+    
+     </td>
+    <td>
+    @Html.TextBox(string.Format("Subjects[{0}].DateOfBirth", idx), Model.DateOfBirth)
+    </td>
+    <td>
+        @Html.TextBox(string.Format("Subjects[{0}].Pasport", idx), Model.Pasport)
+    </td>
 </tr>
 
