@@ -1,0 +1,20 @@
+﻿@model gTravel.Models.Contract_territory
+
+@{
+    decimal teridx =((decimal)ViewBag.terr_count)-1;
+    
+}
+<tr>
+    <td class="input-value">
+        @Html.Hidden("Contract_territory[" + teridx + "].ContractTerritoryId", Model.ContractTerritoryId)
+        @Html.Hidden("Contract_territory[" + teridx + "].TerritoryId", Model.TerritoryId, new { id = "terr_" + Model.TerritoryId })
+        @Html.Hidden("Contract_territory[" + teridx + "].ContractId", Model.ContractId)
+
+        @*<input id="@get_terr_id(item.TerritoryId.ToString())" type="hidden" name="territory" value="@item.TerritoryId" />*@
+
+        @Model.Territory.Name
+    </td>
+    <td>
+        <button class="btn btn-default btn-sm btn_terr_dell">x</button>
+    </td>
+</tr>

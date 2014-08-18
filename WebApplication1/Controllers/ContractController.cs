@@ -244,8 +244,11 @@ namespace gTravel.Controllers
         c.date_diff = get_period_diff(c.date_begin, c.date_end);
     }
 
-        public string contract_terr_insert_row(Guid id, string name, Guid contractid)
+        public ActionResult contract_terr_insert_row(Guid id, string name, Guid contractid)
         {
+            if (db.Contract_territory.Any(x => x.ContractId==contractid && x.TerritoryId == id))
+                return null;
+
             Contract_territory t = new Contract_territory();
             t.ContractId = contractid;
             t.ContractTerritoryId = Guid.NewGuid();
@@ -254,8 +257,21 @@ namespace gTravel.Controllers
             db.Contract_territory.Add(t);
             db.SaveChanges();
 
-            return string.Format("<tr><td  class='input-value'> <input id='{2}' type='hidden' name='territory' value='{0}' /> {1}</td><td><button class='btn btn-default btn-sm'>x</button></td></tr>",
-                id,name,"terr_" + id);
+
+            ViewBag.terr_count = db.Contract_territory.Where(x => x.ContractId == contractid).Count();
+
+
+            return PartialView(db.Contract_territory.Include("Territory").SingleOrDefault(x => x.ContractTerritoryId == t.ContractTerritoryId));
+                //Contract_territory[" + iterrnum + "]
+            //return string.Format("<tr><td  class='input-value'> "
+            //    + "<input type='hidden' name='Contract_territory[{3}].ContractTerritoryId' value='{4}' >" +
+            //    "<input id='{2}' type='hidden' name='territory' value='{0}' /> {1}</td><td><button class='btn btn-default btn-sm'>x</button></td></tr>",
+            //    id//0
+            //    , name//1
+            //    , "terr_" + id//2
+            //    , tcount//3
+            //    , t.ContractTerritoryId//4
+            //    );
         }
         private int get_period_diff(DateTime? d1, DateTime? d2)
         {

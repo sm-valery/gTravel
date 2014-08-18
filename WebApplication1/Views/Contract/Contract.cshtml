@@ -133,19 +133,21 @@
                 int iterrnum=0;
     foreach (var item in Model.Contract_territory)
     {
-                <tr>
+         @Html.Partial("contract_terr_insert_row",item)
+                
+              @*<tr>
                     <td class="input-value">
                         @Html.Hidden("Contract_territory[" + iterrnum + "].ContractTerritoryId",item.ContractTerritoryId)
                         @Html.Hidden("Contract_territory[" + iterrnum + "].TerritoryId",item.TerritoryId)
                          
-                        @*<input id="@get_terr_id(item.TerritoryId.ToString())" type="hidden" name="territory" value="@item.TerritoryId" />*@
+                        @*<input id="@get_terr_id(item.TerritoryId.ToString())" type="hidden" name="territory" value="@item.TerritoryId" />
                        
-                         @item.Territory.Name
+                         item.Territory.Name
                     </td>
                     <td>
                         <button class="btn btn-default btn-sm btn_terr_dell">x</button>
                     </td>
-                </tr>
+                </tr>*@
                 
         iterrnum++;
     }
