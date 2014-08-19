@@ -100,7 +100,7 @@ namespace gTravel.Controllers
         }
 
         [HttpPost]
-        public ActionResult Contract_create(Contract contract, FormCollection oform)
+        public ActionResult Contract_create(Contract contract)
         {
             if(ModelState.IsValid)
             {
@@ -130,13 +130,16 @@ namespace gTravel.Controllers
                 //}
                 #endregion
 
-                //db.Contracts.Add(contract);
                 contract.Subject.SubjectId = contract.SubjectId.Value;
                 db.Entry(contract.Subject).State = EntityState.Modified;
                 
                 db.Entry(contract).State = EntityState.Modified;
-                //contract.Subject.SubjectId = Guid.NewGuid();
-                //db.Subjects.Add(contract.Subject);
+                    
+                foreach(var subj in contract.Subjects)
+                {
+                    db.Entry(subj).State = EntityState.Modified;
+                }
+
 
                 db.SaveChanges();
 
@@ -156,6 +159,7 @@ namespace gTravel.Controllers
 
             var c = db.Contracts.Include("Contract_territory").Include("ContractConditions").Include("Subjects").SingleOrDefault(x => x.ContractId == id);
             c.ContractConditions = c.ContractConditions.OrderBy(o => o.Condition.Code).ToList();
+            c.Subjects = c.Subjects.OrderBy(o => o.num).ToList();
             ViewBag.terr_count = c.Contract_territory.Count();
 
             if(c == null)
@@ -204,6 +208,13 @@ namespace gTravel.Controllers
                 }
                 #endregion
 
+                #region Застрахованные
+                foreach (var subj in c.Subjects)
+                {
+                    db.Entry(subj).State = EntityState.Modified;
+                }
+
+                #endregion
                 db.Entry(c).State = EntityState.Modified;
 
                 db.SaveChanges();

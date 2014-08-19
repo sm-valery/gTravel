@@ -27,6 +27,7 @@ namespace gTravel.Models
         public string Pasport { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
+        public Nullable<int> num { get; set; }
     
         public virtual ICollection<Contract> Contracts { get; set; }
         public virtual Contract Contract { get; set; }
