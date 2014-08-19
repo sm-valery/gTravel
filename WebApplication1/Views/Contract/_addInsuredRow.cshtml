@@ -2,22 +2,22 @@
 
 @{
 
-    decimal idx = ((decimal)ViewBag.sbjcount) - 1;
-    
+    //decimal idx = ((decimal)ViewBag.sbjcount) - 1;
+    int indx = Convert.ToInt32(ViewData["indx"]);
 }
 <tr>
     <td>
-    @Html.Hidden(string.Format("Subjects[{0}].SubjectId", idx), Model.SubjectId)
-        @Html.Hidden(string.Format("Subjects[{0}].ContractId", idx), Model.ContractId)
+    @Html.Hidden(string.Format("Subjects[{0}].SubjectId", indx), Model.SubjectId)
+        @Html.Hidden(string.Format("Subjects[{0}].ContractId", indx), Model.ContractId)
 
-    @Html.TextBox(string.Format("Subjects[{0}].Name1", idx), Model.Name1)
+    @Html.TextBox(string.Format("Subjects[{0}].Name1", indx), Model.Name1)
     
      </td>
     <td>
-    @Html.TextBox(string.Format("Subjects[{0}].DateOfBirth", idx), Model.DateOfBirth)
+    @Html.TextBox(string.Format("Subjects[{0}].DateOfBirth", indx), Model.DateOfBirth)
     </td>
     <td>
-        @Html.TextBox(string.Format("Subjects[{0}].Pasport", idx), Model.Pasport)
+        @Html.TextBox(string.Format("Subjects[{0}].Pasport", indx), Model.Pasport)
     </td>
 </tr>
 

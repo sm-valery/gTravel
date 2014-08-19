@@ -1,14 +1,15 @@
 ﻿@model gTravel.Models.Contract_territory
 
 @{
-    decimal teridx =((decimal)ViewBag.terr_count)-1;
+    //decimal teridx =((decimal)ViewBag.terr_count)-1;
+    int indx = Convert.ToInt32(ViewData["indx"]);
     
 }
 <tr>
     <td class="input-value">
-        @Html.Hidden("Contract_territory[" + teridx + "].ContractTerritoryId", Model.ContractTerritoryId)
-        @Html.Hidden("Contract_territory[" + teridx + "].TerritoryId", Model.TerritoryId, new { id = "terr_" + Model.TerritoryId })
-        @Html.Hidden("Contract_territory[" + teridx + "].ContractId", Model.ContractId)
+        @Html.Hidden("Contract_territory[" + indx + "].ContractTerritoryId", Model.ContractTerritoryId)
+        @Html.Hidden("Contract_territory[" + indx + "].TerritoryId", Model.TerritoryId, new { id = "terr_" + Model.TerritoryId })
+        @Html.Hidden("Contract_territory[" + indx + "].ContractId", Model.ContractId)
 
         @*<input id="@get_terr_id(item.TerritoryId.ToString())" type="hidden" name="territory" value="@item.TerritoryId" />*@
 

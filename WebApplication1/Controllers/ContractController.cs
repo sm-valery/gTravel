@@ -154,7 +154,7 @@ namespace gTravel.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var c = db.Contracts.Include("Contract_territory").Include("ContractConditions").SingleOrDefault(x => x.ContractId == id);
+            var c = db.Contracts.Include("Contract_territory").Include("ContractConditions").Include("Subjects").SingleOrDefault(x => x.ContractId == id);
             c.ContractConditions = c.ContractConditions.OrderBy(o => o.Condition.Code).ToList();
             ViewBag.terr_count = c.Contract_territory.Count();
 
@@ -167,7 +167,7 @@ namespace gTravel.Controllers
         }
 
         [HttpPost]
-        public ActionResult Contract_edit(Contract c, string[] territory, FormCollection oform)
+        public ActionResult Contract_edit(Contract c)
         {
             if(ModelState.IsValid)
             {
@@ -267,8 +267,8 @@ namespace gTravel.Controllers
             db.SaveChanges();
 
             int terr_count = db.Contract_territory.Where(x => x.ContractId == contractid).Count();
-            ViewBag.terr_count = terr_count;
-
+           
+            ViewData["indx"] = terr_count - 1;
 
             return PartialView(db.Contract_territory.Include("Territory").SingleOrDefault(x => x.ContractTerritoryId == t.ContractTerritoryId));
                 //Contract_territory[" + iterrnum + "]
@@ -311,8 +311,8 @@ namespace gTravel.Controllers
         [HttpPost]
         public ActionResult _addInsuredRow(Guid contractid)
         {
-            if (db.Subjects.Any(x => x.ContractId == contractid && (x.Name1 == null || x.Name1 == "")))
-                return null;
+            //if (db.Subjects.Any(x => x.ContractId == contractid && (x.Name1 == null || x.Name1 == "")))
+            //    return null;
 
             Subject s = new Subject();
             s.SubjectId = Guid.NewGuid();
@@ -321,8 +321,7 @@ namespace gTravel.Controllers
             db.Subjects.Add(s);
             db.SaveChanges();
 
-            ViewBag.sbjcount = db.Subjects.Where(x => x.ContractId == contractid).Count();
-
+            ViewData["indx"] = db.Subjects.Where(x => x.ContractId == contractid).Count()-1;
 
             return PartialView(s);
         }
