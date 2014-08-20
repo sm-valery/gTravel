@@ -124,26 +124,26 @@
         </div>
         <table class="table table-condensed table-hover">
             @{
-    int indx = 0;
+                int indx=0;
     foreach (var item in Model.Contract_territory)
     {
+        
+        @Html.Partial("contract_terr_insert_row", item, new ViewDataDictionary {{"indx", indx}})
 
-        @Html.Partial("contract_terr_insert_row", item, new ViewDataDictionary { { "indx", indx } })
+                indx++;
+                @*<tr>
+                        <td class="input-value">
+                            @Html.Hidden("Contract_territory[" + iterrnum + "].ContractTerritoryId",item.ContractTerritoryId)
+                            @Html.Hidden("Contract_territory[" + iterrnum + "].TerritoryId",item.TerritoryId)
 
-        indx++;
-        @*<tr>
-                <td class="input-value">
-                    @Html.Hidden("Contract_territory[" + iterrnum + "].ContractTerritoryId",item.ContractTerritoryId)
-                    @Html.Hidden("Contract_territory[" + iterrnum + "].TerritoryId",item.TerritoryId)
+                            @*<input id="@get_terr_id(item.TerritoryId.ToString())" type="hidden" name="territory" value="@item.TerritoryId" />
 
-                    @*<input id="@get_terr_id(item.TerritoryId.ToString())" type="hidden" name="territory" value="@item.TerritoryId" />
-
-                     item.Territory.Name
-                </td>
-                <td>
-                    <button class="btn btn-default btn-sm btn_terr_dell">x</button>
-                </td>
-            </tr>*@
+                             item.Territory.Name
+                        </td>
+                        <td>
+                            <button class="btn btn-default btn-sm btn_terr_dell">x</button>
+                        </td>
+                    </tr>*@
     }
             }
             <tr id="territory_newrow"></tr>
@@ -161,14 +161,14 @@
             <label class="radio">
                 <input type="radio" name="Subject.Type"
                        @if (subj_f) {  @: checked
-                                                                                                                                                                                                                 }
+                                                                                                                                                                   }
                        value="fiz" />
                 физ-лицо
             </label>
             <label class="radio">
                 <input type="radio" name="Subject.Type"
                        @if (!subj_f) {  @: checked
-                                                                                                                                                                                             }
+                                                                                                                                               }
                        value="jur">
                 юр-лицо
             </label>
@@ -180,9 +180,11 @@
                 </div>
                 <div class="col-md-10">
                     @Html.HiddenFor(model => Model.SubjectId)
+
                     @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value", name = "SubjectF.Name" })
                 </div>
             </div>
+
             <div id="subj_dfb" class="row" style="display:none;">
                 <p></p>
                 <div class="col-md-2">
@@ -214,8 +216,8 @@
             </div>
         </div> @*панель страхователя*@
     </div>
-
-//Список застрахованных
+                       
+    //Список застрахованных
     <div class="panel panel-success">
         <div class="panel-heading small">
             Список застрахованных:&nbsp;&nbsp;
@@ -225,6 +227,7 @@
                data-ajax-mode="before"
                data-ajax-method="POST"
                data-ajax="true"><span class="glyphicon glyphicon-plus-sign"></span>Новый</a>
+
             &nbsp;
 
             <a href="/Contract/_addInsuredRow?contractid=@Model.ContractId"
@@ -232,6 +235,7 @@
                data-ajax-mode="before"
                data-ajax-method="POST"
                data-ajax="true"><span class="glyphicon glyphicon-user"></span>Страхователь</a>
+
             @*@Ajax.ActionLink("Новый", "_addInsuredRow",new {contractid = Model.ContractId},
                 new AjaxOptions
                 {
@@ -241,6 +245,7 @@
 
                 })*@
 
+
         </div>
         <table class="table table-condensed">
             <thead>
@@ -248,17 +253,14 @@
                     <th>ФИО</th>
                     <th>Дата рождения</th>
                     <th>Паспорт</th>
-                    <th></th>
                 </tr>
             </thead>
-            
             @{
 indx = 0;
 
 foreach (var item in Model.Subjects)
 {
-    @Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } })
-    indx++;
+    Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });
 }
 
             }

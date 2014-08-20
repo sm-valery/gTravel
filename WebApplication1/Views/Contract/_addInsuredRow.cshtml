@@ -9,18 +9,15 @@
     <td>
     @Html.Hidden(string.Format("Subjects[{0}].SubjectId", indx), Model.SubjectId)
         @Html.Hidden(string.Format("Subjects[{0}].ContractId", indx), Model.ContractId)
-        @Html.Hidden(string.Format("Subjects[{0}].num", indx), Model.num)
 
-    @Html.TextBox(string.Format("Subjects[{0}].Name1", indx), Model.Name1, new { @class = "form-control input-sm input-value" })
+    @Html.TextBox(string.Format("Subjects[{0}].Name1", indx), Model.Name1)
     
      </td>
     <td>
-    @Html.TextBox(string.Format("Subjects[{0}].DateOfBirth", indx), Model.DateOfBirth, new { @class = "form-control input-sm input-value date3" })
+    @Html.TextBox(string.Format("Subjects[{0}].DateOfBirth", indx), Model.DateOfBirth)
     </td>
     <td>
-        @Html.TextBox(string.Format("Subjects[{0}].Pasport", indx), Model.Pasport, new { @class = "form-control input-sm input-value" })
+        @Html.TextBox(string.Format("Subjects[{0}].Pasport", indx), Model.Pasport)
     </td>
-    <td><button class="btn btn-default btn-sm btn_terr_dell">x</button></td>
-    
 </tr>
 

@@ -91,7 +91,6 @@
           <Property Name="Pasport" Type="nchar" MaxLength="12" />
           <Property Name="Address" Type="nchar" MaxLength="255" />
           <Property Name="Phone" Type="nchar" MaxLength="255" />
-          <Property Name="num" Type="int" />
         </EntityType>
         <EntityType Name="Territory">
           <Key>
@@ -550,7 +549,6 @@
           <Property Name="Phone" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToSubject" FromRole="Subject" ToRole="Contract" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Subject" ToRole="Contract" />
-          <Property Name="num" Type="Int32" />
         </EntityType>
         <Association Name="FK_Contract_ToSubject">
           <End Type="goDbModel.Subject" Role="Subject" Multiplicity="0..1" />
@@ -687,7 +685,6 @@
           <EntitySetMapping Name="Subjects">
             <EntityTypeMapping TypeName="goDbModel.Subject">
               <MappingFragment StoreEntitySet="Subject">
-                <ScalarProperty Name="num" ColumnName="num" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Pasport" ColumnName="Pasport" />
