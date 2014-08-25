@@ -221,8 +221,11 @@
     <div class="panel panel-success">
         <div class="panel-heading small">
             Список застрахованных:&nbsp;&nbsp;
-
-            <a href="/Contract/_addInsuredRow?contractid=@Model.ContractId"
+            <a id="insured_add" href="#"><span class="glyphicon glyphicon-plus-sign"></span><span style="font-weight:normal;">Добавить застрахованного</span> </a>
+            
+    
+    
+    @*<a href="/Contract/_addInsuredRow?contractid=@Model.ContractId"
                data-ajax-update="#insured_newrow"
                data-ajax-mode="before"
                data-ajax-method="POST"
@@ -234,7 +237,7 @@
                data-ajax-update="#insured_newrow"
                data-ajax-mode="before"
                data-ajax-method="POST"
-               data-ajax="true"><span class="glyphicon glyphicon-user"></span>Страхователь</a>
+               data-ajax="true"><span class="glyphicon glyphicon-user"></span>Страхователь</a>*@
 
             @*@Ajax.ActionLink("Новый", "_addInsuredRow",new {contractid = Model.ContractId},
                 new AjaxOptions
@@ -247,7 +250,7 @@
 
 
         </div>
-        <table class="table table-condensed">
+        <table id="insdtable" class="table table-condensed">
             <thead>
                 <tr>
                     <th>ФИО</th>
@@ -255,16 +258,17 @@
                     <th>Паспорт</th>
                 </tr>
             </thead>
-            @{
-indx = 0;
+            <tbody>
+                @{
+                       indx = 0;
 
-foreach (var item in Model.Subjects)
-{
-    Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });
-}
+                       foreach (var item in Model.Subjects)
+                       {
+                           Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });
+                       }
 
-            }
-            <tbody id="insured_newrow"></tbody>
+                }
+            </tbody>
         </table>
     </div>
 
@@ -294,6 +298,25 @@ foreach (var item in Model.Subjects)
 
     $(function () {
 
+        $("#insured_add").click(function (e) {
+
+
+            $.ajax({
+                url: '@Url.Action("_addInsuredRow")',
+                data: {
+                    contractid: '@Model.ContractId'
+                },
+                error: function (request, status, error) {
+                    alert(error);
+                },
+                success: function (data) {
+
+                    $(data).insertAfter("#insdtable >tbody:last");
+                }
+            });
+
+            e.preventDefault();
+        });
 
         $("input[name='Subject.Type']").change(function () {
 

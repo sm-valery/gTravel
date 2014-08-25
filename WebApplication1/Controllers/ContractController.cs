@@ -308,7 +308,7 @@ namespace gTravel.Controllers
             return Content( retval);
         }
 
-        [HttpPost]
+
         public ActionResult _addInsuredRow(Guid contractid)
         {
             //if (db.Subjects.Any(x => x.ContractId == contractid && (x.Name1 == null || x.Name1 == "")))
