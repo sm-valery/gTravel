@@ -250,7 +250,7 @@
 
 
         </div>
-        <table id="insdtable" class="table table-condensed">
+        <table id="insdtable" class="table table-condensed table-hover">
             <thead>
                 <tr>
                     <th>ФИО</th>
@@ -264,7 +264,9 @@
 
                        foreach (var item in Model.Subjects)
                        {
-                           Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });
+                           @Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });
+
+                           indx++;
                        }
 
                 }
@@ -311,7 +313,7 @@
                 },
                 success: function (data) {
 
-                    $(data).insertAfter("#insdtable >tbody:last");
+                    $(data).insertAfter("#insdtable >tbody>tr:last");
                 }
             });
 
