@@ -74,6 +74,25 @@ namespace gTravel.Controllers
             db.Contracts.Add(c);
             #endregion
 
+            #region риски
+
+            var cr = db.RiskSerias.Where(x => x.SeriaId == c.seriaid).OrderBy(o=>o.sort);
+
+            foreach(var item in cr)
+            {
+                ContractRisk item_rs = new  ContractRisk();
+
+                item_rs.ContractRiskId = Guid.NewGuid();
+                item_rs.ContractId = c.ContractId;
+                item_rs.RiskId = item.RiskId;
+                item_rs.Risk = item.Risk;
+
+                c.ContractRisks.Add(item_rs);
+            }
+
+           // c.ContractRisks = cr;
+            #endregion
+
             #region доп параметры
             var cs = db.ConditionSerias.Where(x => x.SeriaId == c.seriaid).OrderBy(o=>o.Condition.Code);
 

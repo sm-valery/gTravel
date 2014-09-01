@@ -209,6 +209,9 @@
     <Compile Include="Models\ContractCondition.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ContractRisk.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Contract_territory.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -231,6 +234,12 @@
       <DependentUpon>gModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Risk.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RiskSeria.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\seria.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -403,6 +412,11 @@
     <Content Include="Views\Contract\_addInsuredRow.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\_edate.cshtml" />
     <Content Include="Views\Contract\contract_terr_insert_row.cshtml" />
+    <Content Include="Views\Settings\Risk.cshtml" />
+    <Content Include="Views\Settings\Risk_create.cshtml" />
+    <Content Include="Views\Settings\Risk_edit.cshtml" />
+    <Content Include="Views\Settings\RiskSeria_create.cshtml" />
+    <Content Include="Views\Settings\RiskSeria.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

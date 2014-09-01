@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using gTravel.Models;
+using System.Net;
+using System.Data.Entity;
 
 namespace gTravel.Controllers
 {
@@ -112,8 +114,101 @@ namespace gTravel.Controllers
         }
         #endregion
 
-#region ConditionSeria
-        public ActionResult ConditionSeria()
+        #region Risk
+        public ActionResult Risk()
+        {
+            return View(db.Risks.ToList());
+        }
+        #endregion
+
+        public ActionResult Risk_create()
+        {
+            Risk r = new Risk();
+            return View(r);
+        }
+
+        [HttpPost]
+        public ActionResult Risk_create(Risk r)
+        {
+
+            if(ModelState.IsValid)
+            {
+                r.RiskId = Guid.NewGuid();
+                db.Risks.Add(r);
+                db.SaveChanges();
+
+                return RedirectToAction("Risk");
+            }
+
+            return View(r);
+        }
+
+        public ActionResult Risk_edit(Guid RiskId)
+        {
+          var r = db.Risks.FirstOrDefault(x=>x.RiskId==RiskId);
+            if(r==null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            
+
+
+
+            return View(r);
+
+        }
+
+        [HttpPost]
+        public ActionResult Risk_edit(Risk r)
+        {
+
+            if(ModelState.IsValid)
+            {
+                db.Entry(r).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Risk");
+            }
+
+            return View(r);
+        }
+
+        #region RiskSeria
+        public ActionResult RiskSeria()
+        {
+            return View(db.RiskSerias.OrderBy(x=>x.SeriaId));
+        }
+
+       public ActionResult RiskSeria_create()
+        {
+           var rs = new RiskSeria();
+           ViewBag.serias = new SelectList(db.serias, "SeriaId", "Code");
+           ViewBag.risks = new SelectList(db.Risks, "IdRisk", "Code");
+
+           return View(rs);
+        }
+
+        [HttpPost]
+        public ActionResult RiskSeria_create(RiskSeria rs)
+       {
+            if(ModelState.IsValid)
+            {
+                rs.RiskSeriaId = Guid.NewGuid();
+                db.RiskSerias.Add(rs);
+
+                db.SaveChanges();
+
+                return RedirectToAction("RiskSeria");
+
+            }
+
+            ViewBag.serias = new SelectList(db.serias, "SeriaId", "Code");
+            ViewBag.risks = new SelectList(db.Risks, "IdRisk", "Code");
+
+            return View(rs);
+       }
+
+        #endregion
+
+       #region ConditionSeria
+       public ActionResult ConditionSeria()
         {
             return View(db.ConditionSerias.OrderBy(o=>o.seria.Code).ToList());
         }
