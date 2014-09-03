@@ -127,6 +127,23 @@
           <Property Name="TerritoryId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nchar" MaxLength="512" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contractrisk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_contractrisk">
+          <Key>
+            <PropertyRef Name="ContractRiskId" />
+            <PropertyRef Name="ContractId" />
+            <PropertyRef Name="isMandatory" />
+          </Key>
+          <Property Name="ContractRiskId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ContractId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RiskId" Type="uniqueidentifier" />
+          <Property Name="InsSum" Type="money" />
+          <Property Name="InsPrem" Type="money" />
+          <Property Name="Name" Type="nchar" MaxLength="100" />
+          <Property Name="sort" Type="int" />
+          <Property Name="isMandatory" Type="bit" Nullable="false" />
+        </EntityType>
         <Association Name="FK_ConditionSeria_ToCondition">
           <End Role="Condition" Type="Self.Condition" Multiplicity="0..1" />
           <End Role="ConditionSeria" Type="Self.ConditionSeria" Multiplicity="*" />
@@ -321,6 +338,18 @@
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Territory" EntityType="Self.Territory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="v_contractrisk" EntityType="Self.v_contractrisk" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_contractrisk].[ContractRiskId] AS [ContractRiskId], 
+    [v_contractrisk].[ContractId] AS [ContractId], 
+    [v_contractrisk].[RiskId] AS [RiskId], 
+    [v_contractrisk].[InsSum] AS [InsSum], 
+    [v_contractrisk].[InsPrem] AS [InsPrem], 
+    [v_contractrisk].[Name] AS [Name], 
+    [v_contractrisk].[sort] AS [sort], 
+    [v_contractrisk].[isMandatory] AS [isMandatory]
+    FROM [dbo].[v_contractrisk] AS [v_contractrisk]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_ConditionSeria_ToCondition" Association="Self.FK_ConditionSeria_ToCondition">
             <End Role="Condition" EntitySet="Condition" />
             <End Role="ConditionSeria" EntitySet="ConditionSeria" />
@@ -468,6 +497,7 @@
             <End Role="seria" EntitySet="serias" />
             <End Role="RiskSeria" EntitySet="RiskSerias" />
           </AssociationSet>
+          <EntitySet Name="v_contractrisk" EntityType="goDbModel.v_contractrisk" />
           </EntityContainer>
         <EntityType Name="Currency">
           <Key>
@@ -793,6 +823,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="v_contractrisk">
+          <Key>
+            <PropertyRef Name="ContractRiskId" />
+            <PropertyRef Name="ContractId" />
+            <PropertyRef Name="isMandatory" />
+          </Key>
+          <Property Name="ContractRiskId" Type="Guid" Nullable="false" />
+          <Property Name="ContractId" Type="Guid" Nullable="false" />
+          <Property Name="RiskId" Type="Guid" />
+          <Property Name="InsSum" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="InsPrem" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="sort" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="isMandatory" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -931,6 +976,20 @@
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
                 <ScalarProperty Name="RiskId" ColumnName="RiskId" />
                 <ScalarProperty Name="RiskSeriaId" ColumnName="RiskSeriaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_contractrisk">
+            <EntityTypeMapping TypeName="goDbModel.v_contractrisk">
+              <MappingFragment StoreEntitySet="v_contractrisk">
+                <ScalarProperty Name="isMandatory" ColumnName="isMandatory" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="sort" ColumnName="sort" />
+                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
+                <ScalarProperty Name="InsSum" ColumnName="InsSum" />
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="ContractRiskId" ColumnName="ContractRiskId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -29,11 +29,12 @@ namespace gTravel.Controllers
             return View(db.Contracts.ToList());
         }
 
-        private void Contract_ini(Guid seria)
+        private void Contract_ini(Guid seria, Guid contract_id)
         {
             ViewBag.currency = new SelectList(db.Currencies.ToList(), "currencyid", "code");
             ViewBag.territory = new SelectList(db.Territories.ToList(), "TerritoryId", "name");
 
+            ViewBag.risklist = db.v_contractrisk.Where(x => x.ContractId == contract_id).OrderBy(o => o.sort);
             //ViewBag.Cond = db.ConditionSerias.Where(x => x.SeriaId == seria).ToList();
         }
 
@@ -47,8 +48,7 @@ namespace gTravel.Controllers
 
         public ActionResult Contract_create()
         {
-            Contract_ini(Guid.Parse("00000000-0000-0000-0000-000000000000"));
-
+     
             #region Subject
             //c.Subject = new Subject();
             //c.Subject.Type = "fiz";
@@ -90,7 +90,6 @@ namespace gTravel.Controllers
                 c.ContractRisks.Add(item_rs);
             }
 
-           // c.ContractRisks = cr;
             #endregion
 
             #region доп параметры
@@ -113,6 +112,11 @@ namespace gTravel.Controllers
             #endregion
 
             db.SaveChanges();
+
+            Contract_ini(Guid.Parse("00000000-0000-0000-0000-000000000000"),c.ContractId);
+
+
+            ViewBag.risklist = db.v_contractrisk.Where(x => x.ContractId == c.ContractId).OrderBy(o=>o.sort);
 
             return View("Contract", db.Contracts.SingleOrDefault(x=>x.ContractId==c.ContractId));
 
@@ -162,17 +166,12 @@ namespace gTravel.Controllers
                 return RedirectToAction("List");
             }
 
-            Contract_ini(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+            Contract_ini(Guid.Parse("00000000-0000-0000-0000-000000000000"),contract.ContractId);
             return View("contract",contract);
         }
 
-        public ActionResult Contract_edit(Guid? id)
+        public ActionResult Contract_edit(Guid id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
             var c = db.Contracts.Include("Contract_territory").Include("ContractConditions").Include("Subjects").SingleOrDefault(x => x.ContractId == id);
             c.ContractConditions = c.ContractConditions.OrderBy(o => o.Condition.Code).ToList();
             ViewBag.terr_count = c.Contract_territory.Count();
@@ -180,7 +179,7 @@ namespace gTravel.Controllers
             if(c == null)
                 return HttpNotFound();
 
-            Contract_ini(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+            Contract_ini(Guid.Parse("00000000-0000-0000-0000-000000000000"),c.ContractId);
 
             return View("contract",c);
         }
@@ -230,7 +229,7 @@ namespace gTravel.Controllers
                 return RedirectToAction("List");
             }
 
-            Contract_ini(c.seriaid);
+            Contract_ini(c.seriaid, c.ContractId);
             return View("contract", c);
         }
 

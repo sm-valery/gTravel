@@ -10,12 +10,27 @@
             @cond.Condition.Name
         </label>
     </div>
-
-
-
-
-
 }
+
+@helper hRiskName(gTravel.Models.v_contractrisk r, int idx = 0)
+{
+
+    if (r.isMandatory)
+    {
+        <span>@r.Name</span>
+    }
+    else
+    {
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" class="risk-on"> @r.Name
+            </label>
+        </div>
+    }
+}
+
+
+
 @functions
 {
 
@@ -124,48 +139,70 @@
         </div>
         <table class="table table-condensed table-hover">
             @{
-                int indx=0;
+    int indx = 0;
     foreach (var item in Model.Contract_territory)
     {
-        
-        @Html.Partial("contract_terr_insert_row", item, new ViewDataDictionary {{"indx", indx}})
 
-                indx++;
-                @*<tr>
-                        <td class="input-value">
-                            @Html.Hidden("Contract_territory[" + iterrnum + "].ContractTerritoryId",item.ContractTerritoryId)
-                            @Html.Hidden("Contract_territory[" + iterrnum + "].TerritoryId",item.TerritoryId)
+        @Html.Partial("contract_terr_insert_row", item, new ViewDataDictionary { { "indx", indx } })
 
-                            @*<input id="@get_terr_id(item.TerritoryId.ToString())" type="hidden" name="territory" value="@item.TerritoryId" />
+        indx++;
 
-                             item.Territory.Name
-                        </td>
-                        <td>
-                            <button class="btn btn-default btn-sm btn_terr_dell">x</button>
-                        </td>
-                    </tr>*@
     }
             }
             <tr id="territory_newrow"></tr>
         </table>
     </div>
 
-    
+
     //Риски
-    <div class="panel">
+    <div class="panel panel-primary">
         <div class="panel-heading small">Риски</div>
-        <div class="panel-body">
-            @foreach(var item in Model.ContractRisks)
-            {
-                <div class="row">
-                    <div class="col-md-4">@item.Risk.Name</div>
-                </div>
-                
+
+        <table class="table table-condensed table-hover">
+            <tr>
+                <th>Риск</th>
+                <th>Страховая сумма</th>
+                <th>Франшиза</th>
+                <th>Тариф базовый</th>
+                <td>Тариф СК</td>
+            </tr>
+            @{
+
+    idx = 0;
+
+    foreach (var item in (IEnumerable<gTravel.Models.v_contractrisk>)ViewBag.risklist)
+    {
+        <tr id="ddd@{@idx}">
+            <td>
+                @Html.Hidden(string.Format("ContractRisk[{0}].ContractRiskId", idx), item.ContractRiskId)
+                @Html.Hidden(string.Format("ContractRisk[{0}].ContractId", idx), item.ContractId)
+                @Html.Hidden(string.Format("ContractRisk[{0}].RiskId", idx), item.RiskId)
+
+                @hRiskName(item)
+            </td>
+            <td>
+                @Html.TextBox(string.Format("ContractRisk[{0}].InsSum", idx), item.InsSum, new { @class = "form-control input-sm input-value risk-control" })
+            </td>
+            <td>
+                0
+            </td>
+            <td>
+                0
+            </td>
+            <td>
+                0
+            </td>
+        </tr>
+        idx++;
+    }
             }
-       </div>
+
+
+        </table>
+
     </div>
-    
-    
+
+
     //страхователь
     <div class="panel panel-success">
         <div class="panel-heading small">
@@ -177,14 +214,14 @@
             <label class="radio">
                 <input type="radio" name="Subject.Type"
                        @if (subj_f) {  @: checked
-                                                                                                                                                                   }
+                                                                                                                                                                                                                 }
                        value="fiz" />
                 физ-лицо
             </label>
             <label class="radio">
                 <input type="radio" name="Subject.Type"
                        @if (!subj_f) {  @: checked
-                                                                                                                                               }
+                                                                                                                                                                                             }
                        value="jur">
                 юр-лицо
             </label>
@@ -232,28 +269,28 @@
             </div>
         </div> @*панель страхователя*@
     </div>
-                       
-    //Список застрахованных
+
+//Список застрахованных
     <div class="panel panel-success">
         <div class="panel-heading small">
             Список застрахованных:&nbsp;&nbsp;
             <a id="insured_add" href="#"><span class="glyphicon glyphicon-plus-sign"></span><span style="font-weight:normal;">Добавить застрахованного</span> </a>
-            
-    
-    
-    @*<a href="/Contract/_addInsuredRow?contractid=@Model.ContractId"
-               data-ajax-update="#insured_newrow"
-               data-ajax-mode="before"
-               data-ajax-method="POST"
-               data-ajax="true"><span class="glyphicon glyphicon-plus-sign"></span>Новый</a>
 
-            &nbsp;
 
-            <a href="/Contract/_addInsuredRow?contractid=@Model.ContractId"
-               data-ajax-update="#insured_newrow"
-               data-ajax-mode="before"
-               data-ajax-method="POST"
-               data-ajax="true"><span class="glyphicon glyphicon-user"></span>Страхователь</a>*@
+
+            @*<a href="/Contract/_addInsuredRow?contractid=@Model.ContractId"
+                   data-ajax-update="#insured_newrow"
+                   data-ajax-mode="before"
+                   data-ajax-method="POST"
+                   data-ajax="true"><span class="glyphicon glyphicon-plus-sign"></span>Новый</a>
+
+                &nbsp;
+
+                <a href="/Contract/_addInsuredRow?contractid=@Model.ContractId"
+                   data-ajax-update="#insured_newrow"
+                   data-ajax-mode="before"
+                   data-ajax-method="POST"
+                   data-ajax="true"><span class="glyphicon glyphicon-user"></span>Страхователь</a>*@
 
             @*@Ajax.ActionLink("Новый", "_addInsuredRow",new {contractid = Model.ContractId},
                 new AjaxOptions
@@ -276,14 +313,14 @@
             </thead>
             <tbody>
                 @{
-                       indx = 0;
+indx = 0;
 
-                       foreach (var item in Model.Subjects)
-                       {
-                           @Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });
+foreach (var item in Model.Subjects)
+{
+    @Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });
 
-                           indx++;
-                       }
+                                                                                      indx++;
+}
 
                 }
             </tbody>
@@ -419,6 +456,12 @@
             });
         });
 
+        $(".risk-on").change(function (e) {
+            $(this).each( function( index, element)
+            {
+                $(element).css("backgroundColor", "yellow");
+            });
+        })
 
 
     }

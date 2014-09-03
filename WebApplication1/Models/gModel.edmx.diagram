@@ -33,6 +33,7 @@
         <AssociationConnector Association="goDbModel.FK_ContractRisk_ToRisk" />
         <AssociationConnector Association="goDbModel.FK_RiskSeria_ToRisk" />
         <AssociationConnector Association="goDbModel.FK_RiskSeria_ToSeria" />
+        <EntityTypeShape EntityType="goDbModel.v_contractrisk" Width="1.5" PointX="0.75" PointY="7.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
