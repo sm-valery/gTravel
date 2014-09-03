@@ -26,14 +26,7 @@
         <AssociationConnector Association="goDbModel.FK_Subject_ToContract" />
         <EntityTypeShape EntityType="goDbModel.Status" Width="1.5" PointX="5.375" PointY="5.875" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToStatus" />
-        <EntityTypeShape EntityType="goDbModel.ContractRisk" Width="1.5" PointX="14.5" PointY="4.125" />
-        <EntityTypeShape EntityType="goDbModel.Risk" Width="1.5" PointX="14.375" PointY="0.875" />
-        <EntityTypeShape EntityType="goDbModel.RiskSeria" Width="1.5" PointX="11.375" PointY="0.75" />
-        <AssociationConnector Association="goDbModel.FK_ContractRisk_ToContract" />
-        <AssociationConnector Association="goDbModel.FK_ContractRisk_ToRisk" />
-        <AssociationConnector Association="goDbModel.FK_RiskSeria_ToRisk" />
-        <AssociationConnector Association="goDbModel.FK_RiskSeria_ToSeria" />
-        </Diagram>
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

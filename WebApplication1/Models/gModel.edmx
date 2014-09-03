@@ -55,16 +55,6 @@
           <Property Name="Val_n" Type="decimal" Precision="18" Scale="4" />
           <Property Name="Val_l" Type="bit" />
         </EntityType>
-        <EntityType Name="ContractRisk">
-          <Key>
-            <PropertyRef Name="ContractRiskId" />
-          </Key>
-          <Property Name="ContractRiskId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ContractId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="RiskId" Type="uniqueidentifier" />
-          <Property Name="InsSum" Type="money" />
-          <Property Name="InsPrem" Type="money" />
-        </EntityType>
         <EntityType Name="Currency">
           <Key>
             <PropertyRef Name="CurrencyId" />
@@ -72,24 +62,6 @@
           <Property Name="CurrencyId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="name" Type="nchar" MaxLength="255" />
           <Property Name="code" Type="nchar" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="Risk">
-          <Key>
-            <PropertyRef Name="RiskId" />
-          </Key>
-          <Property Name="RiskId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Code" Type="nchar" MaxLength="10" />
-          <Property Name="Name" Type="nchar" MaxLength="100" />
-        </EntityType>
-        <EntityType Name="RiskSeria">
-          <Key>
-            <PropertyRef Name="RiskSeriaId" />
-          </Key>
-          <Property Name="RiskSeriaId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="RiskId" Type="uniqueidentifier" />
-          <Property Name="SeriaId" Type="uniqueidentifier" />
-          <Property Name="isMandatory" Type="bit" Nullable="false" />
-          <Property Name="sort" Type="int" />
         </EntityType>
         <EntityType Name="seria">
           <Key>
@@ -223,54 +195,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ContractRisk_ToContract">
-          <End Role="Contract" Type="Self.Contract" Multiplicity="1" />
-          <End Role="ContractRisk" Type="Self.ContractRisk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contract">
-              <PropertyRef Name="ContractId" />
-            </Principal>
-            <Dependent Role="ContractRisk">
-              <PropertyRef Name="ContractId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ContractRisk_ToRisk">
-          <End Role="Risk" Type="Self.Risk" Multiplicity="0..1" />
-          <End Role="ContractRisk" Type="Self.ContractRisk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Risk">
-              <PropertyRef Name="RiskId" />
-            </Principal>
-            <Dependent Role="ContractRisk">
-              <PropertyRef Name="RiskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RiskSeria_ToRisk">
-          <End Role="Risk" Type="Self.Risk" Multiplicity="0..1" />
-          <End Role="RiskSeria" Type="Self.RiskSeria" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Risk">
-              <PropertyRef Name="RiskId" />
-            </Principal>
-            <Dependent Role="RiskSeria">
-              <PropertyRef Name="RiskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RiskSeria_ToSeria">
-          <End Role="seria" Type="Self.seria" Multiplicity="0..1" />
-          <End Role="RiskSeria" Type="Self.RiskSeria" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="seria">
-              <PropertyRef Name="SeriaId" />
-            </Principal>
-            <Dependent Role="RiskSeria">
-              <PropertyRef Name="SeriaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Subject_ToContract">
           <End Role="Contract" Type="Self.Contract" Multiplicity="0..1" />
           <End Role="Subject" Type="Self.Subject" Multiplicity="*" />
@@ -313,10 +237,7 @@
           <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contract_territory" EntityType="Self.Contract_territory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractCondition" EntityType="Self.ContractCondition" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ContractRisk" EntityType="Self.ContractRisk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Risk" EntityType="Self.Risk" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="RiskSeria" EntityType="Self.RiskSeria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="seria" EntityType="Self.seria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
@@ -352,22 +273,6 @@
           <AssociationSet Name="FK_Contract_ToTable_1" Association="Self.FK_Contract_ToTable_1">
             <End Role="seria" EntitySet="seria" />
             <End Role="Contract" EntitySet="Contract" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ContractRisk_ToContract" Association="Self.FK_ContractRisk_ToContract">
-            <End Role="Contract" EntitySet="Contract" />
-            <End Role="ContractRisk" EntitySet="ContractRisk" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ContractRisk_ToRisk" Association="Self.FK_ContractRisk_ToRisk">
-            <End Role="Risk" EntitySet="Risk" />
-            <End Role="ContractRisk" EntitySet="ContractRisk" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RiskSeria_ToRisk" Association="Self.FK_RiskSeria_ToRisk">
-            <End Role="Risk" EntitySet="Risk" />
-            <End Role="RiskSeria" EntitySet="RiskSeria" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RiskSeria_ToSeria" Association="Self.FK_RiskSeria_ToSeria">
-            <End Role="seria" EntitySet="seria" />
-            <End Role="RiskSeria" EntitySet="RiskSeria" />
           </AssociationSet>
           <AssociationSet Name="FK_Subject_ToContract" Association="Self.FK_Subject_ToContract">
             <End Role="Contract" EntitySet="Contract" />
@@ -449,26 +354,7 @@
             <End Role="Status" EntitySet="Status" />
             <End Role="Contract" EntitySet="Contracts" />
           </AssociationSet>
-          <EntitySet Name="ContractRisks" EntityType="goDbModel.ContractRisk" />
-          <EntitySet Name="Risks" EntityType="goDbModel.Risk" />
-          <EntitySet Name="RiskSerias" EntityType="goDbModel.RiskSeria" />
-          <AssociationSet Name="FK_ContractRisk_ToContract" Association="goDbModel.FK_ContractRisk_ToContract">
-            <End Role="Contract" EntitySet="Contracts" />
-            <End Role="ContractRisk" EntitySet="ContractRisks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ContractRisk_ToRisk" Association="goDbModel.FK_ContractRisk_ToRisk">
-            <End Role="Risk" EntitySet="Risks" />
-            <End Role="ContractRisk" EntitySet="ContractRisks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RiskSeria_ToRisk" Association="goDbModel.FK_RiskSeria_ToRisk">
-            <End Role="Risk" EntitySet="Risks" />
-            <End Role="RiskSeria" EntitySet="RiskSerias" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RiskSeria_ToSeria" Association="goDbModel.FK_RiskSeria_ToSeria">
-            <End Role="seria" EntitySet="serias" />
-            <End Role="RiskSeria" EntitySet="RiskSerias" />
-          </AssociationSet>
-          </EntityContainer>
+        </EntityContainer>
         <EntityType Name="Currency">
           <Key>
             <PropertyRef Name="CurrencyId" />
@@ -498,7 +384,6 @@
           <NavigationProperty Name="Subjects" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Contract" ToRole="Subject" />
           <Property Name="StatusId" Type="Guid" />
           <NavigationProperty Name="Status" Relationship="goDbModel.FK_Contract_ToStatus" FromRole="Contract" ToRole="Status" />
-          <NavigationProperty Name="ContractRisks" Relationship="goDbModel.FK_ContractRisk_ToContract" FromRole="Contract" ToRole="ContractRisk" />
         </EntityType>
         <EntityType Name="seria">
           <Key>
@@ -509,7 +394,6 @@
           <Property Name="Name" Type="String" MaxLength="512" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="seria" ToRole="Contract" />
           <NavigationProperty Name="ConditionSerias" Relationship="goDbModel.FK_ConditionSeria_ToSeria" FromRole="seria" ToRole="ConditionSeria" />
-          <NavigationProperty Name="RiskSerias" Relationship="goDbModel.FK_RiskSeria_ToSeria" FromRole="seria" ToRole="RiskSeria" />
         </EntityType>
         <Association Name="FK_Contract_ToTable">
           <End Type="goDbModel.Currency" Role="Currency" Multiplicity="1" />
@@ -711,89 +595,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ContractRisk">
-          <Key>
-            <PropertyRef Name="ContractRiskId" />
-          </Key>
-          <Property Name="ContractRiskId" Type="Guid" Nullable="false" />
-          <Property Name="ContractId" Type="Guid" Nullable="false" />
-          <Property Name="RiskId" Type="Guid" />
-          <Property Name="InsSum" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="InsPrem" Type="Decimal" Precision="19" Scale="4" />
-          <NavigationProperty Name="Contract" Relationship="goDbModel.FK_ContractRisk_ToContract" FromRole="ContractRisk" ToRole="Contract" />
-          <NavigationProperty Name="Risk" Relationship="goDbModel.FK_ContractRisk_ToRisk" FromRole="ContractRisk" ToRole="Risk" />
-        </EntityType>
-        <EntityType Name="Risk">
-          <Key>
-            <PropertyRef Name="RiskId" />
-          </Key>
-          <Property Name="RiskId" Type="Guid" Nullable="false" />
-          <Property Name="Code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="ContractRisks" Relationship="goDbModel.FK_ContractRisk_ToRisk" FromRole="Risk" ToRole="ContractRisk" />
-          <NavigationProperty Name="RiskSerias" Relationship="goDbModel.FK_RiskSeria_ToRisk" FromRole="Risk" ToRole="RiskSeria" />
-        </EntityType>
-        <EntityType Name="RiskSeria">
-          <Key>
-            <PropertyRef Name="RiskSeriaId" />
-          </Key>
-          <Property Name="RiskSeriaId" Type="Guid" Nullable="false" />
-          <Property Name="RiskId" Type="Guid" />
-          <Property Name="SeriaId" Type="Guid" />
-          <Property Name="isMandatory" Type="Boolean" Nullable="false" />
-          <Property Name="sort" Type="Int32" />
-          <NavigationProperty Name="Risk" Relationship="goDbModel.FK_RiskSeria_ToRisk" FromRole="RiskSeria" ToRole="Risk" />
-          <NavigationProperty Name="seria" Relationship="goDbModel.FK_RiskSeria_ToSeria" FromRole="RiskSeria" ToRole="seria" />
-        </EntityType>
-        <Association Name="FK_ContractRisk_ToContract">
-          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="1" />
-          <End Type="goDbModel.ContractRisk" Role="ContractRisk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contract">
-              <PropertyRef Name="ContractId" />
-            </Principal>
-            <Dependent Role="ContractRisk">
-              <PropertyRef Name="ContractId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ContractRisk_ToRisk">
-          <End Type="goDbModel.Risk" Role="Risk" Multiplicity="0..1" />
-          <End Type="goDbModel.ContractRisk" Role="ContractRisk" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Risk">
-              <PropertyRef Name="RiskId" />
-            </Principal>
-            <Dependent Role="ContractRisk">
-              <PropertyRef Name="RiskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RiskSeria_ToRisk">
-          <End Type="goDbModel.Risk" Role="Risk" Multiplicity="0..1" />
-          <End Type="goDbModel.RiskSeria" Role="RiskSeria" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Risk">
-              <PropertyRef Name="RiskId" />
-            </Principal>
-            <Dependent Role="RiskSeria">
-              <PropertyRef Name="RiskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RiskSeria_ToSeria">
-          <End Type="goDbModel.seria" Role="seria" Multiplicity="0..1" />
-          <End Type="goDbModel.RiskSeria" Role="RiskSeria" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="seria">
-              <PropertyRef Name="SeriaId" />
-            </Principal>
-            <Dependent Role="RiskSeria">
-              <PropertyRef Name="SeriaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        </Schema>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -900,37 +702,6 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ContractRisks">
-            <EntityTypeMapping TypeName="goDbModel.ContractRisk">
-              <MappingFragment StoreEntitySet="ContractRisk">
-                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
-                <ScalarProperty Name="InsSum" ColumnName="InsSum" />
-                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
-                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
-                <ScalarProperty Name="ContractRiskId" ColumnName="ContractRiskId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Risks">
-            <EntityTypeMapping TypeName="goDbModel.Risk">
-              <MappingFragment StoreEntitySet="Risk">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RiskSerias">
-            <EntityTypeMapping TypeName="goDbModel.RiskSeria">
-              <MappingFragment StoreEntitySet="RiskSeria">
-                <ScalarProperty Name="sort" ColumnName="sort" />
-                <ScalarProperty Name="isMandatory" ColumnName="isMandatory" />
-                <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
-                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
-                <ScalarProperty Name="RiskSeriaId" ColumnName="RiskSeriaId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
