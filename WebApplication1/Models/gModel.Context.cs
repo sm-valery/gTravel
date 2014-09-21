@@ -35,9 +35,10 @@ namespace gTravel.Models
         public virtual DbSet<ContractCondition> ContractConditions { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<Status> Status { get; set; }
-        public virtual DbSet<ContractRisk> ContractRisks { get; set; }
-        public virtual DbSet<Risk> Risks { get; set; }
         public virtual DbSet<RiskSeria> RiskSerias { get; set; }
         public virtual DbSet<v_contractrisk> v_contractrisk { get; set; }
+        public virtual DbSet<ContractRisk> ContractRisks { get; set; }
+        public virtual DbSet<Risk> Risks { get; set; }
+        public virtual DbSet<Tarif> Tarifs { get; set; }
     }
 }

@@ -209,6 +209,9 @@
     <Compile Include="Models\ContractCondition.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ContractRisk.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Contract_territory.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -231,6 +234,12 @@
       <DependentUpon>gModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Risk.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RiskSeria.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\seria.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -238,6 +247,9 @@
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Subject.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tarif.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Territory.cs">

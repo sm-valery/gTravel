@@ -112,7 +112,7 @@ namespace gTravel.Controllers
         }
         #endregion
 
-#region ConditionSeria
+        #region ConditionSeria
         public ActionResult ConditionSeria()
         {
             return View(db.ConditionSerias.OrderBy(o=>o.seria.Code).ToList());
@@ -148,6 +148,17 @@ namespace gTravel.Controllers
         }
 
 #endregion
+
+        #region Tarifs
+        public ActionResult tarif()
+        {
+
+
+            return View(db.Tarifs.ToList());
+        }
+
+        #endregion
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
