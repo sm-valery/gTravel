@@ -35,7 +35,11 @@ namespace gTravel.Controllers
             ViewBag.territory = new SelectList(db.Territories.ToList(), "TerritoryId", "name");
 
             ViewBag.risklist = db.v_contractrisk.Where(x => x.ContractId == contract_id).OrderBy(o => o.sort);
-            //ViewBag.Cond = db.ConditionSerias.Where(x => x.SeriaId == seria).ToList();
+
+            ViewBag.PeriodMultiType = new SelectList(new[]{
+                new SelectListItem(){Text="За весь период", Value="1"},
+                new SelectListItem(){Text="за одну поездку",Value="2"}
+            },"Value","Text");
         }
 
         public ActionResult Contract()
@@ -135,31 +139,15 @@ namespace gTravel.Controllers
                     db.Entry(item).State = EntityState.Modified;
                 }
 
-                //var cond = db.ConditionSerias.Where(x => x.SeriaId == contract.seriaid);
-                //foreach(var item in cond)
-                //{
-                //    ContractCondition cc = new ContractCondition();
 
-                //    if (item.Condition.Type == "L")
-                //    {
-                //        cc.Val_l = oform.GetValues("cond_" + item.Condition.Code.Trim()).Contains("true");
-                //    }
-
-                //    cc.ContractCondId = Guid.NewGuid();
-                //    cc.ConditionId = item.ConditionId;
-                //    cc.Contractid = contract.ContractId;
-                    
-                 //   contract.ContractConditions.Add(cc);
-                //}
                 #endregion
 
-                //db.Contracts.Add(contract);
-                contract.Subject.SubjectId = contract.SubjectId.Value;
-                db.Entry(contract.Subject).State = EntityState.Modified;
+ 
+                //contract.Subject.SubjectId = contract.SubjectId.Value;
+                //db.Entry(contract.Subject).State = EntityState.Modified;
                 
                 db.Entry(contract).State = EntityState.Modified;
-                //contract.Subject.SubjectId = Guid.NewGuid();
-                //db.Subjects.Add(contract.Subject);
+
 
                 db.SaveChanges();
 

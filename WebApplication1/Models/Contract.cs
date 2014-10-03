@@ -31,6 +31,8 @@ namespace gTravel.Models
         public Nullable<int> date_diff { get; set; }
         public Nullable<System.Guid> SubjectId { get; set; }
         public Nullable<System.Guid> StatusId { get; set; }
+        public Nullable<decimal> period_multi { get; set; }
+        public string period_multi_type { get; set; }
     
         public virtual Currency Currency { get; set; }
         public virtual seria seria { get; set; }

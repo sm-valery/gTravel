@@ -35,6 +35,8 @@
           <Property Name="date_diff" Type="int" />
           <Property Name="SubjectId" Type="uniqueidentifier" />
           <Property Name="StatusId" Type="uniqueidentifier" />
+          <Property Name="period_multi" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="period_multi_type" Type="nchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="Contract_territory">
           <Key>
@@ -140,7 +142,7 @@
           <Property Name="Name" Type="nchar" MaxLength="512" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contractrisk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contractrisk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contractrisk">
           <Key>
             <PropertyRef Name="ContractRiskId" />
@@ -563,6 +565,8 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
           <Property Name="StatusId" Type="Guid" />
           <NavigationProperty Name="Status" Relationship="goDbModel.FK_Contract_ToStatus" FromRole="Contract" ToRole="Status" />
           <NavigationProperty Name="ContractRisks" Relationship="goDbModel.FK_ContractRisk_ToContract" FromRole="Contract" ToRole="ContractRisk" />
+          <Property Name="period_multi" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="period_multi_type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="seria">
           <Key>
@@ -924,6 +928,8 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
           <EntitySetMapping Name="Contracts">
             <EntityTypeMapping TypeName="goDbModel.Contract">
               <MappingFragment StoreEntitySet="Contract">
+                <ScalarProperty Name="period_multi_type" ColumnName="period_multi_type" />
+                <ScalarProperty Name="period_multi" ColumnName="period_multi" />
                 <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
                 <ScalarProperty Name="date_diff" ColumnName="date_diff" />
