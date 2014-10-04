@@ -107,8 +107,13 @@ namespace gTravel.Controllers
                 cc.Contractid = c.ContractId;
                 cc.Condition = item.Condition;
 
-                if (item.Condition.Type == "L")
-                    cc.Val_l = false;
+                switch(item.Condition.Type)
+                {
+                    case "L":
+                        cc.Val_l = false;
+                        break;
+                }
+
 
                 db.ContractConditions.Add(cc);
             //    c.ContractConditions.Add(cc);
