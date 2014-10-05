@@ -147,7 +147,8 @@ namespace gTravel.Controllers
 
                 #endregion
 
- 
+                
+
                 //contract.Subject.SubjectId = contract.SubjectId.Value;
                 //db.Entry(contract.Subject).State = EntityState.Modified;
                 

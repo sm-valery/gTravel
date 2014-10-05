@@ -87,7 +87,9 @@
             </div>
             @*Доп параметры*@
             <p></p>
-            <div class="panel panel-default" style="padding:5px;">
+            <fieldset>
+                <legend>Доп. параметры</legend>
+                @*<div class="panel panel-default" style="padding:5px;">*@
                 @{
     int idx = 0;
     foreach (var item in Model.ContractConditions)
@@ -99,8 +101,22 @@
         <br />
     }
                 }
+            </fieldset>
+            @*</div>*@
+
+        <fieldset>
+            <legend>Територия</legend>
+            <div class="row">
+                <div class="col-md-2"><label>Выберите территорию:</label> </div>
+                <div class="col-md-10">
+                
+                    @Html.DropDownList("Contract_territory[0].TerritoryId", (SelectList)ViewBag.territory, new { @class = "form-control input-sm input-value" })
+
+
+                </div>
             </div>
-        </div>
+        </fieldset>
+        </div> @*panel body*@
 
         <div class="panel-footer">
             <button class="btn btn-primary">Сохранить</button>
