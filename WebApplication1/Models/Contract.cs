@@ -16,10 +16,10 @@ namespace gTravel.Models
     {
         public Contract()
         {
-            this.Contract_territory = new HashSet<Contract_territory>();
             this.ContractConditions = new HashSet<ContractCondition>();
             this.Subjects = new HashSet<Subject>();
             this.ContractRisks = new HashSet<ContractRisk>();
+            this.Contract_territory = new HashSet<Contract_territory>();
         }
     
         public System.Guid ContractId { get; set; }
@@ -36,11 +36,11 @@ namespace gTravel.Models
     
         public virtual Currency Currency { get; set; }
         public virtual seria seria { get; set; }
-        public virtual ICollection<Contract_territory> Contract_territory { get; set; }
         public virtual ICollection<ContractCondition> ContractConditions { get; set; }
         public virtual Subject Subject { get; set; }
         public virtual ICollection<Subject> Subjects { get; set; }
         public virtual Status Status { get; set; }
         public virtual ICollection<ContractRisk> ContractRisks { get; set; }
+        public virtual ICollection<Contract_territory> Contract_territory { get; set; }
     }
 }

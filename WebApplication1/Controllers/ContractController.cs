@@ -174,24 +174,19 @@ namespace gTravel.Controllers
             #region территория
             foreach (var t in c.Contract_territory)
             {
-                var territ = db.Contract_territory.FirstOrDefault(x => x.ContractId == c.ContractId);
-
-                if (territ == null)
+                if(!db.Contract_territory.Any(x=>x.ContractId==c.ContractId
+                    &&x.TerritoryId==t.TerritoryId))
                 {
+                    var ct = new Contract_territory();
+                    ct.ContractTerritoryId = Guid.NewGuid();
+                    ct.TerritoryId = t.TerritoryId;
+                    ct.ContractId = c.ContractId;
 
-                    //добавим
-                    territ = new Contract_territory();
-
-                    territ.ContractTerritoryId = Guid.NewGuid();
-                    territ.ContractId = c.ContractId;
-                    territ.TerritoryId = t.TerritoryId;
-
-                    db.Contract_territory.Add(territ);
-                   
+                    db.Contract_territory.Add(ct);
                 }
 
             }
-            db.SaveChanges();
+           // db.SaveChanges();
             
             #endregion
 
