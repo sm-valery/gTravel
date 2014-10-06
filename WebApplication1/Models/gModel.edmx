@@ -100,6 +100,8 @@
           <Property Name="SeriaId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Code" Type="nchar" MaxLength="10" />
           <Property Name="Name" Type="nchar" MaxLength="512" />
+          <Property Name="IsMulti" Type="int" />
+          <Property Name="formname" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -578,6 +580,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="seria" ToRole="Contract" />
           <NavigationProperty Name="ConditionSerias" Relationship="goDbModel.FK_ConditionSeria_ToSeria" FromRole="seria" ToRole="ConditionSeria" />
           <NavigationProperty Name="RiskSerias" Relationship="goDbModel.FK_RiskSeria_ToSeria" FromRole="seria" ToRole="RiskSeria" />
+          <Property Name="IsMulti" Type="Int32" />
+          <Property Name="formname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Contract_ToTable">
           <End Type="goDbModel.Currency" Role="Currency" Multiplicity="1" />
@@ -945,6 +949,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="serias">
             <EntityTypeMapping TypeName="goDbModel.seria">
               <MappingFragment StoreEntitySet="seria">
+                <ScalarProperty Name="formname" ColumnName="formname" />
+                <ScalarProperty Name="IsMulti" ColumnName="IsMulti" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />

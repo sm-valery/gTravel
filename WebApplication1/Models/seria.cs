@@ -24,6 +24,8 @@ namespace gTravel.Models
         public System.Guid SeriaId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
+        public Nullable<int> IsMulti { get; set; }
+        public string formname { get; set; }
     
         public virtual ICollection<Contract> Contracts { get; set; }
         public virtual ICollection<ConditionSeria> ConditionSerias { get; set; }

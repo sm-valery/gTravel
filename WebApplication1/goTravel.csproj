@@ -419,6 +419,7 @@
     <Content Include="Views\Shared\DisplayTemplates\_edate.cshtml" />
     <Content Include="Views\Contract\contract_terr_insert_row.cshtml" />
     <Content Include="Views\Contract\Contract.cshtml" />
+    <Content Include="Views\Contract\ContractCh.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
