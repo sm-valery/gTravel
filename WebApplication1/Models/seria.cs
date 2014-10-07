@@ -16,9 +16,9 @@ namespace gTravel.Models
     {
         public seria()
         {
-            this.Contracts = new HashSet<Contract>();
             this.ConditionSerias = new HashSet<ConditionSeria>();
             this.RiskSerias = new HashSet<RiskSeria>();
+            this.Contracts = new HashSet<Contract>();
         }
     
         public System.Guid SeriaId { get; set; }
@@ -27,8 +27,8 @@ namespace gTravel.Models
         public Nullable<int> IsMulti { get; set; }
         public string formname { get; set; }
     
-        public virtual ICollection<Contract> Contracts { get; set; }
         public virtual ICollection<ConditionSeria> ConditionSerias { get; set; }
         public virtual ICollection<RiskSeria> RiskSerias { get; set; }
+        public virtual ICollection<Contract> Contracts { get; set; }
     }
 }

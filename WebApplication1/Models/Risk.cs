@@ -16,6 +16,7 @@ namespace gTravel.Models
     {
         public Risk()
         {
+            this.ContractRisks = new HashSet<ContractRisk>();
             this.RiskSerias = new HashSet<RiskSeria>();
             this.Tarifs = new HashSet<Tarif>();
         }
@@ -24,6 +25,7 @@ namespace gTravel.Models
         public string Code { get; set; }
         public string Name { get; set; }
     
+        public virtual ICollection<ContractRisk> ContractRisks { get; set; }
         public virtual ICollection<RiskSeria> RiskSerias { get; set; }
         public virtual ICollection<Tarif> Tarifs { get; set; }
     }

@@ -32,7 +32,7 @@ namespace gTravel.Controllers
         private void Contract_ini(Guid contract_id)
         {
             ViewBag.currency = new SelectList(db.Currencies.ToList(), "currencyid", "code");
-            ViewBag.territory = new SelectList(db.Territories.ToList(), "TerritoryId", "name");
+           // ViewBag.territory = new SelectList(db.Territories.ToList(), "TerritoryId", "name", "a4d9e80a-72be-463b-b696-92737eba1060");
 
             ViewBag.risklist = db.v_contractrisk.Where(x => x.ContractId == contract_id).OrderBy(o => o.sort);
 
@@ -48,6 +48,15 @@ namespace gTravel.Controllers
         {
           
             return RedirectToAction("List");
+        }
+
+
+        public PartialViewResult build_contract_territory(Guid? ContractTerritoryId )
+        {
+            var t = db.Contract_territory.FirstOrDefault(x => x.ContractTerritoryId == ContractTerritoryId);
+            ViewBag.territory = new SelectList(db.Territories.ToList(), "TerritoryId", "name", (t!=null)?t.TerritoryId:null);
+
+            return PartialView(t);
         }
 
         public ActionResult Contract_create(Guid seriaid)
@@ -77,6 +86,7 @@ namespace gTravel.Controllers
             c.date_begin = null;
             c.date_end = null;
             c.SubjectId = s.SubjectId;
+            c.contractnumber = null;
             
             c.StatusId = db.Status.SingleOrDefault(x=>x.Code.Trim()=="project").StatusId;
 
@@ -174,9 +184,9 @@ namespace gTravel.Controllers
             #region территория
             foreach (var t in c.Contract_territory)
             {
-                if(!db.Contract_territory.Any(x=>x.ContractId==c.ContractId
-                    &&x.TerritoryId==t.TerritoryId))
+                if(!db.Contract_territory.Any(x=>x.ContractTerritoryId == t.ContractTerritoryId))
                 {
+                    //добавляем
                     var ct = new Contract_territory();
                     ct.ContractTerritoryId = Guid.NewGuid();
                     ct.TerritoryId = t.TerritoryId;
@@ -184,10 +194,16 @@ namespace gTravel.Controllers
 
                     db.Contract_territory.Add(ct);
                 }
+                else
+                {
+                    //обновляем
+                    db.Entry(t).State = EntityState.Modified;
+                }
 
             }
-           // db.SaveChanges();
-            
+            db.SaveChanges();
+            c.Contract_territory = db.Contract_territory.Where(x => x.ContractId == c.ContractId).ToList();
+
             #endregion
 
             db.Entry(c).State = EntityState.Modified;
@@ -196,36 +212,36 @@ namespace gTravel.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult Contract_create(Contract contract, FormCollection oform)
-        {
-            if(ModelState.IsValid)
-            {
-                contract_before_save(ref contract);
+        //[HttpPost]
+        //public ActionResult Contract_create(Contract contract, FormCollection oform)
+        //{
+        //    if(ModelState.IsValid)
+        //    {
+        //        contract_before_save(ref contract);
 
-                #region дополнительные параметры
-                foreach(var item in contract.ContractConditions)
-                {
-                    db.Entry(item).State = EntityState.Modified;
-                }
+        //        #region дополнительные параметры
+        //        foreach(var item in contract.ContractConditions)
+        //        {
+        //            db.Entry(item).State = EntityState.Modified;
+        //        }
 
 
-                #endregion
+        //        #endregion
 
-                db.Entry(contract).State = EntityState.Modified;
+        //        db.Entry(contract).State = EntityState.Modified;
 
-                db.SaveChanges();
+        //        db.SaveChanges();
 
-                return RedirectToAction("List");
-            }
+        //        return RedirectToAction("List");
+        //    }
 
-            var seria = db.serias.SingleOrDefault(x => x.SeriaId == contract.seriaid);
+        //    var seria = db.serias.SingleOrDefault(x => x.SeriaId == contract.seriaid);
 
-            Contract_ini(contract.ContractId);
+        //    Contract_ini(contract.ContractId);
 
-            return View(seria.formname,contract);
-            //return View("contract",contract);
-        }
+        //    return View(seria.formname,contract);
+        //    //return View("contract",contract);
+        //}
 
 
 
@@ -242,6 +258,7 @@ namespace gTravel.Controllers
     
             Contract_ini(c.ContractId);
 
+            
             return View(c.seria.formname,c);
         }
 
@@ -250,48 +267,51 @@ namespace gTravel.Controllers
         {
             if(ModelState.IsValid)
             {
-                contract_before_save(ref c);
+                ContractSave(c);
+            
+                //contract_before_save(ref c);
                 
-                //обновление территории
-                //contract_update_territory(c.ContractId, territory);
+                ////обновление территории
+                ////contract_update_territory(c.ContractId, territory);
 
-                #region дополнительные параметры
-                foreach (var cond in c.ContractConditions)
-                    db.Entry(cond).State = EntityState.Modified;
+                //#region дополнительные параметры
+                //foreach (var cond in c.ContractConditions)
+                //    db.Entry(cond).State = EntityState.Modified;
 
-                //var cond = db.ContractConditions.Where(x => x.Contractid == c.ContractId);
+                ////var cond = db.ContractConditions.Where(x => x.Contractid == c.ContractId);
 
-                //foreach (var item in cond)
+                ////foreach (var item in cond)
+                ////{
+                ////    bool ischecked = oform.GetValues("cond_" + item.Condition.Code.Trim()).Contains("true");
+
+                ////    if (item.Val_l != ischecked)
+                ////    {
+                ////        item.Val_l = ischecked;
+                ////        db.Entry(item).State = EntityState.Modified;
+                ////    }
+
+
+                ////}
+                //#endregion
+
+                //#region страхователь
+                //if (c.Subject != null)
                 //{
-                //    bool ischecked = oform.GetValues("cond_" + item.Condition.Code.Trim()).Contains("true");
-
-                //    if (item.Val_l != ischecked)
-                //    {
-                //        item.Val_l = ischecked;
-                //        db.Entry(item).State = EntityState.Modified;
-                //    }
-
-
+                //    c.Subject.SubjectId = c.SubjectId.Value;
+                //    db.Entry(c.Subject).State = EntityState.Modified;
                 //}
-                #endregion
+                //#endregion
 
-                #region страхователь
-                if (c.Subject != null)
-                {
-                    c.Subject.SubjectId = c.SubjectId.Value;
-                    db.Entry(c.Subject).State = EntityState.Modified;
-                }
-                #endregion
+                //db.Entry(c).State = EntityState.Modified;
 
-                db.Entry(c).State = EntityState.Modified;
-
-                db.SaveChanges();
+                //db.SaveChanges();
 
                 return RedirectToAction("List");
             }
 
             Contract_ini(c.ContractId);
-            return View("contract", c);
+            return View(c.seria.formname, c);
+            //return View("contract", c);
         }
 
 

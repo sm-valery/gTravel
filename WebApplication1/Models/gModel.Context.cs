@@ -26,7 +26,6 @@ namespace gTravel.Models
         }
     
         public virtual DbSet<Currency> Currencies { get; set; }
-        public virtual DbSet<Contract> Contracts { get; set; }
         public virtual DbSet<seria> serias { get; set; }
         public virtual DbSet<Condition> Conditions { get; set; }
         public virtual DbSet<ConditionSeria> ConditionSerias { get; set; }
@@ -35,10 +34,11 @@ namespace gTravel.Models
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<RiskSeria> RiskSerias { get; set; }
         public virtual DbSet<v_contractrisk> v_contractrisk { get; set; }
-        public virtual DbSet<ContractRisk> ContractRisks { get; set; }
-        public virtual DbSet<Risk> Risks { get; set; }
         public virtual DbSet<Tarif> Tarifs { get; set; }
         public virtual DbSet<Contract_territory> Contract_territory { get; set; }
         public virtual DbSet<Territory> Territories { get; set; }
+        public virtual DbSet<ContractRisk> ContractRisks { get; set; }
+        public virtual DbSet<Risk> Risks { get; set; }
+        public virtual DbSet<Contract> Contracts { get; set; }
     }
 }

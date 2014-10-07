@@ -39,6 +39,9 @@
 {
 
     @Html.HiddenFor(m => Model.ContractId)
+    @Html.HiddenFor(m=> Model.StatusId)
+    @Html.HiddenFor(m=> Model.seriaid)
+    
     <div class="panel panel-default">
         <div class="panel-heading" style="color:darkslategray;">Стандартный полис страхования медицина/невыезд</div>
         <div class="panel-body">
@@ -79,31 +82,71 @@
             <p></p>
             <fieldset>
                 <legend>Доп. параметры</legend>
-                @*<div class="panel panel-default" style="padding:5px;">*@
-                @{
+                <div class="well well-sm">
+                    @{
     int idx = 0;
     foreach (var item in Model.ContractConditions)
     {
-        @BuildCond(idx, item)
+            @BuildCond(idx, item)
 
         idx++;
 
-        <br />
+            <br />
     }
-                }
+                    }
+                </div>
             </fieldset>
-            @*</div>*@
+       
             <fieldset>
                 <legend>Територия</legend>
-                <div class="row">
-                    <div class="col-md-2"><label>Выберите территорию:</label> </div>
-                    <div class="col-md-10">
+                <div class="well well-sm">
+                    <div class="row">
+                        <div class="col-md-2"><label>Выберите территорию:</label> </div>
+                        <div class="col-md-10">
 
-                        @Html.DropDownList("Contract_territory[0].TerritoryId", (SelectList)ViewBag.territory, new { @class = "form-control input-sm input-value" })
+                            @if (Model.Contract_territory.Count() > 0)
+                            {
 
+                                foreach (var t in Model.Contract_territory)
+                                {
+
+                                    @Html.Action("build_contract_territory", new { ContractTerritoryId = t.ContractTerritoryId })
+
+                                }
+                            }
+                            else
+                            {
+                                @Html.Action("build_contract_territory")
+                            }
+
+
+                            @*@Html.DropDownList("Contract_territory[0].TerritoryId", (SelectList)ViewBag.territory, new { @class = "form-control input-sm input-value" })*@
+
+                        </div>
                     </div>
                 </div>
             </fieldset>
+
+        <fieldset >
+            <legend>Список застрахованных</legend>
+            <div class="alert alert-warning">
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>ФИО по паспорту</th>
+                            <th>Пол</th>
+                            <th>Дата рождения</th>
+                            <th>Место рождения</th>
+                            <th>Номер паспорта</th>
+                            <th>Срок действия паспорта</th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </fieldset>
+
         </div> @*panel body*@
         <div class="panel-footer">
             <button class="btn btn-primary">Сохранить</button>

@@ -20,6 +20,7 @@ namespace gTravel.Models
         public Nullable<decimal> InsSum { get; set; }
         public Nullable<decimal> InsPrem { get; set; }
     
+        public virtual Risk Risk { get; set; }
         public virtual Contract Contract { get; set; }
     }
 }

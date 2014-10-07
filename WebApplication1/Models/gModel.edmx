@@ -28,7 +28,7 @@
           </Key>
           <Property Name="ContractId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="currencyid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
           <Property Name="seriaid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="date_begin" Type="date" />
           <Property Name="date_end" Type="date" />
@@ -144,7 +144,7 @@
           <Property Name="Name" Type="nchar" MaxLength="512" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contractrisk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contractrisk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contractrisk">
           <Key>
             <PropertyRef Name="ContractRiskId" />
@@ -450,16 +450,7 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
       <Schema Namespace="goDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="goDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Currencies" EntityType="goDbModel.Currency" />
-          <EntitySet Name="Contracts" EntityType="goDbModel.Contract" />
           <EntitySet Name="serias" EntityType="goDbModel.seria" />
-          <AssociationSet Name="FK_Contract_ToTable" Association="goDbModel.FK_Contract_ToTable">
-            <End Role="Currency" EntitySet="Currencies" />
-            <End Role="Contract" EntitySet="Contracts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Contract_ToTable_1" Association="goDbModel.FK_Contract_ToTable_1">
-            <End Role="seria" EntitySet="serias" />
-            <End Role="Contract" EntitySet="Contracts" />
-          </AssociationSet>
           <EntitySet Name="Conditions" EntityType="goDbModel.Condition" />
           <EntitySet Name="ConditionSerias" EntityType="goDbModel.ConditionSeria" />
           <EntitySet Name="ContractConditions" EntityType="goDbModel.ContractCondition" />
@@ -475,54 +466,67 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
             <End Role="seria" EntitySet="serias" />
             <End Role="ConditionSeria" EntitySet="ConditionSerias" />
           </AssociationSet>
-          <AssociationSet Name="FK_Table_ToContract" Association="goDbModel.FK_Table_ToContract">
-            <End Role="Contract" EntitySet="Contracts" />
-            <End Role="ContractCondition" EntitySet="ContractConditions" />
-          </AssociationSet>
           <EntitySet Name="Subjects" EntityType="goDbModel.Subject" />
-          <AssociationSet Name="FK_Contract_ToSubject" Association="goDbModel.FK_Contract_ToSubject">
-            <End Role="Subject" EntitySet="Subjects" />
-            <End Role="Contract" EntitySet="Contracts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Subject_ToContract" Association="goDbModel.FK_Subject_ToContract">
-            <End Role="Contract" EntitySet="Contracts" />
-            <End Role="Subject" EntitySet="Subjects" />
-          </AssociationSet>
           <EntitySet Name="Status" EntityType="goDbModel.Status" />
-          <AssociationSet Name="FK_Contract_ToStatus" Association="goDbModel.FK_Contract_ToStatus">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Contract" EntitySet="Contracts" />
-          </AssociationSet>
           <EntitySet Name="RiskSerias" EntityType="goDbModel.RiskSeria" />
           <AssociationSet Name="FK_RiskSeria_ToSeria" Association="goDbModel.FK_RiskSeria_ToSeria">
             <End Role="seria" EntitySet="serias" />
             <End Role="RiskSeria" EntitySet="RiskSerias" />
           </AssociationSet>
           <EntitySet Name="v_contractrisk" EntityType="goDbModel.v_contractrisk" />
+          <EntitySet Name="Tarifs" EntityType="goDbModel.Tarif" />
+          <EntitySet Name="Contract_territory" EntityType="goDbModel.Contract_territory" />
+          <EntitySet Name="Territories" EntityType="goDbModel.Territory" />
+          <AssociationSet Name="FK_Contract_territory_ToTerritory" Association="goDbModel.FK_Contract_territory_ToTerritory">
+            <End Role="Territory" EntitySet="Territories" />
+            <End Role="Contract_territory" EntitySet="Contract_territory" />
+          </AssociationSet>
           <EntitySet Name="ContractRisks" EntityType="goDbModel.ContractRisk" />
           <EntitySet Name="Risks" EntityType="goDbModel.Risk" />
-          <AssociationSet Name="FK_ContractRisk_ToContract" Association="goDbModel.FK_ContractRisk_ToContract">
-            <End Role="Contract" EntitySet="Contracts" />
+          <AssociationSet Name="FK_ContractRisk_ToRisk" Association="goDbModel.FK_ContractRisk_ToRisk">
+            <End Role="Risk" EntitySet="Risks" />
             <End Role="ContractRisk" EntitySet="ContractRisks" />
           </AssociationSet>
           <AssociationSet Name="FK_RiskSeria_ToRisk" Association="goDbModel.FK_RiskSeria_ToRisk">
             <End Role="Risk" EntitySet="Risks" />
             <End Role="RiskSeria" EntitySet="RiskSerias" />
           </AssociationSet>
-          <EntitySet Name="Tarifs" EntityType="goDbModel.Tarif" />
           <AssociationSet Name="FK_Tarif_ToRisk" Association="goDbModel.FK_Tarif_ToRisk">
             <End Role="Risk" EntitySet="Risks" />
             <End Role="Tarif" EntitySet="Tarifs" />
           </AssociationSet>
-          <EntitySet Name="Contract_territory" EntityType="goDbModel.Contract_territory" />
-          <EntitySet Name="Territories" EntityType="goDbModel.Territory" />
+          <EntitySet Name="Contracts" EntityType="goDbModel.Contract" />
           <AssociationSet Name="FK_Contract_territory_ToContract" Association="goDbModel.FK_Contract_territory_ToContract">
             <End Role="Contract" EntitySet="Contracts" />
             <End Role="Contract_territory" EntitySet="Contract_territory" />
           </AssociationSet>
-          <AssociationSet Name="FK_Contract_territory_ToTerritory" Association="goDbModel.FK_Contract_territory_ToTerritory">
-            <End Role="Territory" EntitySet="Territories" />
-            <End Role="Contract_territory" EntitySet="Contract_territory" />
+          <AssociationSet Name="FK_Contract_ToStatus" Association="goDbModel.FK_Contract_ToStatus">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Contract" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_ToSubject" Association="goDbModel.FK_Contract_ToSubject">
+            <End Role="Subject" EntitySet="Subjects" />
+            <End Role="Contract" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_ToTable" Association="goDbModel.FK_Contract_ToTable">
+            <End Role="Currency" EntitySet="Currencies" />
+            <End Role="Contract" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_ToTable_1" Association="goDbModel.FK_Contract_ToTable_1">
+            <End Role="seria" EntitySet="serias" />
+            <End Role="Contract" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractRisk_ToContract" Association="goDbModel.FK_ContractRisk_ToContract">
+            <End Role="Contract" EntitySet="Contracts" />
+            <End Role="ContractRisk" EntitySet="ContractRisks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subject_ToContract" Association="goDbModel.FK_Subject_ToContract">
+            <End Role="Contract" EntitySet="Contracts" />
+            <End Role="Subject" EntitySet="Subjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToContract" Association="goDbModel.FK_Table_ToContract">
+            <End Role="Contract" EntitySet="Contracts" />
+            <End Role="ContractCondition" EntitySet="ContractConditions" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Currency">
@@ -534,30 +538,6 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
           <Property Name="code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable" FromRole="Currency" ToRole="Contract" />
         </EntityType>
-        <EntityType Name="Contract">
-          <Key>
-            <PropertyRef Name="ContractId" />
-          </Key>
-          <Property Name="ContractId" Type="Guid" Nullable="false" />
-          <Property Name="currencyid" Type="Guid" Nullable="false" />
-          <Property Name="contractnumber" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="seriaid" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="Currency" Relationship="goDbModel.FK_Contract_ToTable" FromRole="Contract" ToRole="Currency" />
-          <NavigationProperty Name="seria" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="Contract" ToRole="seria" />
-          <Property Name="date_begin" Type="DateTime" Precision="0" />
-          <Property Name="date_end" Type="DateTime" Precision="0" />
-          <Property Name="date_diff" Type="Int32" />
-          <NavigationProperty Name="ContractConditions" Relationship="goDbModel.FK_Table_ToContract" FromRole="Contract" ToRole="ContractCondition" />
-          <Property Name="SubjectId" Type="Guid" />
-          <NavigationProperty Name="Subject" Relationship="goDbModel.FK_Contract_ToSubject" FromRole="Contract" ToRole="Subject" />
-          <NavigationProperty Name="Subjects" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Contract" ToRole="Subject" />
-          <Property Name="StatusId" Type="Guid" />
-          <NavigationProperty Name="Status" Relationship="goDbModel.FK_Contract_ToStatus" FromRole="Contract" ToRole="Status" />
-          <NavigationProperty Name="ContractRisks" Relationship="goDbModel.FK_ContractRisk_ToContract" FromRole="Contract" ToRole="ContractRisk" />
-          <Property Name="period_multi" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="period_multi_type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Contract_territory" Relationship="goDbModel.FK_Contract_territory_ToContract" FromRole="Contract" ToRole="Contract_territory" />
-        </EntityType>
         <EntityType Name="seria">
           <Key>
             <PropertyRef Name="SeriaId" />
@@ -565,36 +545,12 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
           <Property Name="SeriaId" Type="Guid" Nullable="false" />
           <Property Name="Code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="512" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="seria" ToRole="Contract" />
           <NavigationProperty Name="ConditionSerias" Relationship="goDbModel.FK_ConditionSeria_ToSeria" FromRole="seria" ToRole="ConditionSeria" />
           <NavigationProperty Name="RiskSerias" Relationship="goDbModel.FK_RiskSeria_ToSeria" FromRole="seria" ToRole="RiskSeria" />
           <Property Name="IsMulti" Type="Int32" />
           <Property Name="formname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="seria" ToRole="Contract" />
         </EntityType>
-        <Association Name="FK_Contract_ToTable">
-          <End Type="goDbModel.Currency" Role="Currency" Multiplicity="1" />
-          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Currency">
-              <PropertyRef Name="CurrencyId" />
-            </Principal>
-            <Dependent Role="Contract">
-              <PropertyRef Name="currencyid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Contract_ToTable_1">
-          <End Type="goDbModel.seria" Role="seria" Multiplicity="1" />
-          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="seria">
-              <PropertyRef Name="SeriaId" />
-            </Principal>
-            <Dependent Role="Contract">
-              <PropertyRef Name="seriaid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Condition">
           <Key>
             <PropertyRef Name="ConditionId" />
@@ -665,18 +621,6 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Table_ToContract">
-          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="0..1" />
-          <End Type="goDbModel.ContractCondition" Role="ContractCondition" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contract">
-              <PropertyRef Name="ContractId" />
-            </Principal>
-            <Dependent Role="ContractCondition">
-              <PropertyRef Name="Contractid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Subject">
           <Key>
             <PropertyRef Name="SubjectId" />
@@ -691,31 +635,7 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
           <Property Name="Phone" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToSubject" FromRole="Subject" ToRole="Contract" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Subject" ToRole="Contract" />
-        </EntityType>
-        <Association Name="FK_Contract_ToSubject">
-          <End Type="goDbModel.Subject" Role="Subject" Multiplicity="0..1" />
-          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subject">
-              <PropertyRef Name="SubjectId" />
-            </Principal>
-            <Dependent Role="Contract">
-              <PropertyRef Name="SubjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Subject_ToContract">
-          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="0..1" />
-          <End Type="goDbModel.Subject" Role="Subject" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contract">
-              <PropertyRef Name="ContractId" />
-            </Principal>
-            <Dependent Role="Subject">
-              <PropertyRef Name="ContractId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+          </EntityType>
         <EntityType Name="Status">
           <Key>
             <PropertyRef Name="StatusId" />
@@ -725,18 +645,6 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
           <Property Name="Name" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToStatus" FromRole="Status" ToRole="Contract" />
         </EntityType>
-        <Association Name="FK_Contract_ToStatus">
-          <End Type="goDbModel.Status" Role="Status" Multiplicity="0..1" />
-          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="StatusId" />
-            </Principal>
-            <Dependent Role="Contract">
-              <PropertyRef Name="StatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="RiskSeria">
           <Key>
             <PropertyRef Name="RiskSeriaId" />
@@ -776,6 +684,49 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Name="isMandatory" Type="Boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="Tarif">
+          <Key>
+            <PropertyRef Name="TarifId" />
+          </Key>
+          <Property Name="TarifId" Type="Guid" Nullable="false" />
+          <Property Name="RiskId" Type="Guid" Nullable="false" />
+          <Property Name="InsSumFrom" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="InsSumTo" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="FranshSum" Type="Double" />
+          <Property Name="FranshPerc" Type="Double" />
+          <Property Name="PremSum" Type="Double" />
+          <NavigationProperty Name="Risk" Relationship="goDbModel.FK_Tarif_ToRisk" FromRole="Tarif" ToRole="Risk" />
+        </EntityType>
+        <EntityType Name="Contract_territory">
+          <Key>
+            <PropertyRef Name="ContractTerritoryId" />
+          </Key>
+          <Property Name="ContractTerritoryId" Type="Guid" Nullable="false" />
+          <Property Name="ContractId" Type="Guid" Nullable="false" />
+          <Property Name="TerritoryId" Type="Guid" />
+          <NavigationProperty Name="Territory" Relationship="goDbModel.FK_Contract_territory_ToTerritory" FromRole="Contract_territory" ToRole="Territory" />
+          <NavigationProperty Name="Contract" Relationship="goDbModel.FK_Contract_territory_ToContract" FromRole="Contract_territory" ToRole="Contract" />
+        </EntityType>
+        <EntityType Name="Territory">
+          <Key>
+            <PropertyRef Name="TerritoryId" />
+          </Key>
+          <Property Name="TerritoryId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="512" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Contract_territory" Relationship="goDbModel.FK_Contract_territory_ToTerritory" FromRole="Territory" ToRole="Contract_territory" />
+        </EntityType>
+        <Association Name="FK_Contract_territory_ToTerritory">
+          <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
+          <End Type="goDbModel.Contract_territory" Role="Contract_territory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Territory">
+              <PropertyRef Name="TerritoryId" />
+            </Principal>
+            <Dependent Role="Contract_territory">
+              <PropertyRef Name="TerritoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="ContractRisk">
           <Key>
             <PropertyRef Name="ContractRiskId" />
@@ -785,6 +736,7 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
           <Property Name="RiskId" Type="Guid" />
           <Property Name="InsSum" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="InsPrem" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Risk" Relationship="goDbModel.FK_ContractRisk_ToRisk" FromRole="ContractRisk" ToRole="Risk" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_ContractRisk_ToContract" FromRole="ContractRisk" ToRole="Contract" />
         </EntityType>
         <EntityType Name="Risk">
@@ -794,18 +746,19 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
           <Property Name="RiskId" Type="Guid" Nullable="false" />
           <Property Name="Code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="ContractRisks" Relationship="goDbModel.FK_ContractRisk_ToRisk" FromRole="Risk" ToRole="ContractRisk" />
           <NavigationProperty Name="RiskSerias" Relationship="goDbModel.FK_RiskSeria_ToRisk" FromRole="Risk" ToRole="RiskSeria" />
           <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToRisk" FromRole="Risk" ToRole="Tarif" />
         </EntityType>
-        <Association Name="FK_ContractRisk_ToContract">
-          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="1" />
+        <Association Name="FK_ContractRisk_ToRisk">
+          <End Type="goDbModel.Risk" Role="Risk" Multiplicity="0..1" />
           <End Type="goDbModel.ContractRisk" Role="ContractRisk" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Contract">
-              <PropertyRef Name="ContractId" />
+            <Principal Role="Risk">
+              <PropertyRef Name="RiskId" />
             </Principal>
             <Dependent Role="ContractRisk">
-              <PropertyRef Name="ContractId" />
+              <PropertyRef Name="RiskId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -821,19 +774,6 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Tarif">
-          <Key>
-            <PropertyRef Name="TarifId" />
-          </Key>
-          <Property Name="TarifId" Type="Guid" Nullable="false" />
-          <Property Name="RiskId" Type="Guid" Nullable="false" />
-          <Property Name="InsSumFrom" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="InsSumTo" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="FranshSum" Type="Double" />
-          <Property Name="FranshPerc" Type="Double" />
-          <Property Name="PremSum" Type="Double" />
-          <NavigationProperty Name="Risk" Relationship="goDbModel.FK_Tarif_ToRisk" FromRole="Tarif" ToRole="Risk" />
-        </EntityType>
         <Association Name="FK_Tarif_ToRisk">
           <End Type="goDbModel.Risk" Role="Risk" Multiplicity="1" />
           <End Type="goDbModel.Tarif" Role="Tarif" Multiplicity="*" />
@@ -846,23 +786,29 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Contract_territory">
+        <EntityType Name="Contract">
           <Key>
-            <PropertyRef Name="ContractTerritoryId" />
+            <PropertyRef Name="ContractId" />
           </Key>
-          <Property Name="ContractTerritoryId" Type="Guid" Nullable="false" />
           <Property Name="ContractId" Type="Guid" Nullable="false" />
-          <Property Name="TerritoryId" Type="Guid" />
-          <NavigationProperty Name="Contract" Relationship="goDbModel.FK_Contract_territory_ToContract" FromRole="Contract_territory" ToRole="Contract" />
-          <NavigationProperty Name="Territory" Relationship="goDbModel.FK_Contract_territory_ToTerritory" FromRole="Contract_territory" ToRole="Territory" />
-        </EntityType>
-        <EntityType Name="Territory">
-          <Key>
-            <PropertyRef Name="TerritoryId" />
-          </Key>
-          <Property Name="TerritoryId" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="512" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Contract_territory" Relationship="goDbModel.FK_Contract_territory_ToTerritory" FromRole="Territory" ToRole="Contract_territory" />
+          <Property Name="currencyid" Type="Guid" Nullable="false" />
+          <Property Name="contractnumber" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="seriaid" Type="Guid" Nullable="false" />
+          <Property Name="date_begin" Type="DateTime" Precision="0" />
+          <Property Name="date_end" Type="DateTime" Precision="0" />
+          <Property Name="date_diff" Type="Int32" />
+          <Property Name="SubjectId" Type="Guid" />
+          <Property Name="StatusId" Type="Guid" />
+          <Property Name="period_multi" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="period_multi_type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Contract_territory" Relationship="goDbModel.FK_Contract_territory_ToContract" FromRole="Contract" ToRole="Contract_territory" />
+          <NavigationProperty Name="Status" Relationship="goDbModel.FK_Contract_ToStatus" FromRole="Contract" ToRole="Status" />
+          <NavigationProperty Name="Subject" Relationship="goDbModel.FK_Contract_ToSubject" FromRole="Contract" ToRole="Subject" />
+          <NavigationProperty Name="Currency" Relationship="goDbModel.FK_Contract_ToTable" FromRole="Contract" ToRole="Currency" />
+          <NavigationProperty Name="seria" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="Contract" ToRole="seria" />
+          <NavigationProperty Name="ContractRisks" Relationship="goDbModel.FK_ContractRisk_ToContract" FromRole="Contract" ToRole="ContractRisk" />
+          <NavigationProperty Name="Subjects" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Contract" ToRole="Subject" />
+          <NavigationProperty Name="ContractConditions" Relationship="goDbModel.FK_Table_ToContract" FromRole="Contract" ToRole="ContractCondition" />
         </EntityType>
         <Association Name="FK_Contract_territory_ToContract">
           <End Type="goDbModel.Contract" Role="Contract" Multiplicity="1" />
@@ -876,15 +822,87 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Contract_territory_ToTerritory">
-          <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
-          <End Type="goDbModel.Contract_territory" Role="Contract_territory" Multiplicity="*" />
+        <Association Name="FK_Contract_ToStatus">
+          <End Type="goDbModel.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Territory">
-              <PropertyRef Name="TerritoryId" />
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
             </Principal>
-            <Dependent Role="Contract_territory">
-              <PropertyRef Name="TerritoryId" />
+            <Dependent Role="Contract">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_ToSubject">
+          <End Type="goDbModel.Subject" Role="Subject" Multiplicity="0..1" />
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="SubjectId" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="SubjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_ToTable">
+          <End Type="goDbModel.Currency" Role="Currency" Multiplicity="1" />
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurrencyId" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="currencyid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_ToTable_1">
+          <End Type="goDbModel.seria" Role="seria" Multiplicity="1" />
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seria">
+              <PropertyRef Name="SeriaId" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="seriaid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractRisk_ToContract">
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="1" />
+          <End Type="goDbModel.ContractRisk" Role="ContractRisk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="ContractId" />
+            </Principal>
+            <Dependent Role="ContractRisk">
+              <PropertyRef Name="ContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subject_ToContract">
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="0..1" />
+          <End Type="goDbModel.Subject" Role="Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="ContractId" />
+            </Principal>
+            <Dependent Role="Subject">
+              <PropertyRef Name="ContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToContract">
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="0..1" />
+          <End Type="goDbModel.ContractCondition" Role="ContractCondition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="ContractId" />
+            </Principal>
+            <Dependent Role="ContractCondition">
+              <PropertyRef Name="Contractid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -900,23 +918,6 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
                 <ScalarProperty Name="code" ColumnName="code" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Contracts">
-            <EntityTypeMapping TypeName="goDbModel.Contract">
-              <MappingFragment StoreEntitySet="Contract">
-                <ScalarProperty Name="period_multi_type" ColumnName="period_multi_type" />
-                <ScalarProperty Name="period_multi" ColumnName="period_multi" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
-                <ScalarProperty Name="date_diff" ColumnName="date_diff" />
-                <ScalarProperty Name="date_end" ColumnName="date_end" />
-                <ScalarProperty Name="date_begin" ColumnName="date_begin" />
-                <ScalarProperty Name="seriaid" ColumnName="seriaid" />
-                <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
-                <ScalarProperty Name="currencyid" ColumnName="currencyid" />
-                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1010,26 +1011,6 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ContractRisks">
-            <EntityTypeMapping TypeName="goDbModel.ContractRisk">
-              <MappingFragment StoreEntitySet="ContractRisk">
-                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
-                <ScalarProperty Name="InsSum" ColumnName="InsSum" />
-                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
-                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
-                <ScalarProperty Name="ContractRiskId" ColumnName="ContractRiskId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Risks">
-            <EntityTypeMapping TypeName="goDbModel.Risk">
-              <MappingFragment StoreEntitySet="Risk">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Tarifs">
             <EntityTypeMapping TypeName="goDbModel.Tarif">
               <MappingFragment StoreEntitySet="Tarif">
@@ -1057,6 +1038,43 @@ warning 6002: The table/view 'C:\PROJECT\REPO\GTRAVEL\WEBAPPLICATION1\APP_DATA\G
               <MappingFragment StoreEntitySet="Territory">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractRisks">
+            <EntityTypeMapping TypeName="goDbModel.ContractRisk">
+              <MappingFragment StoreEntitySet="ContractRisk">
+                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
+                <ScalarProperty Name="InsSum" ColumnName="InsSum" />
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="ContractRiskId" ColumnName="ContractRiskId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Risks">
+            <EntityTypeMapping TypeName="goDbModel.Risk">
+              <MappingFragment StoreEntitySet="Risk">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contracts">
+            <EntityTypeMapping TypeName="goDbModel.Contract">
+              <MappingFragment StoreEntitySet="Contract">
+                <ScalarProperty Name="period_multi_type" ColumnName="period_multi_type" />
+                <ScalarProperty Name="period_multi" ColumnName="period_multi" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+                <ScalarProperty Name="date_diff" ColumnName="date_diff" />
+                <ScalarProperty Name="date_end" ColumnName="date_end" />
+                <ScalarProperty Name="date_begin" ColumnName="date_begin" />
+                <ScalarProperty Name="seriaid" ColumnName="seriaid" />
+                <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
+                <ScalarProperty Name="currencyid" ColumnName="currencyid" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
