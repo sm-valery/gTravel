@@ -41,6 +41,11 @@ namespace gTravel.Controllers
                 new SelectListItem(){Text="за одну поездку",Value="2"}
             },"Value","Text");
 
+            ViewBag.Gender = new SelectList(new[]{
+                                                new SelectListItem(){Text="Мужской", Value="M"},
+                                                new SelectListItem(){Text="Женский",Value="F"},
+                                                new SelectListItem(){Text="Неизвестно",Value="N"}
+                                            }, "Value", "Text");
 
         }
 
@@ -51,10 +56,18 @@ namespace gTravel.Controllers
         }
 
 
-        public PartialViewResult build_contract_territory(Guid? ContractTerritoryId )
+        public PartialViewResult build_contract_territory(Guid? ContractTerritoryId, Guid? contractid)
         {
             var t = db.Contract_territory.FirstOrDefault(x => x.ContractTerritoryId == ContractTerritoryId);
             ViewBag.territory = new SelectList(db.Territories.ToList(), "TerritoryId", "name", (t!=null)?t.TerritoryId:null);
+
+            if(t==null)
+            {
+                t = new Contract_territory();
+                t.ContractId = contractid.Value;
+                t.ContractTerritoryId = Guid.NewGuid();
+               
+            }
 
             return PartialView(t);
         }
@@ -178,6 +191,13 @@ namespace gTravel.Controllers
             foreach (var item in c.ContractConditions)
             {
                 db.Entry(item).State = EntityState.Modified;
+            }
+            #endregion
+
+            #region застрахованные
+            foreach(var s in c.Subjects)
+            {
+                db.Entry(s).State = EntityState.Modified;
             }
             #endregion
 
@@ -408,21 +428,43 @@ namespace gTravel.Controllers
         }
 
 
-        public ActionResult _addInsuredRow(Guid contractid)
+        public ActionResult _addInsuredRow(string contractid)
         {
-            //if (db.Subjects.Any(x => x.ContractId == contractid && (x.Name1 == null || x.Name1 == "")))
-            //    return null;
+            //это чтоб работало в ie, иначе ajax запросы будут кешироваться
+            Response.CacheControl = "no-cache";
+            Response.Cache.SetETag((Guid.NewGuid()).ToString());
+
+            Guid gContractId = Guid.Parse(contractid);
 
             Subject s = new Subject();
             s.SubjectId = Guid.NewGuid();
-            s.ContractId = contractid;
+            s.ContractId = gContractId;
 
             db.Subjects.Add(s);
             db.SaveChanges();
 
-            ViewData["indx"] = db.Subjects.Where(x => x.ContractId == contractid).Count()-1;
+            ViewData["indx"] = db.Subjects.Where(x => x.ContractId == gContractId).Count() - 1;
+           
+
+
 
             return PartialView(s);
+        }
+
+        public ActionResult _edtInsuredRow(Guid SubjectId, decimal indx)
+        {
+            Subject s = db.Subjects.SingleOrDefault(x => x.SubjectId == SubjectId);
+
+
+            ViewBag.Gender = new SelectList(new[]{
+                                                new SelectListItem(){Text="Мужской", Value="M"},
+                                                new SelectListItem(){Text="Женский",Value="F"},
+                                                new SelectListItem(){Text="Неизвестно",Value="N"}
+                                            }, "Value", "Text",s.Gender);
+
+            ViewData["indx"] = indx;
+
+            return PartialView("_addInsuredRow",s);
         }
 
         protected override void Dispose(bool disposing)

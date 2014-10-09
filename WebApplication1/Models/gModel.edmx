@@ -123,6 +123,7 @@
           <Property Name="Pasport" Type="nchar" MaxLength="12" />
           <Property Name="Address" Type="nchar" MaxLength="255" />
           <Property Name="Phone" Type="nchar" MaxLength="255" />
+          <Property Name="Gender" Type="nchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="Tarif">
           <Key>
@@ -635,6 +636,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="Phone" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToSubject" FromRole="Subject" ToRole="Contract" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Subject" ToRole="Contract" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -966,6 +968,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="Subjects">
             <EntityTypeMapping TypeName="goDbModel.Subject">
               <MappingFragment StoreEntitySet="Subject">
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Pasport" ColumnName="Pasport" />

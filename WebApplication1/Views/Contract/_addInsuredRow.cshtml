@@ -7,17 +7,35 @@
 }
 <tr>
     <td>
-    @Html.Hidden(string.Format("Subjects[{0}].SubjectId", indx), Model.SubjectId)
+        @*#*@
+        @(indx+1)
+    </td>
+    <td>
+        @*ФИО по паспорту*@
+        @Html.Hidden(string.Format("Subjects[{0}].SubjectId", indx), Model.SubjectId)
         @Html.Hidden(string.Format("Subjects[{0}].ContractId", indx), Model.ContractId)
 
-    @Html.TextBox(string.Format("Subjects[{0}].Name1", indx), Model.Name1, new { @class = "form-control input-sm input-value" })
+        @Html.TextBox(string.Format("Subjects[{0}].Name1", indx), Model.Name1, new { @class = "form-control input-sm input-value" })
     
      </td>
     <td>
+        @*Пол*@
+
+        @Html.DropDownList(string.Format("Subjects[{0}].Gender", indx), (SelectList)ViewBag.Gender, new { @class = "form-control input-sm input-value" })
+    </td>
+    <td>
+        @*Дата рождения*@
     @Html.TextBox(string.Format("Subjects[{0}].DateOfBirth", indx), Model.DateOfBirth, new { @class = "form-control input-sm input-value date3" })
     </td>
     <td>
+        @*Место рождения*@
+    </td>
+    <td>
+        @*Номер паспорта*@
         @Html.TextBox(string.Format("Subjects[{0}].Pasport", indx), Model.Pasport, new { @class = "form-control input-sm input-value" })
+    </td>
+    <td>
+        @*Срок действия паспорта*@
     </td>
 </tr>
 

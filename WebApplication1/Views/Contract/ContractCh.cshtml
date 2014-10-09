@@ -39,9 +39,9 @@
 {
 
     @Html.HiddenFor(m => Model.ContractId)
-    @Html.HiddenFor(m=> Model.StatusId)
-    @Html.HiddenFor(m=> Model.seriaid)
-    
+    @Html.HiddenFor(m => Model.StatusId)
+    @Html.HiddenFor(m => Model.seriaid)
+
     <div class="panel panel-default">
         <div class="panel-heading" style="color:darkslategray;">Стандартный полис страхования медицина/невыезд</div>
         <div class="panel-body">
@@ -77,7 +77,7 @@
                     </span>
                 </div>
             </div>
-            
+
             @*Доп параметры*@
             <p></p>
             <fieldset>
@@ -87,18 +87,18 @@
     int idx = 0;
     foreach (var item in Model.ContractConditions)
     {
-            @BuildCond(idx, item)
+        @BuildCond(idx, item)
 
         idx++;
 
-            <br />
+        <br />
     }
                     }
                 </div>
             </fieldset>
-       
+
             <fieldset>
-                <legend>Територия</legend>
+                <legend>Территория</legend>
                 <div class="well well-sm">
                     <div class="row">
                         <div class="col-md-2"><label>Выберите территорию:</label> </div>
@@ -116,7 +116,7 @@
                             }
                             else
                             {
-                                @Html.Action("build_contract_territory")
+                                @Html.Action("build_contract_territory", new { contractid = Model.ContractId })
                             }
 
 
@@ -127,25 +127,46 @@
                 </div>
             </fieldset>
 
-        <fieldset >
-            <legend>Список застрахованных</legend>
-            <div class="alert alert-warning">
-                <table class="table table-striped table-condensed">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>ФИО по паспорту</th>
-                            <th>Пол</th>
-                            <th>Дата рождения</th>
-                            <th>Место рождения</th>
-                            <th>Номер паспорта</th>
-                            <th>Срок действия паспорта</th>
-                        </tr>
-                    </thead>
+            <fieldset>
+                <legend>Список застрахованных</legend>
+                <div class="alert alert-warning">
+                    <table id="insdtable" class="table table-condensed">
 
-                </table>
-            </div>
-        </fieldset>
+                        <tbody>
+                            <tr>
+                                <th>#</th>
+                                <th>ФИО по паспорту</th>
+                                <th>Пол</th>
+                                <th>Дата рождения</th>
+                                <th>Место рождения</th>
+                                <th>Номер паспорта</th>
+                                <th>Срок действия паспорта</th>
+                            </tr>
+
+                            @{
+                            int indx = 0;
+
+                            foreach (var item in Model.Subjects)
+                            {
+                               @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
+
+                                @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId, indx = indx })
+                                
+                                indx++;
+                            }
+
+                            }
+                        </tbody>
+                    </table>
+
+
+
+                    <a id="insured_add" href="#"><span class="glyphicon glyphicon-plus-sign"></span><span style="font-weight:normal;">&nbsp;Добавить застрахованного</span> </a>
+                </div>
+
+
+
+            </fieldset>
 
         </div> @*panel body*@
         <div class="panel-footer">
@@ -157,6 +178,30 @@
 }
 <script type="text/javascript">
     $(function () {
+
+        //добавить застрахованного
+        $("#insured_add").click(function (e) {
+
+            $.ajax({
+                url: '@Url.Action("_addInsuredRow", "Contract", new { contractid = Model.ContractId })',
+                type: "GET",
+                error: function (request, status, error) {
+                    alert(error);
+                },
+                success: function (data) {
+
+                    $(data).insertAfter("#insdtable >tbody>tr:last");
+
+                    $(".date3").datepicker({
+                        format: "dd.mm.yyyy",
+                        language: "ru",
+                        autoclose: true
+                    });
+                }
+            });
+
+            e.preventDefault();
+        });
 
         //изменение периода
         $(".date_period").change(function () {
