@@ -17,6 +17,9 @@
         <th>
             @Html.DisplayNameFor(model => model.seria.Code)
         </th>
+        <th>
+            Num
+        </th>
         <th></th>
     </tr>
 
@@ -27,6 +30,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.seria.Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.num)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ConditionSeriaId }) |

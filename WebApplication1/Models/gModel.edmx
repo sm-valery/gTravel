@@ -21,6 +21,7 @@
           <Property Name="ConditionSeriaId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ConditionId" Type="uniqueidentifier" />
           <Property Name="SeriaId" Type="uniqueidentifier" />
+          <Property Name="num" Type="int" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
@@ -56,6 +57,8 @@
           <Property Name="Val_c" Type="nvarchar" MaxLength="255" />
           <Property Name="Val_n" Type="decimal" Precision="18" Scale="4" />
           <Property Name="Val_l" Type="bit" />
+          <Property Name="Val_d" Type="date" />
+          <Property Name="num" Type="int" />
         </EntityType>
         <EntityType Name="ContractRisk">
           <Key>
@@ -124,6 +127,9 @@
           <Property Name="Address" Type="nchar" MaxLength="255" />
           <Property Name="Phone" Type="nchar" MaxLength="255" />
           <Property Name="Gender" Type="nchar" MaxLength="1" />
+          <Property Name="PlaceOfBirth" Type="nchar" MaxLength="256" />
+          <Property Name="PasportValidDate" Type="date" />
+          <Property Name="num" Type="int" />
         </EntityType>
         <EntityType Name="Tarif">
           <Key>
@@ -572,6 +578,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="SeriaId" Type="Guid" />
           <NavigationProperty Name="Condition" Relationship="goDbModel.FK_ConditionSeria_ToCondition" FromRole="ConditionSeria" ToRole="Condition" />
           <NavigationProperty Name="seria" Relationship="goDbModel.FK_ConditionSeria_ToSeria" FromRole="ConditionSeria" ToRole="seria" />
+          <Property Name="num" Type="Int32" />
         </EntityType>
         <EntityType Name="ContractCondition">
           <Key>
@@ -585,6 +592,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="Val_l" Type="Boolean" />
           <NavigationProperty Name="Condition" Relationship="goDbModel.FK_Table_ToCondition" FromRole="ContractCondition" ToRole="Condition" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_Table_ToContract" FromRole="ContractCondition" ToRole="Contract" />
+          <Property Name="Val_d" Type="DateTime" Precision="0" />
+          <Property Name="num" Type="Int32" />
         </EntityType>
         <Association Name="FK_ConditionSeria_ToCondition">
           <End Type="goDbModel.Condition" Role="Condition" Multiplicity="0..1" />
@@ -637,6 +646,9 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToSubject" FromRole="Subject" ToRole="Contract" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Subject" ToRole="Contract" />
           <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="PlaceOfBirth" Type="String" MaxLength="256" FixedLength="true" Unicode="true" />
+          <Property Name="PasportValidDate" Type="DateTime" Precision="0" />
+          <Property Name="num" Type="Int32" />
           </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -947,6 +959,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="ConditionSerias">
             <EntityTypeMapping TypeName="goDbModel.ConditionSeria">
               <MappingFragment StoreEntitySet="ConditionSeria">
+                <ScalarProperty Name="num" ColumnName="num" />
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
                 <ScalarProperty Name="ConditionId" ColumnName="ConditionId" />
                 <ScalarProperty Name="ConditionSeriaId" ColumnName="ConditionSeriaId" />
@@ -956,6 +969,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="ContractConditions">
             <EntityTypeMapping TypeName="goDbModel.ContractCondition">
               <MappingFragment StoreEntitySet="ContractCondition">
+                <ScalarProperty Name="num" ColumnName="num" />
+                <ScalarProperty Name="Val_d" ColumnName="Val_d" />
                 <ScalarProperty Name="Val_l" ColumnName="Val_l" />
                 <ScalarProperty Name="Val_n" ColumnName="Val_n" />
                 <ScalarProperty Name="Val_c" ColumnName="Val_c" />
@@ -968,6 +983,9 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="Subjects">
             <EntityTypeMapping TypeName="goDbModel.Subject">
               <MappingFragment StoreEntitySet="Subject">
+                <ScalarProperty Name="num" ColumnName="num" />
+                <ScalarProperty Name="PasportValidDate" ColumnName="PasportValidDate" />
+                <ScalarProperty Name="PlaceOfBirth" ColumnName="PlaceOfBirth" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Address" ColumnName="Address" />

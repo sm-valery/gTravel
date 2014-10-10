@@ -41,12 +41,6 @@ namespace gTravel.Controllers
                 new SelectListItem(){Text="за одну поездку",Value="2"}
             },"Value","Text");
 
-            ViewBag.Gender = new SelectList(new[]{
-                                                new SelectListItem(){Text="Мужской", Value="M"},
-                                                new SelectListItem(){Text="Женский",Value="F"},
-                                                new SelectListItem(){Text="Неизвестно",Value="N"}
-                                            }, "Value", "Text");
-
         }
 
         public ActionResult Contract()
@@ -125,7 +119,7 @@ namespace gTravel.Controllers
             #endregion
 
             #region доп параметры
-            var cs = db.ConditionSerias.Where(x => x.SeriaId == c.seriaid).OrderBy(o=>o.Condition.Code);
+            var cs = db.ConditionSerias.Where(x => x.SeriaId == c.seriaid).OrderBy(o=>o.num);
 
             foreach (var item in cs)
             {
@@ -134,6 +128,7 @@ namespace gTravel.Controllers
                 cc.ConditionId = item.ConditionId;
                 cc.Contractid = c.ContractId;
                 cc.Condition = item.Condition;
+                cc.num = item.num;
 
                 switch(item.Condition.Type)
                 {
@@ -165,7 +160,10 @@ namespace gTravel.Controllers
 
             Contract_ini(contractid);
 
-            return View(db.Contracts.SingleOrDefault(x=>x.ContractId==contractid));
+            var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
+            c.ContractConditions = c.ContractConditions.OrderBy(o => o.num).ToList();
+
+            return View(c);
         }
 
         [HttpPost]
@@ -269,7 +267,7 @@ namespace gTravel.Controllers
         public ActionResult Contract_edit(Guid id)
         {
             var c = db.Contracts.Include("Contract_territory").Include("ContractConditions").Include("Subjects").SingleOrDefault(x => x.ContractId == id);
-            c.ContractConditions = c.ContractConditions.OrderBy(o => o.Condition.Code).ToList();
+            c.ContractConditions = c.ContractConditions.OrderBy(o => o.num).ToList();
             ViewBag.terr_count = c.Contract_territory.Count();
 
             if(c == null)
@@ -439,30 +437,26 @@ namespace gTravel.Controllers
             Subject s = new Subject();
             s.SubjectId = Guid.NewGuid();
             s.ContractId = gContractId;
+            s.num = db.Subjects.Where(x => x.ContractId == gContractId).Count() + 1;
 
             db.Subjects.Add(s);
             db.SaveChanges();
 
-            ViewData["indx"] = db.Subjects.Where(x => x.ContractId == gContractId).Count() - 1;
-           
+           // ViewData["indx"] = s.num - 1;
 
-
+            ViewBag.Gender = mLib.GenderList();
 
             return PartialView(s);
         }
 
-        public ActionResult _edtInsuredRow(Guid SubjectId, decimal indx)
+        public ActionResult _edtInsuredRow(Guid SubjectId)
         {
             Subject s = db.Subjects.SingleOrDefault(x => x.SubjectId == SubjectId);
 
 
-            ViewBag.Gender = new SelectList(new[]{
-                                                new SelectListItem(){Text="Мужской", Value="M"},
-                                                new SelectListItem(){Text="Женский",Value="F"},
-                                                new SelectListItem(){Text="Неизвестно",Value="N"}
-                                            }, "Value", "Text",s.Gender);
+            ViewBag.Gender = mLib.GenderList(s.Gender);
 
-            ViewData["indx"] = indx;
+            //ViewData["indx"] = indx;
 
             return PartialView("_addInsuredRow",s);
         }

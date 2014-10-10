@@ -20,6 +20,8 @@ namespace gTravel.Models
         public string Val_c { get; set; }
         public Nullable<decimal> Val_n { get; set; }
         public Nullable<bool> Val_l { get; set; }
+        public Nullable<System.DateTime> Val_d { get; set; }
+        public Nullable<int> num { get; set; }
     
         public virtual Condition Condition { get; set; }
         public virtual Contract Contract { get; set; }

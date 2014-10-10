@@ -5,6 +5,7 @@
     @Html.Hidden("ContractConditions[" + idx.ToString() + "].ContractCondId", cond.ContractCondId)
     @Html.Hidden("ContractConditions[" + idx.ToString() + "].ConditionId", cond.ConditionId.Value)
     @Html.Hidden("ContractConditions[" + idx.ToString() + "].Contractid", cond.Contractid)
+    @Html.Hidden("ContractConditions[" + idx.ToString() + "].num", cond.num)
 
     switch (cond.Condition.Type)
     {
@@ -23,6 +24,31 @@
             </div>
             <div class="col-md-10">
                 @Html.TextBox("ContractConditions[" + idx.ToString() + "].Val_c", cond.Val_c, new { @class = "form-control input-sm input-value" })
+
+            </div>
+        </div>
+            break;
+        case "D":
+        <div class="row">
+            <div class="col-md-2">
+                <label>@cond.Condition.Name:</label>
+            </div>
+            <div class="col-md-10">
+                @Html.TextBox("ContractConditions[" + idx.ToString() + "].Val_d", cond.Val_d, new { @class = "form-control input-sm input-value date3" })
+
+            </div>
+        </div>
+            break;
+
+        case "S":
+        <div class="row">
+            <div class="col-md-2">
+                <label>@cond.Condition.Name:</label>
+            </div>
+            <div class="col-md-10">
+
+                @Html.TextArea("ContractConditions[" + idx.ToString() + "].Val_c", cond.Val_c, new { @class = "form-control input-sm input-value", style="width:300px;" })
+
 
             </div>
         </div>
@@ -85,13 +111,14 @@
                 <div class="well well-sm">
                     @{
     int idx = 0;
+
     foreach (var item in Model.ContractConditions)
     {
+
         @BuildCond(idx, item)
 
         idx++;
 
-        <br />
     }
                     }
                 </div>
@@ -144,15 +171,15 @@
                             </tr>
 
                             @{
-                            int indx = 0;
+                            // int indx = 0;
 
-                            foreach (var item in Model.Subjects)
+                            foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             {
-                               @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
+                                @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
 
-                                @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId, indx = indx })
-                                
-                                indx++;
+                                @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId })
+
+                                // indx++;
                             }
 
                             }

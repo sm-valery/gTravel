@@ -28,6 +28,9 @@ namespace gTravel.Models
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Gender { get; set; }
+        public string PlaceOfBirth { get; set; }
+        public Nullable<System.DateTime> PasportValidDate { get; set; }
+        public Nullable<int> num { get; set; }
     
         public virtual ICollection<Contract> Contracts { get; set; }
         public virtual Contract Contract { get; set; }

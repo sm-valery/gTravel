@@ -2,13 +2,14 @@
 
 @{
 
-    //decimal idx = ((decimal)ViewBag.sbjcount) - 1;
-    int indx = Convert.ToInt32(ViewData["indx"]);
+   // int indx = Convert.ToInt32(ViewData["indx"]);
+    int indx = Model.num.Value - 1;
 }
 <tr>
     <td>
         @*#*@
-        @(indx+1)
+        @(Model.num)
+        @Html.Hidden(string.Format("Subjects[{0}].num", indx), Model.num)
     </td>
     <td>
         @*ФИО по паспорту*@
@@ -25,10 +26,11 @@
     </td>
     <td>
         @*Дата рождения*@
-    @Html.TextBox(string.Format("Subjects[{0}].DateOfBirth", indx), Model.DateOfBirth, new { @class = "form-control input-sm input-value date3" })
+        @Html.TextBox(string.Format("Subjects[{0}].DateOfBirth", indx), Model.DateOfBirth, new { @class = "form-control input-sm input-value date3" })
     </td>
     <td>
         @*Место рождения*@
+        @Html.TextBox(string.Format("Subjects[{0}].PlaceOfBirth", indx), Model.PlaceOfBirth, new { @class = "form-control input-sm input-value" })
     </td>
     <td>
         @*Номер паспорта*@
@@ -36,6 +38,7 @@
     </td>
     <td>
         @*Срок действия паспорта*@
+        @Html.TextBox(string.Format("Subjects[{0}].PasportValidDate", indx), Model.PasportValidDate, new { @class = "form-control input-sm input-value date3" })
     </td>
 </tr>
 

@@ -196,6 +196,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="mLib.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Condition.cs">
       <DependentUpon>gModel.tt</DependentUpon>
@@ -311,6 +312,11 @@
       <DependentUpon>gModel.edmx</DependentUpon>
       <LastGenOutput>gModel.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\gotravel %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\gotravel %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\gotravel - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\gotravel - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\gotravel.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\contract.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
@@ -380,7 +386,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

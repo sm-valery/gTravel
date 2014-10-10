@@ -8,8 +8,8 @@
         <EntityTypeShape EntityType="goDbModel.Currency" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="goDbModel.seria" Width="1.5" PointX="15.75" PointY="8.375" />
         <EntityTypeShape EntityType="goDbModel.Condition" Width="1.5" PointX="9.375" PointY="7.75" />
-        <EntityTypeShape EntityType="goDbModel.ConditionSeria" Width="1.5" PointX="11.25" PointY="4.625" />
-        <EntityTypeShape EntityType="goDbModel.ContractCondition" Width="1.5" PointX="9.25" PointY="4.125" />
+        <EntityTypeShape EntityType="goDbModel.ConditionSeria" Width="1.5" PointX="12.625" PointY="7.25" />
+        <EntityTypeShape EntityType="goDbModel.ContractCondition" Width="2.875" PointX="6.75" PointY="4.25" />
         <AssociationConnector Association="goDbModel.FK_ConditionSeria_ToCondition" ManuallyRouted="false" >
         </AssociationConnector>
         <AssociationConnector Association="goDbModel.FK_Table_ToCondition" />
@@ -18,17 +18,17 @@
         <EntityTypeShape EntityType="goDbModel.Status" Width="1.5" PointX="5.375" PointY="8.75" />
         <EntityTypeShape EntityType="goDbModel.RiskSeria" Width="1.5" PointX="14.375" PointY="3.25" />
         <AssociationConnector Association="goDbModel.FK_RiskSeria_ToSeria" />
-        <EntityTypeShape EntityType="goDbModel.v_contractrisk" Width="1.5" PointX="16.5" PointY="10.625" />
-        <EntityTypeShape EntityType="goDbModel.Tarif" Width="1.5" PointX="3.25" PointY="11" />
+        <EntityTypeShape EntityType="goDbModel.v_contractrisk" Width="1.5" PointX="15.25" PointY="14.375" />
+        <EntityTypeShape EntityType="goDbModel.Tarif" Width="1.5" PointX="6.25" PointY="0.5" />
         <EntityTypeShape EntityType="goDbModel.Contract_territory" Width="1.5" PointX="2.375" PointY="3.875" />
         <EntityTypeShape EntityType="goDbModel.Territory" Width="1.5" PointX="0.5" PointY="3.75" />
         <AssociationConnector Association="goDbModel.FK_Contract_territory_ToTerritory" />
-        <EntityTypeShape EntityType="goDbModel.ContractRisk" Width="1.5" PointX="14.25" PointY="1.25" />
-        <EntityTypeShape EntityType="goDbModel.Risk" Width="1.5" PointX="0.5" PointY="8.25" />
+        <EntityTypeShape EntityType="goDbModel.ContractRisk" Width="1.5" PointX="11.875" PointY="0.5" />
+        <EntityTypeShape EntityType="goDbModel.Risk" Width="1.5" PointX="9" PointY="0.5" />
         <AssociationConnector Association="goDbModel.FK_ContractRisk_ToRisk" />
         <AssociationConnector Association="goDbModel.FK_RiskSeria_ToRisk" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToRisk" />
-        <EntityTypeShape EntityType="goDbModel.Contract" Width="1.5" PointX="18" PointY="4.875" />
+        <EntityTypeShape EntityType="goDbModel.Contract" Width="3.125" PointX="18.875" PointY="1.875" />
         <AssociationConnector Association="goDbModel.FK_Contract_territory_ToContract" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToStatus" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToSubject" />
