@@ -11,6 +11,20 @@ namespace gTravel.Controllers
     {
         private goDbEntities db = new goDbEntities();
 
+
+        public ActionResult test()
+        {
+            try
+            {
+                var aa = db.Currencies.ToList();
+            }
+            catch(Exception e)
+            {
+                ViewBag.err = e.Message;
+            }
+
+            return View();
+        }
         // GET: Settings
         public ActionResult Index()
         {

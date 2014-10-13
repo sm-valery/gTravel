@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using gTravel.Models;
 using System.Data.Entity;
 using System.Net;
+using System.IO;
 
 namespace gTravel.Controllers
 {
@@ -219,9 +220,19 @@ namespace gTravel.Controllers
                 }
 
             }
+
+
+
             db.SaveChanges();
             c.Contract_territory = db.Contract_territory.Where(x => x.ContractId == c.ContractId).ToList();
 
+            #endregion
+
+            #region Риски
+            foreach(var r in c.ContractRisks)
+            {
+                db.Entry(r).State = EntityState.Modified;
+            }
             #endregion
 
             db.Entry(c).State = EntityState.Modified;
@@ -459,6 +470,44 @@ namespace gTravel.Controllers
             //ViewData["indx"] = indx;
 
             return PartialView("_addInsuredRow",s);
+        }
+
+        public string RenderRazorViewToString(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
+                                                                         viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View,
+                                             ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
+        public void printpdfch(Guid contractid)
+        {
+
+            //var htmlContent = String.Format("<body>Hello world: {0}</body>", DateTime.Now);
+            var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
+
+            var htmlContent = RenderRazorViewToString("generatepdf_ch",c);
+
+            var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
+
+            pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Landscape;
+            var pdfBytes = pdfgen.GeneratePdf(htmlContent);
+
+            Response.Clear();
+            Response.ContentType = "application/pdf";
+            Response.AddHeader("content-disposition", "attachment;filename=\"test.pdf\"");
+
+            Response.OutputStream.Write(pdfBytes, 0, pdfBytes.Count());
+
+            Response.End();
+
         }
 
         protected override void Dispose(bool disposing)

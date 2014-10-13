@@ -124,6 +124,10 @@
                 </div>
             </fieldset>
 
+
+
+
+
             <fieldset>
                 <legend>Территория</legend>
                 <div class="well well-sm">
@@ -153,6 +157,53 @@
                     </div>
                 </div>
             </fieldset>
+
+
+            <fieldset>
+                <legend>Риски</legend>
+           
+
+                    @{
+                        int risk_num = 0;
+                    }
+                    @foreach (var risk in Model.ContractRisks)
+                    {
+
+
+                        <table class="table table-condensed table-bordered">
+                            <tr>
+                                <td>Риск</td>
+                                <th>Страховая сумма</th>
+                                <th>
+                                    Базовый тариф
+                                </th>
+                                <th>Премия</th>
+                            </tr>
+                            <tr>
+                                <td class="active">
+                                    @risk.Risk.Name
+                                    @*<div class="label label-default"> @risk.Risk.Name</div>*@
+                                </td>
+                                <td>
+                                    @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
+                                    @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
+                                    @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
+
+                                    @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
+                                </td>
+                                <td></td>
+                                <td>
+                                    @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value" })
+                                </td>
+                            </tr>
+                        </table>
+
+                        risk_num++;
+                    }
+
+
+            </fieldset>
+
 
             <fieldset>
                 <legend>Список застрахованных</legend>

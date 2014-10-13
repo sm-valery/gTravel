@@ -104,6 +104,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NReco.PdfGenerator">
+      <HintPath>..\packages\NReco.PdfGenerator.1.0.3.0\lib\net20\NReco.PdfGenerator.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -429,6 +432,9 @@
     <Content Include="Views\Contract\Contract.cshtml" />
     <Content Include="Views\Contract\ContractCh.cshtml" />
     <Content Include="Views\Contract\build_contract_territory.cshtml" />
+    <Content Include="Views\Settings\test.cshtml" />
+    <Content Include="Views\Contract\generatepdf_ch.cshtml" />
+    <Content Include="Views\Contract\test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
