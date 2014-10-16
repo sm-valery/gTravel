@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://teamprofit.hk/TeamProfit/service.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://teamprofit.hk/TeamProfit/service.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://teamprofit.hk/TeamProfit/service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/TeamProfit" />
+      <xsd:import schemaLocation="http://teamprofit.hk/TeamProfit/service.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="Service_AddPolicy_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddPolicy" />
+  </wsdl:message>
+  <wsdl:message name="Service_AddPolicy_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddPolicyResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_AddPolicyDirection_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddPolicyDirection" />
+  </wsdl:message>
+  <wsdl:message name="Service_AddPolicyDirection_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddPolicyDirectionResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_DeleteGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGroup" />
+  </wsdl:message>
+  <wsdl:message name="Service_DeleteGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_DeleteGroupById_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGroupById" />
+  </wsdl:message>
+  <wsdl:message name="Service_DeleteGroupById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGroupByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_IsGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:IsGroup" />
+  </wsdl:message>
+  <wsdl:message name="Service_IsGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IsGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_ValidGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidGroup" />
+  </wsdl:message>
+  <wsdl:message name="Service_ValidGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_UpdateGroup_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGroup" />
+  </wsdl:message>
+  <wsdl:message name="Service_UpdateGroup_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetGroupValidationList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupValidationList" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetGroupValidationList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupValidationListResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetCAList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCAList" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetCAList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCAListResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetCheckPointList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCheckPointList" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetCheckPointList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCheckPointListResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetTravelAgencyList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTravelAgencyList" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetTravelAgencyList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTravelAgencyListResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetGroupInfoByPeriod_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupInfoByPeriod" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetGroupInfoByPeriod_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupInfoByPeriodResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_AddGroupObject_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddGroupObject" />
+  </wsdl:message>
+  <wsdl:message name="Service_AddGroupObject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddGroupObjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetTranTask_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTranTask" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetTranTask_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTranTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetTranTaskByCount_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTranTaskByCount" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetTranTaskByCount_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTranTaskByCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetGroupInfoByID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupInfoByID" />
+  </wsdl:message>
+  <wsdl:message name="Service_GetGroupInfoByID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGroupInfoByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="Service_AddInsuranceIncident_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddInsuranceIncident" />
+  </wsdl:message>
+  <wsdl:message name="Service_AddInsuranceIncident_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddInsuranceIncidentResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Service">
+    <wsdl:operation name="AddPolicy">
+      <wsdl:input wsaw:Action="http://tempuri.org/Service/AddPolicy" message="tns:Service_AddPolicy_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/Service/AddPolicyResponse" message="tns:Service_AddPolicy_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddPolicyDirection">
+      <wsdl:input wsaw:Action="http://tempuri.org/Service/AddPolicyDirection" message="tns:Service_AddPolicyDirection_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/Service/AddPolicyDirectionResponse" message="tns:Service_AddPolicyDirection_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGroup">
+      <wsdl:input wsaw:Action="DeleteGroup" message="tns:Service_DeleteGroup_InputMessage" />
+      <wsdl:output wsaw:Action="DeleteGroup" message="tns:Service_DeleteGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGroupById">
+      <wsdl:input wsaw:Action="DeleteGroupById" message="tns:Service_DeleteGroupById_InputMessage" />
+      <wsdl:output wsaw:Action="DeleteGroupById" message="tns:Service_DeleteGroupById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="IsGroup">
+      <wsdl:input wsaw:Action="IsGroup" message="tns:Service_IsGroup_InputMessage" />
+      <wsdl:output wsaw:Action="IsGroup" message="tns:Service_IsGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidGroup">
+      <wsdl:input wsaw:Action="ValidGroup" message="tns:Service_ValidGroup_InputMessage" />
+      <wsdl:output wsaw:Action="ValidGroup" message="tns:Service_ValidGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGroup">
+      <wsdl:input wsaw:Action="UpdateGroup" message="tns:Service_UpdateGroup_InputMessage" />
+      <wsdl:output wsaw:Action="UpdateGroup" message="tns:Service_UpdateGroup_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupValidationList">
+      <wsdl:input wsaw:Action="GetGroupValidationList" message="tns:Service_GetGroupValidationList_InputMessage" />
+      <wsdl:output wsaw:Action="GetGroupValidationList" message="tns:Service_GetGroupValidationList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCAList">
+      <wsdl:input wsaw:Action="GetCAList" message="tns:Service_GetCAList_InputMessage" />
+      <wsdl:output wsaw:Action="GetCAList" message="tns:Service_GetCAList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckPointList">
+      <wsdl:input wsaw:Action="GetCheckPointList" message="tns:Service_GetCheckPointList_InputMessage" />
+      <wsdl:output wsaw:Action="GetCheckPointList" message="tns:Service_GetCheckPointList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelAgencyList">
+      <wsdl:input wsaw:Action="GetTravelAgencyList" message="tns:Service_GetTravelAgencyList_InputMessage" />
+      <wsdl:output wsaw:Action="GetTravelAgencyList" message="tns:Service_GetTravelAgencyList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupInfoByPeriod">
+      <wsdl:input wsaw:Action="GetGroupInfoByPeriod" message="tns:Service_GetGroupInfoByPeriod_InputMessage" />
+      <wsdl:output wsaw:Action="GetGroupInfoByPeriod" message="tns:Service_GetGroupInfoByPeriod_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddGroupObject">
+      <wsdl:input wsaw:Action="AddGroupObject" message="tns:Service_AddGroupObject_InputMessage" />
+      <wsdl:output wsaw:Action="AddGroupObject" message="tns:Service_AddGroupObject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTranTask">
+      <wsdl:input wsaw:Action="GetTranTask" message="tns:Service_GetTranTask_InputMessage" />
+      <wsdl:output wsaw:Action="GetTranTask" message="tns:Service_GetTranTask_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTranTaskByCount">
+      <wsdl:input wsaw:Action="GetTranTaskByCount" message="tns:Service_GetTranTaskByCount_InputMessage" />
+      <wsdl:output wsaw:Action="GetTranTaskByCount" message="tns:Service_GetTranTaskByCount_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupInfoByID">
+      <wsdl:input wsaw:Action="GetGroupInfoByID" message="tns:Service_GetGroupInfoByID_InputMessage" />
+      <wsdl:output wsaw:Action="GetGroupInfoByID" message="tns:Service_GetGroupInfoByID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddInsuranceIncident">
+      <wsdl:input wsaw:Action="AddInsuranceIncident" message="tns:Service_AddInsuranceIncident_InputMessage" />
+      <wsdl:output wsaw:Action="InsuranceIncident" message="tns:Service_AddInsuranceIncident_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_Service" type="tns:Service">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddPolicy">
+      <soap:operation soapAction="http://tempuri.org/Service/AddPolicy" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddPolicyDirection">
+      <soap:operation soapAction="http://tempuri.org/Service/AddPolicyDirection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGroup">
+      <soap:operation soapAction="DeleteGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGroupById">
+      <soap:operation soapAction="DeleteGroupById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsGroup">
+      <soap:operation soapAction="IsGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidGroup">
+      <soap:operation soapAction="ValidGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGroup">
+      <soap:operation soapAction="UpdateGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupValidationList">
+      <soap:operation soapAction="GetGroupValidationList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCAList">
+      <soap:operation soapAction="GetCAList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCheckPointList">
+      <soap:operation soapAction="GetCheckPointList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTravelAgencyList">
+      <soap:operation soapAction="GetTravelAgencyList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupInfoByPeriod">
+      <soap:operation soapAction="GetGroupInfoByPeriod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddGroupObject">
+      <soap:operation soapAction="AddGroupObject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTranTask">
+      <soap:operation soapAction="GetTranTask" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTranTaskByCount">
+      <soap:operation soapAction="GetTranTaskByCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupInfoByID">
+      <soap:operation soapAction="GetGroupInfoByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddInsuranceIncident">
+      <soap:operation soapAction="AddInsuranceIncident" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service">
+    <wsdl:port name="BasicHttpBinding_Service" binding="tns:BasicHttpBinding_Service">
+      <soap:address location="http://teamprofit.hk/TeamProfit/service.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

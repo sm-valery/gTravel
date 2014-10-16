@@ -1,0 +1,72 @@
+﻿@model gTravel.Models.Tarif
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Tarif</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.InsSumFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsSumFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsSumTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsSumTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FranshSum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FranshSum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FranshPerc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FranshPerc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PremSum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PremSum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Risk.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Risk.Code)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

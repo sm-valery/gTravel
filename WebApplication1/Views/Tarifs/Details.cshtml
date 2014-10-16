@@ -1,0 +1,66 @@
+﻿@model gTravel.Models.Tarif
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tarif</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.InsSumFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsSumFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InsSumTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InsSumTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FranshSum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FranshSum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FranshPerc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FranshPerc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PremSum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PremSum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Risk.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Risk.Code)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TarifId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

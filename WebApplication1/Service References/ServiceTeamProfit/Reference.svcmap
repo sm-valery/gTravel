@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="aee6e557-66c3-491f-ad6c-8684f9b40834" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://teamprofit.hk/TeamProfit/service.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Service.wsdl" MetadataType="Wsdl" ID="66c9a24e-d496-49e4-a480-b31ecb1bc70d" SourceId="1" SourceUrl="http://teamprofit.hk/TeamProfit/service.svc?wsdl" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="af462402-1bcb-41ad-bec9-8f75e12c6ce7" SourceId="1" SourceUrl="http://teamprofit.hk/TeamProfit/service.svc?xsd=xsd1" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="56082716-6afa-46f5-b840-2dcbf915c70e" SourceId="1" SourceUrl="http://teamprofit.hk/TeamProfit/service.svc?xsd=xsd3" />
+    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="c8178d12-50b9-4ea8-9496-7afa118d38d9" SourceId="1" SourceUrl="http://teamprofit.hk/TeamProfit/service.svc?xsd=xsd0" />
+    <MetadataFile FileName="service3.xsd" MetadataType="Schema" ID="2fc2ca0b-62b6-4d5b-a0d5-ebd726c255d0" SourceId="1" SourceUrl="http://teamprofit.hk/TeamProfit/service.svc?xsd=xsd2" />
+    <MetadataFile FileName="service.disco" MetadataType="Disco" ID="80985a6e-b559-4f7c-91c2-3ee817312ded" SourceId="1" SourceUrl="http://teamprofit.hk/TeamProfit/service.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

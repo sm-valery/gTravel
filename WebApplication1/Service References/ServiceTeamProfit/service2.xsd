@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://teamprofit.hk/TeamProfit/service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/TeamProfit" />
+  <xs:import schemaLocation="http://teamprofit.hk/TeamProfit/service.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:element name="AddPolicy">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PolicyNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PolicyPeriodFrom" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="PolicyPeriodTill" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="PolicyTerm" type="xs:int" />
+        <xs:element minOccurs="0" name="DtCreated" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="TransportType" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="AmountAtRisk" type="xs:decimal" />
+        <xs:element minOccurs="0" name="PremCurrency" type="xs:decimal" />
+        <xs:element minOccurs="0" name="FIO" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Passport" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="DateOfBirth" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="SexCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="BirthPlace" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ExpirationDate" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="GroupNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SentTravelAgencies" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ReceiveTravelAgencies" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PointOfEntryAirport" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ItemDepartureAirport" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="DateArrival" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="DateDeparture" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="SendingOperator" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CoordinationAuthority" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="NameGroupLeader" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="NumberPeopleGroup" type="xs:int" />
+        <xs:element minOccurs="0" name="PersonOrder" type="xs:int" />
+        <xs:element minOccurs="0" name="Md5Hash" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddPolicyResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddPolicyResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddPolicyDirection">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PolicyNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PolicyPeriodFrom" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="PolicyPeriodTill" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="PolicyTerm" type="xs:int" />
+        <xs:element minOccurs="0" name="DtCreated" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="TransportType" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="AmountAtRisk" type="xs:decimal" />
+        <xs:element minOccurs="0" name="PremCurrency" type="xs:decimal" />
+        <xs:element minOccurs="0" name="FIO" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Passport" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="DateOfBirth" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="SexCode" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="BirthPlace" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ExpirationDate" nillable="true" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="GroupNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="SentTravelAgencies" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ReceiveTravelAgencies" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PointOfEntryAirport" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ItemDepartureAirport" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="DateArrival" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="DateDeparture" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="SendingOperator" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CoordinationAuthority" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="NameGroupLeader" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="NumberPeopleGroup" type="xs:int" />
+        <xs:element minOccurs="0" name="PersonOrder" type="xs:int" />
+        <xs:element minOccurs="0" name="Md5Hash" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Direction" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddPolicyDirectionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddPolicyDirectionResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteGroup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="GroupNumber" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteGroupResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteGroupResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteGroupById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteGroupByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteGroupByIdResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsGroup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="GroupNumber" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IsGroupResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IsGroupResult" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidGroup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="GroupNumber" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidGroupResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ValidGroupResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateGroup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="GroupNumber" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FIO" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Passport" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="DateOfBirth" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="ChangeType" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ChangeValue" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateGroupResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UpdateGroupResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGroupValidationList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="fromDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="toDate" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGroupValidationListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/TeamProfit" minOccurs="0" name="GetGroupValidationListResult" nillable="true" type="q1:ArrayOfGroupCheckResult" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCAList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCAListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/TeamProfit" minOccurs="0" name="GetCAListResult" nillable="true" type="q2:ArrayOfCoordinationAuthority" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCheckPointList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetCheckPointListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/TeamProfit" minOccurs="0" name="GetCheckPointListResult" nillable="true" type="q3:ArrayOfCheckPoint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTravelAgencyList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTravelAgencyListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/TeamProfit" minOccurs="0" name="GetTravelAgencyListResult" nillable="true" type="q4:ArrayOfTravelAgency" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGroupInfoByPeriod">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="fromDate" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="toDate" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGroupInfoByPeriodResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/TeamProfit" minOccurs="0" name="GetGroupInfoByPeriodResult" nillable="true" type="q5:ArrayOfGroup" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddGroupObject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/TeamProfit" minOccurs="0" name="GroupObject" nillable="true" type="q6:ArrayOfGroup" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddGroupObjectResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="AddGroupObjectResult" nillable="true" type="q7:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTranTask">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="StartID" type="xs:int" />
+        <xs:element minOccurs="0" name="EndID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTranTaskResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/TeamProfit" minOccurs="0" name="GetTranTaskResult" nillable="true" type="q8:ArrayOfTranTask" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTranTaskByCount">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="StartID" type="xs:int" />
+        <xs:element minOccurs="0" name="Count" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTranTaskByCountResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/TeamProfit" minOccurs="0" name="GetTranTaskByCountResult" nillable="true" type="q9:ArrayOfTranTask" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGroupInfoByID">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="GroupID" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGroupInfoByIDResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/TeamProfit" minOccurs="0" name="GetGroupInfoByIDResult" nillable="true" type="q10:Group" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInsuranceIncident">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/TeamProfit" minOccurs="0" name="insuranceIncidents" nillable="true" type="q11:ArrayOfInsuranceIncident" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddInsuranceIncidentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="AddInsuranceIncidentResult" nillable="true" type="q12:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
