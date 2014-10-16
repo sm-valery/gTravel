@@ -196,6 +196,8 @@
     <Compile Include="Controllers\ContractsTestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\TarifsController.cs" />
+    <Compile Include="Controllers\TerritoriesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -435,6 +437,17 @@
     <Content Include="Views\Settings\test.cshtml" />
     <Content Include="Views\Contract\generatepdf_ch.cshtml" />
     <Content Include="Views\Contract\test.cshtml" />
+    <Content Include="Views\Tarifs\Create.cshtml" />
+    <Content Include="Views\Tarifs\Delete.cshtml" />
+    <Content Include="Views\Tarifs\Details.cshtml" />
+    <Content Include="Views\Tarifs\Edit.cshtml" />
+    <Content Include="Views\Tarifs\Index.cshtml" />
+    <Content Include="Views\Territories\Create.cshtml" />
+    <Content Include="Views\Territories\Delete.cshtml" />
+    <Content Include="Views\Territories\Details.cshtml" />
+    <Content Include="Views\Territories\Edit.cshtml" />
+    <Content Include="Views\Territories\Index.cshtml" />
+    <Content Include="Views\Contract\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

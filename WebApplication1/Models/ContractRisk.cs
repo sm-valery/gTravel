@@ -19,8 +19,9 @@ namespace gTravel.Models
         public Nullable<System.Guid> RiskId { get; set; }
         public Nullable<decimal> InsSum { get; set; }
         public Nullable<decimal> InsPrem { get; set; }
+        public Nullable<decimal> BaseTarif { get; set; }
     
-        public virtual Risk Risk { get; set; }
         public virtual Contract Contract { get; set; }
+        public virtual Risk Risk { get; set; }
     }
 }

@@ -17,9 +17,9 @@ namespace gTravel.Models
         public Contract()
         {
             this.Contract_territory = new HashSet<Contract_territory>();
-            this.ContractRisks = new HashSet<ContractRisk>();
             this.Subjects = new HashSet<Subject>();
             this.ContractConditions = new HashSet<ContractCondition>();
+            this.ContractRisks = new HashSet<ContractRisk>();
         }
     
         public System.Guid ContractId { get; set; }
@@ -29,7 +29,7 @@ namespace gTravel.Models
         public Nullable<System.DateTime> date_begin { get; set; }
         public Nullable<System.DateTime> date_end { get; set; }
         public Nullable<int> date_diff { get; set; }
-        public Nullable<System.Guid> SubjectId { get; set; }
+        public Nullable<System.Guid> Holder_SubjectId { get; set; }
         public Nullable<System.Guid> StatusId { get; set; }
         public Nullable<decimal> period_multi { get; set; }
         public string period_multi_type { get; set; }
@@ -39,8 +39,8 @@ namespace gTravel.Models
         public virtual Subject Subject { get; set; }
         public virtual Currency Currency { get; set; }
         public virtual seria seria { get; set; }
-        public virtual ICollection<ContractRisk> ContractRisks { get; set; }
         public virtual ICollection<Subject> Subjects { get; set; }
         public virtual ICollection<ContractCondition> ContractConditions { get; set; }
+        public virtual ICollection<ContractRisk> ContractRisks { get; set; }
     }
 }

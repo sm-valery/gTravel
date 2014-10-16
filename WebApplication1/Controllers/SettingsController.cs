@@ -10,8 +10,8 @@ namespace gTravel.Controllers
     public class SettingsController : Controller
     {
         private goDbEntities db = new goDbEntities();
-
-
+        
+       
         public ActionResult test()
         {
             try
@@ -34,8 +34,9 @@ namespace gTravel.Controllers
         #region Currency
         public ActionResult Currency()
         {
+            var viewdb = db.Currencies;
 
-            return View(db.Currencies.ToList());
+            return View(viewdb.ToList());
         }
 
         public ActionResult Currency_create()

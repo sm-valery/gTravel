@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
-    <link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />
+    @*<link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />*@
 
     @Scripts.Render("~/bundles/modernizr")
 
@@ -14,8 +14,8 @@
 
     @Scripts.Render("~/bundles/bootstrap")
 
-    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
-    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    @*<link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />*@
+    @*<script src="~/Scripts/bootstrap-datepicker.js"></script>*@
     <script src="~/Scripts/bootstrap-datepicker.ru.js" charset="UTF-8"></script>
 
 
@@ -63,7 +63,7 @@
             </div>
             <div class="navbar-collapse collapse active">
                 <ul class="nav navbar-nav ">
-                    <li>@Html.ActionLink("Список договоров", "List", "Contract")</li>
+                    <li>@Html.ActionLink("Список договоров", "Index", "Contract")</li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Новый договор<b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -83,12 +83,13 @@
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Валюты", "Currency", "Settings")</li>
                             <li>@Html.ActionLink("Серия", "seria", "Settings")</li>
-                            <li>@Html.ActionLink("Территории", "territory", "Settings")</li>
+                            <li>@Html.ActionLink("Территории", "Index", "Territories")</li>
                             <li>@Html.ActionLink("Доп параметры полиса", "ConditionSeria", "Settings")</li>
+                            <li>@Html.ActionLink("Тариф", "Index", "Tarifs")</li>
                         </ul>
                     </li>
                 </ul>
-                @using (Html.BeginForm("List", "Contract", FormMethod.Get, new { @class = "navbar-form navbar-right", role = "search" }))
+                @using (Html.BeginForm("Index", "Contract", FormMethod.Get, new { @class = "navbar-form navbar-right", role = "search" }))
                 {
                     <div class="form-group">
                         <input type="search" class="form-control" name="contractnumber" placeholder="Номер договора"

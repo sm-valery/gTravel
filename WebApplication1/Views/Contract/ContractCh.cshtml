@@ -61,9 +61,11 @@
 @{
     ViewBag.Title = "Contract";
 }
-@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
-{
 
+@using (Html.BeginForm("ContractCh", null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.ValidationSummary();
+    
     @Html.HiddenFor(m => Model.ContractId)
     @Html.HiddenFor(m => Model.StatusId)
     @Html.HiddenFor(m => Model.seriaid)
@@ -191,7 +193,9 @@
 
                                     @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
                                 </td>
-                                <td></td>
+                                <td>
+                                    @risk.BaseTarif
+                                </td>
                                 <td>
                                     @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value" })
                                 </td>
@@ -248,7 +252,9 @@
 
         </div> @*panel body*@
         <div class="panel-footer">
-            <button class="btn btn-primary">Сохранить</button>
+            <button name="caction" value="save" class="btn btn-primary">Сохранить&Закрыть</button>
+            <button name="caction" value="recalc" class="btn btn-info">Пересчитать</button>
+            @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
         </div>
     </div>
 

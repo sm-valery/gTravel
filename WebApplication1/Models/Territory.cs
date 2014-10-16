@@ -17,11 +17,13 @@ namespace gTravel.Models
         public Territory()
         {
             this.Contract_territory = new HashSet<Contract_territory>();
+            this.Tarifs = new HashSet<Tarif>();
         }
     
         public System.Guid TerritoryId { get; set; }
         public string Name { get; set; }
     
         public virtual ICollection<Contract_territory> Contract_territory { get; set; }
+        public virtual ICollection<Tarif> Tarifs { get; set; }
     }
 }

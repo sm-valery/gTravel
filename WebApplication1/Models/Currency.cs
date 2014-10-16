@@ -17,6 +17,7 @@ namespace gTravel.Models
         public Currency()
         {
             this.Contracts = new HashSet<Contract>();
+            this.serias = new HashSet<seria>();
         }
     
         public System.Guid CurrencyId { get; set; }
@@ -24,5 +25,6 @@ namespace gTravel.Models
         public string code { get; set; }
     
         public virtual ICollection<Contract> Contracts { get; set; }
+        public virtual ICollection<seria> serias { get; set; }
     }
 }

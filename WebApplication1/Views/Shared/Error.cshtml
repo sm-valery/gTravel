@@ -8,5 +8,6 @@
 <h2 class="text-danger">An error occurred while processing your request.
 
     </h2>
-<p></p>
-@Model.Exception.InnerException
+<p>Detail:</p>
+@Model.Exception.InnerException.Message
+@Model.Exception.Message

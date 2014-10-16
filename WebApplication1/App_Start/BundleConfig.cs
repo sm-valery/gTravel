@@ -22,12 +22,14 @@ namespace gTravel
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/chosen.jquery.js"));
+                      "~/Scripts/chosen.jquery.js",
+                      "~/Scripts/bootstrap-datepicker.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/chosen.css"));
+                      "~/Content/bootstrap-chosen.css",
+                      "~/Content/bootstrap-datepicker.css"));
         }
     }
 }
