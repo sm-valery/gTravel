@@ -124,6 +124,7 @@ namespace gTravel.Controllers
             db.ContractStatus.Add(st);
 
             c.ContractStatusId = st.StatusId;
+            c.ContractStatu = st;
 
             #endregion
 
