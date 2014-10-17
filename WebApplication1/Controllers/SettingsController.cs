@@ -7,6 +7,7 @@ using gTravel.Models;
 
 namespace gTravel.Controllers
 {
+    [Authorize(Roles = @"Admin")]
     public class SettingsController : Controller
     {
         private goDbEntities db = new goDbEntities();
@@ -32,6 +33,8 @@ namespace gTravel.Controllers
         }
 
         #region Currency
+       
+        
         public ActionResult Currency()
         {
             var viewdb = db.Currencies;

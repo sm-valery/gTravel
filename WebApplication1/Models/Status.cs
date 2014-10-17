@@ -16,13 +16,13 @@ namespace gTravel.Models
     {
         public Status()
         {
-            this.Contracts = new HashSet<Contract>();
+            this.ContractStatus = new HashSet<ContractStatu>();
         }
     
         public System.Guid StatusId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
     
-        public virtual ICollection<Contract> Contracts { get; set; }
+        public virtual ICollection<ContractStatu> ContractStatus { get; set; }
     }
 }

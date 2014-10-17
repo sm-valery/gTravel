@@ -5,9 +5,11 @@ using gTravel.Models;
 using System.Data.Entity;
 using System.Net;
 using System.IO;
+using Microsoft.AspNet.Identity;
 
 namespace gTravel.Controllers
 {
+    [Authorize]
     public class ContractController : Controller
     {
         private goDbEntities db = new goDbEntities();
@@ -18,6 +20,9 @@ namespace gTravel.Controllers
         {
 
             ViewBag.contractnumber = contractnumber;
+
+            //серия по умолчанию
+            ViewBag.seria = "{4e92555e-f69b-47a6-8721-68150ef48e03}";
 
             if (contractnumber != null)
                 return View(db.Contracts.Where(x => x.contractnumber == contractnumber).ToList());
@@ -70,6 +75,7 @@ namespace gTravel.Controllers
 
         public ActionResult Contract_create(Guid seriaid)
         {
+            
             var seria = db.serias.FirstOrDefault(x=>x.SeriaId==seriaid);
 
             if(seria==null)
@@ -87,6 +93,8 @@ namespace gTravel.Controllers
             db.Subjects.Add(s);
             #endregion
 
+
+
             #region contract
             Contract c = new Contract();
 
@@ -96,10 +104,27 @@ namespace gTravel.Controllers
             c.date_end = null;
             c.Holder_SubjectId = s.SubjectId;
             c.contractnumber = null;
-            
-            c.StatusId = db.Status.SingleOrDefault(x=>x.Code.Trim()=="project").StatusId;
+
+
+
+           // c.StatusId = db.Status.SingleOrDefault(x=>x.Code.Trim()=="project").StatusId;
+
+            c.UserId = User.Identity.GetUserId();
 
             db.Contracts.Add(c);
+            #endregion
+
+
+            #region contractstatus
+            ContractStatu st = new ContractStatu();
+            st.ContractId = c.ContractId;
+            st.ContractStatusId = Guid.NewGuid();
+            st.DateInsert = DateTime.Now;
+            st.StatusId = db.Status.SingleOrDefault(x => x.Code.Trim() == "project").StatusId;
+            db.ContractStatus.Add(st);
+
+            c.ContractStatusId = st.StatusId;
+
             #endregion
 
             #region риски

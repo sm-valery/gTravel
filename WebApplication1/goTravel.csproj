@@ -218,6 +218,9 @@
     <Compile Include="Models\ContractRisk.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ContractStatu.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Contract_territory.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>

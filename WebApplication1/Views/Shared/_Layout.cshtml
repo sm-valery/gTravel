@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -42,10 +43,18 @@
 </head>
 <body>
 
-    <div class="alert alert-info">
-        Info text
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
 
-    </div> 
+        @Html.ActionLink(User.Identity.GetUserName() , "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
+
+        <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+
+    }
+}
 
     <div class="navbar">
 

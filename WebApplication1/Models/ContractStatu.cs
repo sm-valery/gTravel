@@ -12,16 +12,21 @@ namespace gTravel.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ContractRisk
+    public partial class ContractStatu
     {
-        public System.Guid ContractRiskId { get; set; }
-        public System.Guid ContractId { get; set; }
-        public Nullable<System.Guid> RiskId { get; set; }
-        public Nullable<decimal> InsSum { get; set; }
-        public Nullable<decimal> InsPrem { get; set; }
-        public Nullable<decimal> BaseTarif { get; set; }
+        public ContractStatu()
+        {
+            this.Contracts = new HashSet<Contract>();
+        }
     
-        public virtual Risk Risk { get; set; }
+        public System.Guid ContractStatusId { get; set; }
+        public Nullable<System.Guid> ContractId { get; set; }
+        public Nullable<System.Guid> StatusId { get; set; }
+        public Nullable<System.DateTime> DateInsert { get; set; }
+        public string UserId { get; set; }
+    
+        public virtual ICollection<Contract> Contracts { get; set; }
         public virtual Contract Contract { get; set; }
+        public virtual Status Status { get; set; }
     }
 }
