@@ -26,7 +26,6 @@ namespace gTravel.Models
         public string UserId { get; set; }
     
         public virtual ICollection<Contract> Contracts { get; set; }
-        public virtual Contract Contract { get; set; }
         public virtual Status Status { get; set; }
     }
 }

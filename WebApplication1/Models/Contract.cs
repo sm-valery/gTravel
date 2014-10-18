@@ -20,7 +20,6 @@ namespace gTravel.Models
             this.ContractRisks = new HashSet<ContractRisk>();
             this.Subjects = new HashSet<Subject>();
             this.ContractConditions = new HashSet<ContractCondition>();
-            this.ContractStatus = new HashSet<ContractStatu>();
         }
     
         public System.Guid ContractId { get; set; }
@@ -44,6 +43,5 @@ namespace gTravel.Models
         public virtual ICollection<Subject> Subjects { get; set; }
         public virtual ICollection<ContractCondition> ContractConditions { get; set; }
         public virtual ContractStatu ContractStatu { get; set; }
-        public virtual ICollection<ContractStatu> ContractStatus { get; set; }
     }
 }

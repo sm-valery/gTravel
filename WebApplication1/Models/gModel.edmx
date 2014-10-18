@@ -303,18 +303,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ContractStatus_ToContract">
-          <End Role="Contract" Type="Self.Contract" Multiplicity="0..1" />
-          <End Role="ContractStatus" Type="Self.ContractStatus" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contract">
-              <PropertyRef Name="ContractId" />
-            </Principal>
-            <Dependent Role="ContractStatus">
-              <PropertyRef Name="ContractId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ContractStatus_ToStatus">
           <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
           <End Role="ContractStatus" Type="Self.ContractStatus" Multiplicity="*" />
@@ -503,10 +491,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="Risk" EntitySet="Risk" />
             <End Role="ContractRisk" EntitySet="ContractRisk" />
           </AssociationSet>
-          <AssociationSet Name="FK_ContractStatus_ToContract" Association="Self.FK_ContractStatus_ToContract">
-            <End Role="Contract" EntitySet="Contract" />
-            <End Role="ContractStatus" EntitySet="ContractStatus" />
-          </AssociationSet>
           <AssociationSet Name="FK_ContractStatus_ToStatus" Association="Self.FK_ContractStatus_ToStatus">
             <End Role="Status" EntitySet="Status" />
             <End Role="ContractStatus" EntitySet="ContractStatus" />
@@ -644,10 +628,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <AssociationSet Name="FK_Contract_ToContractStatus" Association="goDbModel.FK_Contract_ToContractStatus">
             <End Role="ContractStatu" EntitySet="ContractStatus" />
             <End Role="Contract" EntitySet="Contracts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ContractStatus_ToContract" Association="goDbModel.FK_ContractStatus_ToContract">
-            <End Role="Contract" EntitySet="Contracts" />
-            <End Role="ContractStatu" EntitySet="ContractStatus" />
           </AssociationSet>
           <AssociationSet Name="FK_ContractStatus_ToStatus" Association="goDbModel.FK_ContractStatus_ToStatus">
             <End Role="Status" EntitySet="Status" />
@@ -989,8 +969,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="Subjects" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Contract" ToRole="Subject" />
           <NavigationProperty Name="ContractConditions" Relationship="goDbModel.FK_Table_ToContract" FromRole="Contract" ToRole="ContractCondition" />
           <NavigationProperty Name="ContractStatu" Relationship="goDbModel.FK_Contract_ToContractStatus" FromRole="Contract" ToRole="ContractStatu" />
-          <NavigationProperty Name="ContractStatus" Relationship="goDbModel.FK_ContractStatus_ToContract" FromRole="Contract" ToRole="ContractStatu" />
-        </EntityType>
+          </EntityType>
         <Association Name="FK_Contract_territory_ToContract">
           <End Type="goDbModel.Contract" Role="Contract" Multiplicity="1" />
           <End Type="goDbModel.Contract_territory" Role="Contract_territory" Multiplicity="*" />
@@ -1085,7 +1064,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="DateInsert" Type="DateTime" Precision="3" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToContractStatus" FromRole="ContractStatu" ToRole="Contract" />
-          <NavigationProperty Name="Contract" Relationship="goDbModel.FK_ContractStatus_ToContract" FromRole="ContractStatu" ToRole="Contract" />
           <NavigationProperty Name="Status" Relationship="goDbModel.FK_ContractStatus_ToStatus" FromRole="ContractStatu" ToRole="Status" />
         </EntityType>
         <Association Name="FK_Contract_ToContractStatus">
@@ -1097,18 +1075,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Principal>
             <Dependent Role="Contract">
               <PropertyRef Name="ContractStatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ContractStatus_ToContract">
-          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="0..1" />
-          <End Type="goDbModel.ContractStatu" Role="ContractStatu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contract">
-              <PropertyRef Name="ContractId" />
-            </Principal>
-            <Dependent Role="ContractStatu">
-              <PropertyRef Name="ContractId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

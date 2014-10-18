@@ -93,7 +93,7 @@ namespace gTravel.Controllers
             db.Subjects.Add(s);
             #endregion
 
-
+            Guid contr_stat_id = Guid.NewGuid();
 
             #region contract
             Contract c = new Contract();
@@ -104,29 +104,27 @@ namespace gTravel.Controllers
             c.date_end = null;
             c.Holder_SubjectId = s.SubjectId;
             c.contractnumber = null;
-
-
-
+            c.ContractStatusId = contr_stat_id;
            // c.StatusId = db.Status.SingleOrDefault(x=>x.Code.Trim()=="project").StatusId;
 
             c.UserId = User.Identity.GetUserId();
-
             db.Contracts.Add(c);
-            #endregion
 
+            ContractStatu stat = new ContractStatu();
+            stat.ContractStatusId = contr_stat_id;
+            stat.ContractId = c.ContractId;
+            stat.StatusId = db.Status.SingleOrDefault(x => x.Code.Trim() == "project").StatusId;
+            stat.DateInsert = DateTime.Now;
+            stat.UserId = User.Identity.GetUserId();
+            
+            db.ContractStatus.Add(stat);
 
-            #region contractstatus
-            ContractStatu st = new ContractStatu();
-            st.ContractId = c.ContractId;
-            st.ContractStatusId = Guid.NewGuid();
-            st.DateInsert = DateTime.Now;
-            st.StatusId = db.Status.SingleOrDefault(x => x.Code.Trim() == "project").StatusId;
-            db.ContractStatus.Add(st);
-
-            c.ContractStatusId = st.StatusId;
-            c.ContractStatu = st;
+            
 
             #endregion
+
+           
+          
 
             #region риски
 
