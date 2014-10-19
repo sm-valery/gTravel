@@ -260,11 +260,13 @@ namespace gTravel.Controllers
                          tr.RiskId == crisk.RiskId
                          select tr).FirstOrDefault();
 
-               
+                decimal dcount = 0;
                 if (t != null)
                 {
                     crisk.BaseTarif = (decimal)t.PremSum;
-                    crisk.InsPrem = (decimal)(crisk.BaseTarif * c.date_diff * c.Subjects.Count());
+                    dcount = (decimal)(c.date_diff * c.Subjects.Count());
+                    crisk.InsPrem = crisk.BaseTarif * dcount;
+                    crisk.InsFee = crisk.InsFee * dcount;
                 }
                 else
                 {

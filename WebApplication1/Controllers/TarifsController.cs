@@ -50,7 +50,7 @@ namespace gTravel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TarifId,RiskId,SeriaId,TerritoryId,InsSumFrom,InsSumTo,FranshSum,FranshPerc,PremSum")] Tarif tarif)
+        public ActionResult Create([Bind(Include = "TarifId,RiskId,SeriaId,TerritoryId,InsSumFrom,InsSumTo,FranshSum,FranshPerc,PremSum,InsFee")] Tarif tarif)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace gTravel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TarifId,RiskId,SeriaId,TerritoryId,InsSumFrom,InsSumTo,FranshSum,FranshPerc,PremSum")] Tarif tarif)
+        public ActionResult Edit([Bind(Include = "TarifId,RiskId,SeriaId,TerritoryId,InsSumFrom,InsSumTo,FranshSum,FranshPerc,PremSum,InsFee")] Tarif tarif)
         {
             if (ModelState.IsValid)
             {

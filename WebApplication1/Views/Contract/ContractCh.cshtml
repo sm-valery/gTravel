@@ -167,6 +167,7 @@
 
                     @{
                         int risk_num = 0;
+                        decimal contract_fee = 0;
                     }
                     @foreach (var risk in Model.ContractRisks)
                     {
@@ -198,6 +199,10 @@
                                 </td>
                                 <td>
                                     @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value" })
+                                
+                                    @Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })
+
+
                                 </td>
                             </tr>
                         </table>
