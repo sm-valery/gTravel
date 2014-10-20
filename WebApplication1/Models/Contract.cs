@@ -43,5 +43,6 @@ namespace gTravel.Models
         public virtual ICollection<Subject> Subjects { get; set; }
         public virtual ICollection<ContractCondition> ContractConditions { get; set; }
         public virtual ContractStatu ContractStatu { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

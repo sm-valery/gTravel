@@ -43,24 +43,27 @@
 </head>
 <body>
 
-@if (Request.IsAuthenticated)
-{
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-    {
-        @Html.AntiForgeryToken()
-
-        @Html.ActionLink(User.Identity.GetUserName() , "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
-
-        <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-
-    }
-}
 
     <div class="navbar">
 
         
         <div class="container">
 
+            <div>
+               @if (Request.IsAuthenticated)
+               {
+                   using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                   {
+                    @Html.AntiForgeryToken()
+                    @Html.Label("Пользователь: ")
+                    @Html.ActionLink("["+User.Identity.GetUserName() + "]", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
+
+                    <a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a>
+
+                   }
+               }
+
+            </div>
 
             <div class="navbar-header navbar-default" role="navigation">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -68,7 +71,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("TIT goTravel", "Index", "Home", null, new { @class = "navbar-brand" })
+                <img src="~/Content/logo-nav.png" style="width:60px; height:50px;" />
+                @*@Html.ActionLink("TIT", "Index", "Home", null, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse active">
                 <ul class="nav navbar-nav ">
@@ -90,6 +94,7 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Настройки<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Добавить пользователя", "Register", "Account")</li>
                             <li>@Html.ActionLink("Валюты", "Currency", "Settings")</li>
                             <li>@Html.ActionLink("Серия", "seria", "Settings")</li>
                             <li>@Html.ActionLink("Территории", "Index", "Territories")</li>
@@ -121,7 +126,10 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+
+            <p><small> Текущий пользователь: @User.Identity.Name.  &copy; @DateTime.Now.Year-GoTravel dev.
+                   г. Москва, 2-ой Южнопортовый проезд д.18 стр. 8, 5 этаж
+                </small></p>
         </footer>
     </div>
 

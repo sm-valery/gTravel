@@ -1,4 +1,4 @@
-﻿@model IEnumerable<gTravel.Models.Contract>
+﻿@model IEnumerable<gTravel.Models.v_contract>
 @{
     ViewBag.Title = "Список договоров";
 }
@@ -21,6 +21,7 @@
             Период
         </th>
         <th>Статус</th>
+        <th>Пользователь</th>
         <th></th>
     </tr>
     @foreach (var item in Model)
@@ -30,11 +31,11 @@
                 @item.contractnumber
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.seria.Code)
+                @Html.DisplayFor(modelItem => item.seria_code)
 
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Currency.name)
+                @Html.DisplayFor(modelItem => item.curr_code)
             </td>
             <td>
                 @Html.DisplayFor(m => item.date_begin, "_edate") - @Html.DisplayFor(m => item.date_end, "_edate")
@@ -42,7 +43,10 @@
                 (@item.date_diff)
             </td>
             <td>
-                @Html.DisplayFor(m => item.ContractStatu.Status.Name)
+                @Html.DisplayFor(m => item.status_name)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.UserName)
             </td>
             <td>
                 @Html.ActionLink("Изменить", "Contract_edit", new { id = item.ContractId }) |

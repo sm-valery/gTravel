@@ -13,21 +13,32 @@ namespace gTravel.Controllers
     public class ContractController : Controller
     {
         private goDbEntities db = new goDbEntities();
-
+        
         //
         // GET: /Contract/
         public ActionResult Index(decimal? contractnumber)
         {
+            //if (contractnumber != null)
+            //    return RedirectToAction("ContractListByNumber", new { contractnumber = contractnumber });
+
 
             ViewBag.contractnumber = contractnumber;
 
             //серия по умолчанию
             ViewBag.seria = "{4e92555e-f69b-47a6-8721-68150ef48e03}";
 
-            if (contractnumber != null)
-                return View(db.Contracts.Where(x => x.contractnumber == contractnumber).ToList());
+            var clist = from c in db.v_contract select c;
+            
 
-            return View(db.Contracts.ToList());
+            string userid = User.Identity.GetUserId();
+
+            if (!User.IsInRole("Admin"))
+                clist = clist.Where(x => x.UserId == userid);
+
+            if (contractnumber != null)
+                return View(clist.Where(x => x.contractnumber == contractnumber).OrderBy(o=>o.contractnumber).ToList());
+
+            return View(clist.OrderBy(o=>o.contractnumber) .ToList());
         }
 
         //public ActionResult List(decimal? contractnumber)
@@ -118,8 +129,6 @@ namespace gTravel.Controllers
             stat.UserId = User.Identity.GetUserId();
             
             db.ContractStatus.Add(stat);
-
-            
 
             #endregion
 
@@ -219,8 +228,8 @@ namespace gTravel.Controllers
             {
                 if (caction == "recalc")
                 {
-
-                    return RedirectToAction("Contract_edit", new { id = c.ContractId });
+                    return Redirect(Url.RouteUrl(new { Controller = "Contract", Action = "Contract_edit", id = c.ContractId }) + "#block-total");
+                    //return RedirectToAction("Contract_edit", new { id = c.ContractId,block-total });
                 }
 
                 return RedirectToAction("Index");
@@ -266,7 +275,7 @@ namespace gTravel.Controllers
                     crisk.BaseTarif = (decimal)t.PremSum;
                     dcount = (decimal)(c.date_diff * c.Subjects.Count());
                     crisk.InsPrem = crisk.BaseTarif * dcount;
-                    crisk.InsFee = crisk.InsFee * dcount;
+                    crisk.InsFee = (decimal)t.InsFee * dcount;
                 }
                 else
                 {
@@ -380,7 +389,12 @@ namespace gTravel.Controllers
 
         public ActionResult Contract_edit(Guid id)
         {
+            if (!findcontract(id))
+                return HttpNotFound();
+
             var c = db.Contracts.Include("Contract_territory").Include("ContractConditions").Include("Subjects").SingleOrDefault(x => x.ContractId == id);
+
+
             c.ContractConditions = c.ContractConditions.OrderBy(o => o.num).ToList();
             ViewBag.terr_count = c.Contract_territory.Count();
 
@@ -480,7 +494,7 @@ namespace gTravel.Controllers
         }
 
 
-        public ActionResult contract_terr_insert_row(Guid id, string name, Guid contractid)
+        private ActionResult contract_terr_insert_row(Guid id, string name, Guid contractid)
         {
             if (db.Contract_territory.Any(x => x.ContractId==contractid && x.TerritoryId == id))
                 return null;
@@ -543,6 +557,9 @@ namespace gTravel.Controllers
             Response.Cache.SetETag((Guid.NewGuid()).ToString());
 
             Guid gContractId = Guid.Parse(contractid);
+
+            if (!findcontract(gContractId))
+                return HttpNotFound();
 
             Subject s = new Subject();
             s.SubjectId = Guid.NewGuid();
@@ -607,6 +624,20 @@ namespace gTravel.Controllers
 
             Response.End();
 
+        }
+
+        private bool findcontract(Guid contract_id)
+        {
+            bool ret = false;
+
+            if (User.IsInRole("Admin"))
+                return true;
+
+            string userid = User.Identity.GetUserId();
+
+            ret = db.Contracts.Any(x => x.ContractId == contract_id && x.UserId == userid);
+
+            return ret;
         }
 
         protected override void Dispose(bool disposing)

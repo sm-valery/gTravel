@@ -27,7 +27,7 @@
         <AssociationConnector Association="goDbModel.FK_seria_ToTable" />
         <EntityTypeShape EntityType="goDbModel.ContractRisk" Width="1.5" PointX="18.125" PointY="0.875" />
         <AssociationConnector Association="goDbModel.FK_ContractRisk_ToRisk" />
-        <EntityTypeShape EntityType="goDbModel.Contract" Width="4.625" PointX="21.5" PointY="6" />
+        <EntityTypeShape EntityType="goDbModel.Contract" Width="4.625" PointX="23.5" PointY="5.625" />
         <AssociationConnector Association="goDbModel.FK_Contract_territory_ToContract" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToSubject" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToTable" />
@@ -42,6 +42,15 @@
         <AssociationConnector Association="goDbModel.FK_Tarif_ToRisk" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToTable" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToTerritory" />
+        <EntityTypeShape EntityType="goDbModel.AspNetRole" Width="1.5" PointX="0.75" PointY="14.5" />
+        <EntityTypeShape EntityType="goDbModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="15.625" />
+        <EntityTypeShape EntityType="goDbModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="13" />
+        <EntityTypeShape EntityType="goDbModel.AspNetUser" Width="1.5" PointX="3" PointY="13.25" />
+        <AssociationConnector Association="goDbModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="goDbModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="goDbModel.FK_Contract_AspNetUsers" />
+        <AssociationConnector Association="goDbModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="goDbModel.v_contract" Width="1.5" PointX="10.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -69,6 +69,7 @@
     @Html.HiddenFor(m => Model.ContractId)
     @Html.HiddenFor(m => Model.ContractStatusId)
     @Html.HiddenFor(m => Model.seriaid)
+    @Html.HiddenFor(m => Model.UserId)
 
     <div class="panel panel-default">
         <div class="panel-heading" style="color:darkslategray;">Стандартный полис страхования медицина/невыезд</div>
@@ -168,6 +169,7 @@
                     @{
                         int risk_num = 0;
                         decimal contract_fee = 0;
+                        decimal contract_prem = 0;
                     }
                     @foreach (var risk in Model.ContractRisks)
                     {
@@ -200,9 +202,15 @@
                                 <td>
                                     @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value" })
                                 
-                                    @Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })
+                                    @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
 
+                                    @{
+                        contract_fee += (decimal)(risk.InsFee??0);
+                        contract_prem += (decimal)(risk.InsPrem??0);
+                                            }
+                                    <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top" title="(Дн*Бт*Кол-во = @Model.date_diff*@risk.BaseTarif*@Model.Subjects.Count())">?</span>
 
+                                   
                                 </td>
                             </tr>
                         </table>
@@ -210,18 +218,16 @@
                         risk_num++;
                     }
 
-        <blockquote>
-           
-            <div class="small">
-
-                @if(User.IsInRole("Admin"))
+        <div class="blockquote-warning" id="block-total">
+           <h4>Итого</h4>
+                <div>Премия: <span class="input-value">@contract_prem </span></div>
+                @if (User.IsInRole("Admin"))
                 {
-                    <span>Вознаграждение по договору:</span>
+
+                    <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
                 }
-                
-            </div>
-  
-        </blockquote>
+
+        </div>
 
 
             </fieldset>
@@ -280,6 +286,8 @@
 }
 <script type="text/javascript">
     $(function () {
+
+        $('.tooltip-m').tooltip();
 
         //добавить застрахованного
         $("#insured_add").click(function (e) {

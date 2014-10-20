@@ -69,3 +69,21 @@ form label
 .panel-heading{
     font-weight:bold;
 }
+
+.blockquote-warning{
+    display: block;
+    padding-left: 20px;
+
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+    border-left-color: #f0ad4e;
+
+    box-sizing: border-box;
+}
+
+
+.tooltip-m{
+
+}

@@ -203,6 +203,18 @@
     </Compile>
     <Compile Include="mLib.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AspNetRole.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUser.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaim.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogin.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Condition.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -264,6 +276,9 @@
     <Compile Include="Models\Territory.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\v_contract.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\v_contractrisk.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -271,12 +286,18 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-WebApplication1-20140409105518.mdf" />
+    <Content Include="App_Data\aspnet-WebApplication1-20140409105518_log.ldf">
+      <DependentUpon>aspnet-WebApplication1-20140409105518.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\goDb.mdf" />
     <Content Include="App_Data\goDb_log.ldf">
       <DependentUpon>goDb.mdf</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker3.css" />
+    <Content Include="Content\keylogin.png" />
+    <Content Include="Content\logo-nav.png" />
     <Content Include="readme.txt" />
     <Content Include="Content\1200px-BlankMap-World-noborders.png" />
     <Content Include="Content\bootstrap-chosen.css" />

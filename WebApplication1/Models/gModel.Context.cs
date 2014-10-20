@@ -41,5 +41,10 @@ namespace gTravel.Models
         public virtual DbSet<Contract> Contracts { get; set; }
         public virtual DbSet<ContractStatu> ContractStatus { get; set; }
         public virtual DbSet<Tarif> Tarifs { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<v_contract> v_contract { get; set; }
     }
 }
