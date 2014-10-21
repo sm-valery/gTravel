@@ -3,6 +3,14 @@
     padding-bottom: 20px;
 }
 
+h2, h3 {
+    color: #b94a48;
+}
+
+th{
+    color: #696969;
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -14,6 +22,10 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+table {
+    font-size:small;
 }
 
 /* styles for validation helpers */
@@ -70,20 +82,35 @@ form label
     font-weight:bold;
 }
 
-.blockquote-warning{
+.blockquote-warning {
     display: block;
     padding-left: 20px;
-
     margin: 20px 0;
     border: 1px solid #eee;
     border-left-width: 5px;
     border-radius: 3px;
     border-left-color: #f0ad4e;
-
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
 
-.tooltip-m{
+.tooltip-m {
+border-bottom: 1px dotted;
+}
 
+.blockquote-bottom {
+    display: inline-block;
+    border-width: medium;
+    border-bottom: 2px solid #f0ad4e;
+    margin-bottom: 10px;
+}
+
+
+.title-brand{
+    width:60px; 
+    height:50px; 
+    border: 1px solid silver; 
+    border-radius:10px;
 }

@@ -26,9 +26,11 @@ namespace gTravel.Models
         public Nullable<decimal> period_multi { get; set; }
         public string period_multi_type { get; set; }
         public string UserId { get; set; }
+        public Nullable<System.DateTime> date_out { get; set; }
         public string UserName { get; set; }
-        public string seria_code { get; set; }
         public string curr_code { get; set; }
         public string status_name { get; set; }
+        public string terr_name { get; set; }
+        public Nullable<int> subject_count { get; set; }
     }
 }

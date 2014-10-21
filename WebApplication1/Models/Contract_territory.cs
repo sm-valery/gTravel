@@ -18,7 +18,7 @@ namespace gTravel.Models
         public System.Guid ContractId { get; set; }
         public Nullable<System.Guid> TerritoryId { get; set; }
     
-        public virtual Territory Territory { get; set; }
         public virtual Contract Contract { get; set; }
+        public virtual Territory Territory { get; set; }
     }
 }

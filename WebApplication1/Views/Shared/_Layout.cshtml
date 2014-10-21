@@ -31,7 +31,8 @@
             autoclose: true
         });
 
-        
+        $('.tooltip-m').tooltip();
+
 
        $(".chosen-select").chosen();
 
@@ -44,26 +45,30 @@
 <body>
 
 
-    <div class="navbar">
+    <div class="container">
 
-        
-        <div class="container">
-
-            <div>
-               @if (Request.IsAuthenticated)
-               {
-                   using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-                   {
+        <div class="blockquote-bottom">
+            @if (Request.IsAuthenticated)
+            {
+                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                {
                     @Html.AntiForgeryToken()
-                    @Html.Label("Пользователь: ")
-                    @Html.ActionLink("["+User.Identity.GetUserName() + "]", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    @Html.Label("Пользователь:")
+                    <span>&nbsp;</span>
+                    @Html.ActionLink("[" + User.Identity.GetUserName() + "]", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
 
-                    <a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a>
+                    <a href="javascript:document.getElementById('logoutForm').submit()">&nbsp;Выйти</a>
 
-                   }
-               }
+                }
+            }
 
-            </div>
+        </div>
+
+
+
+        <div class="navbar">
+
+
 
             <div class="navbar-header navbar-default" role="navigation">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -71,7 +76,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <img src="~/Content/logo-nav.png" style="width:60px; height:50px;" />
+                <img src="~/Content/logo-nav.png" class="title-brand" />
                 @*@Html.ActionLink("TIT", "Index", "Home", null, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse active">
@@ -81,8 +86,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Новый договор<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
-                            
-                                @Html.ActionLink("Китайский турист", "Contract_create", "Contract", new { seriaid = "4e92555e-f69b-47a6-8721-68150ef48e03" },null)
+
+                                @Html.ActionLink("Китайский турист", "Contract_create", "Contract", new { seriaid = "4e92555e-f69b-47a6-8721-68150ef48e03" }, null)
                             </li>
                             <li><a href="#">TOI мед. эл</a></li>
                             <li><a href="#">TR </a></li>
@@ -112,29 +117,32 @@
                     <button type="submit" class="btn btn-default">Search</button>
                 }
                 @*<form class="navbar-form navbar-right" role="search">
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Номер договора" />
-                    </div>
-                    <button type="submit" class="btn btn-default">Search</button>
-                </form>*@
+                        <div class="form-group">
+                            <input type="search" class="form-control" placeholder="Номер договора" />
+                        </div>
+                        <button type="submit" class="btn btn-default">Search</button>
+                    </form>*@
 
                 @*@Html.Partial("_LoginPartial")*@
             </div>
         </div>
+        <div class="row">
+            <div class="container body-content">
+                @RenderBody()
+                <hr />
+                <footer>
+
+                    <p>
+                        <small>
+                            Текущий пользователь: @User.Identity.Name.  &copy; @DateTime.Now.Year-GoTravel dev.
+                            Т.И.Т. г. Москва, 2-ой Южнопортовый проезд д.18 стр. 8, 5 этаж
+                        </small>
+                    </p>
+                </footer>
+            </div>
+        </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
 
-            <p><small> Текущий пользователь: @User.Identity.Name.  &copy; @DateTime.Now.Year-GoTravel dev.
-                   г. Москва, 2-ой Южнопортовый проезд д.18 стр. 8, 5 этаж
-                </small></p>
-        </footer>
-    </div>
-
-
- 
     @RenderSection("scripts", required: false)
 </body>
 </html>

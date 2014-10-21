@@ -72,8 +72,14 @@
     @Html.HiddenFor(m => Model.UserId)
 
     <div class="panel panel-default">
-        <div class="panel-heading" style="color:darkslategray;">Стандартный полис страхования медицина/невыезд</div>
+        <div class="panel-heading" style="color:#b94a48;">Стандартный полис страхования медицина/невыезд</div>
         <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2"><label>Дата выдачи полиса:</label></div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => Model.date_out, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-2">
                     <label><b>Номер:</b></label>
@@ -106,6 +112,7 @@
                     </span>
                 </div>
             </div>
+
 
             @*Доп параметры*@
             <p></p>
@@ -287,8 +294,7 @@
 <script type="text/javascript">
     $(function () {
 
-        $('.tooltip-m').tooltip();
-
+     
         //добавить застрахованного
         $("#insured_add").click(function (e) {
 

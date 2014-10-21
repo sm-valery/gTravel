@@ -113,6 +113,7 @@ namespace gTravel.Controllers
             c.seriaid = seriaid;
             c.date_begin = null;
             c.date_end = null;
+            c.date_out = DateTime.Now;
             c.Holder_SubjectId = s.SubjectId;
             c.contractnumber = null;
             c.ContractStatusId = contr_stat_id;

@@ -35,7 +35,6 @@ namespace gTravel.Models
         public virtual DbSet<RiskSeria> RiskSerias { get; set; }
         public virtual DbSet<v_contractrisk> v_contractrisk { get; set; }
         public virtual DbSet<Contract_territory> Contract_territory { get; set; }
-        public virtual DbSet<Territory> Territories { get; set; }
         public virtual DbSet<Risk> Risks { get; set; }
         public virtual DbSet<ContractRisk> ContractRisks { get; set; }
         public virtual DbSet<Contract> Contracts { get; set; }
@@ -45,6 +44,7 @@ namespace gTravel.Models
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<Territory> Territories { get; set; }
         public virtual DbSet<v_contract> v_contract { get; set; }
     }
 }

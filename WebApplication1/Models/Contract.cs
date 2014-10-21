@@ -34,6 +34,7 @@ namespace gTravel.Models
         public Nullable<decimal> period_multi { get; set; }
         public string period_multi_type { get; set; }
         public string UserId { get; set; }
+        public Nullable<System.DateTime> date_out { get; set; }
     
         public virtual ICollection<Contract_territory> Contract_territory { get; set; }
         public virtual Subject Subject { get; set; }

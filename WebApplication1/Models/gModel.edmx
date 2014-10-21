@@ -90,6 +90,7 @@
           <Property Name="period_multi" Type="decimal" Precision="18" Scale="0" />
           <Property Name="period_multi_type" Type="nchar" MaxLength="1" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="date_out" Type="date" />
         </EntityType>
         <EntityType Name="Contract_territory">
           <Key>
@@ -216,7 +217,7 @@
             <PropertyRef Name="TerritoryId" />
           </Key>
           <Property Name="TerritoryId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Name" Type="nchar" MaxLength="512" />
+          <Property Name="Name" Type="varchar" MaxLength="512" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -238,10 +239,12 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="period_multi" Type="decimal" Precision="18" Scale="0" />
           <Property Name="period_multi_type" Type="nchar" MaxLength="1" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="date_out" Type="date" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" />
-          <Property Name="seria_code" Type="nchar" MaxLength="10" />
           <Property Name="curr_code" Type="nchar" MaxLength="10" />
           <Property Name="status_name" Type="nchar" MaxLength="25" />
+          <Property Name="terr_name" Type="varchar" MaxLength="2000" />
+          <Property Name="subject_count" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contractrisk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -603,10 +606,12 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_contract].[period_multi] AS [period_multi], 
     [v_contract].[period_multi_type] AS [period_multi_type], 
     [v_contract].[UserId] AS [UserId], 
+    [v_contract].[date_out] AS [date_out], 
     [v_contract].[UserName] AS [UserName], 
-    [v_contract].[seria_code] AS [seria_code], 
     [v_contract].[curr_code] AS [curr_code], 
-    [v_contract].[status_name] AS [status_name]
+    [v_contract].[status_name] AS [status_name], 
+    [v_contract].[terr_name] AS [terr_name], 
+    [v_contract].[subject_count] AS [subject_count]
     FROM [dbo].[v_contract] AS [v_contract]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_contractrisk" EntityType="Self.v_contractrisk" store:Type="Views" store:Schema="dbo">
@@ -753,11 +758,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           </AssociationSet>
           <EntitySet Name="v_contractrisk" EntityType="goDbModel.v_contractrisk" />
           <EntitySet Name="Contract_territory" EntityType="goDbModel.Contract_territory" />
-          <EntitySet Name="Territories" EntityType="goDbModel.Territory" />
-          <AssociationSet Name="FK_Contract_territory_ToTerritory" Association="goDbModel.FK_Contract_territory_ToTerritory">
-            <End Role="Territory" EntitySet="Territories" />
-            <End Role="Contract_territory" EntitySet="Contract_territory" />
-          </AssociationSet>
           <EntitySet Name="Risks" EntityType="goDbModel.Risk" />
           <AssociationSet Name="FK_RiskSeria_ToRisk" Association="goDbModel.FK_RiskSeria_ToRisk">
             <End Role="Risk" EntitySet="Risks" />
@@ -819,10 +819,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="seria" EntitySet="serias" />
             <End Role="Tarif" EntitySet="Tarifs" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tarif_ToTerritory" Association="goDbModel.FK_Tarif_ToTerritory">
-            <End Role="Territory" EntitySet="Territories" />
-            <End Role="Tarif" EntitySet="Tarifs" />
-          </AssociationSet>
           <EntitySet Name="AspNetRoles" EntityType="goDbModel.AspNetRole" />
           <EntitySet Name="AspNetUserClaims" EntityType="goDbModel.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="goDbModel.AspNetUserLogin" />
@@ -843,7 +839,16 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="Territories" EntityType="goDbModel.Territory" />
           <EntitySet Name="v_contract" EntityType="goDbModel.v_contract" />
+          <AssociationSet Name="FK_Contract_territory_ToTerritory" Association="goDbModel.FK_Contract_territory_ToTerritory">
+            <End Role="Territory" EntitySet="Territories" />
+            <End Role="Contract_territory" EntitySet="Contract_territory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tarif_ToTerritory" Association="goDbModel.FK_Tarif_ToTerritory">
+            <End Role="Territory" EntitySet="Territories" />
+            <End Role="Tarif" EntitySet="Tarifs" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Currency">
           <Key>
@@ -1018,30 +1023,9 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="ContractTerritoryId" Type="Guid" Nullable="false" />
           <Property Name="ContractId" Type="Guid" Nullable="false" />
           <Property Name="TerritoryId" Type="Guid" />
-          <NavigationProperty Name="Territory" Relationship="goDbModel.FK_Contract_territory_ToTerritory" FromRole="Contract_territory" ToRole="Territory" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_Contract_territory_ToContract" FromRole="Contract_territory" ToRole="Contract" />
+          <NavigationProperty Name="Territory" Relationship="goDbModel.FK_Contract_territory_ToTerritory" FromRole="Contract_territory" ToRole="Territory" />
         </EntityType>
-        <EntityType Name="Territory">
-          <Key>
-            <PropertyRef Name="TerritoryId" />
-          </Key>
-          <Property Name="TerritoryId" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="512" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Contract_territory" Relationship="goDbModel.FK_Contract_territory_ToTerritory" FromRole="Territory" ToRole="Contract_territory" />
-          <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToTerritory" FromRole="Territory" ToRole="Tarif" />
-        </EntityType>
-        <Association Name="FK_Contract_territory_ToTerritory">
-          <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
-          <End Type="goDbModel.Contract_territory" Role="Contract_territory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Territory">
-              <PropertyRef Name="TerritoryId" />
-            </Principal>
-            <Dependent Role="Contract_territory">
-              <PropertyRef Name="TerritoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Risk">
           <Key>
             <PropertyRef Name="RiskId" />
@@ -1128,6 +1112,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="ContractConditions" Relationship="goDbModel.FK_Table_ToContract" FromRole="Contract" ToRole="ContractCondition" />
           <NavigationProperty Name="ContractStatu" Relationship="goDbModel.FK_Contract_ToContractStatus" FromRole="Contract" ToRole="ContractStatu" />
           <NavigationProperty Name="AspNetUser" Relationship="goDbModel.FK_Contract_AspNetUsers" FromRole="Contract" ToRole="AspNetUser" />
+          <Property Name="date_out" Type="DateTime" Precision="0" />
           </EntityType>
         <Association Name="FK_Contract_territory_ToContract">
           <End Type="goDbModel.Contract" Role="Contract" Multiplicity="1" />
@@ -1291,18 +1276,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tarif_ToTerritory">
-          <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
-          <End Type="goDbModel.Tarif" Role="Tarif" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Territory">
-              <PropertyRef Name="TerritoryId" />
-            </Principal>
-            <Dependent Role="Tarif">
-              <PropertyRef Name="TerritoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
@@ -1397,6 +1370,15 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <End Type="goDbModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="goDbModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
+        <EntityType Name="Territory">
+          <Key>
+            <PropertyRef Name="TerritoryId" />
+          </Key>
+          <Property Name="TerritoryId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Contract_territory" Relationship="goDbModel.FK_Contract_territory_ToTerritory" FromRole="Territory" ToRole="Contract_territory" />
+          <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToTerritory" FromRole="Territory" ToRole="Tarif" />
+        </EntityType>
         <EntityType Name="v_contract">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -1415,11 +1397,37 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="period_multi" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="period_multi_type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="date_out" Type="DateTime" Precision="0" />
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="seria_code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="curr_code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="status_name" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="terr_name" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="subject_count" Type="Int32" />
         </EntityType>
+        <Association Name="FK_Contract_territory_ToTerritory">
+          <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
+          <End Type="goDbModel.Contract_territory" Role="Contract_territory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Territory">
+              <PropertyRef Name="TerritoryId" />
+            </Principal>
+            <Dependent Role="Contract_territory">
+              <PropertyRef Name="TerritoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tarif_ToTerritory">
+          <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
+          <End Type="goDbModel.Tarif" Role="Tarif" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Territory">
+              <PropertyRef Name="TerritoryId" />
+            </Principal>
+            <Dependent Role="Tarif">
+              <PropertyRef Name="TerritoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1542,14 +1550,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Territories">
-            <EntityTypeMapping TypeName="goDbModel.Territory">
-              <MappingFragment StoreEntitySet="Territory">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Risks">
             <EntityTypeMapping TypeName="goDbModel.Risk">
               <MappingFragment StoreEntitySet="Risk">
@@ -1575,6 +1575,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="Contracts">
             <EntityTypeMapping TypeName="goDbModel.Contract">
               <MappingFragment StoreEntitySet="Contract">
+                <ScalarProperty Name="date_out" ColumnName="date_out" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="period_multi_type" ColumnName="period_multi_type" />
                 <ScalarProperty Name="period_multi" ColumnName="period_multi" />
@@ -1670,13 +1671,23 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Territories">
+            <EntityTypeMapping TypeName="goDbModel.Territory">
+              <MappingFragment StoreEntitySet="Territory">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="v_contract">
             <EntityTypeMapping TypeName="goDbModel.v_contract">
               <MappingFragment StoreEntitySet="v_contract">
+                <ScalarProperty Name="subject_count" ColumnName="subject_count" />
+                <ScalarProperty Name="terr_name" ColumnName="terr_name" />
                 <ScalarProperty Name="status_name" ColumnName="status_name" />
                 <ScalarProperty Name="curr_code" ColumnName="curr_code" />
-                <ScalarProperty Name="seria_code" ColumnName="seria_code" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="date_out" ColumnName="date_out" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="period_multi_type" ColumnName="period_multi_type" />
                 <ScalarProperty Name="period_multi" ColumnName="period_multi" />

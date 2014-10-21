@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Список договоров";
 }
-<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Title</h3>
 <p>
     @Html.ActionLink("Новый договор", "Contract_Create", new { seriaid = @ViewBag.seria })
 </p>
@@ -12,14 +12,20 @@
             Номер
         </th>
         <th>
-            Серия
-        </th>
-        <th>
-            Валюта
+            Дата выдачи
         </th>
         <th>
             Период
         </th>
+        <th>Территория</th>
+        <th>
+            <span class="tooltip-m" data-toggle="tooltip" data-placement="top" title="Количество застрахованных">Кол-во...</span>
+
+        </th>
+        <th>
+            Валюта
+        </th>
+
         <th>Статус</th>
         <th>Пользователь</th>
         <th></th>
@@ -31,17 +37,23 @@
                 @item.contractnumber
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.seria_code)
-
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.curr_code)
+                @Html.DisplayFor(m => item.date_out, "_edate")
             </td>
             <td>
                 @Html.DisplayFor(m => item.date_begin, "_edate") - @Html.DisplayFor(m => item.date_end, "_edate")
                 @*@item.date_begin.Value.ToShortDateString() - @item.date_end.Value.ToShortDateString()*@
                 (@item.date_diff)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.terr_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.subject_count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.curr_code)
+            </td>
+
             <td>
                 @Html.DisplayFor(m => item.status_name)
             </td>
