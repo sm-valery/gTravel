@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Собранная премия";
+}
+
+<h3>@ViewBag.Title</h3>
+
+
+@using(Html.BeginForm())
+{ 
+<table>
+    <tr>
+        <td>За период с:</td>
+        <td>@Html.TextBox("dtFrom", (string)ViewBag.dtFrom, new { @class = "form-control input-sm date3 date_period input-value" })</td>
+    </tr>
+</table>
+}

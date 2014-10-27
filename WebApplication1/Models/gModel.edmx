@@ -245,6 +245,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="status_name" Type="nchar" MaxLength="25" />
           <Property Name="terr_name" Type="varchar" MaxLength="2000" />
           <Property Name="subject_count" Type="int" />
+          <Property Name="InsPrem" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contractrisk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -611,7 +612,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_contract].[curr_code] AS [curr_code], 
     [v_contract].[status_name] AS [status_name], 
     [v_contract].[terr_name] AS [terr_name], 
-    [v_contract].[subject_count] AS [subject_count]
+    [v_contract].[subject_count] AS [subject_count], 
+    [v_contract].[InsPrem] AS [InsPrem]
     FROM [dbo].[v_contract] AS [v_contract]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_contractrisk" EntityType="Self.v_contractrisk" store:Type="Views" store:Schema="dbo">
@@ -1403,6 +1405,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="status_name" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
           <Property Name="terr_name" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
           <Property Name="subject_count" Type="Int32" />
+          <Property Name="InsPrem" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <Association Name="FK_Contract_territory_ToTerritory">
           <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
@@ -1682,6 +1685,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="v_contract">
             <EntityTypeMapping TypeName="goDbModel.v_contract">
               <MappingFragment StoreEntitySet="v_contract">
+                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
                 <ScalarProperty Name="subject_count" ColumnName="subject_count" />
                 <ScalarProperty Name="terr_name" ColumnName="terr_name" />
                 <ScalarProperty Name="status_name" ColumnName="status_name" />

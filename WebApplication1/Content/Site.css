@@ -114,3 +114,7 @@ border-bottom: 1px dotted;
     border: 1px solid silver; 
     border-radius:10px;
 }
+
+.input-sm{
+    margin-bottom:1px;
+}

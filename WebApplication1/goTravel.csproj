@@ -195,6 +195,7 @@
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\ContractsTestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\TarifsController.cs" />
     <Compile Include="Controllers\TerritoriesController.cs" />
@@ -472,6 +473,7 @@
     <Content Include="Views\Territories\Edit.cshtml" />
     <Content Include="Views\Territories\Index.cshtml" />
     <Content Include="Views\Contract\Index.cshtml" />
+    <Content Include="Views\Report\CollectedPrem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

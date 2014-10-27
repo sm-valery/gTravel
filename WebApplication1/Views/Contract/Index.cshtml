@@ -22,6 +22,7 @@
             <span class="tooltip-m" data-toggle="tooltip" data-placement="top" title="Количество застрахованных">Кол-во...</span>
 
         </th>
+        <th>Премия</th>
         <th>
             Валюта
         </th>
@@ -49,6 +50,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.subject_count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InsPrem)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.curr_code)
