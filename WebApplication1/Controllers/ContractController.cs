@@ -6,6 +6,9 @@ using System.Data.Entity;
 using System.Net;
 using System.IO;
 using Microsoft.AspNet.Identity;
+using System.Web;
+using System.Data.OleDb;
+using System.Data;
 
 namespace gTravel.Controllers
 {
@@ -297,7 +300,8 @@ namespace gTravel.Controllers
 
         private void ContractSave(Contract c)
         {
-            
+            if (c.date_out == null)
+                c.date_out = DateTime.Now;
 
             #region дополнительные параметры
             foreach (var item in c.ContractConditions)
@@ -462,6 +466,74 @@ namespace gTravel.Controllers
         //}
 
 
+        public ActionResult import_contract()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult import_contract(HttpPostedFileBase file)
+        {
+            //http://www.codeproject.com/Tips/752981/Import-Data-from-Excel-File-to-Database-Table-in-A
+
+            if(file.ContentLength>0)
+            {
+                
+
+                string fileLocation = Server.MapPath("~/Content/") + System.IO.Path.GetFileName(file.FileName);
+
+                string excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
+                      fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+
+                if (System.IO.File.Exists(fileLocation))
+                {
+
+                    System.IO.File.Delete(fileLocation);
+                }
+
+                file.SaveAs(fileLocation);
+
+                OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
+                excelConnection.Open();
+                
+                DataTable dt = new DataTable();
+                dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+
+                if (dt == null)
+                {
+                    return null;
+                }
+                String[] excelSheets = new String[dt.Rows.Count];
+                int t = 0;
+                foreach (DataRow row in dt.Rows)
+                {
+                    excelSheets[t] = row["TABLE_NAME"].ToString();
+                    t++;
+                }
+
+                string query = string.Format("Select * from [{0}]", excelSheets[0]);
+                OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+
+                using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(query, excelConnection1))
+                {
+                    DataSet ds = new DataSet();
+
+                    dataAdapter.Fill(ds);
+                        
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    {
+                        string aa = ds.Tables[0].Rows[i][0].ToString();
+                    }
+
+                }
+
+                
+                excelConnection.Close();
+            }
+
+
+            return View();
+        }
 
         private void contract_update_territory(Guid contractid,string[] territory)
         {

@@ -1,17 +1,68 @@
-﻿
+﻿@model IEnumerable<gTravel.Controllers.ReportController.CollectedPremData>
+
+
 @{
     ViewBag.Title = "Собранная премия";
 }
 
 <h3>@ViewBag.Title</h3>
 
+<div class="well well-sm">
+    @using (Html.BeginForm())
+    {
 
-@using(Html.BeginForm())
-{ 
-<table>
+
+        <table>
+            <tr>
+                <td>За период с:</td>
+                <td>
+
+
+                    @Html.TextBox("dtFrom", null, new { @class = "form-control input-sm date3 date_period input-value" })
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    по:
+                </td>
+                <td>
+                    @Html.TextBox("dtTo", null, new { @class = "form-control input-sm date3 date_period input-value" })
+
+                </td>
+            </tr>
+        </table>
+        <p></p>
+        <input class="btn btn-primary" type="submit" value="Построить" />
+    }
+
+</div>
+
+
+<p>
+
+</p>
+
+
+
+<table class="table table-condensed">
     <tr>
-        <td>За период с:</td>
-        <td>@Html.TextBox("dtFrom", (string)ViewBag.dtFrom, new { @class = "form-control input-sm date3 date_period input-value" })</td>
+        <th>Собранная премия</th>
+        <th>Собранная премия СК</th>
+        <th>Количество договоров</th>
     </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(m=>item.insprem)
+            </td>
+            <td>
+                @Html.DisplayFor(m=>item.insfee)
+            </td>
+            <td>
+                @Html.DisplayFor(m=>item.contract_count)
+            </td>
+        </tr>
+    }
 </table>
-}

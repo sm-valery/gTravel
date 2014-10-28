@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "Импорт";
+}
+
+<h3>@ViewBag.Title</h3>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="file" />
+    <input class="btn btn-default" type="submit" value="OK" />
+}  

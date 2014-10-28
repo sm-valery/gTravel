@@ -33,5 +33,6 @@ namespace gTravel.Models
         public string terr_name { get; set; }
         public Nullable<int> subject_count { get; set; }
         public Nullable<decimal> InsPrem { get; set; }
+        public Nullable<decimal> InsFee { get; set; }
     }
 }
