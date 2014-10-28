@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using gTravel.Models;
+using System.Xml;
 
 namespace gTravel.Controllers
 {
@@ -13,19 +14,17 @@ namespace gTravel.Controllers
         private goDbEntities db = new goDbEntities();
         
        
-        public ActionResult test()
-        {
-            try
-            {
-                var aa = db.Currencies.ToList();
-            }
-            catch(Exception e)
-            {
-                ViewBag.err = e.Message;
-            }
 
+        public ActionResult CurrencyRate()
+        {
+            XmlDocument xml = new XmlDocument();
+
+            xml.Load("http://www.cbr.ru/scripts/XML_daily.asp?date_req=02/03/2002");
+
+            
             return View();
         }
+
         // GET: Settings
         public ActionResult Index()
         {
