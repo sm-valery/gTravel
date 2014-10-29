@@ -124,6 +124,7 @@
           <Property Name="InsPrem" Type="money" />
           <Property Name="BaseTarif" Type="decimal" Precision="12" Scale="4" />
           <Property Name="InsFee" Type="money" />
+          <Property Name="InsPremRur" Type="money" />
         </EntityType>
         <EntityType Name="ContractStatus">
           <Key>
@@ -135,6 +136,15 @@
           <Property Name="DateInsert" Type="datetime" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
         </EntityType>
+        <EntityType Name="CurRate">
+          <Key>
+            <PropertyRef Name="CurRateId" />
+          </Key>
+          <Property Name="CurRateId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CurrencyId" Type="uniqueidentifier" />
+          <Property Name="Rate" Type="decimal" Precision="16" Scale="4" Nullable="false" />
+          <Property Name="RateDate" Type="date" />
+        </EntityType>
         <EntityType Name="Currency">
           <Key>
             <PropertyRef Name="CurrencyId" />
@@ -142,6 +152,7 @@
           <Property Name="CurrencyId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="name" Type="nchar" MaxLength="255" />
           <Property Name="code" Type="nchar" MaxLength="10" />
+          <Property Name="cbrId" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Risk">
           <Key>
@@ -246,6 +257,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="terr_name" Type="varchar" MaxLength="2000" />
           <Property Name="subject_count" Type="int" />
           <Property Name="InsPrem" Type="money" />
+          <Property Name="InsPremRur" Type="money" />
           <Property Name="InsFee" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -406,6 +418,18 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Principal>
             <Dependent Role="ContractStatus">
               <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurRate_ToCurrency">
+          <End Role="Currency" Type="Self.Currency" Multiplicity="0..1" />
+          <End Role="CurRate" Type="Self.CurRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurrencyId" />
+            </Principal>
+            <Dependent Role="CurRate">
+              <PropertyRef Name="CurrencyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -586,6 +610,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySet Name="ContractCondition" EntityType="Self.ContractCondition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractRisk" EntityType="Self.ContractRisk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractStatus" EntityType="Self.ContractStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CurRate" EntityType="Self.CurRate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Risk" EntityType="Self.Risk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RiskSeria" EntityType="Self.RiskSeria" Schema="dbo" store:Type="Tables" />
@@ -615,6 +640,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_contract].[terr_name] AS [terr_name], 
     [v_contract].[subject_count] AS [subject_count], 
     [v_contract].[InsPrem] AS [InsPrem], 
+    [v_contract].[InsPremRur] AS [InsPremRur], 
     [v_contract].[InsFee] AS [InsFee]
     FROM [dbo].[v_contract] AS [v_contract]</DefiningQuery>
           </EntitySet>
@@ -678,6 +704,10 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="Status" EntitySet="Status" />
             <End Role="ContractStatus" EntitySet="ContractStatus" />
           </AssociationSet>
+          <AssociationSet Name="FK_CurRate_ToCurrency" Association="Self.FK_CurRate_ToCurrency">
+            <End Role="Currency" EntitySet="Currency" />
+            <End Role="CurRate" EntitySet="CurRate" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -736,7 +766,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     <edmx:ConceptualModels>
       <Schema Namespace="goDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="goDbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Currencies" EntityType="goDbModel.Currency" />
           <EntitySet Name="serias" EntityType="goDbModel.seria" />
           <EntitySet Name="Conditions" EntityType="goDbModel.Condition" />
           <EntitySet Name="ConditionSerias" EntityType="goDbModel.ConditionSeria" />
@@ -767,10 +796,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="Risk" EntitySet="Risks" />
             <End Role="RiskSeria" EntitySet="RiskSerias" />
           </AssociationSet>
-          <AssociationSet Name="FK_seria_ToTable" Association="goDbModel.FK_seria_ToTable">
-            <End Role="Currency" EntitySet="Currencies" />
-            <End Role="seria" EntitySet="serias" />
-          </AssociationSet>
           <EntitySet Name="ContractRisks" EntityType="goDbModel.ContractRisk" />
           <AssociationSet Name="FK_ContractRisk_ToRisk" Association="goDbModel.FK_ContractRisk_ToRisk">
             <End Role="Risk" EntitySet="Risks" />
@@ -783,10 +808,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           </AssociationSet>
           <AssociationSet Name="FK_Contract_ToSubject" Association="goDbModel.FK_Contract_ToSubject">
             <End Role="Subject" EntitySet="Subjects" />
-            <End Role="Contract" EntitySet="Contracts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Contract_ToTable" Association="goDbModel.FK_Contract_ToTable">
-            <End Role="Currency" EntitySet="Currencies" />
             <End Role="Contract" EntitySet="Contracts" />
           </AssociationSet>
           <AssociationSet Name="FK_Contract_ToTable_1" Association="goDbModel.FK_Contract_ToTable_1">
@@ -853,17 +874,21 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="Territory" EntitySet="Territories" />
             <End Role="Tarif" EntitySet="Tarifs" />
           </AssociationSet>
+          <EntitySet Name="CurRates" EntityType="goDbModel.CurRate" />
+          <EntitySet Name="Currencies" EntityType="goDbModel.Currency" />
+          <AssociationSet Name="FK_Contract_ToTable" Association="goDbModel.FK_Contract_ToTable">
+            <End Role="Currency" EntitySet="Currencies" />
+            <End Role="Contract" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurRate_ToCurrency" Association="goDbModel.FK_CurRate_ToCurrency">
+            <End Role="Currency" EntitySet="Currencies" />
+            <End Role="CurRate" EntitySet="CurRates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_seria_ToTable" Association="goDbModel.FK_seria_ToTable">
+            <End Role="Currency" EntitySet="Currencies" />
+            <End Role="seria" EntitySet="serias" />
+          </AssociationSet>
           </EntityContainer>
-        <EntityType Name="Currency">
-          <Key>
-            <PropertyRef Name="CurrencyId" />
-          </Key>
-          <Property Name="CurrencyId" Type="Guid" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
-          <Property Name="code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="serias" Relationship="goDbModel.FK_seria_ToTable" FromRole="Currency" ToRole="seria" />
-          <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable" FromRole="Currency" ToRole="Contract" />
-        </EntityType>
         <EntityType Name="seria">
           <Key>
             <PropertyRef Name="SeriaId" />
@@ -876,9 +901,9 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="IsMulti" Type="Int32" />
           <Property Name="formname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DefaultCurrencyId" Type="Guid" />
-          <NavigationProperty Name="Currency" Relationship="goDbModel.FK_seria_ToTable" FromRole="seria" ToRole="Currency" />
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="seria" ToRole="Contract" />
           <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToTable" FromRole="seria" ToRole="Tarif" />
+          <NavigationProperty Name="Currency" Relationship="goDbModel.FK_seria_ToTable" FromRole="seria" ToRole="Currency" />
         </EntityType>
         <EntityType Name="Condition">
           <Key>
@@ -1053,18 +1078,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_seria_ToTable">
-          <End Type="goDbModel.Currency" Role="Currency" Multiplicity="0..1" />
-          <End Type="goDbModel.seria" Role="seria" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Currency">
-              <PropertyRef Name="CurrencyId" />
-            </Principal>
-            <Dependent Role="seria">
-              <PropertyRef Name="DefaultCurrencyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ContractRisk">
           <Key>
             <PropertyRef Name="ContractRiskId" />
@@ -1078,6 +1091,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="Risk" Relationship="goDbModel.FK_ContractRisk_ToRisk" FromRole="ContractRisk" ToRole="Risk" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_ContractRisk_ToContract" FromRole="ContractRisk" ToRole="Contract" />
           <Property Name="InsFee" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="InsPremRur" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <Association Name="FK_ContractRisk_ToRisk">
           <End Type="goDbModel.Risk" Role="Risk" Multiplicity="0..1" />
@@ -1109,7 +1123,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Contract_territory" Relationship="goDbModel.FK_Contract_territory_ToContract" FromRole="Contract" ToRole="Contract_territory" />
           <NavigationProperty Name="Subject" Relationship="goDbModel.FK_Contract_ToSubject" FromRole="Contract" ToRole="Subject" />
-          <NavigationProperty Name="Currency" Relationship="goDbModel.FK_Contract_ToTable" FromRole="Contract" ToRole="Currency" />
           <NavigationProperty Name="seria" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="Contract" ToRole="seria" />
           <NavigationProperty Name="ContractRisks" Relationship="goDbModel.FK_ContractRisk_ToContract" FromRole="Contract" ToRole="ContractRisk" />
           <NavigationProperty Name="Subjects" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Contract" ToRole="Subject" />
@@ -1117,6 +1130,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="ContractStatu" Relationship="goDbModel.FK_Contract_ToContractStatus" FromRole="Contract" ToRole="ContractStatu" />
           <NavigationProperty Name="AspNetUser" Relationship="goDbModel.FK_Contract_AspNetUsers" FromRole="Contract" ToRole="AspNetUser" />
           <Property Name="date_out" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Currency" Relationship="goDbModel.FK_Contract_ToTable" FromRole="Contract" ToRole="Currency" />
           </EntityType>
         <Association Name="FK_Contract_territory_ToContract">
           <End Type="goDbModel.Contract" Role="Contract" Multiplicity="1" />
@@ -1139,18 +1153,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Principal>
             <Dependent Role="Contract">
               <PropertyRef Name="Holder_SubjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Contract_ToTable">
-          <End Type="goDbModel.Currency" Role="Currency" Multiplicity="1" />
-          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Currency">
-              <PropertyRef Name="CurrencyId" />
-            </Principal>
-            <Dependent Role="Contract">
-              <PropertyRef Name="currencyid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1409,6 +1411,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="subject_count" Type="Int32" />
           <Property Name="InsPrem" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="InsFee" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="InsPremRur" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <Association Name="FK_Contract_territory_ToTerritory">
           <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
@@ -1434,21 +1437,70 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CurRate">
+          <Key>
+            <PropertyRef Name="CurRateId" />
+          </Key>
+          <Property Name="CurRateId" Type="Guid" Nullable="false" />
+          <Property Name="CurrencyId" Type="Guid" />
+          <Property Name="Rate" Type="Decimal" Nullable="false" Precision="16" Scale="4" />
+          <Property Name="RateDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Currency" Relationship="goDbModel.FK_CurRate_ToCurrency" FromRole="CurRate" ToRole="Currency" />
+        </EntityType>
+        <EntityType Name="Currency">
+          <Key>
+            <PropertyRef Name="CurrencyId" />
+          </Key>
+          <Property Name="CurrencyId" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="cbrId" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable" FromRole="Currency" ToRole="Contract" />
+          <NavigationProperty Name="CurRates" Relationship="goDbModel.FK_CurRate_ToCurrency" FromRole="Currency" ToRole="CurRate" />
+          <NavigationProperty Name="serias" Relationship="goDbModel.FK_seria_ToTable" FromRole="Currency" ToRole="seria" />
+        </EntityType>
+        <Association Name="FK_Contract_ToTable">
+          <End Type="goDbModel.Currency" Role="Currency" Multiplicity="1" />
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurrencyId" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="currencyid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurRate_ToCurrency">
+          <End Type="goDbModel.Currency" Role="Currency" Multiplicity="0..1" />
+          <End Type="goDbModel.CurRate" Role="CurRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurrencyId" />
+            </Principal>
+            <Dependent Role="CurRate">
+              <PropertyRef Name="CurrencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_seria_ToTable">
+          <End Type="goDbModel.Currency" Role="Currency" Multiplicity="0..1" />
+          <End Type="goDbModel.seria" Role="seria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurrencyId" />
+            </Principal>
+            <Dependent Role="seria">
+              <PropertyRef Name="DefaultCurrencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="goDbModelStoreContainer" CdmEntityContainer="goDbEntities">
-          <EntitySetMapping Name="Currencies">
-            <EntityTypeMapping TypeName="goDbModel.Currency">
-              <MappingFragment StoreEntitySet="Currency">
-                <ScalarProperty Name="code" ColumnName="code" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="serias">
             <EntityTypeMapping TypeName="goDbModel.seria">
               <MappingFragment StoreEntitySet="seria">
@@ -1568,6 +1620,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="ContractRisks">
             <EntityTypeMapping TypeName="goDbModel.ContractRisk">
               <MappingFragment StoreEntitySet="ContractRisk">
+                <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
                 <ScalarProperty Name="InsFee" ColumnName="InsFee" />
                 <ScalarProperty Name="BaseTarif" ColumnName="BaseTarif" />
                 <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
@@ -1688,6 +1741,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="v_contract">
             <EntityTypeMapping TypeName="goDbModel.v_contract">
               <MappingFragment StoreEntitySet="v_contract">
+                <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
                 <ScalarProperty Name="InsFee" ColumnName="InsFee" />
                 <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
                 <ScalarProperty Name="subject_count" ColumnName="subject_count" />
@@ -1708,6 +1762,26 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
                 <ScalarProperty Name="currencyid" ColumnName="currencyid" />
                 <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CurRates">
+            <EntityTypeMapping TypeName="goDbModel.CurRate">
+              <MappingFragment StoreEntitySet="CurRate">
+                <ScalarProperty Name="RateDate" ColumnName="RateDate" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+                <ScalarProperty Name="CurRateId" ColumnName="CurRateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Currencies">
+            <EntityTypeMapping TypeName="goDbModel.Currency">
+              <MappingFragment StoreEntitySet="Currency">
+                <ScalarProperty Name="cbrId" ColumnName="cbrId" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

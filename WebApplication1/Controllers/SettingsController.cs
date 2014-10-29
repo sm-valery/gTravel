@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using gTravel.Models;
-using System.Xml;
+using PagedList;
 
 namespace gTravel.Controllers
 {
@@ -15,15 +15,7 @@ namespace gTravel.Controllers
         
        
 
-        public ActionResult CurrencyRate()
-        {
-            XmlDocument xml = new XmlDocument();
-
-            xml.Load("http://www.cbr.ru/scripts/XML_daily.asp?date_req=02/03/2002");
-
-            
-            return View();
-        }
+       
 
         // GET: Settings
         public ActionResult Index()
@@ -32,7 +24,13 @@ namespace gTravel.Controllers
         }
 
         #region Currency
-       
+        private void CurRateUpdate(DateTime? dt)
+        {
+            if (dt == null)
+                dt = DateTime.Now;
+
+
+        }
         
         public ActionResult Currency()
         {
@@ -63,7 +61,30 @@ namespace gTravel.Controllers
 
             return View(c);
         }
-        
+
+
+        public ActionResult Currate(int? page)
+        {
+            var pageNumber = page ?? 1;
+            //https://github.com/TroyGoode/PagedList
+
+            return View(db.CurRates.OrderByDescending(o => o.RateDate).ToPagedList(pageNumber, 25));
+        }
+        public ActionResult CurrateCreate()
+        {
+
+            ViewBag.RateDate = DateTime.Now.ToShortDateString();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CurrateCreate(DateTime RateDate)
+        {
+            CurrManage.updateCurRate(db, RateDate);
+
+            return RedirectToAction("Currate");
+        }
+
         #endregion
         
         #region seria

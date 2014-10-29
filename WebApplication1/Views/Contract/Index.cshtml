@@ -24,7 +24,7 @@
         </th>
         <th>Премия</th>
         <th>
-            Валюта
+            Премия, руб
         </th>
 
         <th>Статус</th>
@@ -53,9 +53,10 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.InsPrem)
+                @Html.DisplayFor(modelItem => item.curr_code)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.curr_code)
+                @Html.DisplayFor(modelItem => item.InsPremRur)
             </td>
 
             <td>

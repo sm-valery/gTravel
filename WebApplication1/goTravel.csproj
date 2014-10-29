@@ -114,6 +114,14 @@
     <Reference Include="NReco.PdfGenerator">
       <HintPath>..\packages\NReco.PdfGenerator.1.0.3.0\lib\net20\NReco.PdfGenerator.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -206,6 +214,7 @@
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\TarifsController.cs" />
     <Compile Include="Controllers\TerritoriesController.cs" />
+    <Compile Include="CurManage.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -242,6 +251,9 @@
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Contract_territory.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CurRate.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Currency.cs">
@@ -306,6 +318,7 @@
     <Content Include="Content\bootstrap-datepicker3.css" />
     <Content Include="Content\keylogin.png" />
     <Content Include="Content\logo-nav.png" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="readme.txt" />
     <Content Include="Content\1200px-BlankMap-World-noborders.png" />
     <Content Include="Content\bootstrap-chosen.css" />
@@ -482,6 +495,8 @@
     <Content Include="Views\Contract\Index.cshtml" />
     <Content Include="Views\Report\CollectedPrem.cshtml" />
     <Content Include="Views\Contract\import_contract.cshtml" />
+    <Content Include="Views\Settings\Currate.cshtml" />
+    <Content Include="Views\Settings\CurrateCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

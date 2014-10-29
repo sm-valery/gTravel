@@ -25,7 +25,6 @@ namespace gTravel.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<seria> serias { get; set; }
         public virtual DbSet<Condition> Conditions { get; set; }
         public virtual DbSet<ConditionSeria> ConditionSerias { get; set; }
@@ -46,5 +45,7 @@ namespace gTravel.Models
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Territory> Territories { get; set; }
         public virtual DbSet<v_contract> v_contract { get; set; }
+        public virtual DbSet<CurRate> CurRates { get; set; }
+        public virtual DbSet<Currency> Currencies { get; set; }
     }
 }

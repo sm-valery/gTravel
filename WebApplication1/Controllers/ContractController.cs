@@ -280,6 +280,7 @@ namespace gTravel.Controllers
                     dcount = (decimal)(c.date_diff * c.Subjects.Count());
                     crisk.InsPrem = crisk.BaseTarif * dcount;
                     crisk.InsFee = (decimal)t.InsFee * dcount;
+                    crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
                 }
                 else
                 {

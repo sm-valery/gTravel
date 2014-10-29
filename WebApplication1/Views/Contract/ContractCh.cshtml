@@ -177,6 +177,7 @@
                         int risk_num = 0;
                         decimal contract_fee = 0;
                         decimal contract_prem = 0;
+                        decimal contract_prem_rur = 0;
                     }
                     @foreach (var risk in Model.ContractRisks)
                     {
@@ -214,6 +215,7 @@
                                     @{
                         contract_fee += (decimal)(risk.InsFee??0);
                         contract_prem += (decimal)(risk.InsPrem??0);
+                        contract_prem_rur += (decimal)(risk.InsPremRur ?? 0);
                                             }
                                     <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top" title="(Дн*Бт*Кол-во = @Model.date_diff*@risk.BaseTarif*@Model.Subjects.Count())">?</span>
 
@@ -228,6 +230,7 @@
         <div class="blockquote-warning" id="block-total">
            <h4>Итого</h4>
                 <div>Премия: <span class="input-value">@contract_prem </span></div>
+                <div>Премия, руб: <span class="input-value">@contract_prem_rur </span></div>
                 @if (User.IsInRole("Admin"))
                 {
 

@@ -16,15 +16,18 @@ namespace gTravel.Models
     {
         public Currency()
         {
-            this.serias = new HashSet<seria>();
             this.Contracts = new HashSet<Contract>();
+            this.CurRates = new HashSet<CurRate>();
+            this.serias = new HashSet<seria>();
         }
     
         public System.Guid CurrencyId { get; set; }
         public string name { get; set; }
         public string code { get; set; }
+        public string cbrId { get; set; }
     
-        public virtual ICollection<seria> serias { get; set; }
         public virtual ICollection<Contract> Contracts { get; set; }
+        public virtual ICollection<CurRate> CurRates { get; set; }
+        public virtual ICollection<seria> serias { get; set; }
     }
 }

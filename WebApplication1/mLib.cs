@@ -1,12 +1,14 @@
-﻿using System;
+﻿using gTravel.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace gTravel
 {
-    public static class mLib
+    static class mLib
     {
         public static SelectList GenderList(string gender = "N")
         {
@@ -17,6 +19,6 @@ namespace gTravel
                                             }, "Value", "Text",gender);
         }
 
-
+      
     }
 }
