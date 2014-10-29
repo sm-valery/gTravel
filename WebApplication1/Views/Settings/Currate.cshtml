@@ -1,0 +1,52 @@
+﻿@using PagedList.Mvc; 
+@using PagedList; 
+
+
+@model PagedList<gTravel.Models.CurRate>
+
+@{
+    ViewBag.Title = "Курсы валют";
+}
+
+<h3>@ViewBag.Title</h3>
+
+<p>
+    @Html.ActionLink("Добавить", "CurrateCreate")
+</p>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Дата
+        </th>
+        <th>
+            Валюта
+        </th>
+        <th>
+            Курс
+        </th>
+
+
+
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RateDate)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Currency.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rate)
+        </td>
+
+        
+    </tr>
+}
+
+</table>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
