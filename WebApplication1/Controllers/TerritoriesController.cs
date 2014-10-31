@@ -10,6 +10,7 @@ using gTravel.Models;
 
 namespace gTravelAzur.Controllers
 {
+    [Authorize(Roles = @"Admin")]
     public class TerritoriesController : Controller
     {
         private goDbEntities db = new goDbEntities();

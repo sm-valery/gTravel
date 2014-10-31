@@ -10,6 +10,7 @@ using gTravel.Models;
 
 namespace gTravel.Controllers
 {
+    [Authorize(Roles = @"Admin")]
     public class RiskSeriasController : Controller
     {
         private goDbEntities db = new goDbEntities();

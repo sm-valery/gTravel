@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace gTravel.Controllers
 {
+    [Authorize]
     public class ReportController : Controller
     {
         private goDbEntities db = new goDbEntities();
