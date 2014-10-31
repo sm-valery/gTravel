@@ -28,6 +28,14 @@ table {
     font-size:small;
 }
 
+/*.navbar{
+    background-color:#f4f7fc;
+   
+    
+}*/
+
+
+
 /* styles for validation helpers */
 .field-validation-error {
     color: #b94a48;
@@ -53,10 +61,7 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
-.countrypanel
-{
-    background-image:url("\Content\1200px-BlankMap-World-noborders.png")
-}
+
 
 .input-label {
     color: lightblue;
@@ -117,4 +122,16 @@ border-bottom: 1px dotted;
 
 .input-sm{
     margin-bottom:1px;
+}
+
+.countrypanel
+{
+    background-image:url("\Content\1200px-BlankMap-World-noborders.png")
+}
+
+.login-descr{
+    background-color:#fafafa;
+    border-radius:20px;
+    padding:20px;
+    border: 1px solid #e0e0e0;
 }

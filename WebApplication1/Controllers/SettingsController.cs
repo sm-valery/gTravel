@@ -62,6 +62,13 @@ namespace gTravel.Controllers
             return View(c);
         }
 
+        public ActionResult Currency_edit(Guid CurrencyId)
+        {
+            Currency c = new Currency();
+
+            return View(c);
+        }
+
 
         public ActionResult Currate(int? page)
         {
@@ -114,6 +121,29 @@ namespace gTravel.Controllers
 
                 return RedirectToAction("seria");
             }
+
+            return View(s);
+        }
+
+        public ActionResult Seria_edit(Guid id)
+        {
+            ViewBag.DefaultCurrencyId = new SelectList(db.Currencies, "CurrencyId", "name");
+
+            return View(db.serias.SingleOrDefault(x=>x.SeriaId == id));
+        }
+
+        [HttpPost]
+        public ActionResult Seria_edit(seria s)
+        {
+            if(ModelState.IsValid)
+            {
+                db.Entry(s).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Seria");
+            }
+
+            ViewBag.DefaultCurrencyId = new SelectList(db.Currencies, "CurrencyId", "name");
 
             return View(s);
         }

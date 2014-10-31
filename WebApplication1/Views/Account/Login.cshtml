@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log in</title>
     @Styles.Render("~/Content/css")
+    <link href="~/Content/Site.css" rel="stylesheet" />
 
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
@@ -17,7 +18,7 @@
 
 
 </head>
-<body>
+<body style="color: #696969">
     @model gTravel.Models.LoginViewModel
 
 
@@ -29,7 +30,7 @@
                 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
-                    <h4><span style="color:darkblue;">T.I.T.</span> = Tourist & Insurance Together</h4>
+                    <h3 ><span class="label label-primary">T.I.T.</span> Tourist & Insurance Together </h3>
                     <hr />
                     @Html.ValidationSummary(true)
                     <div class="form-group">
@@ -50,7 +51,7 @@
                         <div class="col-md-offset-2 col-md-10">
                             <div class="checkbox">
                                 @Html.CheckBoxFor(m => m.RememberMe)
-                                @Html.LabelFor(m => m.RememberMe,"Запомнить?")
+                                @Html.LabelFor(m => m.RememberMe, "Запомнить?")
                             </div>
                         </div>
                     </div>
@@ -59,19 +60,23 @@
                             <input type="submit" value="Вход" class="btn btn-default" />
                         </div>
                     </div>
-   
+
                 }
             </section>
         </div>
-        <div class="col-md-4">
+        
+        <div class="col-md-4 login-descr">
             @*<section id="socialLoginForm">*@
-                Для входа используйте логин и пароль выданный в страховой компании ТИТ 
-                <a href="titins.ru">titins.ru</a>. Или обратитесь по адресу <a href="mailto:admin@titins.ru">admin@titins.ru</a>
+            Для входа используйте логин и пароль выданный в страховой компании ТИТ
+            <a href="titins.ru">titins.ru</a>. Или обратитесь по адресу <a href="mailto:admin@titins.ru">admin@titins.ru</a>
 
-                <p>&nbsp;</p>
-                <p>
-                    <a href="http://maps.yandex.ru/-/CVrlYB5n">г. Москва, 2-ой Южнопортовый проезд д.18 стр. 8, 5 этаж ( ст. метро Кожуховская)</a>
-                </p>
+            <p>&nbsp;</p>
+            Для тестового доступа используйте логин <b>test</b> пароль <b>111111</b>
+
+            <p>&nbsp;</p>
+            <p>
+                <a href="http://maps.yandex.ru/-/CVrlYB5n">г. Москва, 2-ой Южнопортовый проезд д.18 стр. 8, 5 этаж ( ст. метро Кожуховская)</a>
+            </p>
             <p>
                 &nbsp;
             </p>
@@ -81,10 +86,10 @@
             </p>
 
             <p>
-<img src="~/Content/keylogin.png" style="width:150px; height:150px;" />
+                <img src="~/Content/keylogin.png" style="width:150px; height:150px;" />
             </p>
 
-    @*@Html.Partial("_ExternalLoginsListPartial", new { Action = "ExternalLogin", ReturnUrl = ViewBag.ReturnUrl })*@
+            @*@Html.Partial("_ExternalLoginsListPartial", new { Action = "ExternalLogin", ReturnUrl = ViewBag.ReturnUrl })*@
             @*</section>*@
         </div>
     </div>

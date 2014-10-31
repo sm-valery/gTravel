@@ -211,6 +211,7 @@
     <Compile Include="Controllers\ContractsTestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\RiskSeriasController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\TarifsController.cs" />
     <Compile Include="Controllers\TerritoriesController.cs" />
@@ -367,6 +368,7 @@
     <None Include="Properties\PublishProfiles\gotravel - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\gotravel - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\gotravel.pubxml" />
+    <None Include="Properties\PublishProfiles\tit.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\contract.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
@@ -497,6 +499,13 @@
     <Content Include="Views\Contract\import_contract.cshtml" />
     <Content Include="Views\Settings\Currate.cshtml" />
     <Content Include="Views\Settings\CurrateCreate.cshtml" />
+    <Content Include="Views\RiskSerias\Create.cshtml" />
+    <Content Include="Views\RiskSerias\Delete.cshtml" />
+    <Content Include="Views\RiskSerias\Details.cshtml" />
+    <Content Include="Views\RiskSerias\Edit.cshtml" />
+    <Content Include="Views\RiskSerias\Index.cshtml" />
+    <Content Include="Views\Settings\Currency_edit.cshtml" />
+    <Content Include="Views\Settings\Seria_edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

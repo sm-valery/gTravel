@@ -17,6 +17,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
+        <th>
+            Валюта по умолчанию
+        </th>
         <th></th>
     </tr>
 
@@ -29,7 +32,10 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SeriaId }) |
+            @Html.DisplayFor(modelItem => item.Currency.code)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Seria_edit", new { id = item.SeriaId }) |
             @Html.ActionLink("Details", "Details", new { id=item.SeriaId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.SeriaId })
         </td>

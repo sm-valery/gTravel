@@ -114,6 +114,7 @@ namespace gTravel.Controllers
 
             c.ContractId = Guid.NewGuid();
             c.seriaid = seriaid;
+            c.currencyid = seria.DefaultCurrencyId.Value;
             c.date_begin = null;
             c.date_end = null;
             c.date_out = DateTime.Now;
@@ -150,7 +151,7 @@ namespace gTravel.Controllers
                 item_rs.ContractRiskId = Guid.NewGuid();
                 item_rs.ContractId = c.ContractId;
                 item_rs.RiskId = item.RiskId;
-                item_rs.Risk = item.Risk;
+                //item_rs.Risk = item.Risk;
 
                 c.ContractRisks.Add(item_rs);
             }
@@ -158,7 +159,7 @@ namespace gTravel.Controllers
             #endregion
 
             #region доп параметры
-            var cs = db.ConditionSerias.Where(x => x.SeriaId == c.seriaid).OrderBy(o=>o.num);
+            var cs = db.ConditionSerias.Include("Condition").Where(x => x.SeriaId == c.seriaid).OrderBy(o => o.num);
 
             foreach (var item in cs)
             {
@@ -166,7 +167,7 @@ namespace gTravel.Controllers
                 cc.ContractCondId = Guid.NewGuid();
                 cc.ConditionId = item.ConditionId;
                 cc.Contractid = c.ContractId;
-                cc.Condition = item.Condition;
+                //cc.Condition = item.Condition;
                 cc.num = item.num;
 
                 switch(item.Condition.Type)
