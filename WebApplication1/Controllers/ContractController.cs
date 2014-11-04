@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using System.Web;
 using System.Data.OleDb;
 using System.Data;
+using ClosedXML.Excel;
 
 namespace gTravel.Controllers
 {
@@ -89,15 +90,134 @@ namespace gTravel.Controllers
 
         public ActionResult Contract_create(Guid seriaid)
         {
-            
-            var seria = db.serias.FirstOrDefault(x=>x.SeriaId==seriaid);
 
-            if(seria==null)
+            var seria = db.serias.FirstOrDefault(x => x.SeriaId == seriaid);
+
+            if (seria == null)
             {
                 return HttpNotFound();
             }
+            Contract c = new Contract();
+            c.seriaid = seriaid;
+            c.currencyid = seria.DefaultCurrencyId.Value;
+            c.date_out = DateTime.Now;
+
+            if (p_contract_add(c))
+                return RedirectToAction("Contract_edit", new { id = c.ContractId });
+
+
+            return RedirectToAction("Index");
+
      
-            #region Subject
+           // #region Subject
+
+           // Subject s = new Subject();
+
+           // s.SubjectId = Guid.NewGuid();
+           // s.Type = "fiz";
+
+           // db.Subjects.Add(s);
+           // #endregion
+
+           // Guid contr_stat_id = Guid.NewGuid();
+
+           // #region contract
+           // Contract c = new Contract();
+
+           // c.ContractId = Guid.NewGuid();
+           // c.seriaid = seriaid;
+           // c.currencyid = seria.DefaultCurrencyId.Value;
+           // c.date_begin = null;
+           // c.date_end = null;
+           // c.date_out = DateTime.Now;
+           // c.Holder_SubjectId = s.SubjectId;
+           // c.contractnumber = null;
+           // c.ContractStatusId = contr_stat_id;
+           //// c.StatusId = db.Status.SingleOrDefault(x=>x.Code.Trim()=="project").StatusId;
+
+           // c.UserId = User.Identity.GetUserId();
+           // db.Contracts.Add(c);
+
+           // ContractStatu stat = new ContractStatu();
+           // stat.ContractStatusId = contr_stat_id;
+           // stat.ContractId = c.ContractId;
+           // stat.StatusId = db.Status.SingleOrDefault(x => x.Code.Trim() == "project").StatusId;
+           // stat.DateInsert = DateTime.Now;
+           // stat.UserId = User.Identity.GetUserId();
+            
+           // db.ContractStatus.Add(stat);
+
+           // #endregion
+
+           
+          
+
+           // #region риски
+
+           // var cr = db.RiskSerias.Where(x => x.SeriaId == c.seriaid).OrderBy(o=>o.sort);
+
+           // foreach(var item in cr)
+           // {
+           //     ContractRisk item_rs = new  ContractRisk();
+
+           //     item_rs.ContractRiskId = Guid.NewGuid();
+           //     item_rs.ContractId = c.ContractId;
+           //     item_rs.RiskId = item.RiskId;
+           //     //item_rs.Risk = item.Risk;
+
+           //     c.ContractRisks.Add(item_rs);
+           // }
+
+           // #endregion
+
+           // #region доп параметры
+           // var cs = db.ConditionSerias.Include("Condition").Where(x => x.SeriaId == c.seriaid).OrderBy(o => o.num);
+
+           // foreach (var item in cs)
+           // {
+           //     ContractCondition cc = new ContractCondition();
+           //     cc.ContractCondId = Guid.NewGuid();
+           //     cc.ConditionId = item.ConditionId;
+           //     cc.Contractid = c.ContractId;
+           //     //cc.Condition = item.Condition;
+           //     cc.num = item.num;
+
+           //     switch(item.Condition.Type)
+           //     {
+           //         case "L":
+           //             cc.Val_l = false;
+           //             break;
+           //     }
+
+
+           //     db.ContractConditions.Add(cc);
+           
+           // }
+           // #endregion
+
+           // db.SaveChanges();
+
+             //return RedirectToAction(seria.formname, "Contract", new { contractid = c.ContractId });
+            
+
+            //Contract_ini(c.ContractId);
+
+            //ViewBag.risklist = db.v_contractrisk.Where(x => x.ContractId == c.ContractId).OrderBy(o=>o.sort);
+
+            //return View("Contract", db.Contracts.SingleOrDefault(x=>x.ContractId==c.ContractId));
+
+        }
+
+        private bool p_contract_add(Contract c)
+        {
+            var seria = db.serias.FirstOrDefault(x => x.SeriaId == c.seriaid);
+
+            if (seria == null)
+            {
+                return false;
+            }
+
+            #region Застрахованный
 
             Subject s = new Subject();
 
@@ -110,19 +230,18 @@ namespace gTravel.Controllers
             Guid contr_stat_id = Guid.NewGuid();
 
             #region contract
-            Contract c = new Contract();
+            //Contract c = new Contract();
 
             c.ContractId = Guid.NewGuid();
-            c.seriaid = seriaid;
-            c.currencyid = seria.DefaultCurrencyId.Value;
-            c.date_begin = null;
-            c.date_end = null;
-            c.date_out = DateTime.Now;
+            c.seriaid = (c.seriaid == null) ? seria.DefaultCurrencyId.Value : c.seriaid;
+          //  c.currencyid = cc.seriaid;
+           // c.date_begin = cc.date_begin;
+           // c.date_end = cc.date_end;
+            c.date_out = (c.date_out ==null)?DateTime.Now: c.date_out;
             c.Holder_SubjectId = s.SubjectId;
             c.contractnumber = null;
             c.ContractStatusId = contr_stat_id;
-           // c.StatusId = db.Status.SingleOrDefault(x=>x.Code.Trim()=="project").StatusId;
-
+          
             c.UserId = User.Identity.GetUserId();
             db.Contracts.Add(c);
 
@@ -132,21 +251,21 @@ namespace gTravel.Controllers
             stat.StatusId = db.Status.SingleOrDefault(x => x.Code.Trim() == "project").StatusId;
             stat.DateInsert = DateTime.Now;
             stat.UserId = User.Identity.GetUserId();
-            
+
             db.ContractStatus.Add(stat);
 
             #endregion
 
-           
-          
+
+
 
             #region риски
 
-            var cr = db.RiskSerias.Where(x => x.SeriaId == c.seriaid).OrderBy(o=>o.sort);
+            var cr = db.RiskSerias.Where(x => x.SeriaId == c.seriaid).OrderBy(o => o.sort);
 
-            foreach(var item in cr)
+            foreach (var item in cr)
             {
-                ContractRisk item_rs = new  ContractRisk();
+                ContractRisk item_rs = new ContractRisk();
 
                 item_rs.ContractRiskId = Guid.NewGuid();
                 item_rs.ContractId = c.ContractId;
@@ -170,7 +289,7 @@ namespace gTravel.Controllers
                 //cc.Condition = item.Condition;
                 cc.num = item.num;
 
-                switch(item.Condition.Type)
+                switch (item.Condition.Type)
                 {
                     case "L":
                         cc.Val_l = false;
@@ -179,29 +298,18 @@ namespace gTravel.Controllers
 
 
                 db.ContractConditions.Add(cc);
-           
+
             }
             #endregion
 
             db.SaveChanges();
 
-            return RedirectToAction("Contract_edit", new { id = c.ContractId });
-
-            //return RedirectToAction(seria.formname, "Contract", new { contractid = c.ContractId });
-            
-
-            //Contract_ini(c.ContractId);
-
-            //ViewBag.risklist = db.v_contractrisk.Where(x => x.ContractId == c.ContractId).OrderBy(o=>o.sort);
-
-            //return View("Contract", db.Contracts.SingleOrDefault(x=>x.ContractId==c.ContractId));
-
+            return true;
         }
-
 
         public ActionResult ContractCh(Guid contractid)
         {
-
+           
             //Contract_ini(contractid);
 
             //var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
@@ -478,64 +586,122 @@ namespace gTravel.Controllers
         {
             //http://www.codeproject.com/Tips/752981/Import-Data-from-Excel-File-to-Database-Table-in-A
 
-            if(file.ContentLength>0)
+           int iusedrow=0;
+
+            if (file.ContentLength > 0)
             {
-                
-
-                string fileLocation = Server.MapPath("~/Content/") + System.IO.Path.GetFileName(file.FileName);
-
-                string excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-                      fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-
-                if (System.IO.File.Exists(fileLocation))
+                //  var workbook = new XLWorkbook(@"c:\temp\Книга1.xlsx");
+                try
                 {
+                    var workbook = new XLWorkbook(file.InputStream);
 
-                    System.IO.File.Delete(fileLocation);
-                }
+                    var ws = workbook.Worksheet(1);
 
-                file.SaveAs(fileLocation);
-
-                OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
-                excelConnection.Open();
-                
-                DataTable dt = new DataTable();
-                dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-
-                if (dt == null)
-                {
-                    return null;
-                }
-                String[] excelSheets = new String[dt.Rows.Count];
-                int t = 0;
-                foreach (DataRow row in dt.Rows)
-                {
-                    excelSheets[t] = row["TABLE_NAME"].ToString();
-                    t++;
-                }
-
-                string query = string.Format("Select * from [{0}]", excelSheets[0]);
-                OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
-
-                using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(query, excelConnection1))
-                {
-                    DataSet ds = new DataSet();
-
-                    dataAdapter.Fill(ds);
-                        
-                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    using(var rows = ws.RowsUsed())
                     {
-                        string aa = ds.Tables[0].Rows[i][0].ToString();
+                        foreach(var row in rows)
+                        {
+                            iusedrow++;
+
+                            //пропустим шапку
+                            if(iusedrow==1)
+                                continue;
+
+                            
+                            
+                            string cnum = row.Cell(1).Value.ToString();
+                            int nnum=0;
+
+                            if(!int.TryParse(cnum,out nnum))
+                            {
+                                ModelState.AddModelError(string.Empty,string.Format("Строка {0}: номер не является числом."));
+                                continue;
+                            }
+
+                            DateTime dt_out;
+                            bool isdt_out= DateTime.TryParse(row.Cell(2).Value.ToString(), out dt_out);
+                            var contr = db.Contracts.SingleOrDefault(x => x.contractnumber == nnum && x.UserId == User.Identity.GetUserId());
+                            if(contr!=null)
+                            {
+                                //если полиса нет, то создаем
+                                Contract c = new Contract();
+                                c.contractnumber = nnum;
+                                if(isdt_out)
+                                    c.date_out = dt_out;
+                            }
+                            else
+                            {
+                                //если есть, то только добавляем застрахованного
+                            }
+                        }
                     }
 
+                }catch(Exception e)
+                {
+                  ModelState.AddModelError(string.Empty,"Файл импорта должен иметь формат *.xlsx");
                 }
-
-                
-                excelConnection.Close();
+               
+                //return null;
             }
 
 
             return View();
         }
+
+        private void importOledb()
+        {
+  //string fileLocation = Server.MapPath("~/Content/") + System.IO.Path.GetFileName(file.FileName);
+
+  //              string excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
+  //                    fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+
+  //              if (System.IO.File.Exists(fileLocation))
+  //              {
+
+  //                  System.IO.File.Delete(fileLocation);
+  //              }
+
+  //              file.SaveAs(fileLocation);
+
+  //              OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
+  //              excelConnection.Open();
+                
+  //              DataTable dt = new DataTable();
+  //              dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+
+  //              if (dt == null)
+  //              {
+  //                  return;
+  //              }
+  //              String[] excelSheets = new String[dt.Rows.Count];
+  //              int t = 0;
+  //              foreach (DataRow row in dt.Rows)
+  //              {
+  //                  excelSheets[t] = row["TABLE_NAME"].ToString();
+  //                  t++;
+  //              }
+
+  //              string query = string.Format("Select * from [{0}]", excelSheets[0]);
+  //              OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+
+  //              using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(query, excelConnection1))
+  //              {
+  //                  DataSet ds = new DataSet();
+
+  //                  dataAdapter.Fill(ds);
+                        
+  //                  for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+  //                  {
+  //                      string aa = ds.Tables[0].Rows[i][0].ToString();
+  //                  }
+
+  //              }
+
+                
+  //              excelConnection.Close();
+  //          }
+        }
+
 
         private void contract_update_territory(Guid contractid,string[] territory)
         {

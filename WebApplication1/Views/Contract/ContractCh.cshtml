@@ -244,8 +244,17 @@
 
 
             <fieldset>
-                <legend>Список застрахованных</legend>
-                <div class="alert alert-warning">
+                <legend>
+                    <a id="btn-togle-insd" href="#" title="Свернуть\развернуть"><span id="img-togle-insd" class="glyphicon glyphicon-resize-small"></span></a>    
+
+                    Список застрахованных
+  
+                </legend>
+                <div id="div-summary-insd" class="alert alert-warning">
+                    Всего застрахованно человек: <label>10</label>
+                </div>
+
+                <div id="div-togle-insd" class="alert alert-warning">
                     <table id="insdtable" class="table table-condensed">
 
                         <tbody>
@@ -291,12 +300,48 @@
             @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
         </div>
     </div>
-
+    <input id="chk-togle-insd" type="hidden" value="0" />
 
 }
 <script type="text/javascript">
     $(function () {
 
+        $("#div-summary-insd").hide();
+
+        $("#btn-togle-insd").click(function (e) {
+
+            var table = $("#insdtable tr").length - 1;
+
+            $("#div-summary-insd label").html(table);
+
+            if ($("#chk-togle-insd").val() == "0")
+            {
+                $("#chk-togle-insd").val("1");
+            }
+            else
+            {
+                $("#chk-togle-insd").val("0");
+            }
+
+            if ($("#chk-togle-insd").val()=="1")
+            {
+                $("#img-togle-insd").removeClass("glyphicon-resize-small");
+                $("#img-togle-insd").addClass("glyphicon-resize-full");
+                
+
+            }
+            else
+            {
+                $("#img-togle-insd").addClass("glyphicon-resize-small");
+                $("#img-togle-insd").removeClass("glyphicon-resize-full");
+            }
+
+            $("#div-togle-insd").toggle();
+            $("#div-summary-insd").toggle();
+    
+
+            e.preventDefault();
+        });
      
         //добавить застрахованного
         $("#insured_add").click(function (e) {
