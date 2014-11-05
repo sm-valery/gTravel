@@ -154,6 +154,15 @@
           <Property Name="code" Type="nchar" MaxLength="10" />
           <Property Name="cbrId" Type="nchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="import_settings">
+          <Key>
+            <PropertyRef Name="ImportId" />
+          </Key>
+          <Property Name="ImportId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="numcol" Type="int" />
+          <Property Name="colcode" Type="nchar" MaxLength="25" />
+          <Property Name="colname" Type="nchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="Risk">
           <Key>
             <PropertyRef Name="RiskId" />
@@ -612,6 +621,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySet Name="ContractStatus" EntityType="Self.ContractStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurRate" EntityType="Self.CurRate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="import_settings" EntityType="Self.import_settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Risk" EntityType="Self.Risk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RiskSeria" EntityType="Self.RiskSeria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="seria" EntityType="Self.seria" Schema="dbo" store:Type="Tables" />
@@ -888,6 +898,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="Currency" EntitySet="Currencies" />
             <End Role="seria" EntitySet="serias" />
           </AssociationSet>
+          <EntitySet Name="import_settings" EntityType="goDbModel.import_settings" />
           </EntityContainer>
         <EntityType Name="seria">
           <Key>
@@ -1495,6 +1506,15 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="import_settings">
+          <Key>
+            <PropertyRef Name="ImportId" />
+          </Key>
+          <Property Name="ImportId" Type="Guid" Nullable="false" />
+          <Property Name="numcol" Type="Int32" />
+          <Property Name="colcode" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="colname" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1782,6 +1802,16 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="code" ColumnName="code" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="import_settings">
+            <EntityTypeMapping TypeName="goDbModel.import_settings">
+              <MappingFragment StoreEntitySet="import_settings">
+                <ScalarProperty Name="colname" ColumnName="colname" />
+                <ScalarProperty Name="colcode" ColumnName="colcode" />
+                <ScalarProperty Name="numcol" ColumnName="numcol" />
+                <ScalarProperty Name="ImportId" ColumnName="ImportId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

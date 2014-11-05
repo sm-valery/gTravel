@@ -47,5 +47,6 @@ namespace gTravel.Models
         public virtual DbSet<v_contract> v_contract { get; set; }
         public virtual DbSet<CurRate> CurRates { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
+        public virtual DbSet<import_settings> import_settings { get; set; }
     }
 }

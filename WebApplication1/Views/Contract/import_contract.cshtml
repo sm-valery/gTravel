@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<gTravel.Models.import_settings>
+
 @{
     ViewBag.Title = "Импорт";
 }
@@ -20,3 +21,14 @@
     <option label="Apollo 11 Moon Landing">1969-07-20</option>
     <option label="DDay">1944-06-06</option>
 </datalist>*@
+
+
+<hr />
+Формат файла импорта
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>@item.numcol : @item.colname</li>
+    }
+ 
+</ul>

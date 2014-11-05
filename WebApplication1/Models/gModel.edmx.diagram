@@ -53,6 +53,7 @@
         <AssociationConnector Association="goDbModel.FK_Contract_ToTable" />
         <AssociationConnector Association="goDbModel.FK_CurRate_ToCurrency" />
         <AssociationConnector Association="goDbModel.FK_seria_ToTable" />
+        <EntityTypeShape EntityType="goDbModel.import_settings" Width="1.5" PointX="3.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

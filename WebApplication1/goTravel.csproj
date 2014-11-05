@@ -232,6 +232,7 @@
     <Compile Include="Models\AspNetUserLogin.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\cl_import_contract.cs" />
     <Compile Include="Models\Condition.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -275,6 +276,9 @@
       <DependentUpon>gModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\import_settings.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Risk.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>

@@ -578,7 +578,9 @@ namespace gTravel.Controllers
 
         public ActionResult import_contract()
         {
-            return View();
+            
+
+            return View(db.import_settings.OrderBy(x=>x.numcol).ToList());
         }
 
         [HttpPost]
@@ -593,48 +595,43 @@ namespace gTravel.Controllers
                 //  var workbook = new XLWorkbook(@"c:\temp\Книга1.xlsx");
                 try
                 {
-                    var workbook = new XLWorkbook(file.InputStream);
+                    //var workbook = new XLWorkbook(file.InputStream);
 
-                    var ws = workbook.Worksheet(1);
+                    //var ws = workbook.Worksheet(1);
 
-                    using(var rows = ws.RowsUsed())
-                    {
-                        foreach(var row in rows)
-                        {
-                            iusedrow++;
+                    //using(var rows = ws.RowsUsed())
+                    //{
+                    //    foreach(var row in rows)
+                    //    {
+                    //        iusedrow++;
 
-                            //пропустим шапку
-                            if(iusedrow==1)
-                                continue;
+                    //        //пропустим шапку
+                    //        if(iusedrow==1)
+                    //            continue;
 
+                    //        ModelState.AddModelError(string.Empty, string.Format("Строка {0}: номер не является числом."));
+                    //        continue;
+                    //        //1
+                   
+
+                    //        //2
                             
+                    //        var contr = db.Contracts.SingleOrDefault(x => x.contractnumber == nnum && x.UserId == User.Identity.GetUserId());
                             
-                            string cnum = row.Cell(1).Value.ToString();
-                            int nnum=0;
-
-                            if(!int.TryParse(cnum,out nnum))
-                            {
-                                ModelState.AddModelError(string.Empty,string.Format("Строка {0}: номер не является числом."));
-                                continue;
-                            }
-
-                            DateTime dt_out;
-                            bool isdt_out= DateTime.TryParse(row.Cell(2).Value.ToString(), out dt_out);
-                            var contr = db.Contracts.SingleOrDefault(x => x.contractnumber == nnum && x.UserId == User.Identity.GetUserId());
-                            if(contr!=null)
-                            {
-                                //если полиса нет, то создаем
-                                Contract c = new Contract();
-                                c.contractnumber = nnum;
-                                if(isdt_out)
-                                    c.date_out = dt_out;
-                            }
-                            else
-                            {
-                                //если есть, то только добавляем застрахованного
-                            }
-                        }
-                    }
+                    //        if(contr!=null)
+                    //        {
+                    //            //если полиса нет, то создаем
+                    //            Contract c = new Contract();
+                    //            c.contractnumber = nnum;
+                    //            if(isdt_out)
+                    //                c.date_out = dt_out;
+                    //        }
+                    //        else
+                    //        {
+                    //            //если есть, то только добавляем застрахованного
+                    //        }
+                    //    }
+                    //}
 
                 }catch(Exception e)
                 {
@@ -646,6 +643,60 @@ namespace gTravel.Controllers
 
 
             return View();
+        }
+
+        private int get_import_pos(string code)
+        {
+           code = code.Trim();
+
+           return db.import_settings.SingleOrDefault(x => x.colcode.Trim() == code).numcol.Value;
+
+        }
+        private cl_import_contract readimportrow(IXLRow row)
+        {
+            cl_import_contract ret = new cl_import_contract();
+            //1
+            int inum = 0;
+
+            ret.contract_number_str = row.Cell(get_import_pos("contract_number")).Value.ToString();
+            if (!int.TryParse(ret.contract_number_str, out inum))
+            {
+                ret.contract_number = 0;
+            }
+            else
+                ret.contract_number = inum;
+
+            //2
+            DateTime dt_out;
+            if (DateTime.TryParse(row.Cell(get_import_pos("date_out")).Value.ToString(), out dt_out))
+                 ret.date_out = dt_out;
+
+            //3
+            if (DateTime.TryParse(row.Cell(get_import_pos("date_begin")).Value.ToString(), out dt_out))
+                ret.date_begin = dt_out;
+
+            //4
+            if (DateTime.TryParse(row.Cell(get_import_pos("date_end")).Value.ToString(), out dt_out))
+                ret.date_end = dt_out;
+
+            //5
+            ret.SubjName = row.Cell(get_import_pos("subjname")).Value.ToString();
+            //6
+            ret.gender = row.Cell(get_import_pos("gender")).Value.ToString();
+            //7
+            if (DateTime.TryParse(row.Cell(get_import_pos("dateofbirth")).Value.ToString(), out dt_out))
+                ret.dateofbirth = dt_out;
+            //8
+            ret.placeofbirth = row.Cell(get_import_pos("placeofbirth")).Value.ToString();
+
+            ret.pasport = row.Cell(get_import_pos("pasport")).Value.ToString();
+
+            if (DateTime.TryParse(row.Cell(get_import_pos("passportvaliddate")).Value.ToString(), out dt_out))
+                ret.passportvaliddate = dt_out;
+
+            
+
+            return ret;
         }
 
         private void importOledb()
