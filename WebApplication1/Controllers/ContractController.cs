@@ -238,7 +238,7 @@ namespace gTravel.Controllers
 
             c.date_begin = c.date_begin;
             c.date_end = c.date_end;
-            c.date_out = (c.date_out ==null)?DateTime.Now: c.date_out;
+            c.date_out = (c.date_out ==null)? DateTime.Now: c.date_out;
             c.Holder_SubjectId = s.SubjectId;
             c.contractnumber = null;
             c.ContractStatusId = contr_stat_id;
