@@ -17,6 +17,7 @@ namespace gTravel.Controllers
     public class ContractController : Controller
     {
         private goDbEntities db = new goDbEntities();
+        private Guid MainSeria = Guid.Parse("4e92555e-f69b-47a6-8721-68150ef48e03");
         
         //
         // GET: /Contract/
@@ -233,10 +234,10 @@ namespace gTravel.Controllers
             //Contract c = new Contract();
 
             c.ContractId = Guid.NewGuid();
-            c.seriaid = (c.seriaid == null) ? seria.DefaultCurrencyId.Value : c.seriaid;
-          //  c.currencyid = cc.seriaid;
-           // c.date_begin = cc.date_begin;
-           // c.date_end = cc.date_end;
+            c.currencyid = (c.currencyid == Guid.Parse("{00000000-0000-0000-0000-000000000000}")) ? seria.DefaultCurrencyId.Value : c.currencyid;
+
+            c.date_begin = c.date_begin;
+            c.date_end = c.date_end;
             c.date_out = (c.date_out ==null)?DateTime.Now: c.date_out;
             c.Holder_SubjectId = s.SubjectId;
             c.contractnumber = null;
@@ -589,25 +590,52 @@ namespace gTravel.Controllers
             //http://www.codeproject.com/Tips/752981/Import-Data-from-Excel-File-to-Database-Table-in-A
 
            int iusedrow=0;
+           string userid = User.Identity.GetUserId();
 
             if (file.ContentLength > 0)
             {
                 //  var workbook = new XLWorkbook(@"c:\temp\Книга1.xlsx");
                 try
                 {
-                    //var workbook = new XLWorkbook(file.InputStream);
+                    var workbook = new XLWorkbook(file.InputStream);
 
-                    //var ws = workbook.Worksheet(1);
+                    var ws = workbook.Worksheet(1);
 
-                    //using(var rows = ws.RowsUsed())
-                    //{
-                    //    foreach(var row in rows)
-                    //    {
-                    //        iusedrow++;
+                    using (var rows = ws.RowsUsed())
+                    {
+                        foreach (var row in rows)
+                        {
+                            iusedrow++;
 
-                    //        //пропустим шапку
-                    //        if(iusedrow==1)
-                    //            continue;
+                            //пропустим шапку
+                            if (iusedrow == 1)
+                                continue;
+
+                            var crow = readimportrow(row);
+                            if(crow.contract_number==0)
+                            {
+                                ModelState.AddModelError(string.Empty, string.Format("Строка {0}: номер не является числом."));
+                                continue;
+                            }
+
+                            var contract_one = db.Contracts.FirstOrDefault(x => x.contractnumber == crow.contract_number
+                                && x.UserId == userid);
+
+                            if(contract_one==null)
+                            {
+                                //создаем новый 
+                                Contract contract_new = new Contract();
+
+                                contract_new.seriaid = this.MainSeria;
+                                contract_new.contractnumber = crow.contract_number;
+                                contract_new.date_out = crow.date_out;
+                                contract_new.date_begin = crow.date_begin;
+                                contract_new.date_end = crow.date_end;
+
+                                p_contract_add(contract_new);
+                            }
+                        }
+                    }
 
                     //        ModelState.AddModelError(string.Empty, string.Format("Строка {0}: номер не является числом."));
                     //        continue;
@@ -635,7 +663,8 @@ namespace gTravel.Controllers
 
                 }catch(Exception e)
                 {
-                  ModelState.AddModelError(string.Empty,"Файл импорта должен иметь формат *.xlsx");
+                  ModelState.AddModelError(string.Empty,"Файл импорта должен иметь формат *.xlsx." 
+                      +"("+e.Message+")");
                 }
                
                 //return null;
