@@ -12,11 +12,15 @@ namespace gTravel.Models
         public DateTime? date_out { get; set; }
         public DateTime? date_begin { get; set; }
         public DateTime? date_end { get; set; }
+        public string entry_out { get; set; }
+        public string entry_in { get; set; }
+        public DateTime? date_flyout { get; set; }
         public string SubjName { get; set; }
         public DateTime? dateofbirth { get; set; }
         public string pasport { get; set; }
         public string gender { get; set; }
         public string placeofbirth { get; set; }
         public DateTime? passportvaliddate { get; set; }
+
     }
 }

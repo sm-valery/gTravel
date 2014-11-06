@@ -240,7 +240,7 @@ namespace gTravel.Controllers
             c.date_end = c.date_end;
             c.date_out = (c.date_out ==null)? DateTime.Now: c.date_out;
             c.Holder_SubjectId = s.SubjectId;
-            c.contractnumber = null;
+            //c.contractnumber = (c.contractnumber) null;
             c.ContractStatusId = contr_stat_id;
           
             c.UserId = User.Identity.GetUserId();
@@ -307,6 +307,21 @@ namespace gTravel.Controllers
 
             return true;
         }
+
+        //private bool p_assured_add(Subject s)
+        //{
+
+        //    if (!findcontract(s.ContractId.Value))
+        //        return false;
+
+        //   // Subject s = new Subject();
+        //    s.SubjectId = Guid.NewGuid();
+        //    s.num = db.Subjects.Where(x => x.ContractId == s.ContractId).Count() + 1;
+
+        //    db.Subjects.Add(s);
+        //    db.SaveChanges();
+        //    return true;
+        //}
 
         public ActionResult ContractCh(Guid contractid)
         {
@@ -634,44 +649,35 @@ namespace gTravel.Controllers
 
                                 p_contract_add(contract_new);
                             }
-                        }
-                    }
+                            else
+                            {
+                                //уже есть, добавляем застрахованного
+                                var s = new Subject();
+                                s.Name1= crow.SubjName;
+                                s.Gender = crow.gender;
+                                s.DateOfBirth = crow.dateofbirth;
+                                s.Pasport = crow.pasport;
+                                s.PasportValidDate = crow.passportvaliddate;
+                                s.PlaceOfBirth = crow.placeofbirth;
 
-                    //        ModelState.AddModelError(string.Empty, string.Format("Строка {0}: номер не является числом."));
-                    //        continue;
-                    //        //1
-                   
+                                contract_one.add_insured(db, s);
+                            }
+                        }//foreach
+                    }//rowsused
 
-                    //        //2
-                            
-                    //        var contr = db.Contracts.SingleOrDefault(x => x.contractnumber == nnum && x.UserId == User.Identity.GetUserId());
-                            
-                    //        if(contr!=null)
-                    //        {
-                    //            //если полиса нет, то создаем
-                    //            Contract c = new Contract();
-                    //            c.contractnumber = nnum;
-                    //            if(isdt_out)
-                    //                c.date_out = dt_out;
-                    //        }
-                    //        else
-                    //        {
-                    //            //если есть, то только добавляем застрахованного
-                    //        }
-                    //    }
-                    //}
+   
 
                 }catch(Exception e)
                 {
                   ModelState.AddModelError(string.Empty,"Файл импорта должен иметь формат *.xlsx." 
                       +"("+e.Message+")");
                 }
-               
-                //return null;
+
+                return RedirectToAction("index");
             }
 
 
-            return View();
+            return View(db.import_settings.OrderBy(x => x.numcol).ToList());
         }
 
         private int get_import_pos(string code)
@@ -708,14 +714,20 @@ namespace gTravel.Controllers
             if (DateTime.TryParse(row.Cell(get_import_pos("date_end")).Value.ToString(), out dt_out))
                 ret.date_end = dt_out;
 
-            //5
+            if (DateTime.TryParse(row.Cell(get_import_pos("date_flyout")).Value.ToString(), out dt_out))
+                ret.date_flyout = dt_out;
+
+            ret.entry_in = row.Cell(get_import_pos("entry_in")).Value.ToString();
+            ret.entry_out = row.Cell(get_import_pos("entry_out")).Value.ToString();
+
+            
             ret.SubjName = row.Cell(get_import_pos("subjname")).Value.ToString();
             //6
             ret.gender = row.Cell(get_import_pos("gender")).Value.ToString();
-            //7
+           
             if (DateTime.TryParse(row.Cell(get_import_pos("dateofbirth")).Value.ToString(), out dt_out))
                 ret.dateofbirth = dt_out;
-            //8
+            
             ret.placeofbirth = row.Cell(get_import_pos("placeofbirth")).Value.ToString();
 
             ret.pasport = row.Cell(get_import_pos("pasport")).Value.ToString();
@@ -879,18 +891,27 @@ namespace gTravel.Controllers
 
             Guid gContractId = Guid.Parse(contractid);
 
-            if (!findcontract(gContractId))
-                return HttpNotFound();
+            //if (!findcontract(gContractId))
+    //            return HttpNotFound();
+            
+           string userid= User.Identity.GetUserId();
 
-            Subject s = new Subject();
-            s.SubjectId = Guid.NewGuid();
-            s.ContractId = gContractId;
-            s.num = db.Subjects.Where(x => x.ContractId == gContractId).Count() + 1;
+           var contr = db.Contracts.Where(x => x.ContractId == gContractId);
 
-            db.Subjects.Add(s);
-            db.SaveChanges();
+           if (!User.IsInRole("Admin"))
+               contr = contr.Where(x => x.UserId == userid);
 
-           // ViewData["indx"] = s.num - 1;
+           var s= contr.Single().add_insured(db);
+               
+   
+
+            //s.SubjectId = Guid.NewGuid();
+            //s.ContractId = gContractId;
+            //s.num = db.Subjects.Where(x => x.ContractId == gContractId).Count() + 1;
+
+            //db.Subjects.Add(s);
+            //db.SaveChanges();
+
 
             ViewBag.Gender = mLib.GenderList();
 
