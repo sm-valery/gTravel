@@ -40,6 +40,11 @@ namespace gTravel.Models
     public partial class ImportLog
     {
 
+        public ImportLog()
+        {
+
+        }
+
         public ImportLog(goDbEntities db,  string UserId)
         {
             this.ImportLogId = Guid.NewGuid();

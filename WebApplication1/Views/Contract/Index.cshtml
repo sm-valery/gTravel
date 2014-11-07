@@ -3,9 +3,23 @@
     ViewBag.Title = "Список договоров";
 }
 <h3>@ViewBag.Title</h3>
+
+@if (!string.IsNullOrEmpty((string)ViewBag.filtr))
+{
+    <div class="alert alert-info">
+        Установлен фильтр: @ViewBag.filtr
+        <br />
+        @Html.ActionLink("сбросить","index")
+    </div>
+}
+
+
 <p>
     @Html.ActionLink("Новый договор", "Contract_Create", new { seriaid = @ViewBag.seria })
 </p>
+
+
+
 <table class="table table-hover">
     <tr>
         <th>

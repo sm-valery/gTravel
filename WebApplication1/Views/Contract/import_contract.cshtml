@@ -29,37 +29,51 @@
 
 
 <hr />
+@*<h3>История загрузки</h3>*@
+<div class="row">
+    <div class="col-md-8">
+
+        <table class="table table-striped">
+            <tr>
+                <th></th>
+                <th>Дата импорта</th>
+                <th>Количество договоров</th>
+                <th>Пользователь</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink("Выбрать", "index", new { ImportLogId = item.ImportLogId })</td>
+                    <td>
+
+                        @item.dateinsert
+                    </td>
+                    <td>
+                        @item.contractcount
+                    </td>
+                    <td>
+                        @item.UserName
+                    </td>
+                </tr>
+            }
+        </table>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+    </div>
+
+    <div class="col-md-4">
+        
+        <div class="alert alert-info">
+            <b>Формат файла импорта</b>
+            <ul>
+                @foreach (var item in (List<gTravel.Models.import_settings>)ViewBag.settings)
+                {
+                    <li>@item.numcol : @item.colname</li>
+                }
+
+            </ul>
+        </div>
+    </div>
+</div>
 
 
 
-Формат файла импорта
-<ul>
-    @foreach (var item in (List<gTravel.Models.import_settings>) ViewBag.settings)
-    {
-        <li>@item.numcol : @item.colname</li>
-    }
- 
-</ul>
-
-
-<table class="table table-striped">
-    <tr>
-        <th>Дата импорта</th>
-        <th>Количество договоров</th>
-        <th>Пользователь</th>
-    </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.dateinsert
-            </td>
-            <td>
-                @item.contractcount
-            </td>
-            <td>
-                @item.UserName
-            </td>
-        </tr>
-    }
-</table>

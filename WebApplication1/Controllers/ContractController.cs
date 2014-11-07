@@ -22,12 +22,10 @@ namespace gTravel.Controllers
         
         //
         // GET: /Contract/
-        public ActionResult Index(decimal? contractnumber)
+        public ActionResult Index(decimal? contractnumber, Guid? ImportLogId)
         {
-            //if (contractnumber != null)
-            //    return RedirectToAction("ContractListByNumber", new { contractnumber = contractnumber });
 
-
+            ViewBag.filtr = "";
             ViewBag.contractnumber = contractnumber;
 
             //серия по умолчанию
@@ -42,9 +40,25 @@ namespace gTravel.Controllers
                 clist = clist.Where(x => x.UserId == userid);
 
             if (contractnumber != null)
-                return View(clist.Where(x => x.contractnumber == contractnumber).OrderBy(o=>o.contractnumber).ToList());
+            {
+                ViewBag.filtr = "номер договора = " + contractnumber.ToString();
 
-            return View(clist.OrderBy(o=>o.contractnumber) .ToList());
+                return View(clist.Where(x => x.contractnumber == contractnumber).OrderBy(o => o.contractnumber).ToList());
+            }
+
+            if(ImportLogId!=null)
+            {
+                clist = from c in clist
+                        join h in db.ImportLogContracts on c.ContractId equals h.ContractId
+                        where h.ImportLogId == ImportLogId
+                        select c;
+                
+                var imp = db.ImportLogs.SingleOrDefault(x=>x.ImportLogId == ImportLogId.Value);
+                if(imp!= null)
+                    ViewBag.filtr = "импорт от " + imp.dateinsert.ToString();
+            }
+
+            return View(clist.OrderBy(o=>o.contractnumber).ToList());
         }
 
         //public ActionResult List(decimal? contractnumber)
@@ -595,9 +609,14 @@ namespace gTravel.Controllers
         {
            ViewBag.settings =  db.import_settings.OrderBy(x => x.numcol).ToList();
 
+           string userid = User.Identity.GetUserId();
+
            var pageNumber = page ?? 1;
 
-           return View(db.v_importlog.OrderByDescending(o => o.dateinsert).ToPagedList(pageNumber, 25));
+           var viewlist = db.v_importlog.Where(x => x.userid == userid).OrderByDescending(o => o.dateinsert);
+
+
+           return View(viewlist.ToPagedList(pageNumber, 25));
         }
 
         [HttpPost]
@@ -686,11 +705,16 @@ namespace gTravel.Controllers
                       +"("+e.Message+")");
                 }
 
-                return RedirectToAction("index");
+              //  return RedirectToAction("index");
             }
 
 
-            return View(db.import_settings.OrderBy(x => x.numcol).ToList());
+            ViewBag.settings = db.import_settings.OrderBy(x => x.numcol).ToList();
+ 
+            var viewlist = db.v_importlog.Where(x => x.userid == userid).OrderByDescending(o => o.dateinsert);
+
+            return View(viewlist.ToPagedList(1, 25));
+
         }
 
         private int get_import_pos(string code)
