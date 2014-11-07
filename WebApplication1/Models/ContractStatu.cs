@@ -25,7 +25,7 @@ namespace gTravel.Models
         public Nullable<System.DateTime> DateInsert { get; set; }
         public string UserId { get; set; }
     
-        public virtual ICollection<Contract> Contracts { get; set; }
         public virtual Status Status { get; set; }
+        public virtual ICollection<Contract> Contracts { get; set; }
     }
 }

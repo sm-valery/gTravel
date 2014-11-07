@@ -18,8 +18,8 @@ namespace gTravel.Models
         {
             this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
             this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
-            this.Contracts = new HashSet<Contract>();
             this.AspNetRoles = new HashSet<AspNetRole>();
+            this.Contracts = new HashSet<Contract>();
         }
     
         public string Id { get; set; }
@@ -37,7 +37,7 @@ namespace gTravel.Models
     
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public virtual ICollection<Contract> Contracts { get; set; }
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
+        public virtual ICollection<Contract> Contracts { get; set; }
     }
 }

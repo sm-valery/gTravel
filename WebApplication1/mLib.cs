@@ -35,6 +35,37 @@ namespace gTravel.Models
         }
 
     }
+
+
+    public partial class ImportLog
+    {
+
+        public ImportLog(goDbEntities db,  string UserId)
+        {
+            this.ImportLogId = Guid.NewGuid();
+            this.userid = UserId;
+            this.dateinsert = DateTime.Now;
+
+            db.ImportLogs.Add(this);
+            db.SaveChanges();
+        }
+        
+
+        public void add_log(goDbEntities db, Guid contract_id)
+        {
+            if(!db.ImportLogContracts.Any(x=>x.ImportLogId==this.ImportLogId && x.ContractId==contract_id))
+            { 
+                ImportLogContract l = new ImportLogContract();
+
+                l.ImportLogContract1 = Guid.NewGuid();
+                l.ImportLogId = this.ImportLogId;
+                l.ContractId = contract_id;
+
+                db.ImportLogContracts.Add(l);
+                db.SaveChanges();
+            }
+        }
+    }
 }
 
 namespace gTravel
@@ -53,5 +84,24 @@ namespace gTravel
         }
 
       
+        public static string gender_parse(string gender_code)
+        {
+            string ret = "N";
+
+            
+
+            switch(gender_code.Trim())
+            {
+                case "1":
+                    ret = "M";
+                    break;
+                case "2":
+                    ret = "F";
+                    break;
+
+            }
+            return ret;
+
+        }
     }
 }

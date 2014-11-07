@@ -276,6 +276,12 @@
       <DependentUpon>gModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ImportLog.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ImportLogContract.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\import_settings.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -304,6 +310,9 @@
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\v_contractrisk.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\v_importlog.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

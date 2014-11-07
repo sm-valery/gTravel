@@ -10,6 +10,7 @@ using System.Web;
 using System.Data.OleDb;
 using System.Data;
 using ClosedXML.Excel;
+using PagedList;
 
 namespace gTravel.Controllers
 {
@@ -239,6 +240,7 @@ namespace gTravel.Controllers
             c.date_begin = c.date_begin;
             c.date_end = c.date_end;
             c.date_out = (c.date_out ==null)? DateTime.Now: c.date_out;
+            c.date_diff = get_period_diff(c.date_begin, c.date_end);
             c.Holder_SubjectId = s.SubjectId;
             //c.contractnumber = (c.contractnumber) null;
             c.ContractStatusId = contr_stat_id;
@@ -256,9 +258,6 @@ namespace gTravel.Controllers
             db.ContractStatus.Add(stat);
 
             #endregion
-
-
-
 
             #region риски
 
@@ -592,11 +591,13 @@ namespace gTravel.Controllers
         //}
 
 
-        public ActionResult import_contract()
+        public ActionResult import_contract(int? page)
         {
-            
+           ViewBag.settings =  db.import_settings.OrderBy(x => x.numcol).ToList();
 
-            return View(db.import_settings.OrderBy(x=>x.numcol).ToList());
+           var pageNumber = page ?? 1;
+
+           return View(db.v_importlog.OrderByDescending(o => o.dateinsert).ToPagedList(pageNumber, 25));
         }
 
         [HttpPost]
@@ -606,10 +607,12 @@ namespace gTravel.Controllers
 
            int iusedrow=0;
            string userid = User.Identity.GetUserId();
+            Guid log_contract_id;
 
             if (file.ContentLength > 0)
             {
                 //  var workbook = new XLWorkbook(@"c:\temp\Книга1.xlsx");
+
                 try
                 {
                     var workbook = new XLWorkbook(file.InputStream);
@@ -618,6 +621,8 @@ namespace gTravel.Controllers
 
                     using (var rows = ws.RowsUsed())
                     {
+                        ImportLog l = new ImportLog(db, userid);
+
                         foreach (var row in rows)
                         {
                             iusedrow++;
@@ -636,6 +641,15 @@ namespace gTravel.Controllers
                             var contract_one = db.Contracts.FirstOrDefault(x => x.contractnumber == crow.contract_number
                                 && x.UserId == userid);
 
+                            //застрахованный
+                            var s = new Subject();
+                            s.Name1 = crow.SubjName;
+                            s.Gender = mLib.gender_parse(crow.gender);
+                            s.DateOfBirth = crow.dateofbirth;
+                            s.Pasport = crow.pasport;
+                            s.PasportValidDate = crow.passportvaliddate;
+                            s.PlaceOfBirth = crow.placeofbirth;
+
                             if(contract_one==null)
                             {
                                 //создаем новый 
@@ -648,20 +662,19 @@ namespace gTravel.Controllers
                                 contract_new.date_end = crow.date_end;
 
                                 p_contract_add(contract_new);
+                                contract_new.add_insured(db, s);
+
+                                log_contract_id =contract_new.ContractId;
                             }
                             else
                             {
-                                //уже есть, добавляем застрахованного
-                                var s = new Subject();
-                                s.Name1= crow.SubjName;
-                                s.Gender = crow.gender;
-                                s.DateOfBirth = crow.dateofbirth;
-                                s.Pasport = crow.pasport;
-                                s.PasportValidDate = crow.passportvaliddate;
-                                s.PlaceOfBirth = crow.placeofbirth;
-
                                 contract_one.add_insured(db, s);
+                                log_contract_id = contract_one.ContractId;
                             }
+
+                            
+                            l.add_log(db, log_contract_id);
+                            
                         }//foreach
                     }//rowsused
 

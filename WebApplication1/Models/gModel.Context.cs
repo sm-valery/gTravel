@@ -36,7 +36,6 @@ namespace gTravel.Models
         public virtual DbSet<Contract_territory> Contract_territory { get; set; }
         public virtual DbSet<Risk> Risks { get; set; }
         public virtual DbSet<ContractRisk> ContractRisks { get; set; }
-        public virtual DbSet<Contract> Contracts { get; set; }
         public virtual DbSet<ContractStatu> ContractStatus { get; set; }
         public virtual DbSet<Tarif> Tarifs { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
@@ -48,5 +47,9 @@ namespace gTravel.Models
         public virtual DbSet<CurRate> CurRates { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<import_settings> import_settings { get; set; }
+        public virtual DbSet<Contract> Contracts { get; set; }
+        public virtual DbSet<ImportLog> ImportLogs { get; set; }
+        public virtual DbSet<ImportLogContract> ImportLogContracts { get; set; }
+        public virtual DbSet<v_importlog> v_importlog { get; set; }
     }
 }

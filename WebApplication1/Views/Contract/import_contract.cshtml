@@ -1,4 +1,9 @@
-﻿@model IEnumerable<gTravel.Models.import_settings>
+﻿@using PagedList.Mvc;
+@using PagedList; 
+
+@model PagedList<gTravel.Models.v_importlog>
+
+
 
 @{
     ViewBag.Title = "Импорт";
@@ -24,11 +29,37 @@
 
 
 <hr />
+
+
+
 Формат файла импорта
 <ul>
-    @foreach (var item in Model)
+    @foreach (var item in (List<gTravel.Models.import_settings>) ViewBag.settings)
     {
         <li>@item.numcol : @item.colname</li>
     }
  
 </ul>
+
+
+<table class="table table-striped">
+    <tr>
+        <th>Дата импорта</th>
+        <th>Количество договоров</th>
+        <th>Пользователь</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.dateinsert
+            </td>
+            <td>
+                @item.contractcount
+            </td>
+            <td>
+                @item.UserName
+            </td>
+        </tr>
+    }
+</table>

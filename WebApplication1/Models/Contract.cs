@@ -36,14 +36,14 @@ namespace gTravel.Models
         public string UserId { get; set; }
         public Nullable<System.DateTime> date_out { get; set; }
     
+        public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<Contract_territory> Contract_territory { get; set; }
+        public virtual ContractStatu ContractStatu { get; set; }
         public virtual Subject Subject { get; set; }
+        public virtual Currency Currency { get; set; }
         public virtual seria seria { get; set; }
         public virtual ICollection<ContractRisk> ContractRisks { get; set; }
         public virtual ICollection<Subject> Subjects { get; set; }
         public virtual ICollection<ContractCondition> ContractConditions { get; set; }
-        public virtual ContractStatu ContractStatu { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual Currency Currency { get; set; }
     }
 }
