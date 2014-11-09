@@ -2,10 +2,13 @@
 
 @{
 
-   // int indx = Convert.ToInt32(ViewData["indx"]);
+    // int indx = Convert.ToInt32(ViewData["indx"]);
     int indx = Model.num.Value - 1;
+
+    string insid = "ins" + Model.SubjectId;
+
 }
-<tr>
+<tr >
     <td>
         @*#*@
         @(Model.num)
@@ -17,8 +20,8 @@
         @Html.Hidden(string.Format("Subjects[{0}].ContractId", indx), Model.ContractId)
 
         @Html.TextBox(string.Format("Subjects[{0}].Name1", indx), Model.Name1, new { @class = "form-control input-sm input-value" })
-    
-     </td>
+
+    </td>
     <td>
         @*Пол*@
 
@@ -36,9 +39,14 @@
         @*Номер паспорта*@
         @Html.TextBox(string.Format("Subjects[{0}].Pasport", indx), Model.Pasport, new { @class = "form-control input-sm input-value" })
     </td>
-    <td>
+    <td >
         @*Срок действия паспорта*@
         @Html.TextBox(string.Format("Subjects[{0}].PasportValidDate", indx), Model.PasportValidDate, new { @class = "form-control input-sm input-value date3" })
+
+
+        <a class="ins-dell" id="@insid" href="#">
+            <span class="glyphicon glyphicon-trash"></span>
+        </a>
     </td>
 </tr>
 
