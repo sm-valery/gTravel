@@ -22,17 +22,18 @@ namespace gTravel.Controllers
         
         //
         // GET: /Contract/
-        public ActionResult Index(decimal? contractnumber, Guid? ImportLogId)
+        public ActionResult Index(int? page, decimal? contractnumber, Guid? ImportLogId)
         {
 
             ViewBag.filtr = "";
             ViewBag.contractnumber = contractnumber;
 
             //серия по умолчанию
-            ViewBag.seria = "{4e92555e-f69b-47a6-8721-68150ef48e03}";
+            ViewBag.seria = MainSeria;
 
             var clist = from c in db.v_contract select c;
-            
+
+            var pageNumber = page ?? 1;
 
             string userid = User.Identity.GetUserId();
 
@@ -43,7 +44,7 @@ namespace gTravel.Controllers
             {
                 ViewBag.filtr = "номер договора = " + contractnumber.ToString();
 
-                return View(clist.Where(x => x.contractnumber == contractnumber).OrderBy(o => o.contractnumber).ToList());
+                return View(clist.Where(x => x.contractnumber == contractnumber).OrderBy(o => o.contractnumber).ToPagedList(pageNumber, 25));
             }
 
             if(ImportLogId!=null)
@@ -58,7 +59,7 @@ namespace gTravel.Controllers
                     ViewBag.filtr = "импорт от " + imp.dateinsert.ToString();
             }
 
-            return View(clist.OrderBy(o=>o.contractnumber).ToList());
+            return View(clist.OrderByDescending(o => o.date_out).ToPagedList(pageNumber, 25));
         }
 
         //public ActionResult List(decimal? contractnumber)
@@ -985,10 +986,10 @@ namespace gTravel.Controllers
         public void printpdfch(Guid contractid)
         {
 
-            //var htmlContent = String.Format("<body>Hello world: {0}</body>", DateTime.Now);
+            var htmlContent = String.Format("<body>Hello world: {0}</body>", DateTime.Now);
             var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
 
-            var htmlContent = RenderRazorViewToString("generatepdf_ch",c);
+           // var htmlContent = RenderRazorViewToString("generatepdf_ch",c);
 
             var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
 

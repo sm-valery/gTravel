@@ -259,7 +259,9 @@
 
                         <tbody>
                             <tr>
-                                <th>#</th>
+                                <th>
+                                    
+                                #</th>
                                 <th>ФИО по паспорту</th>
                                 <th>Пол</th>
                                 <th>Дата рождения</th>
@@ -285,9 +287,22 @@
                     </table>
 
 
+                  
+                    <a id="insured_add" href="#">
+                        <img  src="~/Content/loading_white_small.gif"
+                             style="position:absolute;z-index:1000;display:none;" />
 
-                    <a id="insured_add" href="#"><span class="glyphicon glyphicon-plus-sign"></span><span style="font-weight:normal;">&nbsp;Добавить застрахованного</span> </a>
-                </div>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    <span style="font-weight:normal;">&nbsp;Добавить застрахованного
+                        
+                      
+                        </span> 
+
+                        
+                    </a>
+               
+          
+                 </div>
 
 
 
@@ -352,6 +367,9 @@
                 error: function (request, status, error) {
                     alert(error);
                 },
+                beforeSend: function( ) {
+                    $("#insured_add img").show();
+                },
                 success: function (data) {
 
                     $(data).insertAfter("#insdtable >tbody>tr:last");
@@ -361,8 +379,13 @@
                         language: "ru",
                         autoclose: true
                     });
+
+                    
                 }
-            });
+                }).done(function()
+                {
+                    $("#insured_add img").hide();
+                });
 
             e.preventDefault();
         });

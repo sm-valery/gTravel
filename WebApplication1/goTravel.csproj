@@ -330,6 +330,7 @@
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker3.css" />
     <Content Include="Content\keylogin.png" />
+    <Content Include="Content\loading_white_small.gif" />
     <Content Include="Content\logo-nav.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="readme.txt" />
