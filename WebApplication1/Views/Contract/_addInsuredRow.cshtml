@@ -2,8 +2,8 @@
 
 @{
 
-    // int indx = Convert.ToInt32(ViewData["indx"]);
-    int indx = Model.num.Value - 1;
+    int indx = Convert.ToInt32(ViewData["indx"]);
+    //int indx = Model.num.Value - 1;
 
     string insid = "ins" + Model.SubjectId;
 
@@ -13,7 +13,7 @@
     <td>
         @*#*@
 
-        @Html.Hidden(string.Format("Subjects[{0}].num", indx), Model.num)
+        @*@Html.Hidden(string.Format("Subjects[{0}].num", indx), Model.num)*@
 
         @*ФИО по паспорту*@
         @Html.Hidden(string.Format("Subjects[{0}].SubjectId", indx), Model.SubjectId)

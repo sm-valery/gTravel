@@ -950,6 +950,7 @@ namespace gTravel.Controllers
             //db.Subjects.Add(s);
             //db.SaveChanges();
 
+            ViewData["indx"] = db.Subjects.Count(x => x.ContractId == gContractId)+1;
 
             ViewBag.Gender = mLib.GenderList();
 
@@ -963,7 +964,7 @@ namespace gTravel.Controllers
 
             ViewBag.Gender = mLib.GenderList(s.Gender);
 
-            //ViewData["indx"] = indx;
+            ViewData["indx"] = s.num;
 
             return PartialView("_addInsuredRow",s);
         }
