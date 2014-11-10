@@ -968,6 +968,18 @@ namespace gTravel.Controllers
             return PartialView("_addInsuredRow",s);
         }
 
+        public void _removeInsuredRow(Guid subject_id)
+        {
+            var s = db.Subjects.SingleOrDefault(x=>x.SubjectId==subject_id);
+            if(s!=null)
+            {
+                db.Subjects.Remove(s);
+                db.SaveChanges();
+            }
+
+            return;
+        }
+
         public string RenderRazorViewToString(string viewName, object model)
         {
             ViewData.Model = model;

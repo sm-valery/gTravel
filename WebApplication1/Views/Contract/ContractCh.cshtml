@@ -259,9 +259,6 @@
 
                         <tbody>
                             <tr>
-                                <th>
-                                    
-                                #</th>
                                 <th>ФИО по паспорту</th>
                                 <th>Пол</th>
                                 <th>Дата рождения</th>
@@ -317,27 +314,37 @@
     </div>
     <input id="chk-togle-insd" type="hidden" value="0" />
 
+
 }
 <script type="text/javascript">
 
+    function insadd(rownum, id)
+    {
+        if (confirm("Удалить строку?")) {
 
+            $.ajax({
+                url: '@Url.Action("_removeInsuredRow", "Contract")',
+                type: "GET",
+                data: { subject_id: id },
+                error: function (request, status, error) {
+                    alert(error);
+                }
+            });
+
+            $("#insdtable tr:eq(" + rownum + ")").remove();
+
+        }
+    }
 
     $(function () {
 
-
-
+        
         $("#div-summary-insd").hide();
 
         $(".ins-dell").click(function (e) {
 
-            var rownum = $(this).parent().parent().index();
-            //alert(id.index());
+            insadd($(this).parent().parent().index(), $(this).attr("id").substr(3))
 
-            id = $(this).attr("id").substr(3);
-
-            //alert(id);
-
-            $("#insdtable tr:eq(" + rownum + ")").remove();
             e.preventDefault();
         });
 
@@ -397,6 +404,10 @@
                         language: "ru",
                         autoclose: true
                     });
+
+                    $("#insdtable >tbody>tr:last > td:last a").bind("click", function () {
+                        alert("aaa");
+                    })
 
 
                 }

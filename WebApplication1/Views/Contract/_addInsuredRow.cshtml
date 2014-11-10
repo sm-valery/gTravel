@@ -9,12 +9,12 @@
 
 }
 <tr >
+
     <td>
         @*#*@
-        @(Model.num)
+
         @Html.Hidden(string.Format("Subjects[{0}].num", indx), Model.num)
-    </td>
-    <td>
+
         @*ФИО по паспорту*@
         @Html.Hidden(string.Format("Subjects[{0}].SubjectId", indx), Model.SubjectId)
         @Html.Hidden(string.Format("Subjects[{0}].ContractId", indx), Model.ContractId)
