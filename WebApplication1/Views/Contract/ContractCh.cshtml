@@ -319,9 +319,27 @@
 
 }
 <script type="text/javascript">
+
+
+
     $(function () {
 
+
+
         $("#div-summary-insd").hide();
+
+        $(".ins-dell").click(function (e) {
+
+            var rownum = $(this).parent().parent().index();
+            //alert(id.index());
+
+            id = $(this).attr("id").substr(3);
+
+            //alert(id);
+
+            $("#insdtable tr:eq(" + rownum + ")").remove();
+            e.preventDefault();
+        });
 
         $("#btn-togle-insd").click(function (e) {
 
@@ -342,7 +360,7 @@
             {
                 $("#img-togle-insd").removeClass("glyphicon-resize-small");
                 $("#img-togle-insd").addClass("glyphicon-resize-full");
-                
+
 
             }
             else
@@ -353,11 +371,11 @@
 
             $("#div-togle-insd").toggle();
             $("#div-summary-insd").toggle();
-    
+
 
             e.preventDefault();
         });
-     
+
         //добавить застрахованного
         $("#insured_add").click(function (e) {
 
@@ -380,12 +398,12 @@
                         autoclose: true
                     });
 
-                    
+
                 }
-                }).done(function()
-                {
-                    $("#insured_add img").hide();
-                });
+            }).done(function()
+            {
+                $("#insured_add img").hide();
+            });
 
             e.preventDefault();
         });
