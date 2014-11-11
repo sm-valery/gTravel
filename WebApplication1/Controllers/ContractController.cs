@@ -453,7 +453,9 @@ namespace gTravel.Controllers
             #region застрахованные
             foreach(var s in c.Subjects)
             {
-                db.Entry(s).State = EntityState.Modified;
+                //если -1 значит строка удалена
+                if(s.num !=-1)
+                    db.Entry(s).State = EntityState.Modified;
             }
             #endregion
 
@@ -539,7 +541,7 @@ namespace gTravel.Controllers
 
             var c = db.Contracts.Include("Contract_territory").Include("ContractConditions").Include("Subjects").SingleOrDefault(x => x.ContractId == id);
 
-
+            c.Subjects = c.Subjects.OrderBy(x => x.num).ToList();
             c.ContractConditions = c.ContractConditions.OrderBy(o => o.num).ToList();
             ViewBag.terr_count = c.Contract_territory.Count();
 
@@ -921,7 +923,7 @@ namespace gTravel.Controllers
         }
 
 
-        public ActionResult _addInsuredRow(string contractid)
+        public ActionResult _addInsuredRow(string contractid, int indx)
         {
             //это чтоб работало в ie, иначе ajax запросы будут кешироваться
             Response.CacheControl = "no-cache";
@@ -939,6 +941,8 @@ namespace gTravel.Controllers
            if (!User.IsInRole("Admin"))
                contr = contr.Where(x => x.UserId == userid);
 
+           ViewData["indx"] = indx;//db.Subjects.Count(x => x.ContractId == gContractId);
+
            var s= contr.Single().add_insured(db);
                
    
@@ -950,21 +954,21 @@ namespace gTravel.Controllers
             //db.Subjects.Add(s);
             //db.SaveChanges();
 
-            ViewData["indx"] = db.Subjects.Count(x => x.ContractId == gContractId)+1;
+            
 
             ViewBag.Gender = mLib.GenderList();
 
             return PartialView(s);
         }
 
-        public ActionResult _edtInsuredRow(Guid SubjectId)
+        public ActionResult _edtInsuredRow(Guid SubjectId, int indx)
         {
             Subject s = db.Subjects.SingleOrDefault(x => x.SubjectId == SubjectId);
 
 
             ViewBag.Gender = mLib.GenderList(s.Gender);
 
-            ViewData["indx"] = s.num;
+            ViewData["indx"] = indx;
 
             return PartialView("_addInsuredRow",s);
         }

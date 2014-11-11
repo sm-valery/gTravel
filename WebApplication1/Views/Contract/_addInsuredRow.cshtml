@@ -13,7 +13,7 @@
     <td>
         @*#*@
 
-        @*@Html.Hidden(string.Format("Subjects[{0}].num", indx), Model.num)*@
+        @Html.Hidden(string.Format("Subjects[{0}].num", indx), indx)
 
         @*ФИО по паспорту*@
         @Html.Hidden(string.Format("Subjects[{0}].SubjectId", indx), Model.SubjectId)

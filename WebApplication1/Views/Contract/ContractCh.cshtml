@@ -268,15 +268,15 @@
                             </tr>
 
                             @{
-                            // int indx = 0;
+                            int indx = 0;
 
                             foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             {
                                 @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
 
-                                @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId })
+                                @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId, indx = indx })
 
-                                // indx++;
+                                indx++;
                             }
 
                             }
@@ -321,19 +321,37 @@
     function insadd(rownum, id)
     {
         if (confirm("Удалить строку?")) {
+            var subj_num = rownum - 1;
 
             $.ajax({
                 url: '@Url.Action("_removeInsuredRow", "Contract")',
                 type: "GET",
-                data: { subject_id: id },
+                data: { subject_id: id, indx: subj_num },
                 error: function (request, status, error) {
                     alert(error);
                 }
             });
+ 
+            $("#insdtable tr:eq(" + rownum + ")").hide();//.remove();
 
-            $("#insdtable tr:eq(" + rownum + ")").remove();
-
+            
+            $("#Subjects_" + subj_num + "__num").val(-1);
         }
+    }
+
+    function instablecount()
+    {
+        var i = -1;//заголовок таблицы у нас тоже tr
+
+        $("#insdtable tr").each(function (e) {
+ 
+            if ($(this).css("display")!="none") {
+                i++;
+            }
+
+        })
+
+        return i;
     }
 
     $(function () {
@@ -350,7 +368,9 @@
 
         $("#btn-togle-insd").click(function (e) {
 
-            var table = $("#insdtable tr").length - 1;
+            //var table = $("#insdtable tr").length - 1;
+
+            var table = instablecount();
 
             $("#div-summary-insd label").html(table);
 
@@ -386,9 +406,12 @@
         //добавить застрахованного
         $("#insured_add").click(function (e) {
 
+            var indx = $("#insdtable tr").length - 1;
+
             $.ajax({
-                url: '@Url.Action("_addInsuredRow", "Contract", new { contractid = Model.ContractId })',
+                url: '@Url.Action("_addInsuredRow", "Contract")',
                 type: "GET",
+                data: {contractid: '@Model.ContractId',  indx: indx},
                 error: function (request, status, error) {
                     alert(error);
                 },
@@ -405,8 +428,10 @@
                         autoclose: true
                     });
 
-                    $("#insdtable >tbody>tr:last > td:last a").bind("click", function () {
-                        alert("aaa");
+                    $("#insdtable >tbody>tr:last > td:last a").bind("click", function (e) {
+
+                        insadd($(this).parent().parent().index(), $(this).attr("id").substr(3))
+                        e.preventDefault();
                     })
 
 
