@@ -985,6 +985,13 @@ namespace gTravel.Controllers
             return;
         }
 
+
+        public ActionResult history(Guid id)
+        {
+
+            return View(db.v_contract_history.Where(x=>x.ContractId==id).OrderByDescending(o=>o.DateInsert).ToList());
+        }
+
         public string RenderRazorViewToString(string viewName, object model)
         {
             ViewData.Model = model;
@@ -1003,10 +1010,10 @@ namespace gTravel.Controllers
         public void printpdfch(Guid contractid)
         {
 
-            var htmlContent = String.Format("<body>Hello world: {0}</body>", DateTime.Now);
+            //var htmlContent = String.Format("<body>Hello world: {0}</body>", DateTime.Now);
             var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
 
-           // var htmlContent = RenderRazorViewToString("generatepdf_ch",c);
+            var htmlContent = RenderRazorViewToString("generatepdf_ch",c);
 
             var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
 

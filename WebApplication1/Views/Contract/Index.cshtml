@@ -96,7 +96,7 @@
             <td>
                 @Html.ActionLink("Изменить", "Contract_edit", new { id = item.ContractId }) |
                 @Html.ActionLink("Печать", "printpdfch", new { contractid = item.ContractId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ContractId })
+                @Html.ActionLink("История", "history", new { id = item.ContractId })
             </td>
         </tr>
     }

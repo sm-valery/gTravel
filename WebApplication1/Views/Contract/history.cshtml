@@ -1,0 +1,45 @@
+﻿@model IEnumerable<gTravel.Models.v_contract_history>
+
+@{
+    ViewBag.Title = "История изменений статуса договора";
+}
+
+<h3>@ViewBag.Title</h3>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Номер договора
+        </th>
+        <th>
+            Статус
+        </th>
+        <th>
+            Дата статуса
+        </th>
+        <th>
+            Пользователь
+        </th>
+
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.contractnumber
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateInsert)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+
+    </tr>
+}
+
+</table>

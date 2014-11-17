@@ -13,7 +13,8 @@
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <input type="file" name="file" class="form-control" />
+    <input type="file" name="file" class="form-control"  />
+    <span class="help-block">Файл должен быть в формате Microsoft Excel 2007 и выше (*.xlsx)</span>
     <input class="btn btn-default" type="submit" value="OK" />
 }  
 

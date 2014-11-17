@@ -286,6 +286,22 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="InsFee" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_contract_history">
+          <Key>
+            <PropertyRef Name="ContractStatusId" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="ContractStatusId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ContractId" Type="uniqueidentifier" />
+          <Property Name="StatusId" Type="uniqueidentifier" />
+          <Property Name="DateInsert" Type="datetime" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="25" />
+          <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contractrisk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contractrisk">
           <Key>
@@ -685,6 +701,18 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_contract].[InsFee] AS [InsFee]
     FROM [dbo].[v_contract] AS [v_contract]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="v_contract_history" EntityType="Self.v_contract_history" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_contract_history].[ContractStatusId] AS [ContractStatusId], 
+    [v_contract_history].[ContractId] AS [ContractId], 
+    [v_contract_history].[StatusId] AS [StatusId], 
+    [v_contract_history].[DateInsert] AS [DateInsert], 
+    [v_contract_history].[UserId] AS [UserId], 
+    [v_contract_history].[UserName] AS [UserName], 
+    [v_contract_history].[Name] AS [Name], 
+    [v_contract_history].[contractnumber] AS [contractnumber]
+    FROM [dbo].[v_contract_history] AS [v_contract_history]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="v_contractrisk" EntityType="Self.v_contractrisk" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [v_contractrisk].[ContractRiskId] AS [ContractRiskId], 
@@ -839,7 +867,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="seria" EntitySet="serias" />
             <End Role="RiskSeria" EntitySet="RiskSerias" />
           </AssociationSet>
-          <EntitySet Name="v_contractrisk" EntityType="goDbModel.v_contractrisk" />
           <EntitySet Name="Contract_territory" EntityType="goDbModel.Contract_territory" />
           <EntitySet Name="Risks" EntityType="goDbModel.Risk" />
           <AssociationSet Name="FK_RiskSeria_ToRisk" Association="goDbModel.FK_RiskSeria_ToRisk">
@@ -942,6 +969,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySet Name="ImportLogs" EntityType="goDbModel.ImportLog" />
           <EntitySet Name="ImportLogContracts" EntityType="goDbModel.ImportLogContract" />
           <EntitySet Name="v_importlog" EntityType="goDbModel.v_importlog" />
+          <EntitySet Name="v_contract_history" EntityType="goDbModel.v_contract_history" />
+          <EntitySet Name="v_contractrisk" EntityType="goDbModel.v_contractrisk" />
           </EntityContainer>
         <EntityType Name="seria">
           <Key>
@@ -1084,21 +1113,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="v_contractrisk">
-          <Key>
-            <PropertyRef Name="ContractRiskId" />
-            <PropertyRef Name="ContractId" />
-            <PropertyRef Name="isMandatory" />
-          </Key>
-          <Property Name="ContractRiskId" Type="Guid" Nullable="false" />
-          <Property Name="ContractId" Type="Guid" Nullable="false" />
-          <Property Name="RiskId" Type="Guid" />
-          <Property Name="InsSum" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="InsPrem" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="sort" Type="Int32" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="isMandatory" Type="Boolean" Nullable="false" />
-        </EntityType>
         <EntityType Name="Contract_territory">
           <Key>
             <PropertyRef Name="ContractTerritoryId" />
@@ -1585,6 +1599,35 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="contractcount" Type="Int32" />
         </EntityType>
+        <EntityType Name="v_contract_history">
+          <Key>
+            <PropertyRef Name="ContractStatusId" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="ContractStatusId" Type="Guid" Nullable="false" />
+          <Property Name="ContractId" Type="Guid" />
+          <Property Name="StatusId" Type="Guid" />
+          <Property Name="DateInsert" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="contractnumber" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="v_contractrisk">
+          <Key>
+            <PropertyRef Name="ContractRiskId" />
+            <PropertyRef Name="ContractId" />
+            <PropertyRef Name="isMandatory" />
+          </Key>
+          <Property Name="ContractRiskId" Type="Guid" Nullable="false" />
+          <Property Name="ContractId" Type="Guid" Nullable="false" />
+          <Property Name="RiskId" Type="Guid" />
+          <Property Name="InsSum" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="InsPrem" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="sort" Type="Int32" />
+          <Property Name="isMandatory" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1672,20 +1715,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
                 <ScalarProperty Name="RiskId" ColumnName="RiskId" />
                 <ScalarProperty Name="RiskSeriaId" ColumnName="RiskSeriaId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="v_contractrisk">
-            <EntityTypeMapping TypeName="goDbModel.v_contractrisk">
-              <MappingFragment StoreEntitySet="v_contractrisk">
-                <ScalarProperty Name="isMandatory" ColumnName="isMandatory" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="sort" ColumnName="sort" />
-                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
-                <ScalarProperty Name="InsSum" ColumnName="InsSum" />
-                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
-                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
-                <ScalarProperty Name="ContractRiskId" ColumnName="ContractRiskId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1911,6 +1940,34 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="userid" ColumnName="userid" />
                 <ScalarProperty Name="ImportLogId" ColumnName="ImportLogId" />
                 <ScalarProperty Name="dateinsert" ColumnName="dateinsert" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_contract_history">
+            <EntityTypeMapping TypeName="goDbModel.v_contract_history">
+              <MappingFragment StoreEntitySet="v_contract_history">
+                <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DateInsert" ColumnName="DateInsert" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="ContractStatusId" ColumnName="ContractStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_contractrisk">
+            <EntityTypeMapping TypeName="goDbModel.v_contractrisk">
+              <MappingFragment StoreEntitySet="v_contractrisk">
+                <ScalarProperty Name="isMandatory" ColumnName="isMandatory" />
+                <ScalarProperty Name="sort" ColumnName="sort" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
+                <ScalarProperty Name="InsSum" ColumnName="InsSum" />
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="ContractRiskId" ColumnName="ContractRiskId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

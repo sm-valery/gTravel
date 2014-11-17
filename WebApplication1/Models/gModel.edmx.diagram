@@ -17,7 +17,6 @@
         <EntityTypeShape EntityType="goDbModel.Status" Width="1.5" PointX="2.375" PointY="9.375" />
         <EntityTypeShape EntityType="goDbModel.RiskSeria" Width="1.5" PointX="14.375" PointY="5" />
         <AssociationConnector Association="goDbModel.FK_RiskSeria_ToSeria" />
-        <EntityTypeShape EntityType="goDbModel.v_contractrisk" Width="1.5" PointX="15.25" PointY="14.375" />
         <EntityTypeShape EntityType="goDbModel.Contract_territory" Width="1.5" PointX="2.375" PointY="3.875" />
         <EntityTypeShape EntityType="goDbModel.Risk" Width="1.5" PointX="14.625" PointY="0.5" />
         <AssociationConnector Association="goDbModel.FK_RiskSeria_ToRisk" />
@@ -35,7 +34,7 @@
         <AssociationConnector Association="goDbModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="goDbModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="goDbModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="goDbModel.Territory" Width="1.5" PointX="0.75" PointY="0.875" />
+        <EntityTypeShape EntityType="goDbModel.Territory" Width="1.5" PointX="0.5" PointY="4.75" />
         <EntityTypeShape EntityType="goDbModel.v_contract" Width="1.5" PointX="10.75" PointY="0.75" />
         <AssociationConnector Association="goDbModel.FK_Contract_territory_ToTerritory" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToTerritory" />
@@ -57,6 +56,8 @@
         <EntityTypeShape EntityType="goDbModel.ImportLog" Width="1.5" PointX="3.125" PointY="20" />
         <EntityTypeShape EntityType="goDbModel.ImportLogContract" Width="2.625" PointX="5.125" PointY="20" />
         <EntityTypeShape EntityType="goDbModel.v_importlog" Width="1.5" PointX="8.375" PointY="20" />
+        <EntityTypeShape EntityType="goDbModel.v_contract_history" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="goDbModel.v_contractrisk" Width="1.5" PointX="5.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
