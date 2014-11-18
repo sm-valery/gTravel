@@ -9,6 +9,15 @@ namespace gTravel.Models
 {
     public partial class Contract
     {
+        public decimal getnextnumber(goDbEntities db, Guid seriaid)
+        {
+            decimal newnum = 0;
+
+            newnum = db.Contracts.Where(x => x.seriaid == seriaid).Max(s=>s.contractnumber).Value;
+
+            return newnum+1;
+        }
+
         public Subject add_insured(goDbEntities db)
         {
             Subject s = new Subject();
@@ -19,6 +28,7 @@ namespace gTravel.Models
            return add_insured(db, s);
 
         }
+
         public Subject add_insured(goDbEntities db,Subject s)
         {
             s.SubjectId = Guid.NewGuid();

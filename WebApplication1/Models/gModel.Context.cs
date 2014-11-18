@@ -52,5 +52,7 @@ namespace gTravel.Models
         public virtual DbSet<v_importlog> v_importlog { get; set; }
         public virtual DbSet<v_contract_history> v_contract_history { get; set; }
         public virtual DbSet<v_contractrisk> v_contractrisk { get; set; }
+        public virtual DbSet<Agent> Agents { get; set; }
+        public virtual DbSet<AgentUser> AgentUsers { get; set; }
     }
 }

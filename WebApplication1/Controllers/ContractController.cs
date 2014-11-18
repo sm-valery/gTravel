@@ -36,10 +36,22 @@ namespace gTravel.Controllers
             var pageNumber = page ?? 1;
 
             string userid = User.Identity.GetUserId();
+            var agentuser= db.AgentUsers.SingleOrDefault(x=>x.UserId==userid);
 
+            //эту проверку надо как-то вынести в класс
+            //админ видет все
             if (!User.IsInRole("Admin"))
-                clist = clist.Where(x => x.UserId == userid);
+            {
+                //видит все договора агента
+                if(agentuser.IsGlobalUser==1)
+                    clist = clist.Where(x => x.AgentId == agentuser.AgentId);
 
+                //только свои договора
+                if(agentuser.IsGlobalUser==2)
+                    clist = clist.Where(x => x.UserId == userid);
+
+            }
+               
             if (contractnumber != null)
             {
                 ViewBag.filtr = "номер договора = " + contractnumber.ToString();
@@ -257,7 +269,10 @@ namespace gTravel.Controllers
             c.date_out = (c.date_out ==null)? DateTime.Now: c.date_out;
             c.date_diff = get_period_diff(c.date_begin, c.date_end);
             c.Holder_SubjectId = s.SubjectId;
-            //c.contractnumber = (c.contractnumber) null;
+
+            if(seria.AutoNumber==1)
+                c.contractnumber = c.getnextnumber(db, c.seriaid);
+
             c.ContractStatusId = contr_stat_id;
           
             c.UserId = User.Identity.GetUserId();
@@ -684,6 +699,7 @@ namespace gTravel.Controllers
                                 contract_new.date_end = crow.date_end;
 
                                 p_contract_add(contract_new);
+
                                 contract_new.add_insured(db, s);
 
                                 log_contract_id =contract_new.ContractId;

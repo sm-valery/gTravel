@@ -20,6 +20,7 @@ namespace gTravel.Models
             this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
             this.AspNetRoles = new HashSet<AspNetRole>();
             this.Contracts = new HashSet<Contract>();
+            this.AgentUsers = new HashSet<AgentUser>();
         }
     
         public string Id { get; set; }
@@ -39,5 +40,6 @@ namespace gTravel.Models
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
         public virtual ICollection<Contract> Contracts { get; set; }
+        public virtual ICollection<AgentUser> AgentUsers { get; set; }
     }
 }

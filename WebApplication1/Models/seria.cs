@@ -28,6 +28,7 @@ namespace gTravel.Models
         public Nullable<int> IsMulti { get; set; }
         public string formname { get; set; }
         public Nullable<System.Guid> DefaultCurrencyId { get; set; }
+        public Nullable<int> AutoNumber { get; set; }
     
         public virtual ICollection<ConditionSeria> ConditionSerias { get; set; }
         public virtual ICollection<RiskSeria> RiskSerias { get; set; }
