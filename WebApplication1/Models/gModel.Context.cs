@@ -12,6 +12,8 @@ namespace gTravel.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class goDbEntities : DbContext
     {
@@ -26,7 +28,6 @@ namespace gTravel.Models
         }
     
         public virtual DbSet<seria> serias { get; set; }
-        public virtual DbSet<Condition> Conditions { get; set; }
         public virtual DbSet<ConditionSeria> ConditionSerias { get; set; }
         public virtual DbSet<ContractCondition> ContractConditions { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
@@ -54,5 +55,49 @@ namespace gTravel.Models
         public virtual DbSet<v_contractrisk> v_contractrisk { get; set; }
         public virtual DbSet<Agent> Agents { get; set; }
         public virtual DbSet<AgentUser> AgentUsers { get; set; }
+        public virtual DbSet<AddRef> AddRefs { get; set; }
+        public virtual DbSet<Condition> Conditions { get; set; }
+    
+        public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(string));
+    
+            var contractnumberParameter = contractnumber.HasValue ?
+                new ObjectParameter("contractnumber", contractnumber) :
+                new ObjectParameter("contractnumber", typeof(decimal));
+    
+            var importLogIdParameter = importLogId.HasValue ?
+                new ObjectParameter("ImportLogId", importLogId) :
+                new ObjectParameter("ImportLogId", typeof(System.Guid));
+    
+            var contractidParameter = contractid.HasValue ?
+                new ObjectParameter("contractid", contractid) :
+                new ObjectParameter("contractid", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<v_contract>("spContract", userIdParameter, contractnumberParameter, importLogIdParameter, contractidParameter);
+        }
+    
+        public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, MergeOption mergeOption)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(string));
+    
+            var contractnumberParameter = contractnumber.HasValue ?
+                new ObjectParameter("contractnumber", contractnumber) :
+                new ObjectParameter("contractnumber", typeof(decimal));
+    
+            var importLogIdParameter = importLogId.HasValue ?
+                new ObjectParameter("ImportLogId", importLogId) :
+                new ObjectParameter("ImportLogId", typeof(System.Guid));
+    
+            var contractidParameter = contractid.HasValue ?
+                new ObjectParameter("contractid", contractid) :
+                new ObjectParameter("contractid", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<v_contract>("spContract", mergeOption, userIdParameter, contractnumberParameter, importLogIdParameter, contractidParameter);
+        }
     }
 }

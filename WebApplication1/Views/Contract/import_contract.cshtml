@@ -1,9 +1,17 @@
 ﻿@using PagedList.Mvc;
-@using PagedList; 
+@using PagedList;
 
 @model PagedList<gTravel.Models.v_importlog>
 
-
+<div class="alert alert-success small">
+    <strong>Обратите внимание!</strong>
+    В файле импорта не нужно заполнять колонку "номер договора". Номер договора присваивается автоматически системой.
+    Поле "Номер договора" необходимо заполнять только в том случае, если Вы хотите загрузить несколько договоров из одного файла импорта. Тогда, для первой строки в "номер договора" ставим
+    например порядковый номер договора в файле, а в последующих строках этого договора оставляем поле незаполненным. Параметры договора описываются в строчке с заполненным номером договора.
+    <p>@Html.ActionLink("Пример файла импорта","importexapmle")
+        
+    </p>
+</div>
 
 @{
     ViewBag.Title = "Импорт";
@@ -13,68 +21,82 @@
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <input type="file" name="file" class="form-control"  />
+    <input type="file" name="file" class="form-control" />
     <span class="help-block">Файл должен быть в формате Microsoft Excel 2007 и выше (*.xlsx)</span>
     <input class="btn btn-default" type="submit" value="OK" />
-}  
-
-@Html.ValidationSummary()
-
-
-@*<input  class ="form-control" type="date" list="days">
-<datalist id="days">
-    <option label="Chris' Birthday">1980-08-26</option>
-    <option label="Apollo 11 Moon Landing">1969-07-20</option>
-    <option label="DDay">1944-06-06</option>
-</datalist>*@
+}
 
 
 <hr />
-@*<h3>История загрузки</h3>*@
-<div class="row">
-    <div class="col-md-8">
-
-        <table class="table table-striped">
-            <tr>
-                <th></th>
-                <th>Дата импорта</th>
-                <th>Количество договоров</th>
-                <th>Пользователь</th>
-            </tr>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.ActionLink("Выбрать", "index", new { ImportLogId = item.ImportLogId })</td>
-                    <td>
-
-                        @item.dateinsert
-                    </td>
-                    <td>
-                        @item.contractcount
-                    </td>
-                    <td>
-                        @item.UserName
-                    </td>
-                </tr>
-            }
-        </table>
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+@if (!string.IsNullOrEmpty((string)ViewBag.Message))
+{
+    <p></p>
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span></button>
+        @Html.ValidationSummary()
+        @ViewBag.Message
     </div>
+}
 
-    <div class="col-md-4">
-        
-        <div class="alert alert-info">
-            <b>Формат файла импорта</b>
-            <ul>
-                @foreach (var item in (List<gTravel.Models.import_settings>)ViewBag.settings)
+
+
+
+    @*<input  class ="form-control" type="date" list="days">
+        <datalist id="days">
+            <option label="Chris' Birthday">1980-08-26</option>
+            <option label="Apollo 11 Moon Landing">1969-07-20</option>
+            <option label="DDay">1944-06-06</option>
+        </datalist>*@
+
+
+    @*<h3>История загрузки</h3>*@
+    <div class="row">
+        <div class="col-md-8">
+
+            <table class="table table-striped">
+                <tr>
+                    <th></th>
+                    <th>Дата импорта</th>
+                    <th>Номер импорта</th>
+                    <th>Количество договоров</th>
+                    <th>Пользователь</th>
+                </tr>
+                @foreach (var item in Model)
                 {
-                    <li>@item.numcol : @item.colname</li>
-                }
+                    <tr>
+                        <td>
+                            <abbr title="Просмотр загруженных договоров">
+                                @Html.ActionLink("Просмотр", "index", new { ImportLogId = item.ImportLogId })
+                            </abbr>
+                        </td>
+                        <td>
 
-            </ul>
+                            @item.dateinsert
+                        </td>
+                        <td>@item.docnum</td>
+                        <td>
+                            @item.contractcount
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
+                    </tr>
+                }
+            </table>
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="alert alert-info">
+                <b>Формат файла импорта</b>
+                <ul>
+                    @foreach (var item in (List<gTravel.Models.import_settings>)ViewBag.settings)
+                    {
+                        <li>@item.numcol : @item.colname</li>
+                    }
+
+                </ul>
+            </div>
         </div>
     </div>
-</div>
-
-
-

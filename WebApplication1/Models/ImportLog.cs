@@ -17,5 +17,6 @@ namespace gTravel.Models
         public System.Guid ImportLogId { get; set; }
         public Nullable<System.DateTime> dateinsert { get; set; }
         public string userid { get; set; }
+        public Nullable<decimal> docnum { get; set; }
     }
 }

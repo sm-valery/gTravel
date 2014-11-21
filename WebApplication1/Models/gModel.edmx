@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="goDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AddRefs">
+          <Key>
+            <PropertyRef Name="AddRefsId" />
+          </Key>
+          <Property Name="AddRefsId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="nchar" MaxLength="30" />
+          <Property Name="Value" Type="nchar" MaxLength="100" />
+          <Property Name="OrderNum" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
         <EntityType Name="Agent">
           <Key>
             <PropertyRef Name="AgentId" />
@@ -80,6 +89,7 @@
           <Property Name="Code" Type="nchar" MaxLength="25" />
           <Property Name="Name" Type="nchar" MaxLength="255" />
           <Property Name="Type" Type="char" MaxLength="1" />
+          <Property Name="AddRefsId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -186,6 +196,7 @@
           <Property Name="ImportLogId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="dateinsert" Type="datetime" />
           <Property Name="userid" Type="nchar" MaxLength="128" />
+          <Property Name="docnum" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="ImportLogContract">
           <Key>
@@ -346,6 +357,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="dateinsert" Type="datetime" />
           <Property Name="ImportLogId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="userid" Type="nchar" MaxLength="128" />
+          <Property Name="docnum" Type="decimal" Precision="18" Scale="0" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="contractcount" Type="int" />
         </EntityType>
@@ -370,6 +382,18 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Principal>
             <Dependent Role="AgentUser">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Condition_ToAddRefs">
+          <End Role="AddRefs" Type="Self.AddRefs" Multiplicity="0..1" />
+          <End Role="Condition" Type="Self.Condition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AddRefs">
+              <PropertyRef Name="AddRefsId" />
+            </Principal>
+            <Dependent Role="Condition">
+              <PropertyRef Name="AddRefsId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -693,7 +717,14 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="spContract" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+          <Parameter Name="contractnumber" Type="decimal" Mode="In" />
+          <Parameter Name="ImportLogId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="contractid" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <EntityContainer Name="goDbModelStoreContainer">
+          <EntitySet Name="AddRefs" EntityType="Self.AddRefs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agent" EntityType="Self.Agent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AgentUser" EntityType="Self.AgentUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -775,6 +806,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_importlog].[dateinsert] AS [dateinsert], 
     [v_importlog].[ImportLogId] AS [ImportLogId], 
     [v_importlog].[userid] AS [userid], 
+    [v_importlog].[docnum] AS [docnum], 
     [v_importlog].[UserName] AS [UserName], 
     [v_importlog].[contractcount] AS [contractcount]
     FROM [dbo].[v_importlog] AS [v_importlog]</DefiningQuery>
@@ -786,6 +818,10 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <AssociationSet Name="FK_AgentUser_ToTable_1" Association="Self.FK_AgentUser_ToTable_1">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AgentUser" EntitySet="AgentUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Condition_ToAddRefs" Association="Self.FK_Condition_ToAddRefs">
+            <End Role="AddRefs" EntitySet="AddRefs" />
+            <End Role="Condition" EntitySet="Condition" />
           </AssociationSet>
           <AssociationSet Name="FK_ConditionSeria_ToCondition" Association="Self.FK_ConditionSeria_ToCondition">
             <End Role="Condition" EntitySet="Condition" />
@@ -898,17 +934,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
       <Schema Namespace="goDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="goDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="serias" EntityType="goDbModel.seria" />
-          <EntitySet Name="Conditions" EntityType="goDbModel.Condition" />
           <EntitySet Name="ConditionSerias" EntityType="goDbModel.ConditionSeria" />
           <EntitySet Name="ContractConditions" EntityType="goDbModel.ContractCondition" />
-          <AssociationSet Name="FK_ConditionSeria_ToCondition" Association="goDbModel.FK_ConditionSeria_ToCondition">
-            <End Role="Condition" EntitySet="Conditions" />
-            <End Role="ConditionSeria" EntitySet="ConditionSerias" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Table_ToCondition" Association="goDbModel.FK_Table_ToCondition">
-            <End Role="Condition" EntitySet="Conditions" />
-            <End Role="ContractCondition" EntitySet="ContractConditions" />
-          </AssociationSet>
           <AssociationSet Name="FK_ConditionSeria_ToSeria" Association="goDbModel.FK_ConditionSeria_ToSeria">
             <End Role="seria" EntitySet="serias" />
             <End Role="ConditionSeria" EntitySet="ConditionSerias" />
@@ -1034,6 +1061,26 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="AgentUser" EntitySet="AgentUsers" />
           </AssociationSet>
+          <FunctionImport Name="spContract" EntitySet="v_contract" ReturnType="Collection(goDbModel.v_contract)">
+            <Parameter Name="UserId" Mode="In" Type="String" />
+            <Parameter Name="contractnumber" Mode="In" Type="Decimal" />
+            <Parameter Name="ImportLogId" Mode="In" Type="Guid" />
+            <Parameter Name="contractid" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <EntitySet Name="AddRefs" EntityType="goDbModel.AddRef" />
+          <EntitySet Name="Conditions" EntityType="goDbModel.Condition" />
+          <AssociationSet Name="FK_Condition_ToAddRefs" Association="goDbModel.FK_Condition_ToAddRefs">
+            <End Role="AddRef" EntitySet="AddRefs" />
+            <End Role="Condition" EntitySet="Conditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConditionSeria_ToCondition" Association="goDbModel.FK_ConditionSeria_ToCondition">
+            <End Role="Condition" EntitySet="Conditions" />
+            <End Role="ConditionSeria" EntitySet="ConditionSerias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToCondition" Association="goDbModel.FK_Table_ToCondition">
+            <End Role="Condition" EntitySet="Conditions" />
+            <End Role="ContractCondition" EntitySet="ContractConditions" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="seria">
           <Key>
@@ -1052,17 +1099,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="seria" ToRole="Contract" />
           <Property Name="AutoNumber" Type="Int32" />
         </EntityType>
-        <EntityType Name="Condition">
-          <Key>
-            <PropertyRef Name="ConditionId" />
-          </Key>
-          <Property Name="ConditionId" Type="Guid" Nullable="false" />
-          <Property Name="Code" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
-          <Property Name="Name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
-          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="ConditionSerias" Relationship="goDbModel.FK_ConditionSeria_ToCondition" FromRole="Condition" ToRole="ConditionSeria" />
-          <NavigationProperty Name="ContractConditions" Relationship="goDbModel.FK_Table_ToCondition" FromRole="Condition" ToRole="ContractCondition" />
-        </EntityType>
         <EntityType Name="ConditionSeria">
           <Key>
             <PropertyRef Name="ConditionSeriaId" />
@@ -1070,9 +1106,9 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="ConditionSeriaId" Type="Guid" Nullable="false" />
           <Property Name="ConditionId" Type="Guid" />
           <Property Name="SeriaId" Type="Guid" />
-          <NavigationProperty Name="Condition" Relationship="goDbModel.FK_ConditionSeria_ToCondition" FromRole="ConditionSeria" ToRole="Condition" />
           <NavigationProperty Name="seria" Relationship="goDbModel.FK_ConditionSeria_ToSeria" FromRole="ConditionSeria" ToRole="seria" />
           <Property Name="num" Type="Int32" />
+          <NavigationProperty Name="Condition" Relationship="goDbModel.FK_ConditionSeria_ToCondition" FromRole="ConditionSeria" ToRole="Condition" />
         </EntityType>
         <EntityType Name="ContractCondition">
           <Key>
@@ -1084,35 +1120,11 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="Val_c" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Val_n" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="Val_l" Type="Boolean" />
-          <NavigationProperty Name="Condition" Relationship="goDbModel.FK_Table_ToCondition" FromRole="ContractCondition" ToRole="Condition" />
           <Property Name="Val_d" Type="DateTime" Precision="0" />
           <Property Name="num" Type="Int32" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_Table_ToContract" FromRole="ContractCondition" ToRole="Contract" />
+          <NavigationProperty Name="Condition" Relationship="goDbModel.FK_Table_ToCondition" FromRole="ContractCondition" ToRole="Condition" />
         </EntityType>
-        <Association Name="FK_ConditionSeria_ToCondition">
-          <End Type="goDbModel.Condition" Role="Condition" Multiplicity="0..1" />
-          <End Type="goDbModel.ConditionSeria" Role="ConditionSeria" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Condition">
-              <PropertyRef Name="ConditionId" />
-            </Principal>
-            <Dependent Role="ConditionSeria">
-              <PropertyRef Name="ConditionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Table_ToCondition">
-          <End Type="goDbModel.Condition" Role="Condition" Multiplicity="0..1" />
-          <End Type="goDbModel.ContractCondition" Role="ContractCondition" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Condition">
-              <PropertyRef Name="ConditionId" />
-            </Principal>
-            <Dependent Role="ContractCondition">
-              <PropertyRef Name="ConditionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ConditionSeria_ToSeria">
           <End Type="goDbModel.seria" Role="seria" Multiplicity="0..1" />
           <End Type="goDbModel.ConditionSeria" Role="ConditionSeria" Multiplicity="*" />
@@ -1645,6 +1657,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="ImportLogId" Type="Guid" Nullable="false" />
           <Property Name="dateinsert" Type="DateTime" Precision="3" />
           <Property Name="userid" Type="String" MaxLength="128" FixedLength="true" Unicode="true" />
+          <Property Name="docnum" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="ImportLogContract">
           <Key>
@@ -1664,6 +1677,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="userid" Type="String" MaxLength="128" FixedLength="true" Unicode="true" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="contractcount" Type="Int32" />
+          <Property Name="docnum" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="v_contract_history">
           <Key>
@@ -1737,6 +1751,143 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="spContract_Result">
+          <Property Type="Guid" Name="ContractId" Nullable="false" />
+          <Property Type="Guid" Name="currencyid" Nullable="false" />
+          <Property Type="Decimal" Name="contractnumber" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Guid" Name="seriaid" Nullable="false" />
+          <Property Type="DateTime" Name="date_begin" Nullable="true" />
+          <Property Type="DateTime" Name="date_end" Nullable="true" />
+          <Property Type="Int32" Name="date_diff" Nullable="true" />
+          <Property Type="Guid" Name="Holder_SubjectId" Nullable="true" />
+          <Property Type="Guid" Name="ContractStatusId" Nullable="true" />
+          <Property Type="Decimal" Name="period_multi" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="period_multi_type" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="date_out" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spContract_Result1">
+          <Property Type="Guid" Name="ContractId" Nullable="false" />
+          <Property Type="Guid" Name="currencyid" Nullable="false" />
+          <Property Type="Decimal" Name="contractnumber" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Guid" Name="seriaid" Nullable="false" />
+          <Property Type="DateTime" Name="date_begin" Nullable="true" />
+          <Property Type="DateTime" Name="date_end" Nullable="true" />
+          <Property Type="Int32" Name="date_diff" Nullable="true" />
+          <Property Type="Guid" Name="Holder_SubjectId" Nullable="true" />
+          <Property Type="Guid" Name="ContractStatusId" Nullable="true" />
+          <Property Type="Decimal" Name="period_multi" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="period_multi_type" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="date_out" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spContract_Result2">
+          <Property Type="Guid" Name="ContractId" Nullable="false" />
+          <Property Type="Guid" Name="currencyid" Nullable="false" />
+          <Property Type="Decimal" Name="contractnumber" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Guid" Name="seriaid" Nullable="false" />
+          <Property Type="DateTime" Name="date_begin" Nullable="true" />
+          <Property Type="DateTime" Name="date_end" Nullable="true" />
+          <Property Type="Int32" Name="date_diff" Nullable="true" />
+          <Property Type="Guid" Name="Holder_SubjectId" Nullable="true" />
+          <Property Type="Guid" Name="ContractStatusId" Nullable="true" />
+          <Property Type="Decimal" Name="period_multi" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="period_multi_type" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="date_out" Nullable="true" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="256" />
+          <Property Type="String" Name="curr_code" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="status_name" Nullable="true" MaxLength="25" />
+          <Property Type="Guid" Name="AgentId" Nullable="true" />
+          <Property Type="String" Name="terr_name" Nullable="true" MaxLength="2000" />
+          <Property Type="Int32" Name="subject_count" Nullable="true" />
+          <Property Type="Decimal" Name="InsPrem" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="InsPremRur" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="InsFee" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="spContract_Result3">
+          <Property Type="Guid" Name="ContractId" Nullable="false" />
+          <Property Type="Guid" Name="currencyid" Nullable="false" />
+          <Property Type="Decimal" Name="contractnumber" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Guid" Name="seriaid" Nullable="false" />
+          <Property Type="DateTime" Name="date_begin" Nullable="true" />
+          <Property Type="DateTime" Name="date_end" Nullable="true" />
+          <Property Type="Int32" Name="date_diff" Nullable="true" />
+          <Property Type="Guid" Name="Holder_SubjectId" Nullable="true" />
+          <Property Type="Guid" Name="ContractStatusId" Nullable="true" />
+          <Property Type="Decimal" Name="period_multi" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="period_multi_type" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="date_out" Nullable="true" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="256" />
+          <Property Type="String" Name="curr_code" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="status_name" Nullable="true" MaxLength="25" />
+          <Property Type="Guid" Name="AgentId" Nullable="true" />
+          <Property Type="String" Name="terr_name" Nullable="true" MaxLength="2000" />
+          <Property Type="Int32" Name="subject_count" Nullable="true" />
+          <Property Type="Decimal" Name="InsPrem" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="InsPremRur" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="InsFee" Nullable="true" Precision="19" />
+        </ComplexType>
+        <EntityType Name="AddRef">
+          <Key>
+            <PropertyRef Name="AddRefsId" />
+          </Key>
+          <Property Name="AddRefsId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="Value" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="OrderNum" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Conditions" Relationship="goDbModel.FK_Condition_ToAddRefs" FromRole="AddRef" ToRole="Condition" />
+        </EntityType>
+        <EntityType Name="Condition">
+          <Key>
+            <PropertyRef Name="ConditionId" />
+          </Key>
+          <Property Name="ConditionId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="AddRefsId" Type="Guid" />
+          <NavigationProperty Name="AddRef" Relationship="goDbModel.FK_Condition_ToAddRefs" FromRole="Condition" ToRole="AddRef" />
+          <NavigationProperty Name="ConditionSerias" Relationship="goDbModel.FK_ConditionSeria_ToCondition" FromRole="Condition" ToRole="ConditionSeria" />
+          <NavigationProperty Name="ContractConditions" Relationship="goDbModel.FK_Table_ToCondition" FromRole="Condition" ToRole="ContractCondition" />
+        </EntityType>
+        <Association Name="FK_Condition_ToAddRefs">
+          <End Type="goDbModel.AddRef" Role="AddRef" Multiplicity="0..1" />
+          <End Type="goDbModel.Condition" Role="Condition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AddRef">
+              <PropertyRef Name="AddRefsId" />
+            </Principal>
+            <Dependent Role="Condition">
+              <PropertyRef Name="AddRefsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConditionSeria_ToCondition">
+          <End Type="goDbModel.Condition" Role="Condition" Multiplicity="0..1" />
+          <End Type="goDbModel.ConditionSeria" Role="ConditionSeria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Condition">
+              <PropertyRef Name="ConditionId" />
+            </Principal>
+            <Dependent Role="ConditionSeria">
+              <PropertyRef Name="ConditionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToCondition">
+          <End Type="goDbModel.Condition" Role="Condition" Multiplicity="0..1" />
+          <End Type="goDbModel.ContractCondition" Role="ContractCondition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Condition">
+              <PropertyRef Name="ConditionId" />
+            </Principal>
+            <Dependent Role="ContractCondition">
+              <PropertyRef Name="ConditionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1753,16 +1904,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Conditions">
-            <EntityTypeMapping TypeName="goDbModel.Condition">
-              <MappingFragment StoreEntitySet="Condition">
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="ConditionId" ColumnName="ConditionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2028,6 +2169,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="ImportLogs">
             <EntityTypeMapping TypeName="goDbModel.ImportLog">
               <MappingFragment StoreEntitySet="ImportLog">
+                <ScalarProperty Name="docnum" ColumnName="docnum" />
                 <ScalarProperty Name="userid" ColumnName="userid" />
                 <ScalarProperty Name="dateinsert" ColumnName="dateinsert" />
                 <ScalarProperty Name="ImportLogId" ColumnName="ImportLogId" />
@@ -2046,6 +2188,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="v_importlog">
             <EntityTypeMapping TypeName="goDbModel.v_importlog">
               <MappingFragment StoreEntitySet="v_importlog">
+                <ScalarProperty Name="docnum" ColumnName="docnum" />
                 <ScalarProperty Name="contractcount" ColumnName="contractcount" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="userid" ColumnName="userid" />
@@ -2097,6 +2240,28 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="AgentUserId" ColumnName="AgentUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spContract" FunctionName="goDbModel.Store.spContract" />
+          <EntitySetMapping Name="AddRefs">
+            <EntityTypeMapping TypeName="goDbModel.AddRef">
+              <MappingFragment StoreEntitySet="AddRefs">
+                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="AddRefsId" ColumnName="AddRefsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conditions">
+            <EntityTypeMapping TypeName="goDbModel.Condition">
+              <MappingFragment StoreEntitySet="Condition">
+                <ScalarProperty Name="AddRefsId" ColumnName="AddRefsId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ConditionId" ColumnName="ConditionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

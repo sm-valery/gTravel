@@ -220,8 +220,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="import_xls.cs" />
     <Compile Include="mLib.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AddRef.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Agent.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -300,6 +304,18 @@
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\seria.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\spContract_Result.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\spContract_Result1.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\spContract_Result2.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\spContract_Result3.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Status.cs">
@@ -548,6 +564,8 @@
     <Content Include="Views\AgentUsers\Details.cshtml" />
     <Content Include="Views\AgentUsers\Edit.cshtml" />
     <Content Include="Views\AgentUsers\Index.cshtml" />
+    <Content Include="Views\Settings\addrefs.cshtml" />
+    <Content Include="Views\Settings\AddRefCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -556,9 +574,7 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\test\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

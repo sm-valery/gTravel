@@ -180,6 +180,10 @@ namespace gTravel.Controllers
         }
         #endregion
 
+        #region Condition
+    
+        #endregion
+
         #region ConditionSeria
         public ActionResult ConditionSeria()
         {
@@ -216,6 +220,37 @@ namespace gTravel.Controllers
         }
 
 #endregion
+
+        #region AddRefs
+
+        public ActionResult addrefs()
+        {
+            return View(db.AddRefs.OrderBy(x=>x.Code).ThenBy(x=>x.OrderNum).ToList());
+        }
+
+        public ActionResult AddRefCreate()
+        {
+            return View(new AddRef());
+        }
+
+        [HttpPost]
+        public ActionResult AddRefCreate(AddRef add)
+        {
+            if (ModelState.IsValid)
+            {
+
+
+                add.AddRefsId = Guid.NewGuid();
+                db.AddRefs.Add(add);
+
+                db.SaveChanges();
+
+                return RedirectToAction("addrefs");
+            }
+
+            return View(add);
+        }
+        #endregion
 
         #region Tarifs
         public ActionResult tarif()

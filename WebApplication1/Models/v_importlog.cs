@@ -19,5 +19,6 @@ namespace gTravel.Models
         public string userid { get; set; }
         public string UserName { get; set; }
         public Nullable<int> contractcount { get; set; }
+        public Nullable<decimal> docnum { get; set; }
     }
 }

@@ -24,7 +24,9 @@ namespace gTravel.Models
         public string Code { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
+        public Nullable<System.Guid> AddRefsId { get; set; }
     
+        public virtual AddRef AddRef { get; set; }
         public virtual ICollection<ConditionSeria> ConditionSerias { get; set; }
         public virtual ICollection<ContractCondition> ContractConditions { get; set; }
     }
