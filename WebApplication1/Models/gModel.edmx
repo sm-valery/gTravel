@@ -81,6 +81,23 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="Bordero">
+          <Key>
+            <PropertyRef Name="BorderoId" />
+          </Key>
+          <Property Name="BorderoId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DocNum" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="DateInsert" Type="datetime" />
+          <Property Name="Sended" Type="int" />
+        </EntityType>
+        <EntityType Name="BorderoContract">
+          <Key>
+            <PropertyRef Name="BorderoContractId" />
+          </Key>
+          <Property Name="BorderoContractId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BorderoId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ContractId" Type="uniqueidentifier" />
+        </EntityType>
         <EntityType Name="Condition">
           <Key>
             <PropertyRef Name="ConditionId" />
@@ -89,7 +106,7 @@
           <Property Name="Code" Type="nchar" MaxLength="25" />
           <Property Name="Name" Type="nchar" MaxLength="255" />
           <Property Name="Type" Type="char" MaxLength="1" />
-          <Property Name="AddRefsId" Type="uniqueidentifier" />
+          <Property Name="AddRefsCode" Type="nchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -243,6 +260,7 @@
           <Property Name="StatusId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Code" Type="varchar" MaxLength="10" />
           <Property Name="Name" Type="nchar" MaxLength="25" />
+          <Property Name="Readonly" Type="int" />
         </EntityType>
         <EntityType Name="Subject">
           <Key>
@@ -284,6 +302,38 @@
           <Property Name="Name" Type="varchar" MaxLength="512" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_bordero">
+          <Key>
+            <PropertyRef Name="BorderoId" />
+          </Key>
+          <Property Name="BorderoId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DocNum" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="DateInsert" Type="datetime" />
+          <Property Name="Sended" Type="int" />
+          <Property Name="contractcount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_bordero_new">
+          <Key>
+            <PropertyRef Name="BorderoId" />
+            <PropertyRef Name="ContractId" />
+          </Key>
+          <Property Name="BorderoId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DocNum" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="DateInsert" Type="datetime" />
+          <Property Name="Sended" Type="int" />
+          <Property Name="ContractId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="date_begin" Type="date" />
+          <Property Name="date_end" Type="date" />
+          <Property Name="date_out" Type="date" />
+          <Property Name="currcode" Type="nchar" MaxLength="10" />
+          <Property Name="InsPremRur" Type="money" />
+          <Property Name="Name" Type="varchar" MaxLength="512" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract">
           <Key>
@@ -307,6 +357,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="UserName" Type="nvarchar" MaxLength="256" />
           <Property Name="curr_code" Type="nchar" MaxLength="10" />
           <Property Name="status_name" Type="nchar" MaxLength="25" />
+          <Property Name="status_code" Type="varchar" MaxLength="10" />
           <Property Name="AgentId" Type="uniqueidentifier" />
           <Property Name="terr_name" Type="varchar" MaxLength="2000" />
           <Property Name="subject_count" Type="int" />
@@ -319,14 +370,13 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
         <EntityType Name="v_contract_history">
           <Key>
             <PropertyRef Name="ContractStatusId" />
-            <PropertyRef Name="UserName" />
           </Key>
           <Property Name="ContractStatusId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ContractId" Type="uniqueidentifier" />
           <Property Name="StatusId" Type="uniqueidentifier" />
           <Property Name="DateInsert" Type="datetime" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" />
           <Property Name="Name" Type="nchar" MaxLength="25" />
           <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
@@ -382,18 +432,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Principal>
             <Dependent Role="AgentUser">
               <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Condition_ToAddRefs">
-          <End Role="AddRefs" Type="Self.AddRefs" Multiplicity="0..1" />
-          <End Role="Condition" Type="Self.Condition" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AddRefs">
-              <PropertyRef Name="AddRefsId" />
-            </Principal>
-            <Dependent Role="Condition">
-              <PropertyRef Name="AddRefsId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -717,11 +755,14 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="BorderoCreate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="BorderoUpdPrepare" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spContract" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserId" Type="nvarchar" Mode="In" />
           <Parameter Name="contractnumber" Type="decimal" Mode="In" />
           <Parameter Name="ImportLogId" Type="uniqueidentifier" Mode="In" />
           <Parameter Name="contractid" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="BorderoId" Type="uniqueidentifier" Mode="In" />
         </Function>
         <EntityContainer Name="goDbModelStoreContainer">
           <EntitySet Name="AddRefs" EntityType="Self.AddRefs" Schema="dbo" store:Type="Tables" />
@@ -732,6 +773,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bordero" EntityType="Self.Bordero" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BorderoContract" EntityType="Self.BorderoContract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Condition" EntityType="Self.Condition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ConditionSeria" EntityType="Self.ConditionSeria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
@@ -751,6 +794,31 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tarif" EntityType="Self.Tarif" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Territory" EntityType="Self.Territory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="v_bordero" EntityType="Self.v_bordero" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_bordero].[BorderoId] AS [BorderoId], 
+    [v_bordero].[DocNum] AS [DocNum], 
+    [v_bordero].[DateInsert] AS [DateInsert], 
+    [v_bordero].[Sended] AS [Sended], 
+    [v_bordero].[contractcount] AS [contractcount]
+    FROM [dbo].[v_bordero] AS [v_bordero]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_bordero_new" EntityType="Self.v_bordero_new" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_bordero_new].[BorderoId] AS [BorderoId], 
+    [v_bordero_new].[DocNum] AS [DocNum], 
+    [v_bordero_new].[DateInsert] AS [DateInsert], 
+    [v_bordero_new].[Sended] AS [Sended], 
+    [v_bordero_new].[ContractId] AS [ContractId], 
+    [v_bordero_new].[contractnumber] AS [contractnumber], 
+    [v_bordero_new].[date_begin] AS [date_begin], 
+    [v_bordero_new].[date_end] AS [date_end], 
+    [v_bordero_new].[date_out] AS [date_out], 
+    [v_bordero_new].[currcode] AS [currcode], 
+    [v_bordero_new].[InsPremRur] AS [InsPremRur], 
+    [v_bordero_new].[Name] AS [Name]
+    FROM [dbo].[v_bordero_new] AS [v_bordero_new]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="v_contract" EntityType="Self.v_contract" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [v_contract].[ContractId] AS [ContractId], 
@@ -769,6 +837,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_contract].[UserName] AS [UserName], 
     [v_contract].[curr_code] AS [curr_code], 
     [v_contract].[status_name] AS [status_name], 
+    [v_contract].[status_code] AS [status_code], 
     [v_contract].[AgentId] AS [AgentId], 
     [v_contract].[terr_name] AS [terr_name], 
     [v_contract].[subject_count] AS [subject_count], 
@@ -818,10 +887,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <AssociationSet Name="FK_AgentUser_ToTable_1" Association="Self.FK_AgentUser_ToTable_1">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AgentUser" EntitySet="AgentUser" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Condition_ToAddRefs" Association="Self.FK_Condition_ToAddRefs">
-            <End Role="AddRefs" EntitySet="AddRefs" />
-            <End Role="Condition" EntitySet="Condition" />
           </AssociationSet>
           <AssociationSet Name="FK_ConditionSeria_ToCondition" Association="Self.FK_ConditionSeria_ToCondition">
             <End Role="Condition" EntitySet="Condition" />
@@ -1049,8 +1114,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySet Name="ImportLogs" EntityType="goDbModel.ImportLog" />
           <EntitySet Name="ImportLogContracts" EntityType="goDbModel.ImportLogContract" />
           <EntitySet Name="v_importlog" EntityType="goDbModel.v_importlog" />
-          <EntitySet Name="v_contract_history" EntityType="goDbModel.v_contract_history" />
-          <EntitySet Name="v_contractrisk" EntityType="goDbModel.v_contractrisk" />
           <EntitySet Name="Agents" EntityType="goDbModel.Agent" />
           <EntitySet Name="AgentUsers" EntityType="goDbModel.AgentUser" />
           <AssociationSet Name="FK_AgentUser_ToTable" Association="goDbModel.FK_AgentUser_ToTable">
@@ -1066,13 +1129,10 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <Parameter Name="contractnumber" Mode="In" Type="Decimal" />
             <Parameter Name="ImportLogId" Mode="In" Type="Guid" />
             <Parameter Name="contractid" Mode="In" Type="Guid" />
+            <Parameter Name="BorderoId" Mode="In" Type="Guid" />
           </FunctionImport>
           <EntitySet Name="AddRefs" EntityType="goDbModel.AddRef" />
           <EntitySet Name="Conditions" EntityType="goDbModel.Condition" />
-          <AssociationSet Name="FK_Condition_ToAddRefs" Association="goDbModel.FK_Condition_ToAddRefs">
-            <End Role="AddRef" EntitySet="AddRefs" />
-            <End Role="Condition" EntitySet="Conditions" />
-          </AssociationSet>
           <AssociationSet Name="FK_ConditionSeria_ToCondition" Association="goDbModel.FK_ConditionSeria_ToCondition">
             <End Role="Condition" EntitySet="Conditions" />
             <End Role="ConditionSeria" EntitySet="ConditionSerias" />
@@ -1081,6 +1141,14 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="Condition" EntitySet="Conditions" />
             <End Role="ContractCondition" EntitySet="ContractConditions" />
           </AssociationSet>
+          <EntitySet Name="BorderoContracts" EntityType="goDbModel.BorderoContract" />
+          <EntitySet Name="Borderoes" EntityType="goDbModel.Bordero" />
+          <EntitySet Name="v_bordero" EntityType="goDbModel.v_bordero" />
+          <FunctionImport Name="BorderoCreate" />
+          <EntitySet Name="v_contract_history" EntityType="goDbModel.v_contract_history" />
+          <EntitySet Name="v_contractrisk" EntityType="goDbModel.v_contractrisk" />
+          <EntitySet Name="v_bordero_new" EntityType="goDbModel.v_bordero_new" />
+          <FunctionImport Name="BorderoUpdPrepare" />
           </EntityContainer>
         <EntityType Name="seria">
           <Key>
@@ -1164,6 +1232,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="ContractStatus" Relationship="goDbModel.FK_ContractStatus_ToStatus" FromRole="Status" ToRole="ContractStatu" />
+          <Property Name="Readonly" Type="Int32" />
         </EntityType>
         <EntityType Name="RiskSeria">
           <Key>
@@ -1435,6 +1504,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="InsFee" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="InsPremRur" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="AgentId" Type="Guid" />
+          <Property Name="status_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Contract_territory_ToTerritory">
           <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
@@ -1679,35 +1749,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractcount" Type="Int32" />
           <Property Name="docnum" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
-        <EntityType Name="v_contract_history">
-          <Key>
-            <PropertyRef Name="ContractStatusId" />
-            <PropertyRef Name="UserName" />
-          </Key>
-          <Property Name="ContractStatusId" Type="Guid" Nullable="false" />
-          <Property Name="ContractId" Type="Guid" />
-          <Property Name="StatusId" Type="Guid" />
-          <Property Name="DateInsert" Type="DateTime" Precision="3" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
-          <Property Name="contractnumber" Type="Decimal" Precision="18" Scale="0" />
-        </EntityType>
-        <EntityType Name="v_contractrisk">
-          <Key>
-            <PropertyRef Name="ContractRiskId" />
-            <PropertyRef Name="ContractId" />
-            <PropertyRef Name="isMandatory" />
-          </Key>
-          <Property Name="ContractRiskId" Type="Guid" Nullable="false" />
-          <Property Name="ContractId" Type="Guid" Nullable="false" />
-          <Property Name="RiskId" Type="Guid" />
-          <Property Name="InsSum" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="InsPrem" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="sort" Type="Int32" />
-          <Property Name="isMandatory" Type="Boolean" Nullable="false" />
-        </EntityType>
         <EntityType Name="Agent">
           <Key>
             <PropertyRef Name="AgentId" />
@@ -1837,7 +1878,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="Code" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
           <Property Name="Value" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Name="OrderNum" Type="Decimal" Precision="18" Scale="0" />
-          <NavigationProperty Name="Conditions" Relationship="goDbModel.FK_Condition_ToAddRefs" FromRole="AddRef" ToRole="Condition" />
         </EntityType>
         <EntityType Name="Condition">
           <Key>
@@ -1847,23 +1887,10 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="Code" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
           <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="AddRefsId" Type="Guid" />
-          <NavigationProperty Name="AddRef" Relationship="goDbModel.FK_Condition_ToAddRefs" FromRole="Condition" ToRole="AddRef" />
+          <Property Name="AddRefsCode" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="ConditionSerias" Relationship="goDbModel.FK_ConditionSeria_ToCondition" FromRole="Condition" ToRole="ConditionSeria" />
           <NavigationProperty Name="ContractConditions" Relationship="goDbModel.FK_Table_ToCondition" FromRole="Condition" ToRole="ContractCondition" />
         </EntityType>
-        <Association Name="FK_Condition_ToAddRefs">
-          <End Type="goDbModel.AddRef" Role="AddRef" Multiplicity="0..1" />
-          <End Type="goDbModel.Condition" Role="Condition" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AddRef">
-              <PropertyRef Name="AddRefsId" />
-            </Principal>
-            <Dependent Role="Condition">
-              <PropertyRef Name="AddRefsId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ConditionSeria_ToCondition">
           <End Type="goDbModel.Condition" Role="Condition" Multiplicity="0..1" />
           <End Type="goDbModel.ConditionSeria" Role="ConditionSeria" Multiplicity="*" />
@@ -1888,6 +1915,79 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BorderoContract">
+          <Key>
+            <PropertyRef Name="BorderoContractId" />
+          </Key>
+          <Property Name="BorderoContractId" Type="Guid" Nullable="false" />
+          <Property Name="BorderoId" Type="Guid" Nullable="false" />
+          <Property Name="ContractId" Type="Guid" />
+        </EntityType>
+        <EntityType Name="Bordero">
+          <Key>
+            <PropertyRef Name="BorderoId" />
+          </Key>
+          <Property Name="BorderoId" Type="Guid" Nullable="false" />
+          <Property Name="DocNum" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DateInsert" Type="DateTime" Precision="3" />
+          <Property Name="Sended" Type="Int32" />
+        </EntityType>
+        <EntityType Name="v_bordero">
+          <Key>
+            <PropertyRef Name="BorderoId" />
+          </Key>
+          <Property Name="BorderoId" Type="Guid" Nullable="false" />
+          <Property Name="DocNum" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DateInsert" Type="DateTime" Precision="3" />
+          <Property Name="Sended" Type="Int32" />
+          <Property Name="contractcount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="v_contract_history">
+          <Key>
+            <PropertyRef Name="ContractStatusId" />
+          </Key>
+          <Property Name="ContractStatusId" Type="Guid" Nullable="false" />
+          <Property Name="ContractId" Type="Guid" />
+          <Property Name="StatusId" Type="Guid" />
+          <Property Name="DateInsert" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="contractnumber" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="v_contractrisk">
+          <Key>
+            <PropertyRef Name="ContractRiskId" />
+            <PropertyRef Name="ContractId" />
+            <PropertyRef Name="isMandatory" />
+          </Key>
+          <Property Name="ContractRiskId" Type="Guid" Nullable="false" />
+          <Property Name="ContractId" Type="Guid" Nullable="false" />
+          <Property Name="RiskId" Type="Guid" />
+          <Property Name="InsSum" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="InsPrem" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="sort" Type="Int32" />
+          <Property Name="isMandatory" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="v_bordero_new">
+          <Key>
+            <PropertyRef Name="BorderoId" />
+            <PropertyRef Name="ContractId" />
+          </Key>
+          <Property Name="BorderoId" Type="Guid" Nullable="false" />
+          <Property Name="DocNum" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DateInsert" Type="DateTime" Precision="3" />
+          <Property Name="Sended" Type="Int32" />
+          <Property Name="ContractId" Type="Guid" Nullable="false" />
+          <Property Name="contractnumber" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="date_begin" Type="DateTime" Precision="0" />
+          <Property Name="date_end" Type="DateTime" Precision="0" />
+          <Property Name="date_out" Type="DateTime" Precision="0" />
+          <Property Name="currcode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="InsPremRur" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Name" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1952,6 +2052,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="Status">
             <EntityTypeMapping TypeName="goDbModel.Status">
               <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Readonly" ColumnName="Readonly" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="StatusId" ColumnName="StatusId" />
@@ -2092,6 +2193,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="v_contract">
             <EntityTypeMapping TypeName="goDbModel.v_contract">
               <MappingFragment StoreEntitySet="v_contract">
+                <ScalarProperty Name="status_code" ColumnName="status_code" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
                 <ScalarProperty Name="InsFee" ColumnName="InsFee" />
@@ -2197,34 +2299,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="v_contract_history">
-            <EntityTypeMapping TypeName="goDbModel.v_contract_history">
-              <MappingFragment StoreEntitySet="v_contract_history">
-                <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="DateInsert" ColumnName="DateInsert" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
-                <ScalarProperty Name="ContractStatusId" ColumnName="ContractStatusId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="v_contractrisk">
-            <EntityTypeMapping TypeName="goDbModel.v_contractrisk">
-              <MappingFragment StoreEntitySet="v_contractrisk">
-                <ScalarProperty Name="isMandatory" ColumnName="isMandatory" />
-                <ScalarProperty Name="sort" ColumnName="sort" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
-                <ScalarProperty Name="InsSum" ColumnName="InsSum" />
-                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
-                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
-                <ScalarProperty Name="ContractRiskId" ColumnName="ContractRiskId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Agents">
             <EntityTypeMapping TypeName="goDbModel.Agent">
               <MappingFragment StoreEntitySet="Agent">
@@ -2257,7 +2331,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="Conditions">
             <EntityTypeMapping TypeName="goDbModel.Condition">
               <MappingFragment StoreEntitySet="Condition">
-                <ScalarProperty Name="AddRefsId" ColumnName="AddRefsId" />
+                <ScalarProperty Name="AddRefsCode" ColumnName="AddRefsCode" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -2265,6 +2339,84 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="BorderoContracts">
+            <EntityTypeMapping TypeName="goDbModel.BorderoContract">
+              <MappingFragment StoreEntitySet="BorderoContract">
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="BorderoId" ColumnName="BorderoId" />
+                <ScalarProperty Name="BorderoContractId" ColumnName="BorderoContractId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Borderoes">
+            <EntityTypeMapping TypeName="goDbModel.Bordero">
+              <MappingFragment StoreEntitySet="Bordero">
+                <ScalarProperty Name="Sended" ColumnName="Sended" />
+                <ScalarProperty Name="DateInsert" ColumnName="DateInsert" />
+                <ScalarProperty Name="DocNum" ColumnName="DocNum" />
+                <ScalarProperty Name="BorderoId" ColumnName="BorderoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_bordero">
+            <EntityTypeMapping TypeName="goDbModel.v_bordero">
+              <MappingFragment StoreEntitySet="v_bordero">
+                <ScalarProperty Name="contractcount" ColumnName="contractcount" />
+                <ScalarProperty Name="Sended" ColumnName="Sended" />
+                <ScalarProperty Name="DateInsert" ColumnName="DateInsert" />
+                <ScalarProperty Name="DocNum" ColumnName="DocNum" />
+                <ScalarProperty Name="BorderoId" ColumnName="BorderoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="BorderoCreate" FunctionName="goDbModel.Store.BorderoCreate" />
+          <EntitySetMapping Name="v_contract_history">
+            <EntityTypeMapping TypeName="goDbModel.v_contract_history">
+              <MappingFragment StoreEntitySet="v_contract_history">
+                <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DateInsert" ColumnName="DateInsert" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="ContractStatusId" ColumnName="ContractStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_contractrisk">
+            <EntityTypeMapping TypeName="goDbModel.v_contractrisk">
+              <MappingFragment StoreEntitySet="v_contractrisk">
+                <ScalarProperty Name="isMandatory" ColumnName="isMandatory" />
+                <ScalarProperty Name="sort" ColumnName="sort" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
+                <ScalarProperty Name="InsSum" ColumnName="InsSum" />
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="ContractRiskId" ColumnName="ContractRiskId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_bordero_new">
+            <EntityTypeMapping TypeName="goDbModel.v_bordero_new">
+              <MappingFragment StoreEntitySet="v_bordero_new">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
+                <ScalarProperty Name="currcode" ColumnName="currcode" />
+                <ScalarProperty Name="date_out" ColumnName="date_out" />
+                <ScalarProperty Name="date_end" ColumnName="date_end" />
+                <ScalarProperty Name="date_begin" ColumnName="date_begin" />
+                <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="Sended" ColumnName="Sended" />
+                <ScalarProperty Name="DateInsert" ColumnName="DateInsert" />
+                <ScalarProperty Name="DocNum" ColumnName="DocNum" />
+                <ScalarProperty Name="BorderoId" ColumnName="BorderoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="BorderoUpdPrepare" FunctionName="goDbModel.Store.BorderoUpdPrepare" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

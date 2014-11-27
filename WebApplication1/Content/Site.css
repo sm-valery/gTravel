@@ -135,3 +135,15 @@ border-bottom: 1px dotted;
     padding:20px;
     border: 1px solid #e0e0e0;
 }
+
+.status-default{
+
+}
+
+.status-confirmed{
+    color: #428BCA;
+}
+
+.status-bordero{
+    color:#5CB85C;
+}

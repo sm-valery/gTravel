@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -9,20 +11,29 @@ namespace gTravel.Models
 {
     public partial class Contract
     {
-        public int checkaccess(goDbEntities db, string userid)
+       public goDbEntities db;
+
+       public Contract(goDbEntities DbEntities)
+       {
+           
+
+           this.db = DbEntities;
+       }
+
+        public int checkaccess( string userid)
         {
 
-            if (!db.spContract(userid, null, null, this.ContractId).Any())
+            if (!db.spContract(userid, null, null, this.ContractId,null).Any())
                 return 0;
             
             return 1;
         }
-        public decimal getnextnumber(goDbEntities db)
+        public decimal getnextnumber()
         {
 
-            return getnextnumber(db, this.seriaid);
+            return getnextnumber(this.seriaid);
         }
-        public decimal getnextnumber(goDbEntities db, Guid seriaid)
+        public decimal getnextnumber( Guid seriaid)
         {
             decimal newnum = 0;
 
@@ -31,7 +42,23 @@ namespace gTravel.Models
             return newnum+1;
         }
 
-        public bool add_contract(goDbEntities db, string userid)
+        public Guid change_status(string userid, string new_status_code = "project")
+        {
+
+            ContractStatu stat = new ContractStatu();
+            stat.ContractStatusId = Guid.NewGuid();
+            stat.ContractId = this.ContractId;
+            stat.StatusId = db.Status.SingleOrDefault(x => x.Code.Trim() == new_status_code).StatusId;
+            stat.DateInsert = DateTime.Now;
+            stat.UserId = userid;
+
+
+            db.ContractStatus.Add(stat);
+
+            return stat.ContractStatusId;
+        }
+
+        public bool add_contract(string userid)
         {
             var seria = db.serias.FirstOrDefault(x => x.SeriaId == seriaid);
 
@@ -50,8 +77,6 @@ namespace gTravel.Models
             db.Subjects.Add(s);
             #endregion
 
-            Guid contr_stat_id = Guid.NewGuid();
-
             #region contract
             //Contract c = new Contract();
 
@@ -65,21 +90,22 @@ namespace gTravel.Models
             Holder_SubjectId = s.SubjectId;
 
             if (seria.AutoNumber == 1)
-                contractnumber = getnextnumber(db, seriaid);
+                contractnumber = getnextnumber(seriaid);
 
-            ContractStatusId = contr_stat_id;
+            ContractStatusId = change_status(userid);
 
             UserId = userid;
             db.Contracts.Add(this);
 
-            ContractStatu stat = new ContractStatu();
-            stat.ContractStatusId = contr_stat_id;
-            stat.ContractId = ContractId;
-            stat.StatusId = db.Status.SingleOrDefault(x => x.Code.Trim() == "project").StatusId;
-            stat.DateInsert = DateTime.Now;
-            stat.UserId = userid;
+            
+            //ContractStatu stat = new ContractStatu();
+            //stat.ContractStatusId = contr_stat_id;
+            //stat.ContractId = ContractId;
+            //stat.StatusId = db.Status.SingleOrDefault(x => x.Code.Trim() == "project").StatusId;
+            //stat.DateInsert = DateTime.Now;
+            //stat.UserId = userid;
 
-            db.ContractStatus.Add(stat);
+            //db.ContractStatus.Add(stat);
 
             #endregion
 
@@ -96,7 +122,7 @@ namespace gTravel.Models
                 item_rs.RiskId = item.RiskId;
                 //item_rs.Risk = item.Risk;
 
-                ContractRisks.Add(item_rs);
+                db.ContractRisks.Add(item_rs);
             }
 
             #endregion
@@ -131,18 +157,21 @@ namespace gTravel.Models
             return true;
         }
 
-        public Subject add_insured(goDbEntities db)
+        public Subject add_insured(goDbEntities DbEntities = null)
         {
-            Subject s = new Subject();
+            if (db == null)
+                db = DbEntities;
 
+            Subject s = new Subject();
             
             s.ContractId = this.ContractId;
 
-           return add_insured(db, s);
+
+           return add_insured(s);
 
         }
 
-        public Subject add_insured(goDbEntities db,Subject s)
+        public Subject add_insured(Subject s)
         {
             s.SubjectId = Guid.NewGuid();
             
@@ -156,6 +185,7 @@ namespace gTravel.Models
 
             return s;
         }
+
 
     }
 
@@ -203,6 +233,25 @@ namespace gTravel
 
     static class mLib
     {
+        public static string gethash(string key)
+        {
+           var h= MD5.Create();
+
+           byte[] data = h.ComputeHash(Encoding.Default.GetBytes(key));
+
+           StringBuilder sBuilder = new StringBuilder();
+
+           // Loop through each byte of the hashed data 
+           // and format each one as a hexadecimal string.
+           for (int i = 0; i < data.Length; i++)
+           {
+               sBuilder.Append(data[i].ToString("x2"));
+           }
+
+           // Return the hexadecimal string.
+           return sBuilder.ToString();
+
+        }
         public static SelectList GenderList(string gender = "N")
         {
             return new SelectList(new[]{

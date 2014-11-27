@@ -1,4 +1,21 @@
-﻿@using PagedList.Mvc;
+﻿@functions{
+string getstatusclass(string statuscode)
+    {
+        string ret = "status-default"; //"label label-default";
+
+        if (statuscode == "confirmed")
+            //return "label label-primary";
+            return "status-" + statuscode;
+
+        if (statuscode == "bordero")
+            //return "label label-success";
+            return "status-" + statuscode;
+    
+        return ret;
+    }
+}
+
+@using PagedList.Mvc;
 @using PagedList; 
 
 @model PagedList.PagedList<gTravel.Models.v_contract>
@@ -35,7 +52,7 @@
 
 
 <table class="table table-hover">
-    <tr>
+    <tr class="active">
         <th>
             Номер
         </th>
@@ -87,14 +104,16 @@
                 @Html.DisplayFor(modelItem => item.InsPremRur)
             </td>
 
-            <td>
-                @Html.DisplayFor(m => item.status_name)
+            <td >
+                <label class="@getstatusclass(item.status_code)">
+                    @Html.DisplayFor(m => item.status_name)
+                </label>
             </td>
             <td>
                 @Html.DisplayFor(m => item.UserName)
             </td>
             <td>
-                @Html.ActionLink("Изменить", "Contract_edit", new { id = item.ContractId }) |
+                @Html.ActionLink("Открыть", "Contract_edit", new { id = item.ContractId }) |
                 @Html.ActionLink("Печать", "printpdfch", new { contractid = item.ContractId }) |
                 @Html.ActionLink("История", "history", new { id = item.ContractId })
             </td>

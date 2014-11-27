@@ -182,6 +182,12 @@ namespace gTravel.Controllers
 
         #region Condition
     
+        public ActionResult condition()
+        {
+
+            return View(db.Conditions.ToList());
+        }
+
         #endregion
 
         #region ConditionSeria

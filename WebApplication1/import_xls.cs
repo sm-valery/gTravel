@@ -57,7 +57,7 @@ namespace gTravel
 
         private void import_data(IXLRows rows)
         {
-            Contract newcontract = new Contract();
+            Contract newcontract = new Contract(db);
             ImportLog l = new ImportLog(db, UserId);
 
             if(l.docnum.HasValue)
@@ -85,7 +85,7 @@ namespace gTravel
                 }
 
                 //застрахованный
-                newcontract.add_insured(db, create_insured(crow));
+                newcontract.add_insured( create_insured(crow));
 
             }
         }
@@ -93,18 +93,18 @@ namespace gTravel
         private Contract create_contract(cl_import_contract crow)
         {
             //создаем новый 
-            Contract contract_new = new Contract();
+            Contract contract_new = new Contract(db);
 
             contract_new.seriaid = SeriaId;
-            contract_new.contractnumber = contract_new.getnextnumber(db);
+            contract_new.contractnumber = contract_new.getnextnumber();
             contract_new.date_out = crow.date_out;
             contract_new.date_begin = crow.date_begin;
             contract_new.date_end = crow.date_end;
 
-            contract_new.add_contract(db, UserId);
+            contract_new.add_contract( UserId);
           
             //застрахованный
-            contract_new.add_insured(db, create_insured(crow));
+            contract_new.add_insured(create_insured(crow));
 
             return contract_new;
         }

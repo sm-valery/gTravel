@@ -1,0 +1,59 @@
+﻿@using PagedList.Mvc;
+@using PagedList; 
+
+@model PagedList.PagedList<gTravel.Models.v_bordero>
+
+@{
+    ViewBag.Title = "Бордеро";
+}
+
+<div class="alert alert-success small">
+    Бордеро формируется автоматически каждый день в 23-00. В бордеро включаются все договора со статусом "Утвержден". 
+    
+</div>
+
+<h3>@ViewBag.Title</h3>
+
+
+
+<table class="table">
+    <tr class="active">
+        <th>
+            Номер документа
+        </th>
+        <th>
+            Дата создания
+        </th>
+        <th>
+           Отправлено
+        </th>
+        <th>
+            Количество договоров
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+           @item.DocNum
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateInsert)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sended)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.contractcount)
+        </td>
+        <td>
+            @Html.ActionLink("Список договоров", "index","Contract",new { borderoid = item.BorderoId },null)
+        </td>
+
+    </tr>
+}
+
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))

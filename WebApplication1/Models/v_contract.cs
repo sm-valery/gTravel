@@ -36,5 +36,6 @@ namespace gTravel.Models
         public Nullable<decimal> InsFee { get; set; }
         public Nullable<decimal> InsPremRur { get; set; }
         public Nullable<System.Guid> AgentId { get; set; }
+        public string status_code { get; set; }
     }
 }

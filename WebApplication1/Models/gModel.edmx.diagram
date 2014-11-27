@@ -52,17 +52,20 @@
         <EntityTypeShape EntityType="goDbModel.ImportLog" Width="1.5" PointX="3.125" PointY="20" />
         <EntityTypeShape EntityType="goDbModel.ImportLogContract" Width="2.625" PointX="5.125" PointY="20" />
         <EntityTypeShape EntityType="goDbModel.v_importlog" Width="1.5" PointX="8.375" PointY="20" />
-        <EntityTypeShape EntityType="goDbModel.v_contract_history" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="goDbModel.v_contractrisk" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="goDbModel.Agent" Width="1.5" PointX="11.125" PointY="16.375" />
         <EntityTypeShape EntityType="goDbModel.AgentUser" Width="1.5" PointX="8.25" PointY="17.25" />
         <AssociationConnector Association="goDbModel.FK_AgentUser_ToTable" />
         <AssociationConnector Association="goDbModel.FK_AgentUser_ToTable_1" />
         <EntityTypeShape EntityType="goDbModel.AddRef" Width="1.5" PointX="17.625" PointY="18.375" />
-        <EntityTypeShape EntityType="goDbModel.Condition" Width="1.5" PointX="20.125" PointY="16.5" />
-        <AssociationConnector Association="goDbModel.FK_Condition_ToAddRefs" />
+        <EntityTypeShape EntityType="goDbModel.Condition" Width="1.5" PointX="9.375" PointY="7" />
         <AssociationConnector Association="goDbModel.FK_ConditionSeria_ToCondition" />
         <AssociationConnector Association="goDbModel.FK_Table_ToCondition" />
+        <EntityTypeShape EntityType="goDbModel.BorderoContract" Width="2.125" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="goDbModel.Bordero" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="goDbModel.v_bordero" Width="1.5" PointX="7.375" PointY="12.75" />
+        <EntityTypeShape EntityType="goDbModel.v_contract_history" Width="1.5" PointX="10.375" PointY="18.75" />
+        <EntityTypeShape EntityType="goDbModel.v_contractrisk" Width="1.5" PointX="4.375" PointY="0.75" />
+        <EntityTypeShape EntityType="goDbModel.v_bordero_new" Width="1.5" PointX="20.375" PointY="8.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

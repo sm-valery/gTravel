@@ -14,16 +14,9 @@ namespace gTravel.Models
     
     public partial class AddRef
     {
-        public AddRef()
-        {
-            this.Conditions = new HashSet<Condition>();
-        }
-    
         public System.Guid AddRefsId { get; set; }
         public string Code { get; set; }
         public string Value { get; set; }
         public Nullable<decimal> OrderNum { get; set; }
-    
-        public virtual ICollection<Condition> Conditions { get; set; }
     }
 }

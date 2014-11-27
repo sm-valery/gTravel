@@ -22,7 +22,7 @@ namespace gTravel.Controllers
 
         //
         // GET: /Contract/
-        public ActionResult Index(int? page, decimal? contractnumber, Guid? ImportLogId)
+        public ActionResult Index(int? page, decimal? contractnumber, Guid? ImportLogId, Guid? borderoid)
         {
 
             ViewBag.filtr = "";
@@ -37,20 +37,31 @@ namespace gTravel.Controllers
             string userid = User.Identity.GetUserId();
             // var agentuser= db.AgentUsers.SingleOrDefault(x=>x.UserId==userid);
 
+
+            if (ImportLogId != null)
+            {
+
+                //var imp = (from ii in db.ImportLogs where ii.ImportLogId == ImportLogId select ii).SingleOrDefault();
+
+                var imp = db.ImportLogs.SingleOrDefault(x => x.ImportLogId == ImportLogId);
+
+                ViewBag.filtr = string.Format("импорт #{0} от {1}", imp.docnum, imp.dateinsert);
+            }
+               
+            if(borderoid.HasValue)
+            {
+                var bordero = db.Borderoes.SingleOrDefault(x => x.BorderoId == borderoid);
+                ViewBag.filtr = string.Format("бордеро #{0}",bordero.DocNum);
+            }
+
+
             //var clist = from c in db.v_contract select c;
-            var clist = db.spContract(userid, contractnumber, ImportLogId, null);
+            var clist = db.spContract(userid, contractnumber, ImportLogId,null,borderoid);
 
             if (contractnumber != null)
                 ViewBag.filtr = "номер договора = " + contractnumber.ToString();
 
-
-            if (ImportLogId != null)
-            {
-                var imp = db.ImportLogs.SingleOrDefault(x => x.ImportLogId == ImportLogId.Value);
-
-                ViewBag.filtr =string.Format("импорт #{0} от {1}",imp.docnum,imp.dateinsert);
-            }
-                
+ 
 
 
             if (clist != null)
@@ -150,13 +161,13 @@ namespace gTravel.Controllers
             {
                 return HttpNotFound();
             }
-            Contract c = new Contract();
+            Contract c = new Contract(db);
             c.seriaid = seriaid;
             c.currencyid = seria.DefaultCurrencyId.Value;
             c.date_out = DateTime.Now;
 
             //if (p_contract_add(c))
-            if (c.add_contract(db,User.Identity.GetUserId()))
+            if (c.add_contract(User.Identity.GetUserId()))
                 return RedirectToAction("Contract_edit", new { id = c.ContractId });
 
 
@@ -389,28 +400,49 @@ namespace gTravel.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ContractCh(Contract c, string caction = "save")
         {
 
             string errmess = "";
-
+            c.db = db;
             c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
-
+            
             //пересчет
             bool isCalculated = ContractRecalc(c, out errmess);
 
-            if (caction == "recalc")
+            if (caction == "recalc" || caction == "confirm")
             {
                 if (!isCalculated)
                     ModelState.AddModelError(string.Empty, errmess);
+
+                if (caction == "confirm" && isCalculated)
+                {
+                   //валидация пеперд утверждением 
+                    if(!c.date_begin.HasValue)
+                        ModelState.AddModelError(string.Empty, "Нужно указать дату начала");
+                    
+                    if (!c.date_end.HasValue)
+                        ModelState.AddModelError(string.Empty, "Нужно указать дату окончания");
+
+                    if(c.ContractRisks.Sum(x => x.InsPremRur)==0)
+                        ModelState.AddModelError(string.Empty, "Премия не должна быть равной 0");
+                     
+                    if(ModelState.IsValid)
+                        c.ContractStatusId = c.change_status(User.Identity.GetUserId(), "confirmed");
+
+                }
             }
+
 
             ContractSave(c);
 
             if (ModelState.IsValid)
             {
+
                 if (caction == "recalc")
                 {
+       
                     return Redirect(Url.RouteUrl(new { Controller = "Contract", Action = "Contract_edit", id = c.ContractId }) + "#block-total");
                     //return RedirectToAction("Contract_edit", new { id = c.ContractId,block-total });
                 }
@@ -420,7 +452,12 @@ namespace gTravel.Controllers
 
             Contract_ini(c.ContractId);
 
-            var retc = db.Contracts.Include("Contract_territory").Include("ContractConditions").Include("Subjects").Include("ContractRisks").SingleOrDefault(x => x.ContractId == c.ContractId);
+            var retc = db.Contracts.Include("Contract_territory")
+                .Include("ContractConditions")
+                .Include("Subjects")
+                .Include("ContractRisks")
+                .Include("ContractStatu")
+                .SingleOrDefault(x => x.ContractId == c.ContractId);
             retc.ContractConditions = retc.ContractConditions.OrderBy(o => o.num).ToList();
             foreach (var cc in retc.ContractConditions)
             {
@@ -579,12 +616,17 @@ namespace gTravel.Controllers
             //if (!findcontract(id))
             //    return HttpNotFound();
 
-            var c = db.Contracts.Include("Contract_territory").Include("ContractConditions").Include("Subjects").SingleOrDefault(x => x.ContractId == id);
+            var c = db.Contracts.Include("Contract_territory")
+                .Include("ContractConditions")
+                .Include("Subjects")
+                .Include("ContractStatu")
+                .SingleOrDefault(x => x.ContractId == id);
+            c.db = db;
 
             if (c == null)
                 return HttpNotFound();
 
-            int access = c.checkaccess(db, User.Identity.GetUserId());
+            int access = c.checkaccess(User.Identity.GetUserId());
 
             if (access == 0)
                 return HttpNotFound();
@@ -1040,6 +1082,7 @@ namespace gTravel.Controllers
             string userid = User.Identity.GetUserId();
 
             var contr = db.Contracts.Where(x => x.ContractId == gContractId);
+           
 
             if (!User.IsInRole("Admin"))
                 contr = contr.Where(x => x.UserId == userid);
@@ -1048,7 +1091,7 @@ namespace gTravel.Controllers
 
             var s = contr.Single().add_insured(db);
 
-
+            ViewBag.viewonly = false;
 
             //s.SubjectId = Guid.NewGuid();
             //s.ContractId = gContractId;
@@ -1068,6 +1111,10 @@ namespace gTravel.Controllers
         {
             Subject s = db.Subjects.SingleOrDefault(x => x.SubjectId == SubjectId);
 
+            ViewBag.viewonly = false;
+
+            if (s.Contract.ContractStatu.Status.Readonly == 1)
+                ViewBag.viewonly = true;
 
             ViewBag.Gender = mLib.GenderList(s.Gender);
 
@@ -1088,6 +1135,20 @@ namespace gTravel.Controllers
             return;
         }
 
+        public ActionResult _ConditionsAddRefs(string condcode, string addcode)
+        {
+            string content = string.Format("<datalist id='{0}'>",condcode.Trim()+addcode.Trim());
+
+            var addr = db.AddRefs.Where(x => x.Code == addcode).OrderBy(o=>o.OrderNum);
+            foreach(var itm in addr)
+            {
+                content += "<option>" + itm.Value + "</option>";
+            }
+
+            content += "</datalist>";
+
+            return Content(content);
+        }
 
         public ActionResult history(Guid id)
         {
@@ -1116,16 +1177,27 @@ namespace gTravel.Controllers
             //var htmlContent = String.Format("<body>Hello world: {0}</body>", DateTime.Now);
             var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
 
-            var htmlContent = RenderRazorViewToString("generatepdf_ch", c);
+
+            cl_printmodel pmodel = new cl_printmodel();
+            pmodel.contract = c;
+
+            pmodel.entryport = c.ContractConditions.Where(x => x.Condition.Code.Trim() == "entryport").FirstOrDefault().Val_c;
+
+            pmodel.exitport = c.ContractConditions.Where(x => x.Condition.Code.Trim() == "exitport").FirstOrDefault().Val_c;
+
+            pmodel.route = c.ContractConditions.Where(x => x.Condition.Code.Trim() == "route").FirstOrDefault().Val_c;
+
+            var htmlContent = RenderRazorViewToString("generatepdf_ch", pmodel);
 
             var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
 
-            pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Landscape;
+            //pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Landscape;
+            pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
             var pdfBytes = pdfgen.GeneratePdf(htmlContent);
 
             Response.Clear();
             Response.ContentType = "application/pdf";
-            Response.AddHeader("content-disposition", "attachment;filename=\"test.pdf\"");
+            Response.AddHeader("content-disposition", string.Format("attachment;filename=\"polis{0}.pdf\"",c.contractnumber));
 
             Response.OutputStream.Write(pdfBytes, 0, pdfBytes.Count());
 

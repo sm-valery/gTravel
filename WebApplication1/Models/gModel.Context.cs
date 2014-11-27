@@ -51,14 +51,18 @@ namespace gTravel.Models
         public virtual DbSet<ImportLog> ImportLogs { get; set; }
         public virtual DbSet<ImportLogContract> ImportLogContracts { get; set; }
         public virtual DbSet<v_importlog> v_importlog { get; set; }
-        public virtual DbSet<v_contract_history> v_contract_history { get; set; }
-        public virtual DbSet<v_contractrisk> v_contractrisk { get; set; }
         public virtual DbSet<Agent> Agents { get; set; }
         public virtual DbSet<AgentUser> AgentUsers { get; set; }
         public virtual DbSet<AddRef> AddRefs { get; set; }
         public virtual DbSet<Condition> Conditions { get; set; }
+        public virtual DbSet<BorderoContract> BorderoContracts { get; set; }
+        public virtual DbSet<Bordero> Borderoes { get; set; }
+        public virtual DbSet<v_bordero> v_bordero { get; set; }
+        public virtual DbSet<v_contract_history> v_contract_history { get; set; }
+        public virtual DbSet<v_contractrisk> v_contractrisk { get; set; }
+        public virtual DbSet<v_bordero_new> v_bordero_new { get; set; }
     
-        public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid)
+        public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, Nullable<System.Guid> borderoId)
         {
             var userIdParameter = userId != null ?
                 new ObjectParameter("UserId", userId) :
@@ -76,10 +80,14 @@ namespace gTravel.Models
                 new ObjectParameter("contractid", contractid) :
                 new ObjectParameter("contractid", typeof(System.Guid));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<v_contract>("spContract", userIdParameter, contractnumberParameter, importLogIdParameter, contractidParameter);
+            var borderoIdParameter = borderoId.HasValue ?
+                new ObjectParameter("BorderoId", borderoId) :
+                new ObjectParameter("BorderoId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<v_contract>("spContract", userIdParameter, contractnumberParameter, importLogIdParameter, contractidParameter, borderoIdParameter);
         }
     
-        public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, MergeOption mergeOption)
+        public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, Nullable<System.Guid> borderoId, MergeOption mergeOption)
         {
             var userIdParameter = userId != null ?
                 new ObjectParameter("UserId", userId) :
@@ -97,7 +105,21 @@ namespace gTravel.Models
                 new ObjectParameter("contractid", contractid) :
                 new ObjectParameter("contractid", typeof(System.Guid));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<v_contract>("spContract", mergeOption, userIdParameter, contractnumberParameter, importLogIdParameter, contractidParameter);
+            var borderoIdParameter = borderoId.HasValue ?
+                new ObjectParameter("BorderoId", borderoId) :
+                new ObjectParameter("BorderoId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<v_contract>("spContract", mergeOption, userIdParameter, contractnumberParameter, importLogIdParameter, contractidParameter, borderoIdParameter);
+        }
+    
+        public virtual int BorderoCreate()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BorderoCreate");
+        }
+    
+        public virtual int BorderoUpdPrepare()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BorderoUpdPrepare");
         }
     }
 }

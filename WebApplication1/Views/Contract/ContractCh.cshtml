@@ -7,6 +7,7 @@
     @Html.Hidden("ContractConditions[" + idx.ToString() + "].Contractid", cond.Contractid)
     @Html.Hidden("ContractConditions[" + idx.ToString() + "].num", cond.num)
 
+
     switch (cond.Condition.Type)
     {
         case "L":
@@ -18,15 +19,22 @@
             </div>
             break;
         case "C":
-        <div class="row">
-            <div class="col-md-2">
-                <label>@cond.Condition.Name:</label>
-            </div>
-            <div class="col-md-10">
-                @Html.TextBox("ContractConditions[" + idx.ToString() + "].Val_c", cond.Val_c, new { @class = "form-control input-sm input-value" })
+            string addname = cond.Condition.Code.Trim() + cond.Condition.AddRefsCode.Trim();
+            <div class="row">
+                <div class="col-md-2">
+                    <label>@cond.Condition.Name:</label>
+                </div>
+                <div class="col-md-10">
 
+                    @Html.TextBox("ContractConditions[" + idx.ToString() + "].Val_c", cond.Val_c, new { @class = "form-control input-sm input-value", list = addname })
+
+                    @Html.Action("_ConditionsAddRefs", new { condcode = cond.Condition.Code, addcode = cond.Condition.AddRefsCode })
+                    @*<datalist id="cond_airport">
+                            <option>Шереметьево</option>
+                            <option>Внуково</option>
+                        </datalist>*@
+                </div>
             </div>
-        </div>
             break;
         case "D":
         <div class="row">
@@ -47,7 +55,7 @@
             </div>
             <div class="col-md-10">
 
-                @Html.TextArea("ContractConditions[" + idx.ToString() + "].Val_c", cond.Val_c, new { @class = "form-control input-sm input-value", style="width:300px;" })
+                @Html.TextArea("ContractConditions[" + idx.ToString() + "].Val_c", cond.Val_c, new { @class = "form-control input-sm input-value", style = "width:300px;" })
 
 
             </div>
@@ -55,24 +63,58 @@
             break;
     }
 
-
 }
+
+@helper ContractStatus(gTravel.Models.Status s)
+{
+    switch (s.Code.Trim())
+    {
+        case "project":
+            <span class="label label-default">Статус: @s.Name </span>
+            break;
+        case "confirmed":
+            <span class="label label-primary">Статус: @s.Name </span>
+            break;
+        case "bordero":
+            <span class="label label-success">Статус: @s.Name </span>
+            break;
+
+    }
+}
+
 @model gTravel.Models.Contract
 @{
     ViewBag.Title = "Contract";
 }
 
+@{
+    bool viewonly = false;
+
+    if (Model.ContractStatu.Status.Readonly==1)
+    {
+        viewonly = true;
+    }
+        
+}
+
 @using (Html.BeginForm("ContractCh", null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
-    @Html.ValidationSummary();
+    @Html.AntiForgeryToken()
     
+    @Html.ValidationSummary();
+
     @Html.HiddenFor(m => Model.ContractId)
     @Html.HiddenFor(m => Model.ContractStatusId)
     @Html.HiddenFor(m => Model.seriaid)
     @Html.HiddenFor(m => Model.UserId)
 
     <div class="panel panel-default">
-        <div class="panel-heading" style="color:#b94a48;">Стандартный полис страхования медицина/невыезд</div>
+        <div class="panel-heading" style="color:#b94a48;">
+            Стандартный полис страхования медицина/невыезд
+            &nbsp;&nbsp;@ContractStatus(Model.ContractStatu.Status)
+
+            
+        </div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-2"><label>Дата выдачи полиса:</label></div>
@@ -85,7 +127,7 @@
                     <label><b>Номер:</b></label>
                 </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", type = "tel", autofocus = true })
+                    @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", type = "tel", @readonly = true })
                 </div>
             </div>
             <p></p>
@@ -120,16 +162,16 @@
                 <legend>Доп. параметры</legend>
                 <div class="well well-sm">
                     @{
-    int idx = 0;
+                             int idx = 0;
 
-    foreach (var item in Model.ContractConditions)
-    {
+                             foreach (var item in Model.ContractConditions)
+                             {
 
-        @BuildCond(idx, item)
+                                @BuildCond(idx, item)
 
-        idx++;
+                                 idx++;
 
-    }
+                             }
                     }
                 </div>
             </fieldset>
@@ -171,73 +213,73 @@
 
             <fieldset>
                 <legend>Риски</legend>
-           
-
-                    @{
-                        int risk_num = 0;
-                        decimal contract_fee = 0;
-                        decimal contract_prem = 0;
-                        decimal contract_prem_rur = 0;
-                    }
-                    @foreach (var risk in Model.ContractRisks)
-                    {
 
 
-                        <table class="table table-condensed table-bordered">
-                            <tr>
-                                <td>Риск</td>
-                                <th>Страховая сумма</th>
-                                <th>
-                                    Базовый тариф
-                                </th>
-                                <th>Премия</th>
-                            </tr>
-                            <tr>
-                                <td class="active">
-                                    @risk.Risk.Name
-                                    @*<div class="label label-default"> @risk.Risk.Name</div>*@
-                                </td>
-                                <td>
-                                    @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
-                                    @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
-                                    @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
-
-                                    @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
-                                </td>
-                                <td>
-                                    @risk.BaseTarif
-                                </td>
-                                <td>
-                                    @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value" })
-                                
-                                    @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
-
-                                    @{
-                        contract_fee += (decimal)(risk.InsFee??0);
-                        contract_prem += (decimal)(risk.InsPrem??0);
-                        contract_prem_rur += (decimal)(risk.InsPremRur ?? 0);
-                                            }
-                                    <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top" title="(Дн*Бт*Кол-во = @Model.date_diff*@risk.BaseTarif*@Model.Subjects.Count())">?</span>
-
-                                   
-                                </td>
-                            </tr>
-                        </table>
-
-                        risk_num++;
-                    }
-
-        <div class="blockquote-warning" id="block-total">
-           <h4>Итого</h4>
-                <div>Премия: <span class="input-value">@contract_prem </span></div>
-                <div>Премия, руб: <span class="input-value">@contract_prem_rur </span></div>
-                @if (User.IsInRole("Admin"))
+                @{
+                            int risk_num = 0;
+                            decimal contract_fee = 0;
+                            decimal contract_prem = 0;
+                            decimal contract_prem_rur = 0;
+                }
+                @foreach (var risk in Model.ContractRisks)
                 {
 
-                    <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
+
+                    <table class="table table-condensed table-bordered">
+                        <tr>
+                            <td>Риск</td>
+                            <th>Страховая сумма</th>
+                            <th>
+                                Базовый тариф
+                            </th>
+                            <th>Премия</th>
+                        </tr>
+                        <tr>
+                            <td class="active">
+                                @risk.Risk.Name
+                                @*<div class="label label-default"> @risk.Risk.Name</div>*@
+                            </td>
+                            <td>
+                                @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
+                                @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
+                                @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
+
+                                @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
+                            </td>
+                            <td>
+                                @risk.BaseTarif
+                            </td>
+                            <td>
+                                @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value" })
+
+                                @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
+
+                                @{
+                    contract_fee += (decimal)(risk.InsFee ?? 0);
+                    contract_prem += (decimal)(risk.InsPrem ?? 0);
+                    contract_prem_rur += (decimal)(risk.InsPremRur ?? 0);
+                                }
+                                <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top" title="(Дн*Бт*Кол-во = @Model.date_diff*@risk.BaseTarif*@Model.Subjects.Count())">?</span>
+
+
+                            </td>
+                        </tr>
+                    </table>
+
+                    risk_num++;
                 }
 
-        </div>
+                <div class="blockquote-warning" id="block-total">
+                    <h4>Итого</h4>
+                    <div>Премия: <span class="input-value">@contract_prem </span></div>
+                    <div>Премия, руб: <span class="input-value">@contract_prem_rur </span></div>
+                    @if (User.IsInRole("Admin"))
+                    {
+
+                        <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
+                    }
+
+                </div>
 
 
             </fieldset>
@@ -245,10 +287,10 @@
 
             <fieldset>
                 <legend>
-                    <a id="btn-togle-insd" href="#" title="Свернуть\развернуть"><span id="img-togle-insd" class="glyphicon glyphicon-resize-small"></span></a>    
+                    <a id="btn-togle-insd" href="#" title="Свернуть\развернуть"><span id="img-togle-insd" class="glyphicon glyphicon-resize-small"></span></a>
 
                     Список застрахованных
-  
+
                 </legend>
                 <div id="div-summary-insd" class="alert alert-warning">
                     Всего застрахованно человек: <label>10</label>
@@ -268,38 +310,40 @@
                             </tr>
 
                             @{
-                            int indx = 0;
+                    int indx = 0;
 
-                            foreach (var item in Model.Subjects.OrderBy(x => x.num))
-                            {
-                                @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
+                    foreach (var item in Model.Subjects.OrderBy(x => x.num))
+                    {
+                        @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
 
                                 @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId, indx = indx })
 
-                                indx++;
-                            }
+                        indx++;
+                    }
 
                             }
                         </tbody>
                     </table>
 
 
-                  
+                    @if(!viewonly)
+                    { 
                     <a id="insured_add" href="#">
-                        <img  src="~/Content/loading_white_small.gif"
+                        <img src="~/Content/loading_white_small.gif"
                              style="position:absolute;z-index:1000;display:none;" />
 
-                    <span class="glyphicon glyphicon-plus-sign"></span>
-                    <span style="font-weight:normal;">&nbsp;Добавить застрахованного
-                        
-                      
-                        </span> 
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                        <span style="font-weight:normal;">
+                            &nbsp;Добавить застрахованного
 
-                        
+
+                        </span>
+
+
                     </a>
-               
-          
-                 </div>
+
+                    }
+                </div>
 
 
 
@@ -307,8 +351,12 @@
 
         </div> @*panel body*@
         <div class="panel-footer">
+            @if (!viewonly)
+            { 
             <button name="caction" value="save" class="btn btn-primary">Сохранить&Закрыть</button>
             <button name="caction" value="recalc" class="btn btn-info">Пересчитать</button>
+            <button name="caction" value="confirm" class="btn btn-success">Утвердить</button>
+            }
             @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
         </div>
     </div>
@@ -318,8 +366,7 @@
 }
 <script type="text/javascript">
 
-    function insadd(rownum, id)
-    {
+    function insadd(rownum, id) {
         if (confirm("Удалить строку?")) {
             var subj_num = rownum - 1;
 
@@ -331,21 +378,20 @@
                     alert(error);
                 }
             });
- 
+
             $("#insdtable tr:eq(" + rownum + ")").hide();//.remove();
 
-            
+
             $("#Subjects_" + subj_num + "__num").val(-1);
         }
     }
 
-    function instablecount()
-    {
+    function instablecount() {
         var i = -1;//заголовок таблицы у нас тоже tr
 
         $("#insdtable tr").each(function (e) {
- 
-            if ($(this).css("display")!="none") {
+
+            if ($(this).css("display") != "none") {
                 i++;
             }
 
@@ -356,7 +402,7 @@
 
     $(function () {
 
-        
+
         $("#div-summary-insd").hide();
 
         $(".ins-dell").click(function (e) {
@@ -374,24 +420,20 @@
 
             $("#div-summary-insd label").html(table);
 
-            if ($("#chk-togle-insd").val() == "0")
-            {
+            if ($("#chk-togle-insd").val() == "0") {
                 $("#chk-togle-insd").val("1");
             }
-            else
-            {
+            else {
                 $("#chk-togle-insd").val("0");
             }
 
-            if ($("#chk-togle-insd").val()=="1")
-            {
+            if ($("#chk-togle-insd").val() == "1") {
                 $("#img-togle-insd").removeClass("glyphicon-resize-small");
                 $("#img-togle-insd").addClass("glyphicon-resize-full");
 
 
             }
-            else
-            {
+            else {
                 $("#img-togle-insd").addClass("glyphicon-resize-small");
                 $("#img-togle-insd").removeClass("glyphicon-resize-full");
             }
@@ -411,11 +453,11 @@
             $.ajax({
                 url: '@Url.Action("_addInsuredRow", "Contract")',
                 type: "GET",
-                data: {contractid: '@Model.ContractId',  indx: indx},
+                data: { contractid: '@Model.ContractId', indx: indx },
                 error: function (request, status, error) {
                     alert(error);
                 },
-                beforeSend: function( ) {
+                beforeSend: function () {
                     $("#insured_add img").show();
                 },
                 success: function (data) {
@@ -436,8 +478,7 @@
 
 
                 }
-            }).done(function()
-            {
+            }).done(function () {
                 $("#insured_add img").hide();
             });
 

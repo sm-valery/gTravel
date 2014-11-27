@@ -43,10 +43,12 @@
         @*Срок действия паспорта*@
         @Html.TextBox(string.Format("Subjects[{0}].PasportValidDate", indx), Model.PasportValidDate, new { @class = "form-control input-sm input-value date3" })
 
-
+        @if(!(bool)ViewBag.viewonly)
+        { 
         <a class="ins-dell" id="@insid" href="#">
             <span class="glyphicon glyphicon-trash"></span>
         </a>
+        }
     </td>
 </tr>
 

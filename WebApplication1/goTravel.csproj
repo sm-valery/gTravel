@@ -207,6 +207,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="clBorderoxls.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AgentUsersController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
@@ -244,7 +245,14 @@
     <Compile Include="Models\AspNetUserLogin.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Bordero.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BorderoContract.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\cl_import_contract.cs" />
+    <Compile Include="Models\cl_printmodel.cs" />
     <Compile Include="Models\Condition.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -330,6 +338,12 @@
     <Compile Include="Models\Territory.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\v_bordero.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\v_bordero_new.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\v_contract.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -364,6 +378,7 @@
     <Content Include="Content\loading_white_small.gif" />
     <Content Include="Content\logo-nav.png" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\stamp_test.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="wkhtmltopdf.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -566,6 +581,10 @@
     <Content Include="Views\AgentUsers\Index.cshtml" />
     <Content Include="Views\Settings\addrefs.cshtml" />
     <Content Include="Views\Settings\AddRefCreate.cshtml" />
+    <Content Include="Views\Settings\condition.cshtml" />
+    <Content Include="Views\Report\Bordero.cshtml" />
+    <Content Include="Views\Report\borderocreate.cshtml" />
+    <Content Include="Views\Report\borderosend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

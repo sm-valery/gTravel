@@ -22,6 +22,7 @@ namespace gTravel.Models
         public System.Guid StatusId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
+        public Nullable<int> Readonly { get; set; }
     
         public virtual ICollection<ContractStatu> ContractStatus { get; set; }
     }
