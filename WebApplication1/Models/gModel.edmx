@@ -302,7 +302,7 @@
           <Property Name="Name" Type="varchar" MaxLength="512" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'goTravel.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -314,11 +314,12 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractcount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'goTravel.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero_new">
           <Key>
             <PropertyRef Name="BorderoId" />
             <PropertyRef Name="ContractId" />
+            <PropertyRef Name="UserName" />
           </Key>
           <Property Name="BorderoId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DocNum" Type="decimal" Precision="18" Scale="0" />
@@ -332,9 +333,11 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="currcode" Type="nchar" MaxLength="10" />
           <Property Name="InsPremRur" Type="money" />
           <Property Name="Name" Type="varchar" MaxLength="512" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="agentname" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'goTravel.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -366,7 +369,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="InsFee" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'goTravel.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_history">
           <Key>
             <PropertyRef Name="ContractStatusId" />
@@ -381,7 +384,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contractrisk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'goTravel.dbo.v_contractrisk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contractrisk">
           <Key>
             <PropertyRef Name="ContractRiskId" />
@@ -393,12 +396,15 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="RiskId" Type="uniqueidentifier" />
           <Property Name="InsSum" Type="money" />
           <Property Name="InsPrem" Type="money" />
+          <Property Name="BaseTarif" Type="decimal" Precision="12" Scale="4" />
+          <Property Name="InsFee" Type="money" />
+          <Property Name="InsPremRur" Type="money" />
           <Property Name="Name" Type="nchar" MaxLength="100" />
           <Property Name="sort" Type="int" />
           <Property Name="isMandatory" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'goTravel.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_importlog">
           <Key>
             <PropertyRef Name="ImportLogId" />
@@ -816,7 +822,9 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_bordero_new].[date_out] AS [date_out], 
     [v_bordero_new].[currcode] AS [currcode], 
     [v_bordero_new].[InsPremRur] AS [InsPremRur], 
-    [v_bordero_new].[Name] AS [Name]
+    [v_bordero_new].[Name] AS [Name], 
+    [v_bordero_new].[UserName] AS [UserName], 
+    [v_bordero_new].[agentname] AS [agentname]
     FROM [dbo].[v_bordero_new] AS [v_bordero_new]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_contract" EntityType="Self.v_contract" store:Type="Views" store:Schema="dbo">
@@ -865,6 +873,9 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_contractrisk].[RiskId] AS [RiskId], 
     [v_contractrisk].[InsSum] AS [InsSum], 
     [v_contractrisk].[InsPrem] AS [InsPrem], 
+    [v_contractrisk].[BaseTarif] AS [BaseTarif], 
+    [v_contractrisk].[InsFee] AS [InsFee], 
+    [v_contractrisk].[InsPremRur] AS [InsPremRur], 
     [v_contractrisk].[Name] AS [Name], 
     [v_contractrisk].[sort] AS [sort], 
     [v_contractrisk].[isMandatory] AS [isMandatory]
@@ -1969,11 +1980,15 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Name="sort" Type="Int32" />
           <Property Name="isMandatory" Type="Boolean" Nullable="false" />
+          <Property Name="BaseTarif" Type="Decimal" Precision="12" Scale="4" />
+          <Property Name="InsFee" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="InsPremRur" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="v_bordero_new">
           <Key>
             <PropertyRef Name="BorderoId" />
             <PropertyRef Name="ContractId" />
+            <PropertyRef Name="UserName" />
           </Key>
           <Property Name="BorderoId" Type="Guid" Nullable="false" />
           <Property Name="DocNum" Type="Decimal" Precision="18" Scale="0" />
@@ -1987,6 +2002,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="currcode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="InsPremRur" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Name" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="agentname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2387,6 +2404,9 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="v_contractrisk">
             <EntityTypeMapping TypeName="goDbModel.v_contractrisk">
               <MappingFragment StoreEntitySet="v_contractrisk">
+                <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
+                <ScalarProperty Name="InsFee" ColumnName="InsFee" />
+                <ScalarProperty Name="BaseTarif" ColumnName="BaseTarif" />
                 <ScalarProperty Name="isMandatory" ColumnName="isMandatory" />
                 <ScalarProperty Name="sort" ColumnName="sort" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2401,6 +2421,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="v_bordero_new">
             <EntityTypeMapping TypeName="goDbModel.v_bordero_new">
               <MappingFragment StoreEntitySet="v_bordero_new">
+                <ScalarProperty Name="agentname" ColumnName="agentname" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
                 <ScalarProperty Name="currcode" ColumnName="currcode" />

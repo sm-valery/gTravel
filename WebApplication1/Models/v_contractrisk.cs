@@ -22,5 +22,8 @@ namespace gTravel.Models
         public string Name { get; set; }
         public Nullable<int> sort { get; set; }
         public bool isMandatory { get; set; }
+        public Nullable<decimal> BaseTarif { get; set; }
+        public Nullable<decimal> InsFee { get; set; }
+        public Nullable<decimal> InsPremRur { get; set; }
     }
 }

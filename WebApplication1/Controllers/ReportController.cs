@@ -98,9 +98,7 @@ namespace gTravel.Controllers
 
             ViewBag.mess = "sended";
 
-            string fname = borderofile();
-            if (string.IsNullOrEmpty(fname))
-                return null;
+        
 
             string to = ConfigurationManager.AppSettings["MailTo"];  //"sm-valery@yandex.ru";
 
@@ -110,7 +108,7 @@ namespace gTravel.Controllers
 
             message.Subject = "Бордеро за " + DateTime.Now.ToShortDateString();//"Using the new SMTP client.";
 
-            message.Body = @"Бордеро за " + DateTime.Now.ToShortDateString(); ;
+            message.Body = @"Бордеро за " + DateTime.Now.ToShortDateString(); 
 
             SmtpClient client = new SmtpClient();
 
@@ -122,13 +120,21 @@ namespace gTravel.Controllers
             client.Credentials = new System.Net.NetworkCredential(
                 ConfigurationManager.AppSettings["MailUser"],
                 ConfigurationManager.AppSettings["MailPassword"]     );//("titintravel", "17101975");
-          
 
-            Attachment a = new Attachment(fname);
-            
-            message.Attachments.Add(a);
-     
+            string fname = borderofile();
 
+            if (!string.IsNullOrEmpty(fname))
+            {
+                Attachment a = new Attachment(fname);
+                a.Name = string.Format("bordero{0}.xlsx", DateTime.Now.ToShortDateString());
+                message.Attachments.Add(a);
+            }
+            else
+            {
+                message.Subject = "Бордеро за " + DateTime.Now.ToShortDateString() + ". Договоров нет"; 
+                message.Body = @"Нет договоров для бордеро за " + DateTime.Now.ToShortDateString(); 
+            }
+              
             try
             {
                 client.Host = ConfigurationManager.AppSettings["MailHost"];
@@ -136,7 +142,8 @@ namespace gTravel.Controllers
                 client.Send(message);
 
                 //раз успешно, то обновим очередь
-                db.BorderoUpdPrepare();
+                if (!string.IsNullOrEmpty(fname))
+                    db.BorderoUpdPrepare();
             }
 
             catch (Exception ex)
@@ -144,12 +151,22 @@ namespace gTravel.Controllers
               ViewBag.mess=  string.Format("Exception caught in SendBorderro(): {0}",  ex.ToString());
             }
 
-            a.Dispose();
+            message.Dispose();
             client.Dispose();
             //удалить файл
-            System.IO.File.Delete(fname);
-           
+            if(!string.IsNullOrEmpty(fname))
+            {
+                try
+                {
+                    System.IO.File.Delete(fname);
+                }
+                catch (Exception e)
+                {
+                    ViewBag.mess = "Ошибка удаления файла." + e.Message;
+                }
 
+            }
+            
             return View();
         }
 
@@ -188,6 +205,8 @@ namespace gTravel.Controllers
             s.Cell(1, 7).SetValue("Валюта");
             s.Cell(1, 8).SetValue("Территория");
             s.Cell(1, 9).SetValue("Премия, руб");
+            s.Cell(1, 10).SetValue("Агент");
+            s.Cell(1, 11).SetValue("Оператор");
 
             int irow = 2;
             foreach(var b in bordero)
@@ -201,12 +220,14 @@ namespace gTravel.Controllers
                 s.Cell(irow, 7).SetValue(b.currcode);
                 s.Cell(irow, 8).SetValue(b.Name);
                 s.Cell(irow, 9).SetValue(b.InsPremRur);
+                s.Cell(irow, 10).SetValue(b.agentname);
+                s.Cell(irow, 11).SetValue(b.UserName);
 
                 irow++;
             }
 
             s.Columns().AdjustToContents();
-            s.Range(1, 1, 1, 9).Style.Font.SetBold();
+            s.Range(1, 1, 1, 11).Style.Font.SetBold();
 
 
             fname = string.Format(Path.GetTempPath() +@"{0}.xlsx", Guid.NewGuid());

@@ -368,6 +368,9 @@
     <Content Include="App_Data\goDb_log.ldf">
       <DependentUpon>goDb.mdf</DependentUpon>
     </Content>
+    <None Include="bordero_send.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker3.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -428,6 +431,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="bordero_create.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\PublishProfiles\gotravel %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\gotravel %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\gotravel - FTP.pubxml" />
@@ -585,6 +591,7 @@
     <Content Include="Views\Report\Bordero.cshtml" />
     <Content Include="Views\Report\borderocreate.cshtml" />
     <Content Include="Views\Report\borderosend.cshtml" />
+    <Content Include="Views\Report\ViewApi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
