@@ -350,6 +350,9 @@
     <Compile Include="Models\v_contractrisk.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\v_contract_ag.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\v_contract_history.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -381,7 +384,11 @@
     <Content Include="Content\loading_white_small.gif" />
     <Content Include="Content\logo-nav.png" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\print-ex1.png" />
+    <Content Include="Content\printlogo.png" />
+    <Content Include="Content\signag.png" />
     <Content Include="Content\stamp_test.png" />
+    <Content Include="Content\tit-stamp.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="wkhtmltopdf.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -592,6 +599,8 @@
     <Content Include="Views\Report\borderocreate.cshtml" />
     <Content Include="Views\Report\borderosend.cshtml" />
     <Content Include="Views\Report\ViewApi.cshtml" />
+    <Content Include="Views\Contract\ContractAg.cshtml" />
+    <Content Include="Views\Contract\PrintAG.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

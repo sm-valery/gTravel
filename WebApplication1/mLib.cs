@@ -39,7 +39,11 @@ namespace gTravel.Models
         {
             decimal newnum = 0;
 
+            if (db.Contracts.Any(x=>x.seriaid==seriaid))
+            { 
+
             newnum = db.Contracts.Where(x => x.seriaid == seriaid).Max(s=>s.contractnumber).Value;
+            }
 
             return newnum+1;
         }
@@ -80,13 +84,11 @@ namespace gTravel.Models
             #endregion
 
             #region contract
-            //Contract c = new Contract();
-
+         
             this.ContractId = Guid.NewGuid();
             this.currencyid = (this.currencyid == Guid.Parse("{00000000-0000-0000-0000-000000000000}")) ? seria.DefaultCurrencyId.Value : this.currencyid;
 
-           // c.date_begin = c.date_begin;
-            //c.date_end = c.date_end;
+   
             this.date_out = (this.date_out == null) ? DateTime.Now : this.date_out;
             this.date_diff = mLib.get_period_diff(date_begin, date_end);
             Holder_SubjectId = s.SubjectId;
@@ -99,15 +101,7 @@ namespace gTravel.Models
             UserId = userid;
             db.Contracts.Add(this);
 
-            
-            //ContractStatu stat = new ContractStatu();
-            //stat.ContractStatusId = contr_stat_id;
-            //stat.ContractId = ContractId;
-            //stat.StatusId = db.Status.SingleOrDefault(x => x.Code.Trim() == "project").StatusId;
-            //stat.DateInsert = DateTime.Now;
-            //stat.UserId = userid;
-
-            //db.ContractStatus.Add(stat);
+        
 
             #endregion
 
@@ -122,8 +116,8 @@ namespace gTravel.Models
                 item_rs.ContractRiskId = Guid.NewGuid();
                 item_rs.ContractId = ContractId;
                 item_rs.RiskId = item.RiskId;
-                //item_rs.Risk = item.Risk;
-
+       
+                
                 db.ContractRisks.Add(item_rs);
             }
 

@@ -278,6 +278,7 @@
           <Property Name="PlaceOfBirth" Type="nchar" MaxLength="256" />
           <Property Name="PasportValidDate" Type="date" />
           <Property Name="num" Type="int" />
+          <Property Name="Name2" Type="nchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Tarif">
           <Key>
@@ -302,7 +303,7 @@
           <Property Name="Name" Type="varchar" MaxLength="512" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'goTravel.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -314,7 +315,7 @@ warning 6002: The table/view 'goTravel.dbo.v_bordero' does not have a primary ke
           <Property Name="contractcount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'goTravel.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero_new">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -337,7 +338,7 @@ warning 6002: The table/view 'goTravel.dbo.v_bordero_new' does not have a primar
           <Property Name="agentname" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'goTravel.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -369,7 +370,33 @@ warning 6002: The table/view 'goTravel.dbo.v_contract' does not have a primary k
           <Property Name="InsFee" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'goTravel.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_contract_ag">
+          <Key>
+            <PropertyRef Name="ContractId" />
+            <PropertyRef Name="currencyid" />
+            <PropertyRef Name="seriaid" />
+          </Key>
+          <Property Name="Name1" Type="nchar" MaxLength="255" />
+          <Property Name="Address" Type="nchar" MaxLength="255" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="Pasport" Type="nchar" MaxLength="12" />
+          <Property Name="ContractId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="currencyid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="seriaid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="date_begin" Type="date" />
+          <Property Name="date_end" Type="date" />
+          <Property Name="date_diff" Type="int" />
+          <Property Name="Holder_SubjectId" Type="uniqueidentifier" />
+          <Property Name="ContractStatusId" Type="uniqueidentifier" />
+          <Property Name="period_multi" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="period_multi_type" Type="nchar" MaxLength="1" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="date_out" Type="date" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_history">
           <Key>
             <PropertyRef Name="ContractStatusId" />
@@ -384,7 +411,7 @@ warning 6002: The table/view 'goTravel.dbo.v_contract_history' does not have a p
           <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'goTravel.dbo.v_contractrisk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contractrisk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contractrisk">
           <Key>
             <PropertyRef Name="ContractRiskId" />
@@ -396,15 +423,12 @@ warning 6002: The table/view 'goTravel.dbo.v_contractrisk' does not have a prima
           <Property Name="RiskId" Type="uniqueidentifier" />
           <Property Name="InsSum" Type="money" />
           <Property Name="InsPrem" Type="money" />
-          <Property Name="BaseTarif" Type="decimal" Precision="12" Scale="4" />
-          <Property Name="InsFee" Type="money" />
-          <Property Name="InsPremRur" Type="money" />
           <Property Name="Name" Type="nchar" MaxLength="100" />
           <Property Name="sort" Type="int" />
           <Property Name="isMandatory" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'goTravel.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_importlog">
           <Key>
             <PropertyRef Name="ImportLogId" />
@@ -854,6 +878,27 @@ warning 6002: The table/view 'goTravel.dbo.v_importlog' does not have a primary 
     [v_contract].[InsFee] AS [InsFee]
     FROM [dbo].[v_contract] AS [v_contract]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="v_contract_ag" EntityType="Self.v_contract_ag" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_contract_ag].[Name1] AS [Name1], 
+    [v_contract_ag].[Address] AS [Address], 
+    [v_contract_ag].[DateOfBirth] AS [DateOfBirth], 
+    [v_contract_ag].[Pasport] AS [Pasport], 
+    [v_contract_ag].[ContractId] AS [ContractId], 
+    [v_contract_ag].[currencyid] AS [currencyid], 
+    [v_contract_ag].[contractnumber] AS [contractnumber], 
+    [v_contract_ag].[seriaid] AS [seriaid], 
+    [v_contract_ag].[date_begin] AS [date_begin], 
+    [v_contract_ag].[date_end] AS [date_end], 
+    [v_contract_ag].[date_diff] AS [date_diff], 
+    [v_contract_ag].[Holder_SubjectId] AS [Holder_SubjectId], 
+    [v_contract_ag].[ContractStatusId] AS [ContractStatusId], 
+    [v_contract_ag].[period_multi] AS [period_multi], 
+    [v_contract_ag].[period_multi_type] AS [period_multi_type], 
+    [v_contract_ag].[UserId] AS [UserId], 
+    [v_contract_ag].[date_out] AS [date_out]
+    FROM [dbo].[v_contract_ag] AS [v_contract_ag]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="v_contract_history" EntityType="Self.v_contract_history" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [v_contract_history].[ContractStatusId] AS [ContractStatusId], 
@@ -873,9 +918,6 @@ warning 6002: The table/view 'goTravel.dbo.v_importlog' does not have a primary 
     [v_contractrisk].[RiskId] AS [RiskId], 
     [v_contractrisk].[InsSum] AS [InsSum], 
     [v_contractrisk].[InsPrem] AS [InsPrem], 
-    [v_contractrisk].[BaseTarif] AS [BaseTarif], 
-    [v_contractrisk].[InsFee] AS [InsFee], 
-    [v_contractrisk].[InsPremRur] AS [InsPremRur], 
     [v_contractrisk].[Name] AS [Name], 
     [v_contractrisk].[sort] AS [sort], 
     [v_contractrisk].[isMandatory] AS [isMandatory]
@@ -1160,6 +1202,7 @@ warning 6002: The table/view 'goTravel.dbo.v_importlog' does not have a primary 
           <EntitySet Name="v_contractrisk" EntityType="goDbModel.v_contractrisk" />
           <EntitySet Name="v_bordero_new" EntityType="goDbModel.v_bordero_new" />
           <FunctionImport Name="BorderoUpdPrepare" />
+          <EntitySet Name="v_contract_ag" EntityType="goDbModel.v_contract_ag" />
           </EntityContainer>
         <EntityType Name="seria">
           <Key>
@@ -1234,6 +1277,7 @@ warning 6002: The table/view 'goTravel.dbo.v_importlog' does not have a primary 
           <Property Name="num" Type="Int32" />
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToSubject" FromRole="Subject" ToRole="Contract" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Subject" ToRole="Contract" />
+          <Property Name="Name2" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
           </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -2005,6 +2049,30 @@ warning 6002: The table/view 'goTravel.dbo.v_importlog' does not have a primary 
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="agentname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="v_contract_ag">
+          <Key>
+            <PropertyRef Name="ContractId" />
+            <PropertyRef Name="currencyid" />
+            <PropertyRef Name="seriaid" />
+          </Key>
+          <Property Name="Name1" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="Pasport" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+          <Property Name="ContractId" Type="Guid" Nullable="false" />
+          <Property Name="currencyid" Type="Guid" Nullable="false" />
+          <Property Name="contractnumber" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="seriaid" Type="Guid" Nullable="false" />
+          <Property Name="date_begin" Type="DateTime" Precision="0" />
+          <Property Name="date_end" Type="DateTime" Precision="0" />
+          <Property Name="date_diff" Type="Int32" />
+          <Property Name="Holder_SubjectId" Type="Guid" />
+          <Property Name="ContractStatusId" Type="Guid" />
+          <Property Name="period_multi" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="period_multi_type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="date_out" Type="DateTime" Precision="0" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2051,6 +2119,7 @@ warning 6002: The table/view 'goTravel.dbo.v_importlog' does not have a primary 
           <EntitySetMapping Name="Subjects">
             <EntityTypeMapping TypeName="goDbModel.Subject">
               <MappingFragment StoreEntitySet="Subject">
+                <ScalarProperty Name="Name2" ColumnName="Name2" />
                 <ScalarProperty Name="num" ColumnName="num" />
                 <ScalarProperty Name="PasportValidDate" ColumnName="PasportValidDate" />
                 <ScalarProperty Name="PlaceOfBirth" ColumnName="PlaceOfBirth" />
@@ -2404,9 +2473,6 @@ warning 6002: The table/view 'goTravel.dbo.v_importlog' does not have a primary 
           <EntitySetMapping Name="v_contractrisk">
             <EntityTypeMapping TypeName="goDbModel.v_contractrisk">
               <MappingFragment StoreEntitySet="v_contractrisk">
-                <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
-                <ScalarProperty Name="InsFee" ColumnName="InsFee" />
-                <ScalarProperty Name="BaseTarif" ColumnName="BaseTarif" />
                 <ScalarProperty Name="isMandatory" ColumnName="isMandatory" />
                 <ScalarProperty Name="sort" ColumnName="sort" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -2439,6 +2505,29 @@ warning 6002: The table/view 'goTravel.dbo.v_importlog' does not have a primary 
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="BorderoUpdPrepare" FunctionName="goDbModel.Store.BorderoUpdPrepare" />
+          <EntitySetMapping Name="v_contract_ag">
+            <EntityTypeMapping TypeName="goDbModel.v_contract_ag">
+              <MappingFragment StoreEntitySet="v_contract_ag">
+                <ScalarProperty Name="date_out" ColumnName="date_out" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="period_multi_type" ColumnName="period_multi_type" />
+                <ScalarProperty Name="period_multi" ColumnName="period_multi" />
+                <ScalarProperty Name="ContractStatusId" ColumnName="ContractStatusId" />
+                <ScalarProperty Name="Holder_SubjectId" ColumnName="Holder_SubjectId" />
+                <ScalarProperty Name="date_diff" ColumnName="date_diff" />
+                <ScalarProperty Name="date_end" ColumnName="date_end" />
+                <ScalarProperty Name="date_begin" ColumnName="date_begin" />
+                <ScalarProperty Name="seriaid" ColumnName="seriaid" />
+                <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
+                <ScalarProperty Name="currencyid" ColumnName="currencyid" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="Pasport" ColumnName="Pasport" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name1" ColumnName="Name1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

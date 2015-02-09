@@ -31,6 +31,7 @@ namespace gTravel.Models
         public string PlaceOfBirth { get; set; }
         public Nullable<System.DateTime> PasportValidDate { get; set; }
         public Nullable<int> num { get; set; }
+        public string Name2 { get; set; }
     
         public virtual ICollection<Contract> Contracts { get; set; }
         public virtual Contract Contract { get; set; }
