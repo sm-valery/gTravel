@@ -62,15 +62,18 @@ string getstatusclass(string statuscode)
         <th>
             Период
         </th>
-        <th>Территория</th>
+        <th>
+            Страхователь
+        </th>
+        @*<th>Территория</th>
         <th>
             <span class="tooltip-m" data-toggle="tooltip" data-placement="top" title="Количество застрахованных">Кол-во...</span>
 
-        </th>
+        </th>*@
         <th>Премия</th>
-        <th>
+        @*<th>
             Премия, руб
-        </th>
+        </th>*@
 
         <th>Статус</th>
         <th>Пользователь</th>
@@ -91,18 +94,21 @@ string getstatusclass(string statuscode)
                 (@item.date_diff)
             </td>
             <td>
+                @Html.DisplayFor(m=>item.holder_name)
+            </td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.terr_name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.subject_count)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.InsPrem)
                 @Html.DisplayFor(modelItem => item.curr_code)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.InsPremRur)
-            </td>
+            </td>*@
 
             <td >
                 <label class="@getstatusclass(item.status_code)">
@@ -114,7 +120,10 @@ string getstatusclass(string statuscode)
             </td>
             <td>
                 @Html.ActionLink("Открыть", "Contract_edit", new { id = item.ContractId }) |
-                @Html.ActionLink("Печать", "printpdfch", new { contractid = item.ContractId }) |
+                @if(item.status_code=="confirmed")
+                { 
+                @Html.ActionLink("Печать", "printag", new { contractid = item.ContractId }) @:|
+                }
                 @Html.ActionLink("История", "history", new { id = item.ContractId })
             </td>
         </tr>

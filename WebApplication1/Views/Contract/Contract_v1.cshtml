@@ -12,7 +12,7 @@
     </div>
 }
 
-@helper hRiskName(gTravel.Models.v_contractrisk r, int idx = 0)
+@helper hRiskName(gTravel.Models.v_contract_risk r, int idx = 0)
 {
 
     if (r.isMandatory)
@@ -169,7 +169,7 @@
 
     idx = 0;
 
-    foreach (var item in (IEnumerable<gTravel.Models.v_contractrisk>)ViewBag.risklist)
+    foreach (var item in (IEnumerable<gTravel.Models.v_contract_risk>)ViewBag.risklist)
     {
         <tr id="ddd@{@idx}">
             <td>

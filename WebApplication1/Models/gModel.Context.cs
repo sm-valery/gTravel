@@ -59,9 +59,9 @@ namespace gTravel.Models
         public virtual DbSet<Bordero> Borderoes { get; set; }
         public virtual DbSet<v_bordero> v_bordero { get; set; }
         public virtual DbSet<v_contract_history> v_contract_history { get; set; }
-        public virtual DbSet<v_contractrisk> v_contractrisk { get; set; }
         public virtual DbSet<v_bordero_new> v_bordero_new { get; set; }
         public virtual DbSet<v_contract_ag> v_contract_ag { get; set; }
+        public virtual DbSet<v_contract_risk> v_contract_risk { get; set; }
     
         public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, Nullable<System.Guid> borderoId)
         {

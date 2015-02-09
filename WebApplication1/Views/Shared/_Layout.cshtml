@@ -7,46 +7,38 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @*<link href="~/Content/bootstrap-chosen.css" rel="stylesheet" />*@
-
     @Scripts.Render("~/bundles/modernizr")
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
-
     @Scripts.Render("~/bundles/bootstrap")
-
     @*<link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />*@
     @*<script src="~/Scripts/bootstrap-datepicker.js"></script>*@
     <script src="~/Scripts/bootstrap-datepicker.ru.js" charset="UTF-8"></script>
     <link href="~/Content/Site.css" rel="stylesheet" />
-
     <script>
 
-    $(function () {
+        $(function () {
 
 
-        $(".date3").datepicker({
-            format: "dd.mm.yyyy",
-            language: "ru",
-            autoclose: true
-        });
+            $(".date3").datepicker({
+                format: "dd.mm.yyyy",
+                language: "ru",
+                autoclose: true
+            });
 
-        $('.tooltip-m').tooltip();
-
-
-       $(".chosen-select").chosen();
+            $('.tooltip-m').tooltip();
 
 
-    })
+            $(".chosen-select").chosen();
+
+
+        })
 
     </script>
-
 </head>
 <body>
 
-
     <div class="container">
-
         <div class="blockquote-bottom">
             @if (Request.IsAuthenticated)
             {
@@ -61,14 +53,9 @@
 
                 }
             }
-
         </div>
 
-
-
         <div class="navbar navbar-default">
-
-
 
             <div class="navbar-header " role="navigation">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -76,23 +63,28 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                <a href="@Url.Action("index","home")">
                 <img src="~/Content/logo-nav.png" class="title-brand" />
+                    </a>
                 @*@Html.ActionLink("TIT", "Index", "Home", null, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse active">
                 <ul class="nav navbar-nav ">
                     <li>@Html.ActionLink("Список договоров", "Index", "Contract")</li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Новый договор<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-
-                                @Html.ActionLink("Китайский турист", "Contract_create", "Contract", new { seriaid = "4e92555e-f69b-47a6-8721-68150ef48e03" }, null)
-                            </li>
-                            <li><a href="#">TOI мед. эл</a></li>
-                            <li><a href="#">TR </a></li>
-                        </ul>
+                    <li>
+                        @Html.ActionLink("Новый договор", "Contract_create", "Contract", new { seriaid = "d6c115e5-538e-4cca-b33f-113d12de8386" }, null)
                     </li>
+                    @*<li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Новый договор<b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                <li>
+
+                                    @Html.ActionLink("Китайский турист", "Contract_create", "Contract", new { seriaid = "4e92555e-f69b-47a6-8721-68150ef48e03" }, null)
+                                </li>
+                                <li><a href="#">TOI мед. эл</a></li>
+                                <li><a href="#">TR </a></li>
+                            </ul>
+                        </li>*@
                     <li>@Html.ActionLink("Импорт", "import_contract", "Contract")</li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты<b class="caret"></b></a>
@@ -114,38 +106,34 @@
                             <li>@Html.ActionLink("Доп параметры полиса", "ConditionSeria", "Settings")</li>
                             <li>@Html.ActionLink("Риски полиса", "Index", "RiskSerias")</li>
                             <li>@Html.ActionLink("Тариф", "Index", "Tarifs")</li>
-
                             <li>@Html.ActionLink("Дополнительные справочники", "addrefs", "Settings")</li>
                         </ul>
                     </li>
                 </ul>
-                @using (Html.BeginForm("Index", "Contract", FormMethod.Get, new { @class = "navbar-form navbar-right", role = "search" }))
+                @using (Html.BeginForm("Index", "Contract", FormMethod.Get, new { @class = "navbar-form navbar-right", role = "поиск" }))
                 {
                     <div class="form-group">
                         <input type="search" class="form-control" name="contractnumber" placeholder="Номер договора"
                                value="@ViewBag.contractnumber" />
                     </div>
-                    <button type="submit" class="btn btn-default">Search</button>
+                    <button type="submit" class="btn btn-default">Найти</button>
                 }
                 @*<form class="navbar-form navbar-right" role="search">
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Номер договора" />
-                    </div>
-                    <button type="submit" class="btn btn-default">Search</button>
-                </form>*@
-
+                        <div class="form-group">
+                            <input type="search" class="form-control" placeholder="Номер договора" />
+                        </div>
+                        <button type="submit" class="btn btn-default">Search</button>
+                    </form>*@
                 @*@Html.Partial("_LoginPartial")*@
             </div>
         </div>
-        
-   
+
 
         <div class="row">
             <div class="container body-content">
                 @RenderBody()
                 <hr />
                 <footer>
-
                     <p>
                         <small>
                             Текущий пользователь: @User.Identity.Name.  &copy; @DateTime.Now.Year-GoTravel dev.
@@ -156,8 +144,6 @@
             </div>
         </div>
     </div>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>
-

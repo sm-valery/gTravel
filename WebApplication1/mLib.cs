@@ -54,6 +54,7 @@ namespace gTravel.Models
             ContractStatu stat = new ContractStatu();
             stat.ContractStatusId = Guid.NewGuid();
             stat.ContractId = this.ContractId;
+          
             stat.StatusId = db.Status.SingleOrDefault(x => x.Code.Trim() == new_status_code).StatusId;
             stat.DateInsert = DateTime.Now;
             stat.UserId = userid;

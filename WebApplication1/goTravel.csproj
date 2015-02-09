@@ -347,13 +347,13 @@
     <Compile Include="Models\v_contract.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\v_contractrisk.cs">
-      <DependentUpon>gModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\v_contract_ag.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\v_contract_history.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\v_contract_risk.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\v_importlog.cs">
@@ -385,6 +385,7 @@
     <Content Include="Content\logo-nav.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\print-ex1.png" />
+    <Content Include="Content\print-ex2.png" />
     <Content Include="Content\printlogo.png" />
     <Content Include="Content\signag.png" />
     <Content Include="Content\stamp_test.png" />

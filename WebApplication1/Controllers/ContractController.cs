@@ -83,7 +83,7 @@ namespace gTravel.Controllers
         {
             ViewBag.currency = new SelectList(db.Currencies.ToList(), "currencyid", "code");
          
-            ViewBag.risklist = db.v_contractrisk.Where(x => x.ContractId == contract_id).OrderBy(o => o.sort);
+            ViewBag.risklist = db.v_contract_risk.Where(x => x.ContractId == contract_id).OrderBy(o => o.sort);
 
             ViewBag.PeriodMultiType = new SelectList(new[]{
                 new SelectListItem(){Text="За весь период", Value="1"},
@@ -142,16 +142,56 @@ namespace gTravel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ContractAg(Contract c)
+        public ActionResult ContractAg(Contract c, string caction = "save")
         {
+            c.db = db;
             c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
 
             c.Holder_SubjectId = c.Subject.SubjectId;
 
+            if (caction == "confirm")
+            {
+                if (!c.date_begin.HasValue)
+                    ModelState.AddModelError(string.Empty, "Дата начала договора не заполнена!");
+
+                if (string.IsNullOrWhiteSpace(c.Subject.Name1))
+                    ModelState.AddModelError(string.Empty, "ФИО страхователя не заполнено!");
+               
+                if (!c.Subject.DateOfBirth.HasValue)
+                    ModelState.AddModelError(string.Empty,"Дата рождения страхователя не заполнена!");
+
+                if (string.IsNullOrWhiteSpace(c.Subject.Pasport))
+                    ModelState.AddModelError(string.Empty, "Паспорт страхователя не заполнен!");
+
+                if(ModelState.IsValid)
+                    c.ContractStatusId = c.change_status(User.Identity.GetUserId(), "confirmed");
+            }
+
             ContractSave(c);
 
+            if (ModelState.IsValid && caction=="save")
+                return RedirectToAction("Index");
 
-            return RedirectToAction("Index");
+            Contract_ini(c.ContractId);
+
+            var retc = db.Contracts.Include("Contract_territory")
+                .Include("ContractConditions")
+                .Include("Subjects")
+                .Include("ContractRisks")
+                .Include("ContractStatu")
+                .SingleOrDefault(x => x.ContractId == c.ContractId);
+            retc.ContractConditions = retc.ContractConditions.OrderBy(o => o.num).ToList();
+            foreach (var cc in retc.ContractConditions)
+            {
+                cc.Condition = db.Conditions.SingleOrDefault(x => x.ConditionId == cc.ConditionId);
+            }
+            foreach (var rr in retc.ContractRisks)
+            {
+                rr.Risk = db.Risks.SingleOrDefault(x => x.RiskId == rr.RiskId);
+            }
+            ViewBag.terr_count = retc.Contract_territory.Count();
+
+            return View(c);
         }
 
         [HttpPost]
@@ -277,11 +317,11 @@ namespace gTravel.Controllers
 
             #region Страхователь
 
-            if (!string.IsNullOrEmpty( c.Subject.Name1))
-                c.Subject.Name1.Trim();
+            if (!string.IsNullOrEmpty(c.Subject.Name1))
+                c.Subject.Name1 = c.Subject.Name1.Trim();
 
             if (!string.IsNullOrEmpty(c.Subject.Pasport))
-                c.Subject.Pasport.Trim();
+                c.Subject.Pasport = c.Subject.Pasport.Trim();
 
             db.Entry(c.Subject).State = EntityState.Modified;
             #endregion
@@ -932,11 +972,12 @@ namespace gTravel.Controllers
 
         }
 
-        public void printag()
+        public void printag(Guid contractid)
         {
-            
 
-            var htmlContent = RenderRazorViewToString("printag",null);
+            var model = db.v_contract_ag.SingleOrDefault(x => x.ContractId == contractid);
+
+            var htmlContent = RenderRazorViewToString("printag", model);
 
             var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
 

@@ -31,6 +31,7 @@
 }
 
 
+
 @using (Html.BeginForm("ContractAg", null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.AntiForgeryToken()
@@ -148,10 +149,14 @@
             @if (!viewonly)
             {
                 <button name="caction" value="save" class="btn btn-primary">Сохранить&Закрыть</button>
-                <button name="caction" value="print" class="btn btn-info">Печать</button>
                 <button name="caction" value="confirm" class="btn btn-success">Утвердить</button>
             }
-            @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
+            
+            @if (Model.ContractStatu.Status.Code == "confirmed")
+            {
+                @Html.ActionLink("Печать", "printag", new { contractid = Model.ContractId }, new { @class = "btn btn-info" })
+            }
+               @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
         </div>
     </div>
 
