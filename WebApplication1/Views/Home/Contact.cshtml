@@ -1,27 +1,31 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "В помощь";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+
+<div class="row">
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+            <img width="150" src="~/Content/scroll.gif" alt="...">
+            <div class="caption">
+                <h3>Правила страхования</h3>
+                <p>
 
 
-<address id="ad1">
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+                    @{
+                        string ss = "С" + "ТАНДАРТНЫЕ ПРАВИЛА СТРАХОВАНИЯ МЕДИЦИНСКИХ И МЕДИКО-ТРАНСПОРТНЫХ РАСХОДОВ ГРАЖДАН, ПУТЕШЕСТВУЮЩИХ ПО ".ToLower() + "России";
+                        @ss
+                    }
+                    <br />
+                    <div class="small">
+                        от 29 апреля 2013г
+                    </div>
+                </p>
+                <p><a href="~/Content/Rules_ag.pdf" target="_blank" class="btn btn-primary" role="button">Скачать</a></p>
+            </div>
+        </div>
+    </div>
+</div>
 
-<script>
 
-    $(function () {
-        $("<div>new text</div>").insertBefore("#ad1");
 
-        $("#ad1").html("zzzzzzzzzz");
-    })
-</script>

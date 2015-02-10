@@ -30,7 +30,9 @@
 
 }
 
-
+<div class="text-right">
+    <a href="~/Content/Rules_ag.pdf" target="_blank" ><span class="glyphicon glyphicon-download"></span> Правила страхования</a>
+</div>
 
 @using (Html.BeginForm("ContractAg", null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
@@ -43,129 +45,128 @@
     @Html.HiddenFor(m => Model.seriaid)
     @Html.HiddenFor(m => Model.UserId)
 
-    int risk_num = 0;
-    foreach (var risk in Model.ContractRisks)
-    {
-        @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
-        @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
-        @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
+                             int risk_num = 0;
+                             foreach (var risk in Model.ContractRisks)
+                             {
+                                @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
+                                @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
+                                @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
 
-        @Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num),150000)
-        @Html.Hidden(string.Format("ContractRisks[{0}].InsPrem", risk_num), 500)
-        @Html.Hidden(string.Format("ContractRisks[{0}].InsPremRur", risk_num), 500)
+                                @Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), 150000)
+                                @Html.Hidden(string.Format("ContractRisks[{0}].InsPrem", risk_num), 500)
+                                @Html.Hidden(string.Format("ContractRisks[{0}].InsPremRur", risk_num), 500)
 
-        risk_num++;
-    }
-
-
-    <div class="panel panel-default">
-        <div class="panel-heading" style="color:#b94a48;">
-            Cтрахование медицинских и медико-транспортных расходов граждан, путешествующих по России
-            &nbsp;&nbsp;@ContractStatus(Model.ContractStatu.Status)
+                                 risk_num++;
+                             }
 
 
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-2"><label>Дата выдачи полиса:</label></div>
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => Model.date_out, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value", @readonly = true })
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <label><b>Номер:</b></label>
-                </div>
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", type = "tel", @readonly = true })
-                </div>
-            </div>
-
-            <p></p>
-            <div class="row">
-                <div class="col-md-2"><label>Период страхования:</label> </div>
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => Model.date_begin, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
-                    <span>/</span>
-                    @Html.TextBoxFor(m => Model.date_end, "{0:d}", new { @class = "form-control input-sm date_period input-value", @readonly = true })
-                    <span>
-                        &nbsp;
-
-                        <span id="period_day_count">
-                            @Html.DisplayFor(m => Model.date_diff)
-                        </span>
-                        дня(ей)
-                    </span>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-2">
-                    <label><b>Фамилия, имя:</b></label>
-                </div>
-                <div class="col-md-10">
-                    @Html.Hidden("Subject.SubjectId", Model.Subject.SubjectId)
-                    @Html.Hidden("Subject.Type", Model.Subject.Type)
-                    @Html.TextBox("Subject.Name1", Model.Subject.Name1, "{0:d}", new { @class = "form-control input-sm input-value", style = "width:100%;" })
-
-                </div>
-            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="color:#b94a48;">
+                                    Cтрахование медицинских и медико-транспортных расходов граждан, путешествующих по России
+                                    &nbsp;&nbsp;@ContractStatus(Model.ContractStatu.Status)
 
 
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-2"><label>Дата выдачи полиса:</label></div>
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(m => Model.date_out, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value", @readonly = true })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label><b>Номер:</b></label>
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", type = "tel", @readonly = true })
+                                        </div>
+                                    </div>
 
-            <div class="row">
-                <div class="col-md-2">
-                    <label>Дата рождения</label>
-                </div>
-                <div class="col-md-10">
+                                    <p></p>
+                                    <div class="row">
+                                        <div class="col-md-2"><label>Период страхования:</label> </div>
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(model => Model.date_begin, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
+                                            <span>/</span>
+                                            @Html.TextBoxFor(m => Model.date_end, "{0:d}", new { @class = "form-control input-sm date_period input-value", @readonly = true })
+                                            <span>
+                                                &nbsp;
 
-                    @Html.TextBox("Subject.DateOfBirth", Model.Subject.DateOfBirth, new { @class = "form-control date3 input-sm input-value" })
+                                                <span id="period_day_count">
+                                                    @Html.DisplayFor(m => Model.date_diff)
+                                                </span>
+                                                дня(ей)
+                                            </span>
+                                        </div>
+                                    </div>
 
-                </div>
-            </div>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label><b>Фамилия, имя:</b></label>
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.Hidden("Subject.SubjectId", Model.Subject.SubjectId)
+                                            @Html.Hidden("Subject.Type", Model.Subject.Type)
+                                            @Html.TextBox("Subject.Name1", Model.Subject.Name1, "{0:d}", new { @class = "form-control input-sm input-value", style = "width:100%;" })
 
-            <div class="row">
-                <div class="col-md-2">
-                    <label>Паспорт</label>
-                </div>
-                <div class="col-md-10">
-                    @Html.TextBox("Subject.Pasport", Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
+                                        </div>
+                                    </div>
 
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-2">
-                    <label>Контакты</label>
-                </div>
-                <div class="col-md-10">
-                    @Html.TextArea("Subject.Address", Model.Subject.Address, new { @class = "form-control input-sm input-value", style = "width:100%;" })
 
-                </div>
-            </div>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label>Дата рождения</label>
+                                        </div>
+                                        <div class="col-md-10">
 
-        </div> @*panel body*@
-        <div class="panel-footer">
-            @if (!viewonly)
-            {
-                <button name="caction" value="save" class="btn btn-primary">Сохранить&Закрыть</button>
-                <button name="caction" value="confirm" class="btn btn-success">Утвердить</button>
-            }
-            
-            @if (Model.ContractStatu.Status.Code == "confirmed")
-            {
-                @Html.ActionLink("Печать", "printag", new { contractid = Model.ContractId }, new { @class = "btn btn-info" })
-            }
-               @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
-        </div>
-    </div>
+                                            @Html.TextBox("Subject.DateOfBirth", Model.Subject.DateOfBirth, new { @class = "form-control date3 input-sm input-value" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label>Паспорт</label>
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.TextBox("Subject.Pasport", Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label>Контакты</label>
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.TextArea("Subject.Address", Model.Subject.Address, new { @class = "form-control input-sm input-value", style = "width:100%;" })
+
+                                        </div>
+                                    </div>
+
+                                </div> @*panel body*@
+                                <div class="panel-footer">
+                                    @if (!viewonly)
+                                    {
+                                        <button name="caction" value="save" class="btn btn-primary">Сохранить&Закрыть</button>
+                                        <button name="caction" value="confirm" class="btn btn-success">Утвердить</button>
+                                    }
+
+                                    @if (Model.ContractStatu.Status.Code == "confirmed")
+                                    {
+                                        @Html.ActionLink("Печать", "printag", new { contractid = Model.ContractId }, new { @class = "btn btn-info" })
+                                    }
+                                    @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
+                                </div>
+                            </div>
 
 }
 
 <script>
 
-    function periodday_recalc()
-    {
+    function periodday_recalc() {
         var d1 = $("#date_begin").val();
         var d2 = $("#date_end").val();
 
@@ -184,10 +185,9 @@
         });
     }
 
-    $(function()
-    {
+    $(function () {
         $("#date_begin").change(function (e) {
-            
+
             var d1 = $("#date_begin").val();
 
             $.ajax({
@@ -200,7 +200,7 @@
                     alert(error);
                 },
                 success: function (data) {
-                   
+
                     $("#date_end").val(data);
 
                     periodday_recalc();
@@ -208,6 +208,6 @@
             });
 
         })
-        
+
     })
 </script>

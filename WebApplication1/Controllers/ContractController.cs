@@ -163,6 +163,9 @@ namespace gTravel.Controllers
                 if (string.IsNullOrWhiteSpace(c.Subject.Pasport))
                     ModelState.AddModelError(string.Empty, "Паспорт страхователя не заполнен!");
 
+                if (c.date_begin<c.date_out)
+                    ModelState.AddModelError(string.Empty, "Дата начала договора не может быть меньше даты выдачи!");
+
                 if(ModelState.IsValid)
                     c.ContractStatusId = c.change_status(User.Identity.GetUserId(), "confirmed");
             }
