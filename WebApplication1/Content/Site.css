@@ -147,3 +147,7 @@ border-bottom: 1px dotted;
 .status-bordero{
     color:#5CB85C;
 }
+
+.status-annul{
+    color:firebrick;
+}

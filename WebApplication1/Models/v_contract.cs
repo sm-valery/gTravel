@@ -38,5 +38,6 @@ namespace gTravel.Models
         public Nullable<System.Guid> AgentId { get; set; }
         public string status_code { get; set; }
         public string holder_name { get; set; }
+        public string contractnumberformat { get; set; }
     }
 }

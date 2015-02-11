@@ -31,7 +31,7 @@
         <AssociationConnector Association="goDbModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="goDbModel.AspNetUserRoles" />
         <EntityTypeShape EntityType="goDbModel.Territory" Width="1.5" PointX="0.5" PointY="4.75" />
-        <EntityTypeShape EntityType="goDbModel.v_contract" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="goDbModel.v_contract" Width="1.75" PointX="10.75" PointY="0.75" />
         <AssociationConnector Association="goDbModel.FK_Contract_territory_ToTerritory" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToTerritory" />
         <EntityTypeShape EntityType="goDbModel.CurRate" Width="1.5" PointX="14.75" PointY="18.625" />
@@ -39,7 +39,7 @@
         <AssociationConnector Association="goDbModel.FK_CurRate_ToCurrency" />
         <AssociationConnector Association="goDbModel.FK_seria_ToTable" />
         <EntityTypeShape EntityType="goDbModel.import_settings" Width="1.5" PointX="1.125" PointY="20" />
-        <EntityTypeShape EntityType="goDbModel.Contract" Width="1.5" PointX="18" PointY="10.25" />
+        <EntityTypeShape EntityType="goDbModel.Contract" Width="2.375" PointX="18" PointY="10.25" />
         <AssociationConnector Association="goDbModel.FK_Contract_AspNetUsers" />
         <AssociationConnector Association="goDbModel.FK_Contract_territory_ToContract" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToContractStatus" />

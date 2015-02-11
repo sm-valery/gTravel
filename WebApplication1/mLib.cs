@@ -30,22 +30,33 @@ namespace gTravel.Models
             
             return 1;
         }
-        public decimal getnextnumber()
+        public decimal getnextnumber(string userid)
         {
 
-            return getnextnumber(this.seriaid);
+            return getnextnumber(this.seriaid, userid);
         }
-        public decimal getnextnumber( Guid seriaid)
+        public decimal getnextnumber( Guid seriaid,string userid)
         {
-            decimal newnum = 0;
+            decimal? newnum;
 
-            if (db.Contracts.Any(x=>x.seriaid==seriaid))
-            { 
+           // if (db.Contracts.Any(x=>x.seriaid==seriaid))
+            //{
+                var agentid = db.AgentUsers.FirstOrDefault(x=>x.UserId==userid).AgentId;
 
-            newnum = db.Contracts.Where(x => x.seriaid == seriaid).Max(s=>s.contractnumber).Value;
-            }
+          
 
-            return newnum+1;
+                newnum = (from c in db.Contracts
+                          join au in db.AgentUsers on c.UserId equals au.UserId
+                          where au.AgentId == agentid
+                          select c).Max(x => x.contractnumber);
+
+                //newnum = db.Contracts.Where(x => x.seriaid == seriaid && x.UserId != "86cf7814-6257-4057-b143-0f50d07dce7f").Max(s => s.contractnumber).Value;
+            //}
+
+                if (newnum == null)
+                    newnum = 0;
+
+            return newnum.Value + 1;
         }
 
         public Guid change_status(string userid, string new_status_code = "project")
@@ -95,7 +106,10 @@ namespace gTravel.Models
             Holder_SubjectId = s.SubjectId;
 
             if (seria.AutoNumber == 1)
-                contractnumber = getnextnumber(seriaid);
+            {
+                contractnumber = getnextnumber(seriaid,userid);
+            }
+               
 
             ContractStatusId = change_status(userid);
 

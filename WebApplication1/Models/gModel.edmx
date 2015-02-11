@@ -134,6 +134,7 @@
           <Property Name="period_multi_type" Type="nchar" MaxLength="1" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
           <Property Name="date_out" Type="date" />
+          <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Contract_territory">
           <Key>
@@ -252,6 +253,7 @@
           <Property Name="formname" Type="nvarchar" MaxLength="50" />
           <Property Name="DefaultCurrencyId" Type="uniqueidentifier" />
           <Property Name="AutoNumber" Type="int" />
+          <Property Name="numberformat" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -358,6 +360,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="period_multi_type" Type="nchar" MaxLength="1" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
           <Property Name="date_out" Type="date" />
+          <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" />
           <Property Name="curr_code" Type="nchar" MaxLength="10" />
           <Property Name="status_name" Type="nchar" MaxLength="25" />
@@ -395,6 +398,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="period_multi_type" Type="nchar" MaxLength="1" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
           <Property Name="date_out" Type="date" />
+          <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -870,6 +874,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_contract].[period_multi_type] AS [period_multi_type], 
     [v_contract].[UserId] AS [UserId], 
     [v_contract].[date_out] AS [date_out], 
+    [v_contract].[contractnumberformat] AS [contractnumberformat], 
     [v_contract].[UserName] AS [UserName], 
     [v_contract].[curr_code] AS [curr_code], 
     [v_contract].[status_name] AS [status_name], 
@@ -901,7 +906,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_contract_ag].[period_multi] AS [period_multi], 
     [v_contract_ag].[period_multi_type] AS [period_multi_type], 
     [v_contract_ag].[UserId] AS [UserId], 
-    [v_contract_ag].[date_out] AS [date_out]
+    [v_contract_ag].[date_out] AS [date_out], 
+    [v_contract_ag].[contractnumberformat] AS [contractnumberformat]
     FROM [dbo].[v_contract_ag] AS [v_contract_ag]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_contract_history" EntityType="Self.v_contract_history" store:Type="Views" store:Schema="dbo">
@@ -1228,6 +1234,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="Currency" Relationship="goDbModel.FK_seria_ToTable" FromRole="seria" ToRole="Currency" />
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="seria" ToRole="Contract" />
           <Property Name="AutoNumber" Type="Int32" />
+          <Property Name="numberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -1569,6 +1576,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="AgentId" Type="Guid" />
           <Property Name="status_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="holder_name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Contract_territory_ToTerritory">
           <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
@@ -1675,6 +1683,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="ContractRisks" Relationship="goDbModel.FK_ContractRisk_ToContract" FromRole="Contract" ToRole="ContractRisk" />
           <NavigationProperty Name="Subjects" Relationship="goDbModel.FK_Subject_ToContract" FromRole="Contract" ToRole="Subject" />
           <NavigationProperty Name="ContractConditions" Relationship="goDbModel.FK_Table_ToContract" FromRole="Contract" ToRole="ContractCondition" />
+          <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Contract_AspNetUsers">
           <End Type="goDbModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
@@ -2063,6 +2072,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="period_multi_type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="date_out" Type="DateTime" Precision="0" />
+          <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="v_contract_risk">
           <Key>
@@ -2091,6 +2101,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="serias">
             <EntityTypeMapping TypeName="goDbModel.seria">
               <MappingFragment StoreEntitySet="seria">
+                <ScalarProperty Name="numberformat" ColumnName="numberformat" />
                 <ScalarProperty Name="AutoNumber" ColumnName="AutoNumber" />
                 <ScalarProperty Name="DefaultCurrencyId" ColumnName="DefaultCurrencyId" />
                 <ScalarProperty Name="formname" ColumnName="formname" />
@@ -2288,6 +2299,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="v_contract">
             <EntityTypeMapping TypeName="goDbModel.v_contract">
               <MappingFragment StoreEntitySet="v_contract">
+                <ScalarProperty Name="contractnumberformat" ColumnName="contractnumberformat" />
                 <ScalarProperty Name="holder_name" ColumnName="holder_name" />
                 <ScalarProperty Name="status_code" ColumnName="status_code" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
@@ -2348,6 +2360,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="Contracts">
             <EntityTypeMapping TypeName="goDbModel.Contract">
               <MappingFragment StoreEntitySet="Contract">
+                <ScalarProperty Name="contractnumberformat" ColumnName="contractnumberformat" />
                 <ScalarProperty Name="date_out" ColumnName="date_out" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="period_multi_type" ColumnName="period_multi_type" />
@@ -2504,6 +2517,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="v_contract_ag">
             <EntityTypeMapping TypeName="goDbModel.v_contract_ag">
               <MappingFragment StoreEntitySet="v_contract_ag">
+                <ScalarProperty Name="contractnumberformat" ColumnName="contractnumberformat" />
                 <ScalarProperty Name="date_out" ColumnName="date_out" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="period_multi_type" ColumnName="period_multi_type" />

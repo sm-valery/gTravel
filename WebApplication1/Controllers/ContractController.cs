@@ -318,6 +318,10 @@ namespace gTravel.Controllers
             if (c.date_out == null)
                 c.date_out = DateTime.Now;
 
+            var seria = db.serias.SingleOrDefault(x => x.SeriaId == c.seriaid);
+            if (!string.IsNullOrEmpty(seria.numberformat))
+                c.contractnumberformat = string.Format(seria.numberformat, c.contractnumber);
+
             #region Страхователь
 
             if (!string.IsNullOrEmpty(c.Subject.Name1))
@@ -918,6 +922,19 @@ namespace gTravel.Controllers
             content += "</datalist>";
 
             return Content(content);
+        }
+
+        [Authorize(Roles = @"Admin")]
+        public ActionResult contract_annul(Guid contractid)
+        {
+            var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
+            c.db = db;
+
+            c.ContractStatusId = c.change_status(User.Identity.GetUserId(), "annul");
+
+            db.SaveChanges();
+
+            return RedirectToAction("index");
         }
 
         public ActionResult history(Guid id)

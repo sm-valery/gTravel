@@ -31,7 +31,7 @@
 }
 
 <div class="text-right">
-    <a href="~/Content/Rules_ag.pdf" target="_blank" ><span class="glyphicon glyphicon-download"></span> Правила страхования</a>
+    <a href="~/Content/Rules_ag.pdf" target="_blank"><span class="glyphicon glyphicon-download"></span> Правила страхования</a>
 </div>
 
 @using (Html.BeginForm("ContractAg", null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
@@ -158,7 +158,18 @@
                                     {
                                         @Html.ActionLink("Печать", "printag", new { contractid = Model.ContractId }, new { @class = "btn btn-info" })
                                     }
+
+            
                                     @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
+
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        @:&nbsp;&nbsp;
+                                        @Html.ActionLink("Аннулировать", "contract_annul", new { contractid = Model.ContractId }, new {  onclick = "return confirm('Аннулировать договор?');" })
+
+                                    }
+
+
                                 </div>
                             </div>
 

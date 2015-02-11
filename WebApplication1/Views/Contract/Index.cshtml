@@ -10,6 +10,10 @@ string getstatusclass(string statuscode)
         if (statuscode == "bordero")
             //return "label label-success";
             return "status-" + statuscode;
+
+        if (statuscode == "annul")
+            return "status-" + statuscode;
+    
     
         return ret;
     }

@@ -96,7 +96,7 @@ namespace gTravel
             Contract contract_new = new Contract(db);
 
             contract_new.seriaid = SeriaId;
-            contract_new.contractnumber = contract_new.getnextnumber();
+            contract_new.contractnumber = contract_new.getnextnumber(UserId);
             contract_new.date_out = crow.date_out;
             contract_new.date_begin = crow.date_begin;
             contract_new.date_end = crow.date_end;

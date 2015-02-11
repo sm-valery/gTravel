@@ -35,6 +35,7 @@ namespace gTravel.Models
         public string period_multi_type { get; set; }
         public string UserId { get; set; }
         public Nullable<System.DateTime> date_out { get; set; }
+        public string contractnumberformat { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<Contract_territory> Contract_territory { get; set; }
