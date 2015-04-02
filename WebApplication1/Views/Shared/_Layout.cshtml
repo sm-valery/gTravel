@@ -79,9 +79,9 @@
                                             <ul class="dropdown-menu">
                                 <li>
 
-                                    @Html.ActionLink("Китайский турист", "Contract_create", "Contract", new { seriaid = "4e92555e-f69b-47a6-8721-68150ef48e03" }, null)
+                                    @Html.ActionLink("AG", "Contract_create", "Contract", new { seriaid = "d6c115e5-538e-4cca-b33f-113d12de8386" }, null)
                                 </li>
-                                <li><a href="#">TOI мед. эл</a></li>
+                                <li>@Html.ActionLink("Крым", "Contract_create", "Contract", new { seriaid = "5866c41d-3b1c-432a-bf26-423b860dc33b" }, null)</li>
                                 <li><a href="#">TR </a></li>
                             </ul>
                         </li>*@
@@ -89,7 +89,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты<b class="caret"></b></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li>@Html.ActionLink("Сборы премии", "CollectedPrem", "Report")</li>
+                            <li>@Html.ActionLink("Собранная премия", "CollectedPrem", "Report")</li>
                             <li>@Html.ActionLink("Бордеро", "Bordero", "Report")</li>
                         </ul>
                     </li>

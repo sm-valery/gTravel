@@ -1,68 +1,54 @@
-﻿@model IEnumerable<gTravel.Controllers.ReportController.CollectedPremData>
+﻿@model IEnumerable<gTravel.Models.spMonthPrem_Result1>
 
 
 @{
-    ViewBag.Title = "Собранная премия";
+    ViewBag.Title = "Отчеты за прошедший период";
 }
 
 <h3>@ViewBag.Title</h3>
 
-<div class="well well-sm">
-    @using (Html.BeginForm())
-    {
-
-
-        <table>
-            <tr>
-                <td>За период с:</td>
-                <td>
-
-
-                    @Html.TextBox("dtFrom", null, new { @class = "form-control input-sm date3 date_period input-value" })
-                </td>
-
-            </tr>
-            <tr>
-                <td>
-                    по:
-                </td>
-                <td>
-                    @Html.TextBox("dtTo", null, new { @class = "form-control input-sm date3 date_period input-value" })
-
-                </td>
-            </tr>
-        </table>
-        <p></p>
-        <input class="btn btn-primary" type="submit" value="Построить" />
-    }
-
-</div>
-
-
 <p>
-
+    &nbsp;
 </p>
 
+@*<div class="list-group">
 
 
-<table class="table table-condensed">
+
+            @foreach (var item in Model)
+            {
+                @Html.ActionLink(item.mname +" "+ item.y + " (" + item.prem + " руб)", "xlsActPrem", new { month = item.m, year = item.y }, new { @class = "list-group-item" })
+
+
+            }
+
+    </div>*@
+
+<table class="table">
+
     <tr>
-        <th>Собранная премия</th>
-        <th>Собранная премия СК</th>
-        <th>Количество договоров</th>
+        <th>Период</th>
+        <th></th>
     </tr>
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(m=>item.insprem)
+                @item.mname @item.y (@item.prem  руб)
             </td>
             <td>
-                @Html.DisplayFor(m=>item.insfee)
-            </td>
-            <td>
-                @Html.DisplayFor(m=>item.contract_count)
+
+                @Html.ActionLink("Акт выполненных работ", "xlsActPrem", new { month = item.m, year = item.y }, new {@class="btn btn-default" })
+
+
+
+                @Html.ActionLink("Бордеро", "xlsActPrem", new { month = item.m, year = item.y,type=2 }, new { @class = "btn btn-default" })
+
+
+
             </td>
         </tr>
     }
 </table>
+
+

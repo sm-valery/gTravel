@@ -326,6 +326,12 @@
     <Compile Include="Models\spContract_Result3.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\spMonthPrem_Result.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\spMonthPrem_Result1.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Status.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -605,6 +611,7 @@
     <Content Include="Views\Report\ViewApi.cshtml" />
     <Content Include="Views\Contract\ContractAg.cshtml" />
     <Content Include="Views\Contract\PrintAG.cshtml" />
+    <Content Include="Views\Contract\ContractCrm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

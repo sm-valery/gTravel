@@ -372,6 +372,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="InsPrem" Type="money" />
           <Property Name="InsPremRur" Type="money" />
           <Property Name="InsFee" Type="money" />
+          <Property Name="serianame" Type="nchar" MaxLength="10" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -802,6 +803,9 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Parameter Name="contractid" Type="uniqueidentifier" Mode="In" />
           <Parameter Name="BorderoId" Type="uniqueidentifier" Mode="In" />
         </Function>
+        <Function Name="spMonthPrem" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+        </Function>
         <EntityContainer Name="goDbModelStoreContainer">
           <EntitySet Name="AddRefs" EntityType="Self.AddRefs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agent" EntityType="Self.Agent" Schema="dbo" store:Type="Tables" />
@@ -885,7 +889,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_contract].[holder_name] AS [holder_name], 
     [v_contract].[InsPrem] AS [InsPrem], 
     [v_contract].[InsPremRur] AS [InsPremRur], 
-    [v_contract].[InsFee] AS [InsFee]
+    [v_contract].[InsFee] AS [InsFee], 
+    [v_contract].[serianame] AS [serianame]
     FROM [dbo].[v_contract] AS [v_contract]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_contract_ag" EntityType="Self.v_contract_ag" store:Type="Views" store:Schema="dbo">
@@ -1217,6 +1222,9 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <FunctionImport Name="BorderoUpdPrepare" />
           <EntitySet Name="v_contract_ag" EntityType="goDbModel.v_contract_ag" />
           <EntitySet Name="v_contract_risk" EntityType="goDbModel.v_contract_risk" />
+          <FunctionImport Name="spMonthPrem" ReturnType="Collection(goDbModel.spMonthPrem_Result1)">
+            <Parameter Name="UserId" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="seria">
           <Key>
@@ -1577,6 +1585,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="status_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="holder_name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
           <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="serianame" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <Association Name="FK_Contract_territory_ToTerritory">
           <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
@@ -2074,6 +2083,12 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="date_out" Type="DateTime" Precision="0" />
           <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="spMonthPrem_Result">
+          <Property Type="Int32" Name="m" Nullable="true" />
+          <Property Type="Int32" Name="y" Nullable="true" />
+          <Property Type="Decimal" Name="prem" Nullable="true" Precision="19" />
+          <Property Type="String" Name="mname" Nullable="true" MaxLength="30" />
+        </ComplexType>
         <EntityType Name="v_contract_risk">
           <Key>
             <PropertyRef Name="ContractRiskId" />
@@ -2092,6 +2107,12 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="sort" Type="Int32" />
           <Property Name="isMandatory" Type="Boolean" Nullable="false" />
         </EntityType>
+        <ComplexType Name="spMonthPrem_Result1">
+          <Property Type="Int32" Name="m" Nullable="true" />
+          <Property Type="Int32" Name="y" Nullable="true" />
+          <Property Type="Decimal" Name="prem" Nullable="true" Precision="19" />
+          <Property Type="String" Name="mname" Nullable="true" MaxLength="30" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2299,6 +2320,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="v_contract">
             <EntityTypeMapping TypeName="goDbModel.v_contract">
               <MappingFragment StoreEntitySet="v_contract">
+                <ScalarProperty Name="serianame" ColumnName="serianame" />
                 <ScalarProperty Name="contractnumberformat" ColumnName="contractnumberformat" />
                 <ScalarProperty Name="holder_name" ColumnName="holder_name" />
                 <ScalarProperty Name="status_code" ColumnName="status_code" />
@@ -2555,6 +2577,16 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spMonthPrem" FunctionName="goDbModel.Store.spMonthPrem">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="goDbModel.spMonthPrem_Result1">
+                <ScalarProperty Name="m" ColumnName="m" />
+                <ScalarProperty Name="y" ColumnName="y" />
+                <ScalarProperty Name="prem" ColumnName="prem" />
+                <ScalarProperty Name="mname" ColumnName="mname" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

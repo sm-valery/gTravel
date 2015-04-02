@@ -122,5 +122,14 @@ namespace gTravel.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BorderoUpdPrepare");
         }
+    
+        public virtual ObjectResult<spMonthPrem_Result1> spMonthPrem(string userId)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spMonthPrem_Result1>("spMonthPrem", userIdParameter);
+        }
     }
 }
