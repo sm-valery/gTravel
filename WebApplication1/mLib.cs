@@ -48,6 +48,7 @@ namespace gTravel.Models
                 newnum = (from c in db.Contracts
                           join au in db.AgentUsers on c.UserId equals au.UserId
                           where au.AgentId == agentid
+                          && c.seriaid ==seriaid
                           select c).Max(x => x.contractnumber);
 
                 //newnum = db.Contracts.Where(x => x.seriaid == seriaid && x.UserId != "86cf7814-6257-4057-b143-0f50d07dce7f").Max(s => s.contractnumber).Value;

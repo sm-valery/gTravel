@@ -220,7 +220,7 @@ namespace gTravel.Controllers
 
                 s.Cell(irow, 8).SetValue(((subj.DateOfBirth.HasValue)?subj.DateOfBirth.Value.ToShortDateString():""));
                 //s.Cell(irow, 9).SetValue();
-                //s.Cell(irow, 10).SetValue();
+                s.Cell(irow, 10).SetValue("Россия");
                 s.Cell(irow, 11).SetValue(row.date_begin.Value.ToShortDateString() + "-"+row.date_end.Value.ToShortDateString());
                 s.Cell(irow, 12).SetValue(crisk.InsSum.Value);
                 s.Cell(irow, 13).SetValue(row.curr_code);

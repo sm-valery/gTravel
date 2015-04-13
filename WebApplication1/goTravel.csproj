@@ -221,6 +221,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="helpers.cs" />
     <Compile Include="import_xls.cs" />
     <Compile Include="mLib.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -399,6 +400,7 @@
     <Content Include="Content\stamp_test.png" />
     <Content Include="Content\tit-stamp.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Scripts\form_standart.js" />
     <Content Include="wkhtmltopdf.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

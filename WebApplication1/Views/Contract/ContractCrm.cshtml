@@ -1,7 +1,85 @@
-﻿
+﻿@model gTravel.Models.Contract
 @{
-    ViewBag.Title = "ContractCrm";
+    ViewBag.Title = "Договор";
 }
 
-<h2>ContractCrm</h2>
+@using (Html.BeginForm("ContractCrm", null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.AntiForgeryToken()
 
+    @Html.ValidationSummary();
+
+    @Html.HiddenFor(m => Model.ContractId)
+    @Html.HiddenFor(m => Model.ContractStatusId)
+    @Html.HiddenFor(m => Model.seriaid)
+    @Html.HiddenFor(m => Model.UserId)
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading" style="color:#b94a48;">
+            Стандартный полис страхования медицина/невыезд
+            &nbsp;&nbsp;@helpers.ContractStatus(Model.ContractStatu.Status)
+
+
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2"><label>Дата выдачи полиса:</label></div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => Model.date_out, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value", @readonly = true })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <label><b>Номер:</b></label>
+                </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", type = "tel", @readonly = true })
+                </div>
+            </div>
+
+            <p></p>
+            <div class="row">
+                <div class="col-md-2"><label>Период страхования:</label> </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => Model.date_begin, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
+                    <span>/</span>
+                    @Html.TextBoxFor(m => Model.date_end, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
+                    <span>
+                        &nbsp;
+
+                        <span id="period_day_count">
+                            @Html.DisplayFor(m => Model.date_diff)
+                        </span>
+                        дня(ей)
+                    </span>
+                </div>
+            </div>
+
+            @*Доп параметры*@
+            <p></p>
+            <fieldset>
+                <legend>Доп. параметры</legend>
+                <div class="well well-sm">
+                    @{
+                             int idx = 0;
+
+                             foreach (var item in Model.ContractConditions)
+                             {
+
+                                @helpers.BuildCond(idx, item)
+
+                                 idx++;
+
+                             }
+                    }
+                </div>
+            </fieldset>
+        </div>
+
+
+
+    </div>
+}

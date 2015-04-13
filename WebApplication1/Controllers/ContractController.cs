@@ -827,6 +827,9 @@ namespace gTravel.Controllers
             return Content(retval);
         }
 
+
+
+
         public ActionResult get_periodadd(string date_from, int addday)
         {
             DateTime d1 = DateTime.Now;
