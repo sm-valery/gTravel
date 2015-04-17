@@ -845,7 +845,7 @@ namespace gTravel.Controllers
             return Content(ret);
         }
 
-        public ActionResult _addInsuredRow(string contractid, int indx)
+        public ActionResult _addInsuredRow(string contractid, int indx, string fieldlist)
         {
             //это чтоб работало в ie, иначе ajax запросы будут кешироваться
             Response.CacheControl = "no-cache";
@@ -859,12 +859,13 @@ namespace gTravel.Controllers
             string userid = User.Identity.GetUserId();
 
             var contr = db.Contracts.Where(x => x.ContractId == gContractId);
-           
+
 
             if (!User.IsInRole("Admin"))
                 contr = contr.Where(x => x.UserId == userid);
 
             ViewData["indx"] = indx;//db.Subjects.Count(x => x.ContractId == gContractId);
+            ViewBag.fieldlist = fieldlist;
 
             var s = contr.Single().add_insured(db);
 
@@ -884,18 +885,20 @@ namespace gTravel.Controllers
             return PartialView(s);
         }
 
-        public ActionResult _edtInsuredRow(Guid SubjectId, int indx)
+        public ActionResult _edtInsuredRow(Guid SubjectId, int indx, string fieldlist)
         {
             Subject s = db.Subjects.SingleOrDefault(x => x.SubjectId == SubjectId);
 
             ViewBag.viewonly = false;
-
+            
             if (s.Contract.ContractStatu.Status.Readonly == 1)
                 ViewBag.viewonly = true;
 
             ViewBag.Gender = mLib.GenderList(s.Gender);
 
             ViewData["indx"] = indx;
+
+            ViewBag.fieldlist = fieldlist;
 
             return PartialView("_addInsuredRow", s);
         }

@@ -126,12 +126,12 @@ string getstatusclass(string statuscode)
                 @Html.DisplayFor(m => item.UserName)
             </td>
             <td>
-                @Html.ActionLink("Открыть", "Contract_edit", new { id = item.ContractId }) |
+                @Html.ActionLink("Открыть", "Contract_edit", new { id = item.ContractId }, new {@class="btn btn-default btn-sm" }) 
                 @if(item.status_code=="confirmed")
                 { 
-                @Html.ActionLink("Печать", "printag", new { contractid = item.ContractId }) @:|
+                @Html.ActionLink("Печать", "printag", new { contractid = item.ContractId }, new { @class = "btn btn-default btn-sm" }) 
                 }
-                @Html.ActionLink("История", "history", new { id = item.ContractId })
+                @Html.ActionLink("История", "history", new { id = item.ContractId }, new { @class = "btn btn-default btn-sm" })
             </td>
         </tr>
     }

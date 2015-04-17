@@ -1,4 +1,36 @@
-﻿$(function () {
+﻿function insadd(rownum, id) {
+    if (confirm("Удалить строку?")) {
+        var subj_num = rownum - 1;
+
+        $.ajax({
+            url: "/Contract/_removeInsuredRow", // '@Url.Action("_removeInsuredRow", "Contract")'
+            type: "GET",
+            data: { subject_id: id, indx: subj_num },
+            error: function (request, status, error) {
+                alert(error);
+            }
+        });
+
+        $("#insdtable tr:eq(" + rownum + ")").hide();//.remove();
+
+
+        $("#Subjects_" + subj_num + "__num").val(-1);
+    }
+}
+
+
+$(function () {
+
+
+
+    //удаление застрахованного
+    $(".ins-dell").click(function (e) {
+
+        insadd($(this).parent().parent().index(), $(this).attr("id").substr(3))
+
+        e.preventDefault();
+    });
+
 
     //изменение периода
     $(".date_period").change(function () {

@@ -7,8 +7,9 @@
 
     string insid = "ins" + Model.SubjectId;
 
+    string[] fieldlist = ((string)ViewBag.fieldlist).Split(',');
 }
-<tr >
+<tr>
 
     <td>
         @*#*@
@@ -22,33 +23,68 @@
         @Html.TextBox(string.Format("Subjects[{0}].Name1", indx), Model.Name1, new { @class = "form-control input-sm input-value" })
 
     </td>
-    <td>
-        @*Пол*@
 
-        @Html.DropDownList(string.Format("Subjects[{0}].Gender", indx), (SelectList)ViewBag.Gender, new { @class = "form-control input-sm input-value" })
-    </td>
-    <td>
-        @*Дата рождения*@
-        @Html.TextBox(string.Format("Subjects[{0}].DateOfBirth", indx), Model.DateOfBirth, new { @class = "form-control input-sm input-value date3" })
-    </td>
-    <td>
-        @*Место рождения*@
-        @Html.TextBox(string.Format("Subjects[{0}].PlaceOfBirth", indx), Model.PlaceOfBirth, new { @class = "form-control input-sm input-value" })
-    </td>
-    <td>
-        @*Номер паспорта*@
-        @Html.TextBox(string.Format("Subjects[{0}].Pasport", indx), Model.Pasport, new { @class = "form-control input-sm input-value" })
-    </td>
-    <td >
-        @*Срок действия паспорта*@
-        @Html.TextBox(string.Format("Subjects[{0}].PasportValidDate", indx), Model.PasportValidDate, new { @class = "form-control input-sm input-value date3" })
+    @foreach (var colname in fieldlist)
+    {
+        switch (colname)
+        {
+            case "Gender":
+                <td>
+                    @*Пол*@
 
-        @if(!(bool)ViewBag.viewonly)
-        { 
-        <a class="ins-dell" id="@insid" href="#">
-            <span class="glyphicon glyphicon-trash"></span>
-        </a>
+                    @Html.DropDownList(string.Format("Subjects[{0}].Gender", indx), (SelectList)ViewBag.Gender, new { @class = "form-control input-sm input-value" })
+                </td>
+                break;
+            case "DateOfBirth":
+            <td>
+                @*Дата рождения*@
+                @Html.TextBox(string.Format("Subjects[{0}].DateOfBirth", indx), Model.DateOfBirth, new { @class = "form-control input-sm input-value date3" })
+            </td>
+                break;
+            case "PlaceOfBirth":
+
+            <td>
+                @*Место рождения*@
+                @Html.TextBox(string.Format("Subjects[{0}].PlaceOfBirth", indx), Model.PlaceOfBirth, new { @class = "form-control input-sm input-value" })
+            </td>
+                break;
+            case "Pasport":
+            <td>
+                @*Номер паспорта*@
+                @Html.TextBox(string.Format("Subjects[{0}].Pasport", indx), Model.Pasport, new { @class = "form-control input-sm input-value" })
+            </td>
+                break;
+            case "PasportValidDate":
+            <td>
+                @*Срок действия паспорта*@
+                @Html.TextBox(string.Format("Subjects[{0}].PasportValidDate", indx), Model.PasportValidDate, new { @class = "form-control input-sm input-value date3" })
+
+
+            </td>
+                break;
+        }
+
+
+    }
+
+
+    <td>
+        @if (!(bool)ViewBag.viewonly)
+        {
+            <a class="ins-dell" id="@insid" href="#">
+                <span class="glyphicon glyphicon-trash"></span>
+            </a>
         }
     </td>
+
+
+
+  
 </tr>
+
+
+
+
+
+
 
