@@ -19,6 +19,7 @@ namespace gTravel.Models
         public Nullable<System.Guid> SeriaId { get; set; }
         public bool isMandatory { get; set; }
         public Nullable<int> sort { get; set; }
+        public Nullable<decimal> InsSumDefauld { get; set; }
     
         public virtual seria seria { get; set; }
         public virtual Risk Risk { get; set; }

@@ -235,6 +235,9 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                         <th>
                             Базовый тариф
                         </th>
+                        <th>
+                            Скидки/надбавки
+                        </th>
                         <th>Премия</th>
                     </tr>
                     @foreach (var risk in Model.ContractRisks)
@@ -250,13 +253,18 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
 
-                                @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
+                                @Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)
+
+                                @Html.DisplayFor(m=>risk.InsSum)
+                                @*@Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value",@readonly=true })*@
+
                             </td>
                             <td>
                                 @risk.BaseTarif
                             </td>
+                            <td>0</td>
                             <td>
-                                @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value" })
+                                @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value",@readonly =true })
 
                                 @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
 
@@ -290,6 +298,35 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
 
             </fieldset>
+
+        </div>
+
+        <div class="panel-footer">
+            @if (!viewonly)
+            {
+                <button name="caction" value="save" class="btn btn-primary">Сохранить&Закрыть</button>
+    <button name="caction" value="recalc" class="btn btn-info">Расчитать</button>
+                if(contract_prem>0)
+                { 
+                <button name="caction" value="confirm" class="btn btn-success">Утвердить</button>
+            }
+            }
+
+            @if (Model.ContractStatu.Status.Code == "confirmed")
+            {
+                @Html.ActionLink("Печать", "printag", new { contractid = Model.ContractId }, new { @class = "btn btn-info" })
+            }
+
+
+            @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
+
+            @if (User.IsInRole("Admin"))
+            {
+                @:&nbsp;&nbsp;
+                @Html.ActionLink("Аннулировать", "contract_annul", new { contractid = Model.ContractId }, new { onclick = "return confirm('Аннулировать договор?');" })
+
+            }
+
 
         </div>
 

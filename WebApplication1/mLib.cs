@@ -132,7 +132,8 @@ namespace gTravel.Models
                 item_rs.ContractRiskId = Guid.NewGuid();
                 item_rs.ContractId = ContractId;
                 item_rs.RiskId = item.RiskId;
-       
+
+                item_rs.InsSum = item.InsSumDefauld;
                 
                 db.ContractRisks.Add(item_rs);
             }

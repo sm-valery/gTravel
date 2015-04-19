@@ -133,6 +133,46 @@ namespace gTravel.Controllers
 
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ContractCrm(Contract c, string caction = "save")
+        {
+
+            c.db = db;
+            c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
+
+            c.Holder_SubjectId = c.Subject.SubjectId;
+
+            if (ModelState.IsValid && caction == "save")
+                return RedirectToAction("Index");
+
+            ContractSave(c);
+
+            if (ModelState.IsValid && caction == "save")
+                return RedirectToAction("Index");
+
+            Contract_ini(c.ContractId);
+
+            var retc = db.Contracts.Include("Contract_territory")
+                .Include("ContractConditions")
+                .Include("Subjects")
+                .Include("ContractRisks")
+                .Include("ContractStatu")
+                .SingleOrDefault(x => x.ContractId == c.ContractId);
+            retc.ContractConditions = retc.ContractConditions.OrderBy(o => o.num).ToList();
+            foreach (var cc in retc.ContractConditions)
+            {
+                cc.Condition = db.Conditions.SingleOrDefault(x => x.ConditionId == cc.ConditionId);
+            }
+            foreach (var rr in retc.ContractRisks)
+            {
+                rr.Risk = db.Risks.SingleOrDefault(x => x.RiskId == rr.RiskId);
+            }
+            ViewBag.terr_count = retc.Contract_territory.Count();
+
+            return View(c);
+
+        }
    
         public ActionResult ContractCh(Guid contractid)
         {

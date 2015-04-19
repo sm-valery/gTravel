@@ -37,7 +37,6 @@ namespace gTravel.Models
         public virtual DbSet<Risk> Risks { get; set; }
         public virtual DbSet<ContractRisk> ContractRisks { get; set; }
         public virtual DbSet<ContractStatu> ContractStatus { get; set; }
-        public virtual DbSet<Tarif> Tarifs { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
@@ -62,6 +61,7 @@ namespace gTravel.Models
         public virtual DbSet<v_bordero_new> v_bordero_new { get; set; }
         public virtual DbSet<v_contract_ag> v_contract_ag { get; set; }
         public virtual DbSet<v_contract_risk> v_contract_risk { get; set; }
+        public virtual DbSet<Tarif> Tarifs { get; set; }
     
         public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, Nullable<System.Guid> borderoId)
         {
