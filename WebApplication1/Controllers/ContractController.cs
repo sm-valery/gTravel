@@ -137,20 +137,35 @@ namespace gTravel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ContractCrm(Contract c, string caction = "save")
         {
+            string errmess = "";
 
             c.db = db;
             c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
 
-            c.Holder_SubjectId = c.Subject.SubjectId;
+            //c.Holder_SubjectId = c.Subject.SubjectId;
 
-            if (ModelState.IsValid && caction == "save")
-                return RedirectToAction("Index");
+            //пересчет
+            bool isCalculated = ContractRecalc(c, out errmess);
 
+            if (caction == "recalc" || caction == "confirm")
+            {
+                if (!isCalculated)
+                    ModelState.AddModelError(string.Empty, errmess);
+
+            }
             ContractSave(c);
 
             if (ModelState.IsValid && caction == "save")
                 return RedirectToAction("Index");
 
+            if (ModelState.IsValid)
+            {
+                if (caction == "recalc")
+                {
+                    return Redirect(Url.RouteUrl(new { Controller = "Contract", Action = "Contract_edit", id = c.ContractId }) + "#block-total");
+                }
+                return RedirectToAction("Index");
+            }
             Contract_ini(c.ContractId);
 
             var retc = db.Contracts.Include("Contract_territory")
