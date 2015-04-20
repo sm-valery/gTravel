@@ -255,6 +255,7 @@
           <Property Name="DefaultCurrencyId" Type="uniqueidentifier" />
           <Property Name="AutoNumber" Type="int" />
           <Property Name="numberformat" Type="varchar" MaxLength="50" />
+          <Property Name="DefaultTerritoryId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -1244,6 +1245,7 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <Property Name="AutoNumber" Type="Int32" />
           <Property Name="numberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToTable" FromRole="seria" ToRole="Tarif" />
+          <Property Name="DefaultTerritoryId" Type="Guid" />
         </EntityType>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -2124,6 +2126,7 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <EntitySetMapping Name="serias">
             <EntityTypeMapping TypeName="goDbModel.seria">
               <MappingFragment StoreEntitySet="seria">
+                <ScalarProperty Name="DefaultTerritoryId" ColumnName="DefaultTerritoryId" />
                 <ScalarProperty Name="numberformat" ColumnName="numberformat" />
                 <ScalarProperty Name="AutoNumber" ColumnName="AutoNumber" />
                 <ScalarProperty Name="DefaultCurrencyId" ColumnName="DefaultCurrencyId" />

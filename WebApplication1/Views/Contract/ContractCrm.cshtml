@@ -24,6 +24,14 @@
     @Html.HiddenFor(m => Model.seriaid)
     @Html.HiddenFor(m => Model.UserId)
 
+    foreach (var terr in Model.Contract_territory)
+    {
+        @Html.Hidden("Contract_territory[0].ContractId", Model.ContractId)
+        @Html.Hidden("Contract_territory[0].ContractTerritoryId", terr.ContractTerritoryId)
+        @Html.Hidden("Contract_territory[0].TerritoryId", terr.TerritoryId)
+    }
+
+
 
     <div class="panel panel-default">
         <div class="panel-heading" style="color:#b94a48;">
@@ -74,16 +82,16 @@
                 <legend>Доп. параметры</legend>
                 <div class="well well-sm">
                     @{
-                             int idx = 0;
+    int idx = 0;
 
-                             foreach (var item in Model.ContractConditions)
-                             {
-                                <p>
-                                    @helpers.BuildCond(idx, item)
-                                </p>
-                                 idx++;
+    foreach (var item in Model.ContractConditions)
+    {
+        <p>
+            @helpers.BuildCond(idx, item)
+        </p>
+        idx++;
 
-                             }
+    }
                     }
                 </div>
             </fieldset>
@@ -95,19 +103,19 @@
                     Страхователь:&nbsp;&nbsp;
 
                     @{
-                             bool subj_f = Model.Subject.Type.Trim() == "fiz";
+    bool subj_f = Model.Subject.Type.Trim() == "fiz";
                     }
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (subj_f) {  @: checked
-                                                                                                                                                                                                                                                                               }
+                                                                                                                                                                                                                                                                                                              }
                                value="fiz" />
                         физ-лицо
                     </label>
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (!subj_f) {  @: checked
-                                                                                                                                                                                                                                                           }
+                                                                                                                                                                                                                                                                                          }
                                value="jur">
                         юр-лицо
                     </label>
@@ -255,7 +263,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
                                 @Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)
 
-                                @Html.DisplayFor(m=>risk.InsSum)
+                                @Html.DisplayFor(m => risk.InsSum)
                                 @*@Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value",@readonly=true })*@
 
                             </td>
@@ -264,7 +272,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             </td>
                             <td>0</td>
                             <td>
-                                @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value",@readonly =true })
+                                @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })
 
                                 @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
 
@@ -305,11 +313,11 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
             @if (!viewonly)
             {
                 <button name="caction" value="save" class="btn btn-primary">Сохранить&Закрыть</button>
-    <button name="caction" value="recalc" class="btn btn-info">Расчитать</button>
-                if(contract_prem>0)
-                { 
-                <button name="caction" value="confirm" class="btn btn-success">Утвердить</button>
-            }
+                <button name="caction" value="recalc" class="btn btn-info">Расчитать</button>
+                if (contract_prem > 0)
+                {
+                    <button name="caction" value="confirm" class="btn btn-success">Утвердить</button>
+                }
             }
 
             @if (Model.ContractStatu.Status.Code == "confirmed")

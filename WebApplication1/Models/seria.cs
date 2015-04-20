@@ -30,6 +30,7 @@ namespace gTravel.Models
         public Nullable<System.Guid> DefaultCurrencyId { get; set; }
         public Nullable<int> AutoNumber { get; set; }
         public string numberformat { get; set; }
+        public Nullable<System.Guid> DefaultTerritoryId { get; set; }
     
         public virtual ICollection<ConditionSeria> ConditionSerias { get; set; }
         public virtual ICollection<RiskSeria> RiskSerias { get; set; }

@@ -164,6 +164,19 @@ namespace gTravel.Models
 
             }
             #endregion
+            //TODO территория по умолчанию
+            #region территория по умолчанию
+            if(seria.DefaultTerritoryId !=null)
+            {
+                Contract_territory crt = new Contract_territory();
+                crt.ContractTerritoryId = Guid.NewGuid();
+                crt.ContractId = ContractId;
+                crt.TerritoryId = seria.DefaultTerritoryId;
+
+                db.Contract_territory.Add(crt);
+
+            }
+            #endregion
 
             db.SaveChanges();
 
