@@ -93,7 +93,10 @@ namespace gTravel.Models
             s.SubjectId = Guid.NewGuid();
             s.Type = "fiz";
 
+            this.Holder_SubjectId = s.SubjectId;
+
             db.Subjects.Add(s);
+
             #endregion
 
             #region contract
@@ -104,7 +107,7 @@ namespace gTravel.Models
    
             this.date_out = (this.date_out == null) ? DateTime.Now : this.date_out;
             this.date_diff = mLib.get_period_diff(date_begin, date_end);
-            Holder_SubjectId = s.SubjectId;
+            
 
             if (seria.AutoNumber == 1)
             {
@@ -134,7 +137,10 @@ namespace gTravel.Models
                 item_rs.RiskId = item.RiskId;
 
                 item_rs.InsSum = item.InsSumDefauld;
-                
+
+                //TODO добавить поле sort в  ContractRisk, изменить view: v_contract_risk
+                item_rs.sort = item.sort;
+
                 db.ContractRisks.Add(item_rs);
             }
 
@@ -164,19 +170,20 @@ namespace gTravel.Models
 
             }
             #endregion
-            //TODO территория по умолчанию
-            #region территория по умолчанию
+            ////TODO территория по умолчанию
+            //#region территория по умолчанию
             if(seria.DefaultTerritoryId !=null)
             {
                 Contract_territory crt = new Contract_territory();
                 crt.ContractTerritoryId = Guid.NewGuid();
                 crt.ContractId = ContractId;
                 crt.TerritoryId = seria.DefaultTerritoryId;
+                //crt.TerritoryId = Guid.Parse("cf6d6985-0bd1-4f71-9b78-91ae11505988");
 
                 db.Contract_territory.Add(crt);
 
             }
-            #endregion
+            //#endregion
 
             db.SaveChanges();
 

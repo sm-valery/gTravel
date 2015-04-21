@@ -27,7 +27,6 @@ namespace gTravel.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<seria> serias { get; set; }
         public virtual DbSet<ConditionSeria> ConditionSerias { get; set; }
         public virtual DbSet<ContractCondition> ContractConditions { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
@@ -62,6 +61,7 @@ namespace gTravel.Models
         public virtual DbSet<v_contract_ag> v_contract_ag { get; set; }
         public virtual DbSet<v_contract_risk> v_contract_risk { get; set; }
         public virtual DbSet<Tarif> Tarifs { get; set; }
+        public virtual DbSet<seria> serias { get; set; }
     
         public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, Nullable<System.Guid> borderoId)
         {

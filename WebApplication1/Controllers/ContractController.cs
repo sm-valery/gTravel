@@ -83,7 +83,7 @@ namespace gTravel.Controllers
         {
             ViewBag.currency = new SelectList(db.Currencies.ToList(), "currencyid", "code");
          
-            ViewBag.risklist = db.v_contract_risk.Where(x => x.ContractId == contract_id).OrderBy(o => o.sort);
+            //ViewBag.risklist = db.v_contract_risk.Where(x => x.ContractId == contract_id).OrderBy(o => o.sort);
 
             ViewBag.PeriodMultiType = new SelectList(new[]{
                 new SelectListItem(){Text="За весь период", Value="1"},
@@ -333,28 +333,30 @@ namespace gTravel.Controllers
             try
             {
                 var cter = c.Contract_territory.FirstOrDefault();
-                var crisk = c.ContractRisks.FirstOrDefault();
-
-                //найдем тариф
-                var t = (from tr in db.Tarifs
-                         where tr.SeriaId == c.seriaid &&
-                         tr.TerritoryId == cter.TerritoryId &&
-                         tr.RiskId == crisk.RiskId
-                         select tr).FirstOrDefault();
-
-                decimal dcount = 0;
-                if (t != null)
+                
+                foreach(var crisk in c.ContractRisks)
                 {
-                    crisk.BaseTarif = (decimal)t.PremSum;
-                    dcount = (decimal)(c.date_diff * c.Subjects.Count());
-                    crisk.InsPrem = crisk.BaseTarif * dcount;
-                    crisk.InsFee = (decimal)t.InsFee * dcount;
-                    crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
-                }
-                else
-                {
-                    errmess = "Тариф не найден! Обратитесь к администратору";
-                    ret = false;
+                    //найдем тариф
+                    var t = (from tr in db.Tarifs
+                             where tr.SeriaId == c.seriaid &&
+                             tr.TerritoryId == cter.TerritoryId &&
+                             tr.RiskId == crisk.RiskId
+                             select tr).FirstOrDefault();
+
+                    decimal dcount = 0;
+                    if (t != null)
+                    {
+                        crisk.BaseTarif = (decimal)t.PremSum;
+                        dcount = (decimal)(c.date_diff * c.Subjects.Count());
+                        crisk.InsPrem = crisk.BaseTarif * dcount;
+                        crisk.InsFee = (decimal)t.InsFee * dcount;
+                        crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
+                    }
+                    else
+                    {
+                        errmess = "Тариф не найден! Обратитесь к администратору";
+                        ret = false;
+                    }
                 }
 
             }
@@ -391,6 +393,8 @@ namespace gTravel.Controllers
             #region дополнительные параметры
             foreach (var item in c.ContractConditions)
             {
+                //item.Condition.Type
+
                 db.Entry(item).State = EntityState.Modified;
             }
             #endregion

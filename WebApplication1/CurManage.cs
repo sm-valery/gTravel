@@ -16,6 +16,9 @@ namespace gTravel
             if (dt == null)
                 dt = DateTime.Now;
 
+            if (curid == Guid.Parse("{00000000-0000-0000-0000-000000000000}"))
+                return 1;
+
             var retv = db.CurRates.FirstOrDefault(x => x.CurrencyId == curid && x.RateDate == dt.Value);
             if (retv != null)
                 return retv.Rate;

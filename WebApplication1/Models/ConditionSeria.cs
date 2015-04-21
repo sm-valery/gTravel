@@ -19,7 +19,7 @@ namespace gTravel.Models
         public Nullable<System.Guid> SeriaId { get; set; }
         public Nullable<int> num { get; set; }
     
-        public virtual seria seria { get; set; }
         public virtual Condition Condition { get; set; }
+        public virtual seria seria { get; set; }
     }
 }

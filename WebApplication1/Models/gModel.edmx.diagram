@@ -5,14 +5,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1d19ac09de5844c5a199252f9092f548" Name="Diagram1" ZoomLevel="85">
-        <EntityTypeShape EntityType="goDbModel.seria" Width="1.5" PointX="15.75" PointY="8.375" />
         <EntityTypeShape EntityType="goDbModel.ConditionSeria" Width="1.5" PointX="13.5" PointY="8.875" />
         <EntityTypeShape EntityType="goDbModel.ContractCondition" Width="2.875" PointX="5.75" PointY="4.125" />
-        <AssociationConnector Association="goDbModel.FK_ConditionSeria_ToSeria" />
         <EntityTypeShape EntityType="goDbModel.Subject" Width="1.5" PointX="10.125" PointY="10.875" />
         <EntityTypeShape EntityType="goDbModel.Status" Width="1.5" PointX="2.375" PointY="9.375" />
         <EntityTypeShape EntityType="goDbModel.RiskSeria" Width="1.5" PointX="14.375" PointY="5" />
-        <AssociationConnector Association="goDbModel.FK_RiskSeria_ToSeria" />
         <EntityTypeShape EntityType="goDbModel.Contract_territory" Width="1.5" PointX="2.375" PointY="3.875" />
         <EntityTypeShape EntityType="goDbModel.Risk" Width="1.5" PointX="14.625" PointY="0.5" />
         <AssociationConnector Association="goDbModel.FK_RiskSeria_ToRisk" />
@@ -33,7 +30,6 @@
         <EntityTypeShape EntityType="goDbModel.CurRate" Width="1.5" PointX="14.75" PointY="18.625" />
         <EntityTypeShape EntityType="goDbModel.Currency" Width="1.5" PointX="12.5" PointY="12.375" />
         <AssociationConnector Association="goDbModel.FK_CurRate_ToCurrency" />
-        <AssociationConnector Association="goDbModel.FK_seria_ToTable" />
         <EntityTypeShape EntityType="goDbModel.import_settings" Width="1.5" PointX="1.125" PointY="20" />
         <EntityTypeShape EntityType="goDbModel.Contract" Width="2.375" PointX="18" PointY="10.25" />
         <AssociationConnector Association="goDbModel.FK_Contract_AspNetUsers" />
@@ -41,7 +37,6 @@
         <AssociationConnector Association="goDbModel.FK_Contract_ToContractStatus" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToSubject" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToTable" />
-        <AssociationConnector Association="goDbModel.FK_Contract_ToTable_1" />
         <AssociationConnector Association="goDbModel.FK_ContractRisk_ToContract" />
         <AssociationConnector Association="goDbModel.FK_Subject_ToContract" />
         <AssociationConnector Association="goDbModel.FK_Table_ToContract" />
@@ -65,8 +60,13 @@
         <EntityTypeShape EntityType="goDbModel.v_contract_risk" Width="1.5" PointX="20.375" PointY="19.75" />
         <EntityTypeShape EntityType="goDbModel.Tarif" Width="1.5" PointX="18" PointY="5.5" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToRisk" />
-        <AssociationConnector Association="goDbModel.FK_Tarif_ToTable" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToTerritory" />
+        <EntityTypeShape EntityType="goDbModel.seria" Width="1.5" PointX="14.75" PointY="11.75" />
+        <AssociationConnector Association="goDbModel.FK_ConditionSeria_ToSeria" />
+        <AssociationConnector Association="goDbModel.FK_Contract_ToTable_1" />
+        <AssociationConnector Association="goDbModel.FK_seria_ToTable" />
+        <AssociationConnector Association="goDbModel.FK_RiskSeria_ToSeria" />
+        <AssociationConnector Association="goDbModel.FK_Tarif_ToTable" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

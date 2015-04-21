@@ -17,8 +17,8 @@ namespace gTravel.Models
         public Currency()
         {
             this.CurRates = new HashSet<CurRate>();
-            this.serias = new HashSet<seria>();
             this.Contracts = new HashSet<Contract>();
+            this.serias = new HashSet<seria>();
         }
     
         public System.Guid CurrencyId { get; set; }
@@ -27,7 +27,7 @@ namespace gTravel.Models
         public string cbrId { get; set; }
     
         public virtual ICollection<CurRate> CurRates { get; set; }
-        public virtual ICollection<seria> serias { get; set; }
         public virtual ICollection<Contract> Contracts { get; set; }
+        public virtual ICollection<seria> serias { get; set; }
     }
 }

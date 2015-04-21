@@ -26,7 +26,7 @@ namespace gTravel.Models
         public Nullable<double> InsFee { get; set; }
     
         public virtual Risk Risk { get; set; }
-        public virtual seria seria { get; set; }
         public virtual Territory Territory { get; set; }
+        public virtual seria seria { get; set; }
     }
 }

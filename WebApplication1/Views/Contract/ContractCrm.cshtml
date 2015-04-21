@@ -127,6 +127,7 @@
                         </div>
                         <div class="col-md-10">
                             @Html.HiddenFor(model => Model.Holder_SubjectId)
+                            @Html.HiddenFor(model => Model.Subject.SubjectId)
                             @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value", name = "SubjectF.Name" })
                         </div>
                     </div>
@@ -248,7 +249,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                         </th>
                         <th>Премия</th>
                     </tr>
-                    @foreach (var risk in Model.ContractRisks)
+                    @foreach (var risk in Model.ContractRisks.OrderBy(o=>o.sort))
                     {
 
                         <tr>
@@ -262,6 +263,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
 
                                 @Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)
+                                @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
 
                                 @Html.DisplayFor(m => risk.InsSum)
                                 @*@Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value",@readonly=true })*@

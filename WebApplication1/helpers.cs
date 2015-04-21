@@ -44,9 +44,9 @@ namespace gTravel
             switch (cond.Condition.Type)
             {
                 case "L":
-                    sbody += string.Format("<div class=\"checkbox\"><label><input {1} type=\"checkbox\" name=\"ContractConditions[{0}].Val_l\"> {2}</label></div>",
+                    sbody += string.Format("<div class=\"checkbox\"><label><input {1} type=\"checkbox\" name=\"ContractConditions[{0}].Val_c\"> {2}</label></div>",
                         idx,
-                        (cond.Val_l.Value) ? "checked" : "",
+                        (cond.Val_c=="on") ? "checked" : "",
                         cond.Condition.Name);
                     break;
 
