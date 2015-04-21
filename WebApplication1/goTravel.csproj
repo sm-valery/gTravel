@@ -281,6 +281,9 @@
     <Compile Include="Models\Currency.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Factor.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\gModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

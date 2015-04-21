@@ -199,6 +199,18 @@
           <Property Name="code" Type="nchar" MaxLength="10" />
           <Property Name="cbrId" Type="nchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="Factors">
+          <Key>
+            <PropertyRef Name="IdFactor" />
+          </Key>
+          <Property Name="IdFactor" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FactorType" Type="nchar" MaxLength="10" />
+          <Property Name="Factor" Type="numeric" Precision="10" Scale="4" />
+          <Property Name="ValueFrom" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ValueTo" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="SeriaId" Type="uniqueidentifier" />
+          <Property Name="RiskId" Type="uniqueidentifier" />
+        </EntityType>
         <EntityType Name="import_settings">
           <Key>
             <PropertyRef Name="ImportId" />
@@ -308,7 +320,7 @@
           <Property Name="Name" Type="varchar" MaxLength="512" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -320,7 +332,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractcount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero_new">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -343,7 +355,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="agentname" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -378,7 +390,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="serianame" Type="nchar" MaxLength="10" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_ag">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -405,7 +417,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_history">
           <Key>
             <PropertyRef Name="ContractStatusId" />
@@ -420,7 +432,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_risk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_risk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_risk">
           <Key>
             <PropertyRef Name="ContractRiskId" />
@@ -440,7 +452,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="isMandatory" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_importlog">
           <Key>
             <PropertyRef Name="ImportLogId" />
@@ -829,6 +841,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySet Name="ContractStatus" EntityType="Self.ContractStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurRate" EntityType="Self.CurRate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Factors" EntityType="Self.Factors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="import_settings" EntityType="Self.import_settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImportLog" EntityType="Self.ImportLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImportLogContract" EntityType="Self.ImportLogContract" Schema="dbo" store:Type="Tables" />
@@ -1228,6 +1241,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="seria" EntitySet="serias" />
             <End Role="Tarif" EntitySet="Tarifs" />
           </AssociationSet>
+          <EntitySet Name="Factors" EntityType="goDbModel.Factor" />
           </EntityContainer>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -2119,6 +2133,18 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Factor">
+          <Key>
+            <PropertyRef Name="IdFactor" />
+          </Key>
+          <Property Name="IdFactor" Type="Guid" Nullable="false" />
+          <Property Name="FactorType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Factor1" Type="Decimal" Precision="10" Scale="4" />
+          <Property Name="ValueFrom" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ValueTo" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="SeriaId" Type="Guid" />
+          <Property Name="RiskId" Type="Guid" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2593,6 +2619,19 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Factors">
+            <EntityTypeMapping TypeName="goDbModel.Factor">
+              <MappingFragment StoreEntitySet="Factors">
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+                <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
+                <ScalarProperty Name="ValueTo" ColumnName="ValueTo" />
+                <ScalarProperty Name="ValueFrom" ColumnName="ValueFrom" />
+                <ScalarProperty Name="Factor1" ColumnName="Factor" />
+                <ScalarProperty Name="FactorType" ColumnName="FactorType" />
+                <ScalarProperty Name="IdFactor" ColumnName="IdFactor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

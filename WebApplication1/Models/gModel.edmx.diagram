@@ -67,6 +67,7 @@
         <AssociationConnector Association="goDbModel.FK_seria_ToTable" />
         <AssociationConnector Association="goDbModel.FK_RiskSeria_ToSeria" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToTable" />
+        <EntityTypeShape EntityType="goDbModel.Factor" Width="1.5" PointX="3.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
