@@ -37,8 +37,10 @@
                 break;
             case "DateOfBirth":
             <td>
+    
+                @Html.TextBox(string.Format("Subjects[{0}].DateOfBirth", indx), ((Model.DateOfBirth.HasValue) ? Model.DateOfBirth.Value.ToShortDateString() : ""), new { @class = "form-control input-sm input-value date3" })
                 @*Дата рождения*@
-                @Html.TextBox(string.Format("Subjects[{0}].DateOfBirth", indx), Model.DateOfBirth, new { @class = "form-control input-sm input-value date3" })
+               
             </td>
                 break;
             case "PlaceOfBirth":

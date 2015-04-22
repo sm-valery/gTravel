@@ -21,7 +21,13 @@
 
 $(function () {
 
+    //тримими все поля
+    $("input").change(function (e) {
 
+        var trim_val = $(this).val().toString().trim();
+
+        $(this).val(trim_val);
+    })
 
     //удаление застрахованного
     $(".ins-dell").click(function (e) {

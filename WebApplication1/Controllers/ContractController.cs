@@ -11,7 +11,9 @@ using System.Data.OleDb;
 using System.Data;
 using ClosedXML.Excel;
 using PagedList;
-//test
+using System.Collections.Generic;
+
+
 namespace gTravel.Controllers
 {
     [Authorize]
@@ -137,7 +139,9 @@ namespace gTravel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ContractCrm(Contract c, string caction = "save")
         {
-            string errmess = "";
+            List<string> ErrMess = new List<string>();
+
+            //string errmess = "";
 
             c.db = db;
             c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
@@ -145,14 +149,19 @@ namespace gTravel.Controllers
             //c.Holder_SubjectId = c.Subject.SubjectId;
 
             //пересчет
-            bool isCalculated = ContractRecalc(c, out errmess);
+            bool isCalculated = ContractRecalc(c, ErrMess);
 
             if (caction == "recalc" || caction == "confirm")
             {
                 if (!isCalculated)
-                    ModelState.AddModelError(string.Empty, errmess);
+                {
+                    foreach (var e in ErrMess)
+                        ModelState.AddModelError(string.Empty, e);
+                }
+
 
             }
+
             ContractSave(c);
 
             if (ModelState.IsValid && caction == "save")
@@ -185,7 +194,7 @@ namespace gTravel.Controllers
             }
             ViewBag.terr_count = retc.Contract_territory.Count();
 
-            return View(c);
+            return View(retc);
 
         }
 
@@ -252,83 +261,83 @@ namespace gTravel.Controllers
             return View(c);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ContractCh(Contract c, string caction = "save")
-        {
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ContractCh(Contract c, string caction = "save")
+        //{
 
-            string errmess = "";
-            c.db = db;
-            c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
+        //    string errmess = "";
+        //    c.db = db;
+        //    c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
 
-            //пересчет
-            bool isCalculated = ContractRecalc(c, out errmess);
+        //    //пересчет
+        //    bool isCalculated = ContractRecalc(c, out errmess);
 
-            if (caction == "recalc" || caction == "confirm")
-            {
-                if (!isCalculated)
-                    ModelState.AddModelError(string.Empty, errmess);
+        //    if (caction == "recalc" || caction == "confirm")
+        //    {
+        //        if (!isCalculated)
+        //            ModelState.AddModelError(string.Empty, errmess);
 
-                if (caction == "confirm" && isCalculated)
-                {
-                    //валидация пеперд утверждением 
-                    if (!c.date_begin.HasValue)
-                        ModelState.AddModelError(string.Empty, "Нужно указать дату начала");
+        //        if (caction == "confirm" && isCalculated)
+        //        {
+        //            //валидация пеперд утверждением 
+        //            if (!c.date_begin.HasValue)
+        //                ModelState.AddModelError(string.Empty, "Нужно указать дату начала");
 
-                    if (!c.date_end.HasValue)
-                        ModelState.AddModelError(string.Empty, "Нужно указать дату окончания");
+        //            if (!c.date_end.HasValue)
+        //                ModelState.AddModelError(string.Empty, "Нужно указать дату окончания");
 
-                    if (c.ContractRisks.Sum(x => x.InsPremRur) == 0)
-                        ModelState.AddModelError(string.Empty, "Премия не должна быть равной 0");
+        //            if (c.ContractRisks.Sum(x => x.InsPremRur) == 0)
+        //                ModelState.AddModelError(string.Empty, "Премия не должна быть равной 0");
 
-                    if (ModelState.IsValid)
-                        c.ContractStatusId = c.change_status(User.Identity.GetUserId(), "confirmed");
+        //            if (ModelState.IsValid)
+        //                c.ContractStatusId = c.change_status(User.Identity.GetUserId(), "confirmed");
 
-                }
-            }
+        //        }
+        //    }
 
 
-            ContractSave(c);
+        //    ContractSave(c);
 
-            if (ModelState.IsValid)
-            {
+        //    if (ModelState.IsValid)
+        //    {
 
-                if (caction == "recalc")
-                {
+        //        if (caction == "recalc")
+        //        {
 
-                    return Redirect(Url.RouteUrl(new { Controller = "Contract", Action = "Contract_edit", id = c.ContractId }) + "#block-total");
-                    //return RedirectToAction("Contract_edit", new { id = c.ContractId,block-total });
-                }
+        //            return Redirect(Url.RouteUrl(new { Controller = "Contract", Action = "Contract_edit", id = c.ContractId }) + "#block-total");
+        //            //return RedirectToAction("Contract_edit", new { id = c.ContractId,block-total });
+        //        }
 
-                return RedirectToAction("Index");
-            }
+        //        return RedirectToAction("Index");
+        //    }
 
-            Contract_ini(c.ContractId);
+        //    Contract_ini(c.ContractId);
 
-            var retc = db.Contracts.Include("Contract_territory")
-                .Include("ContractConditions")
-                .Include("Subjects")
-                .Include("ContractRisks")
-                .Include("ContractStatu")
-                .SingleOrDefault(x => x.ContractId == c.ContractId);
-            retc.ContractConditions = retc.ContractConditions.OrderBy(o => o.num).ToList();
-            foreach (var cc in retc.ContractConditions)
-            {
-                cc.Condition = db.Conditions.SingleOrDefault(x => x.ConditionId == cc.ConditionId);
-            }
-            foreach (var rr in retc.ContractRisks)
-            {
-                rr.Risk = db.Risks.SingleOrDefault(x => x.RiskId == rr.RiskId);
-            }
-            ViewBag.terr_count = retc.Contract_territory.Count();
+        //    var retc = db.Contracts.Include("Contract_territory")
+        //        .Include("ContractConditions")
+        //        .Include("Subjects")
+        //        .Include("ContractRisks")
+        //        .Include("ContractStatu")
+        //        .SingleOrDefault(x => x.ContractId == c.ContractId);
+        //    retc.ContractConditions = retc.ContractConditions.OrderBy(o => o.num).ToList();
+        //    foreach (var cc in retc.ContractConditions)
+        //    {
+        //        cc.Condition = db.Conditions.SingleOrDefault(x => x.ConditionId == cc.ConditionId);
+        //    }
+        //    foreach (var rr in retc.ContractRisks)
+        //    {
+        //        rr.Risk = db.Risks.SingleOrDefault(x => x.RiskId == rr.RiskId);
+        //    }
+        //    ViewBag.terr_count = retc.Contract_territory.Count();
 
-            return View(retc);
-        }
+        //    return View(retc);
+        //}
 
-        private bool ContractRecalc(Contract c, out string errmess)
+        private bool ContractRecalc(Contract c, List<string> ErrMess)
         {
             bool ret = true;
-            errmess = "";
+
             try
             {
                 var cter = c.Contract_territory.FirstOrDefault();
@@ -336,10 +345,23 @@ namespace gTravel.Controllers
                 //TODO пока скидки надбавки по всему полису, далее переделать на порисковые скидки
                 //скидки надбавки
 
-
+                //идем по людям
+                foreach (var s in c.Subjects)
+                {
+                    if (!s.DateOfBirth.HasValue)
+                    {
+                        ErrMess.Add(string.Format("У застрахованного {0} не заполнено поле дата рождения", s.Name1));
+                        ret = false;
+                    }
+                }
 
                 foreach (var crisk in c.ContractRisks)
                 {
+                    crisk.BaseTarif = 0;
+                    crisk.InsPrem = 0;
+                    crisk.InsFee = 0;
+                    crisk.InsPremRur = 0;
+
                     //найдем тариф
                     var t = (from tr in db.Tarifs
                              where tr.SeriaId == c.seriaid &&
@@ -348,31 +370,23 @@ namespace gTravel.Controllers
                              select tr).FirstOrDefault();
 
                     decimal dcount = 0;
-                    if (t != null)
+                    if (t != null && ret)
                     {
                         crisk.BaseTarif = (decimal)t.PremSum;
                         decimal riskprem = (decimal)crisk.BaseTarif * (decimal)c.date_diff;
 
-                        var factors = db.Factors.Where(x => x.SeriaId == c.seriaid);
 
-                        decimal factorsvalue = 1;
-                        foreach (var f in factors)
-                        {
-                            if (f.FactorType == "age")
-                            {
-                               // decimal qf = c.Subjects.Where(da x=>x.DateOfBirth)
-                            }
-                        }
 
-                        crisk.BaseTarif = (decimal)t.PremSum;
-                        dcount = (decimal)(c.date_diff * c.Subjects.Count());
-                        crisk.InsPrem = crisk.BaseTarif * dcount;
-                        crisk.InsFee = (decimal)t.InsFee * dcount;
-                        crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
+                        //crisk.BaseTarif = (decimal)t.PremSum;
+                        //dcount = (decimal)(c.date_diff * c.Subjects.Count());
+                        //crisk.InsPrem = crisk.BaseTarif * dcount;
+                        //crisk.InsFee = (decimal)t.InsFee * dcount;
+                        //crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
                     }
                     else
                     {
-                        errmess = "Тариф не найден! Обратитесь к администратору";
+                        ErrMess.Add("Тариф не найден! Обратитесь к администратору");
+
                         ret = false;
                     }
                 }
@@ -380,16 +394,18 @@ namespace gTravel.Controllers
             }
             catch
             {
+                ErrMess.Add("Ошибка при расчете тарифа! Обратитесь к администратору");
 
-                errmess = "Ошибка при расчете тарифа! Обратитесь к администратору";
                 ret = false;
             }
 
             return ret;
         }
 
-        private void ContractSave(Contract c)
+        private bool ContractSave(Contract c)
         {
+            bool ret = true;
+
             if (c.date_out == null)
                 c.date_out = DateTime.Now;
 
@@ -420,6 +436,7 @@ namespace gTravel.Controllers
             #region застрахованные
             foreach (var s in c.Subjects)
             {
+                //s.Name1 = s.Name1.Trim();
                 //если -1 значит строка удалена
                 if (s.num != -1)
                     db.Entry(s).State = EntityState.Modified;
@@ -446,24 +463,38 @@ namespace gTravel.Controllers
                 }
 
             }
-
-
-
-            db.SaveChanges();
-            c.Contract_territory = db.Contract_territory.Where(x => x.ContractId == c.ContractId).ToList();
-
             #endregion
 
-            #region Риски
-            foreach (var r in c.ContractRisks)
+            foreach (var err in db.GetValidationErrors())
             {
-                db.Entry(r).State = EntityState.Modified;
+                foreach(var e in err.ValidationErrors)
+                {
+                    ModelState.AddModelError(string.Empty, e.PropertyName + ": " + e.ErrorMessage);
+                }
+                
+                ret = false;
             }
-            #endregion
 
-            db.Entry(c).State = EntityState.Modified;
+            if (ret)
+            {
 
-            db.SaveChanges();
+                db.SaveChanges();
+                c.Contract_territory = db.Contract_territory.Where(x => x.ContractId == c.ContractId).ToList();
+
+                #region Риски
+                foreach (var r in c.ContractRisks)
+                {
+                    db.Entry(r).State = EntityState.Modified;
+                }
+                #endregion
+
+                db.Entry(c).State = EntityState.Modified;
+
+                db.SaveChanges();
+
+            }
+
+            return ret;
         }
 
 
