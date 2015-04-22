@@ -333,6 +333,43 @@ namespace gTravel.Controllers
 
         //    return View(retc);
         //}
+        public static int GetAge(DateTime birthDate, DateTime date)
+        {
+            int years = date.Year - birthDate.Year;
+            if (date.Month < birthDate.Month || (date.Month == birthDate.Month && date.Day < birthDate.Day))
+                years--;
+            return years;
+        }
+
+        private decimal CalcSubjectsPremium(IEnumerable<Subject> subjects,
+            Guid seriaid,
+            decimal sum,
+            DateTime curdate)
+        {
+            decimal subj_sum = 0;
+
+            foreach(var s in subjects)
+            {
+               
+                
+                decimal age = GetAge(s.DateOfBirth.Value, curdate);
+
+                var fs = db.Factors.FirstOrDefault(x => x.SeriaId == seriaid 
+                    && x.ValueFrom <= age && x.ValueTo >= age
+                    && x.FactorType=="age");
+
+                if(fs==null)
+                {
+                    subj_sum += sum;
+                }
+                else
+                {
+                    subj_sum += sum * fs.Factor1.Value;
+                }
+            }
+
+            return subj_sum;
+        }
 
         private bool ContractRecalc(Contract c, List<string> ErrMess)
         {
@@ -375,7 +412,9 @@ namespace gTravel.Controllers
                         crisk.BaseTarif = (decimal)t.PremSum;
                         decimal riskprem = (decimal)crisk.BaseTarif * (decimal)c.date_diff;
 
-
+                        crisk.InsPrem = CalcSubjectsPremium(c.Subjects, c.seriaid, riskprem, c.date_out.Value);
+                        crisk.InsFee = CalcSubjectsPremium(c.Subjects, c.seriaid, (decimal)t.InsFee * (decimal)c.date_diff, c.date_out.Value);
+                        crisk.InsPremRur= crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
 
                         //crisk.BaseTarif = (decimal)t.PremSum;
                         //dcount = (decimal)(c.date_diff * c.Subjects.Count());
