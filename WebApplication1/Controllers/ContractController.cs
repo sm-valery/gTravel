@@ -379,6 +379,8 @@ namespace gTravel.Controllers
                 }
             }
 
+
+
             return subj_sum;
         }
 
@@ -393,6 +395,32 @@ namespace gTravel.Controllers
             return CalcSubjectsPremium(subjects, seriaid, sum, curdate, new List<factorgrp> { });
         }
 
+        private decimal getXtrimFactor(IEnumerable<ContractCondition> conds,
+            List<factorgrp> factor_descr)
+        {
+            decimal fct=1;
+            var dbextrim = db.Conditions.FirstOrDefault(x => x.Code == "extrim");
+
+            if(dbextrim!=null)
+            {
+                var cextrim = conds.FirstOrDefault(x => x.ConditionId == dbextrim.ConditionId);
+                if(cextrim!=null && cextrim.Val_c=="on")
+                {
+                   var vfct = db.Factors.FirstOrDefault(x => x.FactorType == "extrim");
+                   if (vfct != null)
+                   {
+                       fct = vfct.Factor1.Value;
+                       factor_descr.Add(new factorgrp { ftype = "экстрим", fvalue = fct.ToString() });
+                   }
+                       
+                }
+            }
+
+
+           
+
+            return fct;
+        }
 
         private bool ContractRecalc(Contract c, List<string> ErrMess)
         {
@@ -406,6 +434,7 @@ namespace gTravel.Controllers
                 //скидки надбавки
 
                 //идем по людям
+                //валидация
                 foreach (var s in c.Subjects)
                 {
                     if (!s.DateOfBirth.HasValue)
@@ -430,13 +459,15 @@ namespace gTravel.Controllers
                              tr.RiskId == crisk.RiskId
                              select tr).FirstOrDefault();
 
-                    decimal dcount = 0;
+                 
                     if (t != null && ret)
                     {
                         crisk.BaseTarif = (decimal)t.PremSum;
                         decimal riskprem = (decimal)crisk.BaseTarif * (decimal)c.date_diff;
 
                         List<factorgrp> factor_descr = new List<factorgrp>();
+
+                        riskprem = riskprem * getXtrimFactor(c.ContractConditions, factor_descr);
 
                         crisk.InsPrem = CalcSubjectsPremium(c.Subjects, c.seriaid, riskprem, c.date_out.Value, factor_descr);
                         crisk.InsFee = CalcSubjectsPremium(c.Subjects, c.seriaid, (decimal)t.InsFee * (decimal)c.date_diff, c.date_out.Value);
