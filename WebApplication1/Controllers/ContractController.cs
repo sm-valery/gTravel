@@ -341,35 +341,58 @@ namespace gTravel.Controllers
             return years;
         }
 
+        private class factorgrp
+        {
+            public string ftype { get; set; }
+            public string fvalue { get; set; }
+            public decimal qnt { get; set; }
+        }
+
         private decimal CalcSubjectsPremium(IEnumerable<Subject> subjects,
             Guid seriaid,
             decimal sum,
-            DateTime curdate)
+            DateTime curdate,
+            List<factorgrp> factor_descr)
         {
             decimal subj_sum = 0;
 
-            foreach(var s in subjects)
+            foreach (var s in subjects)
             {
-               
-                
+                if (s.num == -1)
+                    continue;
+
                 decimal age = GetAge(s.DateOfBirth.Value, curdate);
 
-                var fs = db.Factors.FirstOrDefault(x => x.SeriaId == seriaid 
+                var fs = db.Factors.FirstOrDefault(x => x.SeriaId == seriaid
                     && x.ValueFrom <= age && x.ValueTo >= age
-                    && x.FactorType=="age");
+                    && x.FactorType == "age");
 
-                if(fs==null)
+                if (fs == null)
                 {
                     subj_sum += sum;
                 }
                 else
                 {
                     subj_sum += sum * fs.Factor1.Value;
+                    factor_descr.Add(new factorgrp { ftype = "возраст", fvalue = fs.Factor1.Value.ToString() });
+
                 }
             }
 
             return subj_sum;
         }
+
+        private decimal CalcSubjectsPremium(IEnumerable<Subject> subjects,
+    Guid seriaid,
+    decimal sum,
+    DateTime curdate
+    )
+        {
+
+
+            return CalcSubjectsPremium(subjects, seriaid, sum, curdate, new List<factorgrp> { });
+        }
+
 
         private bool ContractRecalc(Contract c, List<string> ErrMess)
         {
@@ -398,6 +421,7 @@ namespace gTravel.Controllers
                     crisk.InsPrem = 0;
                     crisk.InsFee = 0;
                     crisk.InsPremRur = 0;
+                    crisk.FactorsDescr = "";
 
                     //найдем тариф
                     var t = (from tr in db.Tarifs
@@ -412,9 +436,22 @@ namespace gTravel.Controllers
                         crisk.BaseTarif = (decimal)t.PremSum;
                         decimal riskprem = (decimal)crisk.BaseTarif * (decimal)c.date_diff;
 
-                        crisk.InsPrem = CalcSubjectsPremium(c.Subjects, c.seriaid, riskprem, c.date_out.Value);
+                        List<factorgrp> factor_descr = new List<factorgrp>();
+
+                        crisk.InsPrem = CalcSubjectsPremium(c.Subjects, c.seriaid, riskprem, c.date_out.Value, factor_descr);
                         crisk.InsFee = CalcSubjectsPremium(c.Subjects, c.seriaid, (decimal)t.InsFee * (decimal)c.date_diff, c.date_out.Value);
-                        crisk.InsPremRur= crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
+                        crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
+
+                        //TODO добавить поле FactorsDescr в таблицу [ContractRisk]
+                        var fgrp = from n in factor_descr
+                                   group n by new {t= n.ftype, v =n.fvalue} into g
+                                   select new factorgrp {ftype = g.Key.t, fvalue =g.Key.v, qnt= g.Count()};
+                                  
+                        foreach(var f in fgrp)
+                        {
+                            crisk.FactorsDescr += crisk.FactorsDescr + string.Format("{0}: {1}({2}) \n",f.ftype,f.fvalue,f.qnt);
+                        }
+                        
 
                         //crisk.BaseTarif = (decimal)t.PremSum;
                         //dcount = (decimal)(c.date_diff * c.Subjects.Count());
@@ -506,11 +543,11 @@ namespace gTravel.Controllers
 
             foreach (var err in db.GetValidationErrors())
             {
-                foreach(var e in err.ValidationErrors)
+                foreach (var e in err.ValidationErrors)
                 {
                     ModelState.AddModelError(string.Empty, e.PropertyName + ": " + e.ErrorMessage);
                 }
-                
+
                 ret = false;
             }
 

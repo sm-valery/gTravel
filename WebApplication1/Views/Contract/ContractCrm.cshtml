@@ -185,16 +185,16 @@
                             </tr>
 
                             @{
-int indx = 0;
+                                int indx = 0;
 
-foreach (var item in Model.Subjects.OrderBy(x => x.num))
-{
-    @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
+                                foreach (var item in Model.Subjects.OrderBy(x => x.num))
+                                {
+                                    @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
 
-                                @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId, indx = indx, fieldlist = "DateOfBirth" })
+                                    @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId, indx = indx, fieldlist = "DateOfBirth" })
 
-    indx++;
-}
+                                    indx++;
+                                }
 
                             }
                         </tbody>
@@ -272,7 +272,14 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             <td>
                                 @risk.BaseTarif
                             </td>
-                            <td>0</td>
+                            <td>
+                                <small>
+                                    @risk.FactorsDescr
+                                </small>
+                                <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top" 
+                                      title="Тип коэффициента: значение коэффициента (количество)">?</span>
+
+                            </td>
                             <td>
                                 @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })
 
@@ -283,7 +290,8 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                         contract_prem += (decimal)(risk.InsPrem ?? 0);
                         contract_prem_rur += (decimal)(risk.InsPremRur ?? 0);
                                 }
-                                <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top" title="(Дн*Бт*Кол-во = @Model.date_diff*@risk.BaseTarif*@Model.Subjects.Count())">?</span>
+                                <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top" 
+                                      title="@string.Format("базовый тариф: {0}, дней {1}, кол-во застрахованных {2}", risk.BaseTarif, Model.date_diff,Model.Subjects.Count())">?</span>
 
 
                             </td>
