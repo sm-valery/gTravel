@@ -44,7 +44,9 @@ string getstatusclass(string statuscode)
 
 
 <p>
-    @Html.ActionLink("Новый договор", "Contract_Create", new { seriaid = @ViewBag.seria })
+    @Html.Action("_tools_add_contract_btn")
+
+  
 </p>
 
 <div class="row">
@@ -129,7 +131,7 @@ string getstatusclass(string statuscode)
                 @Html.ActionLink("Открыть", "Contract_edit", new { id = item.ContractId }, new {@class="btn btn-default btn-sm" }) 
                 @if(item.status_code=="confirmed")
                 { 
-                @Html.ActionLink("Печать", "printag", new { contractid = item.ContractId }, new { @class = "btn btn-default btn-sm" }) 
+                @Html.ActionLink("Печать", item.PrintFunction, new { contractid = item.ContractId }, new { @class = "btn btn-default btn-sm" }) 
                 }
                 @Html.ActionLink("История", "history", new { id = item.ContractId }, new { @class = "btn btn-default btn-sm" })
             </td>

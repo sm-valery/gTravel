@@ -20,6 +20,7 @@ namespace gTravel.Models
             this.Contracts = new HashSet<Contract>();
             this.RiskSerias = new HashSet<RiskSeria>();
             this.Tarifs = new HashSet<Tarif>();
+            this.AgentSerias = new HashSet<AgentSeria>();
         }
     
         public System.Guid SeriaId { get; set; }
@@ -31,11 +32,13 @@ namespace gTravel.Models
         public Nullable<int> AutoNumber { get; set; }
         public string numberformat { get; set; }
         public Nullable<System.Guid> DefaultTerritoryId { get; set; }
+        public string PrintFunction { get; set; }
     
         public virtual ICollection<ConditionSeria> ConditionSerias { get; set; }
         public virtual ICollection<Contract> Contracts { get; set; }
         public virtual Currency Currency { get; set; }
         public virtual ICollection<RiskSeria> RiskSerias { get; set; }
         public virtual ICollection<Tarif> Tarifs { get; set; }
+        public virtual ICollection<AgentSeria> AgentSerias { get; set; }
     }
 }

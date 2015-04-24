@@ -40,5 +40,6 @@ namespace gTravel.Models
         public string holder_name { get; set; }
         public string contractnumberformat { get; set; }
         public string serianame { get; set; }
+        public string PrintFunction { get; set; }
     }
 }

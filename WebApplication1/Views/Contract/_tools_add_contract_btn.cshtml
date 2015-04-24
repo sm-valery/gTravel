@@ -1,0 +1,18 @@
+﻿@model IEnumerable<gTravel.Models.AgentSeria>
+
+
+@foreach (var item in Model)
+{
+    <a href="/Contract/Contract_Create?seriaid=@item.SeriaId"
+       class="btn btn-default btn-sm"
+       data-toggle="tooltip"
+       data-placement="bottom"
+       title="Добавить новый договор @item.seria.Name">@item.seria.Code</a>
+}
+
+<script type="text/javascript">
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    })
+</script>

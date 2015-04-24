@@ -77,6 +77,18 @@ namespace gTravel.Models
             return stat.ContractStatusId;
         }
 
+        //очистить застрахованных от удаленных
+        public void SubjectClearDeleted()
+        {
+            var deleted =this.Subjects.Where(x=>x.num==-1).ToList();
+
+            foreach(var s in deleted)
+            {
+                this.Subjects.Remove(s);
+            }
+
+        }
+
         public bool add_contract(string userid)
         {
             var seria = db.serias.FirstOrDefault(x => x.SeriaId == seriaid);
@@ -297,10 +309,12 @@ namespace gTravel
 
         public static int get_period_diff(DateTime? d1, DateTime? d2)
         {
-            if (d1.HasValue && d2.HasValue)
-                return (d2.Value - d1.Value).Days + 1;
+            int diff = 0;
 
-            return 0;
+            if (d1.HasValue && d2.HasValue)
+                diff = (d2.Value - d1.Value).Days + 1;
+
+            return (diff>0)?diff:0;
         }
         public static string gender_parse(string gender_code)
         {

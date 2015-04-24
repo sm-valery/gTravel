@@ -21,6 +21,14 @@
           <Property Name="AgentId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="AgentSeria">
+          <Key>
+            <PropertyRef Name="AgentSeria" />
+          </Key>
+          <Property Name="AgentSeria" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AgentId" Type="uniqueidentifier" />
+          <Property Name="SeriaId" Type="uniqueidentifier" />
+        </EntityType>
         <EntityType Name="AgentUser">
           <Key>
             <PropertyRef Name="AgentUserId" />
@@ -270,6 +278,7 @@
           <Property Name="AutoNumber" Type="int" />
           <Property Name="numberformat" Type="varchar" MaxLength="50" />
           <Property Name="DefaultTerritoryId" Type="uniqueidentifier" />
+          <Property Name="PrintFunction" Type="varchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -389,6 +398,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="InsPremRur" Type="money" />
           <Property Name="InsFee" Type="money" />
           <Property Name="serianame" Type="nchar" MaxLength="10" />
+          <Property Name="PrintFunction" Type="varchar" MaxLength="128" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -466,6 +476,18 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="contractcount" Type="int" />
         </EntityType>
+        <Association Name="FK_AgentSeria_Toseria">
+          <End Role="seria" Type="Self.seria" Multiplicity="0..1" />
+          <End Role="AgentSeria" Type="Self.AgentSeria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seria">
+              <PropertyRef Name="SeriaId" />
+            </Principal>
+            <Dependent Role="AgentSeria">
+              <PropertyRef Name="SeriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AgentUser_ToTable">
           <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
           <End Role="AgentUser" Type="Self.AgentUser" Multiplicity="*" />
@@ -825,6 +847,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
         <EntityContainer Name="goDbModelStoreContainer">
           <EntitySet Name="AddRefs" EntityType="Self.AddRefs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agent" EntityType="Self.Agent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AgentSeria" EntityType="Self.AgentSeria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AgentUser" EntityType="Self.AgentUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -907,7 +930,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_contract].[InsPrem] AS [InsPrem], 
     [v_contract].[InsPremRur] AS [InsPremRur], 
     [v_contract].[InsFee] AS [InsFee], 
-    [v_contract].[serianame] AS [serianame]
+    [v_contract].[serianame] AS [serianame], 
+    [v_contract].[PrintFunction] AS [PrintFunction]
     FROM [dbo].[v_contract] AS [v_contract]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_contract_ag" EntityType="Self.v_contract_ag" store:Type="Views" store:Schema="dbo">
@@ -969,6 +993,10 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_importlog].[contractcount] AS [contractcount]
     FROM [dbo].[v_importlog] AS [v_importlog]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_AgentSeria_Toseria" Association="Self.FK_AgentSeria_Toseria">
+            <End Role="seria" EntitySet="seria" />
+            <End Role="AgentSeria" EntitySet="AgentSeria" />
+          </AssociationSet>
           <AssociationSet Name="FK_AgentUser_ToTable" Association="Self.FK_AgentUser_ToTable">
             <End Role="Agent" EntitySet="Agent" />
             <End Role="AgentUser" EntitySet="AgentUser" />
@@ -1243,6 +1271,11 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="Tarif" EntitySet="Tarifs" />
           </AssociationSet>
           <EntitySet Name="Factors" EntityType="goDbModel.Factor" />
+          <EntitySet Name="AgentSerias" EntityType="goDbModel.AgentSeria" />
+          <AssociationSet Name="FK_AgentSeria_Toseria" Association="goDbModel.FK_AgentSeria_Toseria">
+            <End Role="seria" EntitySet="serias" />
+            <End Role="AgentSeria" EntitySet="AgentSerias" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -1523,6 +1556,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="holder_name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
           <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="serianame" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="PrintFunction" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Contract_territory_ToTerritory">
           <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
@@ -2074,6 +2108,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="RiskSerias" Relationship="goDbModel.FK_RiskSeria_ToSeria" FromRole="seria" ToRole="RiskSeria" />
           <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToTable" FromRole="seria" ToRole="Tarif" />
           <Property Name="DefaultTerritoryId" Type="Guid" />
+          <Property Name="PrintFunction" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AgentSerias" Relationship="goDbModel.FK_AgentSeria_Toseria" FromRole="seria" ToRole="AgentSeria" />
         </EntityType>
         <Association Name="FK_ConditionSeria_ToSeria">
           <End Type="goDbModel.seria" Role="seria" Multiplicity="0..1" />
@@ -2147,6 +2183,27 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="SeriaId" Type="Guid" />
           <Property Name="RiskId" Type="Guid" />
         </EntityType>
+        <EntityType Name="AgentSeria">
+          <Key>
+            <PropertyRef Name="AgentSeria1" />
+          </Key>
+          <Property Name="AgentSeria1" Type="Guid" Nullable="false" />
+          <Property Name="AgentId" Type="Guid" />
+          <Property Name="SeriaId" Type="Guid" />
+          <NavigationProperty Name="seria" Relationship="goDbModel.FK_AgentSeria_Toseria" FromRole="AgentSeria" ToRole="seria" />
+        </EntityType>
+        <Association Name="FK_AgentSeria_Toseria">
+          <End Type="goDbModel.seria" Role="seria" Multiplicity="0..1" />
+          <End Type="goDbModel.AgentSeria" Role="AgentSeria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seria">
+              <PropertyRef Name="SeriaId" />
+            </Principal>
+            <Dependent Role="AgentSeria">
+              <PropertyRef Name="SeriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2327,6 +2384,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="v_contract">
             <EntityTypeMapping TypeName="goDbModel.v_contract">
               <MappingFragment StoreEntitySet="v_contract">
+                <ScalarProperty Name="PrintFunction" ColumnName="PrintFunction" />
                 <ScalarProperty Name="serianame" ColumnName="serianame" />
                 <ScalarProperty Name="contractnumberformat" ColumnName="contractnumberformat" />
                 <ScalarProperty Name="holder_name" ColumnName="holder_name" />
@@ -2613,6 +2671,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="serias">
             <EntityTypeMapping TypeName="goDbModel.seria">
               <MappingFragment StoreEntitySet="seria">
+                <ScalarProperty Name="PrintFunction" ColumnName="PrintFunction" />
                 <ScalarProperty Name="DefaultTerritoryId" ColumnName="DefaultTerritoryId" />
                 <ScalarProperty Name="numberformat" ColumnName="numberformat" />
                 <ScalarProperty Name="AutoNumber" ColumnName="AutoNumber" />
@@ -2635,6 +2694,15 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="Factor1" ColumnName="Factor" />
                 <ScalarProperty Name="FactorType" ColumnName="FactorType" />
                 <ScalarProperty Name="IdFactor" ColumnName="IdFactor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AgentSerias">
+            <EntityTypeMapping TypeName="goDbModel.AgentSeria">
+              <MappingFragment StoreEntitySet="AgentSeria">
+                <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="AgentSeria1" ColumnName="AgentSeria" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

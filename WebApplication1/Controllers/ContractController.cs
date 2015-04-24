@@ -36,18 +36,13 @@ namespace gTravel.Controllers
             //серия по умолчанию
             ViewBag.seria = MainSeria;
 
-
             var pageNumber = page ?? 1;
 
             string userid = User.Identity.GetUserId();
             // var agentuser= db.AgentUsers.SingleOrDefault(x=>x.UserId==userid);
 
-
             if (ImportLogId != null)
             {
-
-                //var imp = (from ii in db.ImportLogs where ii.ImportLogId == ImportLogId select ii).SingleOrDefault();
-
                 var imp = db.ImportLogs.SingleOrDefault(x => x.ImportLogId == ImportLogId);
 
                 ViewBag.filtr = string.Format("импорт #{0} от {1}", imp.docnum, imp.dateinsert);
@@ -67,8 +62,9 @@ namespace gTravel.Controllers
                 ViewBag.filtr = "номер договора = " + contractnumber.ToString();
 
 
-
-
+            //TODO добавить в таблицу seria поле PrintFunction добавить во вью
+            
+           
             if (clist != null)
             {
 
@@ -79,6 +75,19 @@ namespace gTravel.Controllers
             return View();
 
 
+        }
+
+        public ActionResult _tools_add_contract_btn()
+        {
+            //TODO добавить и заполнить таблицу aspseria
+            string userid = User.Identity.GetUserId();
+
+            var agent = db.AgentUsers.SingleOrDefault(x => x.UserId == userid);
+            var available_serias = db.AgentSerias.Where(x => x.AgentId == agent.AgentId).Include("seria").ToList();
+
+            //ViewBag.available_serias = available_serias;
+
+            return PartialView(available_serias);
         }
 
         private void Contract_ini(Guid contract_id)
@@ -141,7 +150,8 @@ namespace gTravel.Controllers
         {
             List<string> ErrMess = new List<string>();
 
-            //string errmess = "";
+            //очистить застрахованных от удаленных
+            c.SubjectClearDeleted();
 
             c.db = db;
             c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
@@ -158,8 +168,27 @@ namespace gTravel.Controllers
                     foreach (var e in ErrMess)
                         ModelState.AddModelError(string.Empty, e);
                 }
+            }
 
+            if (caction == "confirm")
+            {
+                if (c.date_diff<=0)
+                    ModelState.AddModelError(string.Empty, "Период задан не верно!");
 
+                if (!c.date_begin.HasValue)
+                    ModelState.AddModelError(string.Empty, "Дата начала договора не заполнена!");
+
+                if (string.IsNullOrWhiteSpace(c.Subject.Name1))
+                    ModelState.AddModelError(string.Empty, "ФИО страхователя не заполнено!");
+
+                if (!c.Subject.DateOfBirth.HasValue)
+                    ModelState.AddModelError(string.Empty, "Дата рождения страхователя не заполнена!");
+
+                if (c.date_begin < c.date_out)
+                    ModelState.AddModelError(string.Empty, "Дата начала договора не может быть меньше даты выдачи!");
+
+                if (ModelState.IsValid)
+                    c.ContractStatusId = c.change_status(User.Identity.GetUserId(), "confirmed");
             }
 
             ContractSave(c);
@@ -210,6 +239,9 @@ namespace gTravel.Controllers
         {
             c.db = db;
             c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
+
+            //очистить застрахованных от удаленных
+            c.SubjectClearDeleted();
 
             c.Holder_SubjectId = c.Subject.SubjectId;
 
@@ -379,6 +411,8 @@ namespace gTravel.Controllers
                 }
             }
 
+
+
             return subj_sum;
         }
 
@@ -393,21 +427,54 @@ namespace gTravel.Controllers
             return CalcSubjectsPremium(subjects, seriaid, sum, curdate, new List<factorgrp> { });
         }
 
+        private decimal getXtrimFactor(IEnumerable<ContractCondition> conds,Guid seriaid,
+            List<factorgrp> factor_descr)
+        {
+            decimal fct=1;
+            var dbextrim = db.Conditions.FirstOrDefault(x => x.Code == "extrim");
+
+            if(dbextrim!=null)
+            {
+                var cextrim = conds.FirstOrDefault(x => x.ConditionId == dbextrim.ConditionId);
+                if(cextrim!=null && cextrim.Val_c=="on")
+                {
+                   var vfct = db.Factors.FirstOrDefault(x => x.FactorType == "extrim" && x.SeriaId==seriaid);
+                   if (vfct != null)
+                   {
+                       fct = vfct.Factor1.Value;
+                       factor_descr.Add(new factorgrp { ftype = "экстрим", fvalue = fct.ToString() });
+                   }
+                       
+                }
+            }
+
+
+           
+
+            return fct;
+        }
 
         private bool ContractRecalc(Contract c, List<string> ErrMess)
         {
             bool ret = true;
 
+            decimal date_diff = (decimal)c.date_diff;
+
+           
             try
             {
+
                 var cter = c.Contract_territory.FirstOrDefault();
 
                 //TODO пока скидки надбавки по всему полису, далее переделать на порисковые скидки
                 //скидки надбавки
 
                 //идем по людям
+                //валидация
                 foreach (var s in c.Subjects)
                 {
+            
+
                     if (!s.DateOfBirth.HasValue)
                     {
                         ErrMess.Add(string.Format("У застрахованного {0} не заполнено поле дата рождения", s.Name1));
@@ -430,13 +497,15 @@ namespace gTravel.Controllers
                              tr.RiskId == crisk.RiskId
                              select tr).FirstOrDefault();
 
-                    decimal dcount = 0;
+                 
                     if (t != null && ret)
                     {
                         crisk.BaseTarif = (decimal)t.PremSum;
                         decimal riskprem = (decimal)crisk.BaseTarif * (decimal)c.date_diff;
 
                         List<factorgrp> factor_descr = new List<factorgrp>();
+
+                        riskprem = riskprem * getXtrimFactor(c.ContractConditions,c.seriaid, factor_descr);
 
                         crisk.InsPrem = CalcSubjectsPremium(c.Subjects, c.seriaid, riskprem, c.date_out.Value, factor_descr);
                         crisk.InsFee = CalcSubjectsPremium(c.Subjects, c.seriaid, (decimal)t.InsFee * (decimal)c.date_diff, c.date_out.Value);
@@ -449,7 +518,7 @@ namespace gTravel.Controllers
                                   
                         foreach(var f in fgrp)
                         {
-                            crisk.FactorsDescr += crisk.FactorsDescr + string.Format("{0}: {1}({2}) \n",f.ftype,f.fvalue,f.qnt);
+                            crisk.FactorsDescr += string.Format("{0}: {1}({2}); ",f.ftype,f.fvalue,f.qnt);
                         }
                         
 
@@ -477,6 +546,8 @@ namespace gTravel.Controllers
 
             return ret;
         }
+
+
 
         private bool ContractSave(Contract c)
         {
@@ -510,12 +581,15 @@ namespace gTravel.Controllers
             #endregion
 
             #region застрахованные
+            
+
             foreach (var s in c.Subjects)
             {
                 //s.Name1 = s.Name1.Trim();
                 //если -1 значит строка удалена
                 if (s.num != -1)
                     db.Entry(s).State = EntityState.Modified;
+   
             }
             #endregion
 
@@ -1087,6 +1161,7 @@ namespace gTravel.Controllers
             return PartialView("_addInsuredRow", s);
         }
 
+        [HttpPost]
         public void _removeInsuredRow(Guid subject_id)
         {
             var s = db.Subjects.SingleOrDefault(x => x.SubjectId == subject_id);
@@ -1182,6 +1257,10 @@ namespace gTravel.Controllers
 
         }
 
+        public void printcrm(Guid contractid)
+        {
+
+        }
         public void printag(Guid contractid)
         {
 

@@ -151,3 +151,29 @@ border-bottom: 1px dotted;
 .status-annul{
     color:firebrick;
 }
+
+
+.scrolling-table {
+    max-height: 200px; 
+    width:100%;
+}
+
+.scrolling-table tbody {
+    display: block;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.scrolling-table tr {
+    display: table;
+    table-layout: fixed;
+    margin-top:-5px;
+}
+
+.scrolling-table th {
+   width:170px;
+}
+
+.scrolling-table td {
+   width:170px;
+}

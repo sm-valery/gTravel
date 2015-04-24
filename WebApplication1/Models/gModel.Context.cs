@@ -63,6 +63,7 @@ namespace gTravel.Models
         public virtual DbSet<Tarif> Tarifs { get; set; }
         public virtual DbSet<seria> serias { get; set; }
         public virtual DbSet<Factor> Factors { get; set; }
+        public virtual DbSet<AgentSeria> AgentSerias { get; set; }
     
         public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, Nullable<System.Guid> borderoId)
         {

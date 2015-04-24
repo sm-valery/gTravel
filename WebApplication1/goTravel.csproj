@@ -231,6 +231,9 @@
     <Compile Include="Models\Agent.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AgentSeria.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AgentUser.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -617,6 +620,8 @@
     <Content Include="Views\Contract\ContractAg.cshtml" />
     <Content Include="Views\Contract\PrintAG.cshtml" />
     <Content Include="Views\Contract\ContractCrm.cshtml" />
+    <Content Include="Views\Contract\printcrm.cshtml" />
+    <Content Include="Views\Contract\_tools_add_contract_btn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

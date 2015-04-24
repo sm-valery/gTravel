@@ -5,13 +5,13 @@
     int indx = Convert.ToInt32(ViewData["indx"]);
     //int indx = Model.num.Value - 1;
 
-    string insid = "ins" + Model.SubjectId;
+    string insid = "ins_" + Model.SubjectId;
 
     string[] fieldlist = ((string)ViewBag.fieldlist).Split(',');
 }
 <tr>
 
-    <td>
+    <td >
         @*#*@
 
         @Html.Hidden(string.Format("Subjects[{0}].num", indx), indx)
@@ -36,11 +36,11 @@
                 </td>
                 break;
             case "DateOfBirth":
-            <td>
-    
+            <td >
+
                 @Html.TextBox(string.Format("Subjects[{0}].DateOfBirth", indx), ((Model.DateOfBirth.HasValue) ? Model.DateOfBirth.Value.ToShortDateString() : ""), new { @class = "form-control input-sm input-value date3" })
                 @*Дата рождения*@
-               
+
             </td>
                 break;
             case "PlaceOfBirth":
