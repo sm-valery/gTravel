@@ -1,5 +1,4 @@
-﻿@model IEnumerable<gTravel.Models.AgentSeria>
-
+﻿@model IEnumerable<gTravel.Models.v_agentseria>
 
 @foreach (var item in Model)
 {
@@ -7,7 +6,7 @@
        class="btn btn-default btn-sm"
        data-toggle="tooltip"
        data-placement="bottom"
-       title="Добавить новый договор @item.seria.Name">@item.seria.Code</a>
+       title="Добавить новый договор @item.Name">@item.Code</a>
 }
 
 <script type="text/javascript">

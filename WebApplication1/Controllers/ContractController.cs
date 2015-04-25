@@ -77,13 +77,33 @@ namespace gTravel.Controllers
 
         }
 
+        private List<v_agentseria> getAgentSeias()
+        {
+            //TODO добавить вьюху v_agentseria
+
+            var userserias = (List<v_agentseria>)Session["userserias"];
+
+            if (userserias == null)
+            {
+                string userid = User.Identity.GetUserId();
+                userserias = db.v_agentseria.Where(x => x.UserId == userid).ToList();
+
+                Session["userserias"] = userserias;
+            }
+
+            return userserias;
+        }
+
+        public PartialViewResult _mainMenuCreateContract()
+        {
+     
+            return PartialView(getAgentSeias());
+        }
+
         public ActionResult _tools_add_contract_btn()
         {
             //TODO добавить и заполнить таблицу aspseria
-            string userid = User.Identity.GetUserId();
-
-            var agent = db.AgentUsers.SingleOrDefault(x => x.UserId == userid);
-            var available_serias = db.AgentSerias.Where(x => x.AgentId == agent.AgentId).Include("seria").ToList();
+            var available_serias = getAgentSeias();
 
             //ViewBag.available_serias = available_serias;
 
@@ -1243,8 +1263,12 @@ namespace gTravel.Controllers
 
             var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
 
+          
+
             //pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Landscape;
             pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
+            pdfgen.Size = NReco.PdfGenerator.PageSize.A4;
+            
             var pdfBytes = pdfgen.GeneratePdf(htmlContent);
 
             Response.Clear();
@@ -1259,8 +1283,27 @@ namespace gTravel.Controllers
 
         public void printcrm(Guid contractid)
         {
+           var htmlContent = RenderRazorViewToString("printcrm", null);
 
+           // var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
+
+           // pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
+
+           //// var pdfBytes = 
+           //     pdfgen.GeneratePdf(htmlContent, "", Response.OutputStream);
+
+           
+            var pdfBytes = (new NReco.PdfGenerator.HtmlToPdfConverter()).GeneratePdf(htmlContent);
+
+            Response.Clear();
+            Response.ContentType = "application/pdf";
+            Response.AddHeader("content-disposition", "attachment;filename=\"poliscrm.pdf\"");
+
+           Response.OutputStream.Write(pdfBytes, 0, pdfBytes.Count());
+
+            Response.End();
         }
+
         public void printag(Guid contractid)
         {
 
@@ -1270,7 +1313,8 @@ namespace gTravel.Controllers
 
             var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
 
-            pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
+            //pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
+            
             var pdfBytes = pdfgen.GeneratePdf(htmlContent);
 
             Response.Clear();

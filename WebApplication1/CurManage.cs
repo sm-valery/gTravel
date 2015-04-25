@@ -7,6 +7,8 @@ using System.Xml;
 
 namespace gTravel
 {
+
+
     public static class CurrManage
     {
         public static decimal getCurRate(goDbEntities db, Guid curid, DateTime? dt, bool updateifnotfound = true)

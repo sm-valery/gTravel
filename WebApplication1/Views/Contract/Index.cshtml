@@ -91,6 +91,7 @@ string getstatusclass(string statuscode)
     {
         <tr>
             <td>
+               
                 @item.serianame
                 @item.contractnumber
             </td>
@@ -104,6 +105,13 @@ string getstatusclass(string statuscode)
             </td>
             <td>
                 @Html.DisplayFor(m=>item.holder_name)
+
+                @if(item.subject_count>0)
+                {
+                    @:(@item.subject_count)
+                }
+                
+            
             </td>
             @*<td>
                 @Html.DisplayFor(modelItem => item.terr_name)

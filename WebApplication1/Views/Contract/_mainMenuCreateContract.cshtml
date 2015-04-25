@@ -1,0 +1,46 @@
+﻿@model IEnumerable<gTravel.Models.v_agentseria>
+
+
+@if (Model.Count() > 1)
+{
+    @:<li class="dropdown">
+        @:    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Новый договор<b class="caret"></b></a>
+        @:    <ul class="dropdown-menu">
+}
+
+
+
+
+
+
+@foreach (var s in Model)
+{
+    if (Model.Count() == 1)
+    {
+        <li>
+  
+                @Html.ActionLink("Новый договор", "Contract_create", "Contract", new { seriaid = s.SeriaId }, null)
+         
+                 </li>
+    }
+    else
+    {
+        <li>
+            <a href="/Contract/Contract_Create?seriaid=@s.SeriaId"
+               data-toggle="tooltip"
+               data-placement="bottom"
+               title="@s.Name">@s.Code</a>
+
+
+                @*@Html.ActionLink(s.Code, "Contract_create", "Contract", new { seriaid = s.SeriaId }, null)*@
+         
+</li>
+    }
+
+}
+
+@if (Model.Count() > 1)
+{
+@:</ul>
+@:</li>
+}

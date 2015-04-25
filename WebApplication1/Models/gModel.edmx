@@ -330,7 +330,26 @@
           <Property Name="Name" Type="varchar" MaxLength="512" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_agentseria' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_agentseria">
+          <Key>
+            <PropertyRef Name="SeriaId" />
+          </Key>
+          <Property Name="AgentId" Type="uniqueidentifier" />
+          <Property Name="SeriaId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="nchar" MaxLength="10" />
+          <Property Name="Name" Type="nchar" MaxLength="512" />
+          <Property Name="IsMulti" Type="int" />
+          <Property Name="formname" Type="nvarchar" MaxLength="50" />
+          <Property Name="DefaultCurrencyId" Type="uniqueidentifier" />
+          <Property Name="AutoNumber" Type="int" />
+          <Property Name="numberformat" Type="varchar" MaxLength="50" />
+          <Property Name="DefaultTerritoryId" Type="uniqueidentifier" />
+          <Property Name="PrintFunction" Type="varchar" MaxLength="128" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -342,7 +361,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractcount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero_new">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -365,7 +384,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="agentname" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -401,7 +420,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="PrintFunction" Type="varchar" MaxLength="128" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_ag">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -428,7 +447,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_history">
           <Key>
             <PropertyRef Name="ContractStatusId" />
@@ -443,7 +462,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_risk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_risk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_risk">
           <Key>
             <PropertyRef Name="ContractRiskId" />
@@ -463,7 +482,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="isMandatory" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_importlog">
           <Key>
             <PropertyRef Name="ImportLogId" />
@@ -876,6 +895,22 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tarif" EntityType="Self.Tarif" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Territory" EntityType="Self.Territory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="v_agentseria" EntityType="Self.v_agentseria" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_agentseria].[AgentId] AS [AgentId], 
+    [v_agentseria].[SeriaId] AS [SeriaId], 
+    [v_agentseria].[Code] AS [Code], 
+    [v_agentseria].[Name] AS [Name], 
+    [v_agentseria].[IsMulti] AS [IsMulti], 
+    [v_agentseria].[formname] AS [formname], 
+    [v_agentseria].[DefaultCurrencyId] AS [DefaultCurrencyId], 
+    [v_agentseria].[AutoNumber] AS [AutoNumber], 
+    [v_agentseria].[numberformat] AS [numberformat], 
+    [v_agentseria].[DefaultTerritoryId] AS [DefaultTerritoryId], 
+    [v_agentseria].[PrintFunction] AS [PrintFunction], 
+    [v_agentseria].[UserId] AS [UserId]
+    FROM [dbo].[v_agentseria] AS [v_agentseria]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="v_bordero" EntityType="Self.v_bordero" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [v_bordero].[BorderoId] AS [BorderoId], 
@@ -1276,6 +1311,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="seria" EntitySet="serias" />
             <End Role="AgentSeria" EntitySet="AgentSerias" />
           </AssociationSet>
+          <EntitySet Name="v_agentseria" EntityType="goDbModel.v_agentseria" />
           </EntityContainer>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -2204,6 +2240,23 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="v_agentseria">
+          <Key>
+            <PropertyRef Name="SeriaId" />
+          </Key>
+          <Property Name="AgentId" Type="Guid" />
+          <Property Name="SeriaId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="512" FixedLength="true" Unicode="true" />
+          <Property Name="IsMulti" Type="Int32" />
+          <Property Name="formname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DefaultCurrencyId" Type="Guid" />
+          <Property Name="AutoNumber" Type="Int32" />
+          <Property Name="numberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DefaultTerritoryId" Type="Guid" />
+          <Property Name="PrintFunction" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2703,6 +2756,24 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="AgentSeria1" ColumnName="AgentSeria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_agentseria">
+            <EntityTypeMapping TypeName="goDbModel.v_agentseria">
+              <MappingFragment StoreEntitySet="v_agentseria">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PrintFunction" ColumnName="PrintFunction" />
+                <ScalarProperty Name="DefaultTerritoryId" ColumnName="DefaultTerritoryId" />
+                <ScalarProperty Name="numberformat" ColumnName="numberformat" />
+                <ScalarProperty Name="AutoNumber" ColumnName="AutoNumber" />
+                <ScalarProperty Name="DefaultCurrencyId" ColumnName="DefaultCurrencyId" />
+                <ScalarProperty Name="formname" ColumnName="formname" />
+                <ScalarProperty Name="IsMulti" ColumnName="IsMulti" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

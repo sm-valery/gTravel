@@ -70,6 +70,7 @@
         <EntityTypeShape EntityType="goDbModel.Factor" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="goDbModel.AgentSeria" Width="1.5" PointX="23.375" PointY="2.5" />
         <AssociationConnector Association="goDbModel.FK_AgentSeria_Toseria" />
+        <EntityTypeShape EntityType="goDbModel.v_agentseria" Width="1.5" PointX="20.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
