@@ -212,13 +212,14 @@ namespace gTravel.Controllers
                 s.Cell(irow, 1).SetValue(d1.ToShortDateString()+"-"+d2.ToShortDateString());
                 s.Cell(irow, 2).SetValue(row.serianame.Trim() + row.contractnumberformat);
                 //s.Cell(irow, 3).SetValue();
-                s.Cell(irow, 4).SetValue(row.date_out.Value.ToShortDateString());
+                s.Cell(irow, 4).SetValue<DateTime>(row.date_out.Value);
                 //s.Cell(irow, 5).SetValue();
                 s.Cell(irow, 6).SetValue(1);
                 s.Cell(irow, 7).SetValue(row.holder_name);
 
+                if (subj.DateOfBirth.HasValue)
+                s.Cell(irow, 8).SetValue<DateTime>(subj.DateOfBirth.Value);
 
-                s.Cell(irow, 8).SetValue(((subj.DateOfBirth.HasValue)?subj.DateOfBirth.Value.ToShortDateString():""));
                 //s.Cell(irow, 9).SetValue();
                 s.Cell(irow, 10).SetValue("Россия");
                 s.Cell(irow, 11).SetValue(row.date_begin.Value.ToShortDateString() + "-"+row.date_end.Value.ToShortDateString());
