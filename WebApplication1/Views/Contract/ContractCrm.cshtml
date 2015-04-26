@@ -361,7 +361,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
             @if (Model.ContractStatu.Status.Code == "confirmed")
             {
-                @Html.ActionLink("Печать", "printag", new { contractid = Model.ContractId }, new { @class = "btn btn-info" })
+                @Html.ActionLink("Печать", Model.seria.PrintFunction, new { contractid = Model.ContractId }, new { @class = "btn btn-info" })
             }
 
 
