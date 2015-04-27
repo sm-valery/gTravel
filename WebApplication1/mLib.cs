@@ -152,7 +152,7 @@ namespace gTravel.Models
 
                 item_rs.InsSum = item.InsSumDefauld;
 
-                //TODO добавить поле sort в  ContractRisk, изменить view: v_contract_risk
+                //TODO 27042015 добавить поле sort в  ContractRisk, изменить view: v_contract_risk
                 item_rs.sort = item.sort;
 
                 db.ContractRisks.Add(item_rs);

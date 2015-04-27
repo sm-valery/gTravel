@@ -62,7 +62,7 @@ namespace gTravel.Controllers
                 ViewBag.filtr = "номер договора = " + contractnumber.ToString();
 
 
-            //TODO добавить в таблицу seria поле PrintFunction добавить во вью
+            //TODO 27042015 добавить в таблицу seria поле PrintFunction добавить во вью
             
            
             if (clist != null)
@@ -79,7 +79,7 @@ namespace gTravel.Controllers
 
         private List<v_agentseria> getAgentSeias()
         {
-            //TODO добавить вьюху v_agentseria
+            //TODO 27042015 добавить вьюху v_agentseria
 
             var userserias = (List<v_agentseria>)Session["userserias"];
 
@@ -102,7 +102,7 @@ namespace gTravel.Controllers
 
         public ActionResult _tools_add_contract_btn()
         {
-            //TODO добавить и заполнить таблицу aspseria
+            //TODO 27042015 добавить и заполнить таблицу agentseria
             var available_serias = getAgentSeias();
 
             //ViewBag.available_serias = available_serias;
@@ -531,7 +531,7 @@ namespace gTravel.Controllers
                         crisk.InsFee = CalcSubjectsPremium(c.Subjects, c.seriaid, (decimal)t.InsFee * (decimal)c.date_diff, c.date_out.Value);
                         crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
 
-                        //TODO добавить поле FactorsDescr в таблицу [ContractRisk]
+                        //TODO 27042015 добавить поле FactorsDescr в таблицу [ContractRisk]
                         var fgrp = from n in factor_descr
                                    group n by new {t= n.ftype, v =n.fvalue} into g
                                    select new factorgrp {ftype = g.Key.t, fvalue =g.Key.v, qnt= g.Count()};

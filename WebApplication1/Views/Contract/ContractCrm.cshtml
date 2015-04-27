@@ -224,6 +224,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
                             }
                         </tbody>
+          
                     </table>
 
 
@@ -403,7 +404,10 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                 },
                 success: function (data) {
 
-                    $(data).insertAfter("#insdtable >tbody>tr:last");
+                    //$(data).insertAfter("#insdtable>tbody>tr:last");
+                    //$(data).insertAfter("#insdtable>tbody:last");
+
+                    $('#insdtable>tbody:last').append(data);
 
                     $(".date3").datepicker({
                         format: "dd.mm.yyyy",
@@ -412,8 +416,8 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     });
 
                     $("#insdtable >tbody>tr:last > td:last a").bind("click", function (e) {
-
-                        insadd($(this).parent().parent().index(), $(this).attr("id").substr(4))
+                        //удаление
+                        ins_delete($(this).parent().parent().index(), $(this).attr("id").substr(4))
                         e.preventDefault();
                     })
 
@@ -442,5 +446,9 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                 $("#subj_lab_id").text("ИНН:");
             }
         });
+
+
+        //показать ошибки
+
     })
 </script>
