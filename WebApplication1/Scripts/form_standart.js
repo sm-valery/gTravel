@@ -2,9 +2,6 @@
     if (confirm("Удалить строку?")) {
         var subj_num = rownum;
         
-        alert(rownum);
-        alert(id);
-
         $.ajax({
             url: "/Contract/_removeInsuredRow", // '@Url.Action("_removeInsuredRow", "Contract")'
             type: "POST",

@@ -31,7 +31,7 @@
         <EntityTypeShape EntityType="goDbModel.Currency" Width="1.5" PointX="12.5" PointY="12.375" />
         <AssociationConnector Association="goDbModel.FK_CurRate_ToCurrency" />
         <EntityTypeShape EntityType="goDbModel.import_settings" Width="1.5" PointX="1.125" PointY="20" />
-        <EntityTypeShape EntityType="goDbModel.Contract" Width="2.375" PointX="18" PointY="10.25" />
+        <EntityTypeShape EntityType="goDbModel.Contract" Width="2.375" PointX="22" PointY="10.875" />
         <AssociationConnector Association="goDbModel.FK_Contract_AspNetUsers" />
         <AssociationConnector Association="goDbModel.FK_Contract_territory_ToContract" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToContractStatus" />
@@ -55,8 +55,8 @@
         <EntityTypeShape EntityType="goDbModel.Bordero" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="goDbModel.v_bordero" Width="1.5" PointX="7.375" PointY="12.75" />
         <EntityTypeShape EntityType="goDbModel.v_contract_history" Width="1.5" PointX="10.375" PointY="18.75" />
-        <EntityTypeShape EntityType="goDbModel.v_bordero_new" Width="1.5" PointX="20.375" PointY="8.75" />
-        <EntityTypeShape EntityType="goDbModel.v_contract_ag" Width="1.5" PointX="20.375" PointY="13.75" />
+        <EntityTypeShape EntityType="goDbModel.v_bordero_new" Width="1.5" PointX="26.125" PointY="8.75" />
+        <EntityTypeShape EntityType="goDbModel.v_contract_ag" Width="1.5" PointX="26.375" PointY="14.75" />
         <EntityTypeShape EntityType="goDbModel.v_contract_risk" Width="1.5" PointX="20.375" PointY="19.75" />
         <EntityTypeShape EntityType="goDbModel.Tarif" Width="1.5" PointX="18" PointY="5.5" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToRisk" />

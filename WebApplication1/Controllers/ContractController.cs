@@ -222,6 +222,8 @@ namespace gTravel.Controllers
                 {
                     return Redirect(Url.RouteUrl(new { Controller = "Contract", Action = "Contract_edit", id = c.ContractId }) + "#block-total");
                 }
+
+                if (caction != "confirm")
                 return RedirectToAction("Index");
             }
             Contract_ini(c.ContractId);
@@ -1283,7 +1285,15 @@ namespace gTravel.Controllers
 
         public void printcrm(Guid contractid)
         {
-           var htmlContent = RenderRazorViewToString("printcrm", null);
+
+            var c = db.Contracts.Include("Contract_territory")
+                .Include("ContractConditions")
+                .Include("Subjects")
+                .Include("ContractRisks")
+                .Include("ContractStatu")
+                .SingleOrDefault(x => x.ContractId == contractid);
+
+           var htmlContent = RenderRazorViewToString("printcrm", c);
 
            // var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
 
@@ -1292,6 +1302,7 @@ namespace gTravel.Controllers
            //// var pdfBytes = 
            //     pdfgen.GeneratePdf(htmlContent, "", Response.OutputStream);
 
+            //заменить на компонент wkhtmltopdf
            
             var pdfBytes = (new NReco.PdfGenerator.HtmlToPdfConverter()).GeneratePdf(htmlContent);
 
