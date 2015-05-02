@@ -13,6 +13,8 @@ using ClosedXML.Excel;
 using PagedList;
 using System.Collections.Generic;
 
+using SelectPdf;
+
 
 namespace gTravel.Controllers
 {
@@ -1249,37 +1251,70 @@ namespace gTravel.Controllers
         {
 
             //var htmlContent = String.Format("<body>Hello world: {0}</body>", DateTime.Now);
-            var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
+            //var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
 
 
-            cl_printmodel pmodel = new cl_printmodel();
-            pmodel.contract = c;
+            //cl_printmodel pmodel = new cl_printmodel();
+            //pmodel.contract = c;
 
-            pmodel.entryport = c.ContractConditions.Where(x => x.Condition.Code.Trim() == "entryport").FirstOrDefault().Val_c;
+            //pmodel.entryport = c.ContractConditions.Where(x => x.Condition.Code.Trim() == "entryport").FirstOrDefault().Val_c;
 
-            pmodel.exitport = c.ContractConditions.Where(x => x.Condition.Code.Trim() == "exitport").FirstOrDefault().Val_c;
+            //pmodel.exitport = c.ContractConditions.Where(x => x.Condition.Code.Trim() == "exitport").FirstOrDefault().Val_c;
 
-            pmodel.route = c.ContractConditions.Where(x => x.Condition.Code.Trim() == "route").FirstOrDefault().Val_c;
+            //pmodel.route = c.ContractConditions.Where(x => x.Condition.Code.Trim() == "route").FirstOrDefault().Val_c;
 
-            var htmlContent = RenderRazorViewToString("generatepdf_ch", pmodel);
+            //var htmlContent = RenderRazorViewToString("generatepdf_ch", pmodel);
 
-            var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
+            //var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
 
           
 
-            //pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Landscape;
-            pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
-            pdfgen.Size = NReco.PdfGenerator.PageSize.A4;
+            ////pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Landscape;
+            //pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
+            //pdfgen.Size = NReco.PdfGenerator.PageSize.A4;
             
-            var pdfBytes = pdfgen.GeneratePdf(htmlContent);
+            //var pdfBytes = pdfgen.GeneratePdf(htmlContent);
+
+            //Response.Clear();
+            //Response.ContentType = "application/pdf";
+            //Response.AddHeader("content-disposition", string.Format("attachment;filename=\"polis{0}.pdf\"", c.contractnumber));
+
+            //Response.OutputStream.Write(pdfBytes, 0, pdfBytes.Count());
+
+            //Response.End();
+
+        }
+
+        public void test()
+        {
+
+            string TxtHtmlCode = @"<html>
+ <body>
+  Hello World from selectpdf.com.
+ </body>
+</html>
+";
+
+            HtmlToPdf converter = new HtmlToPdf();
+
+            PdfDocument doc = converter.ConvertHtmlString(TxtHtmlCode);
+
+            // save pdf document
+            var pdfBuf = doc.Save();
+
 
             Response.Clear();
             Response.ContentType = "application/pdf";
-            Response.AddHeader("content-disposition", string.Format("attachment;filename=\"polis{0}.pdf\"", c.contractnumber));
+            Response.AddHeader("content-disposition", "attachment;filename=\"poliscrm.pdf\"");
 
-            Response.OutputStream.Write(pdfBytes, 0, pdfBytes.Count());
+            Response.OutputStream.Write(pdfBuf, 0, pdfBuf.Count());
 
             Response.End();
+
+            // close pdf document
+            doc.Close();
+
+
 
         }
 
@@ -1293,26 +1328,33 @@ namespace gTravel.Controllers
                 .Include("ContractStatu")
                 .SingleOrDefault(x => x.ContractId == contractid);
 
-           var htmlContent = RenderRazorViewToString("printcrm", c);
+            var htmlContent = RenderRazorViewToString("printcrm", c);
 
-           // var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
+            HtmlToPdf converter = new HtmlToPdf();
 
-           // pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
+            converter.Options.PdfPageSize = PdfPageSize.A4;
+            converter.Options.MarginBottom = 10;
+            converter.Options.MarginLeft = 10;
+            converter.Options.MarginRight = 10;
+            converter.Options.MarginTop = 10;
 
-           //// var pdfBytes = 
-           //     pdfgen.GeneratePdf(htmlContent, "", Response.OutputStream);
+            PdfDocument doc = converter.ConvertHtmlString(htmlContent);
 
-            //заменить на компонент wkhtmltopdf
-           
-            var pdfBytes = (new NReco.PdfGenerator.HtmlToPdfConverter()).GeneratePdf(htmlContent);
+            // save pdf document
+            var pdfBuf = doc.Save();
+
 
             Response.Clear();
             Response.ContentType = "application/pdf";
             Response.AddHeader("content-disposition", "attachment;filename=\"poliscrm.pdf\"");
 
-           Response.OutputStream.Write(pdfBytes, 0, pdfBytes.Count());
+            Response.OutputStream.Write(pdfBuf, 0, pdfBuf.Count());
 
             Response.End();
+
+            // close pdf document
+            doc.Close();
+
         }
 
         public void printag(Guid contractid)
@@ -1322,19 +1364,33 @@ namespace gTravel.Controllers
 
             var htmlContent = RenderRazorViewToString("printag", model);
 
-            var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
+  
 
-            //pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
-            
-            var pdfBytes = pdfgen.GeneratePdf(htmlContent);
+            HtmlToPdf converter = new HtmlToPdf();
+
+            converter.Options.PdfPageSize = PdfPageSize.A4;
+            converter.Options.MarginBottom = 10;
+            converter.Options.MarginLeft = 10;
+            converter.Options.MarginRight = 10;
+            converter.Options.MarginTop = 10;
+
+            PdfDocument doc = converter.ConvertHtmlString(htmlContent);
+
+            // save pdf document
+            var pdfBuf = doc.Save();
+
 
             Response.Clear();
             Response.ContentType = "application/pdf";
-            Response.AddHeader("content-disposition", string.Format("attachment;filename=\"polis{0}.pdf\"", "AG"));
+            Response.AddHeader("content-disposition", "attachment;filename=\"poliscrm.pdf\"");
 
-            Response.OutputStream.Write(pdfBytes, 0, pdfBytes.Count());
+            Response.OutputStream.Write(pdfBuf, 0, pdfBuf.Count());
 
             Response.End();
+
+            // close pdf document
+            doc.Close();
+
         }
 
         //private bool findcontract(Guid contract_id)
