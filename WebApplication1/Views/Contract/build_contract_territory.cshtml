@@ -3,4 +3,4 @@
 @Html.Hidden("Contract_territory[0].ContractId", Model.ContractId)
 @Html.Hidden("Contract_territory[0].ContractTerritoryId", Model.ContractTerritoryId)
 
-@Html.DropDownList("Contract_territory[0].TerritoryId", (SelectList)ViewBag.territory, new { @class = "form-control input-sm input-value" })
+@Html.DropDownList("Contract_territory[0].TerritoryId", (SelectList)ViewBag.territory, new { @class = "form-control chosen-select " })

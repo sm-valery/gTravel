@@ -34,6 +34,11 @@ table {
     
 }*/
 
+legend{
+    font-size:medium;
+font-style:italic;
+    color: #b94a48;
+}
 
 
 /* styles for validation helpers */

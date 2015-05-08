@@ -106,6 +106,13 @@
 
                 </div>
             </div>
+            <p></p>
+            <div class="row">
+                <div class="col-md-2"><label><b>Территория:</b></label> </div>
+                <div class="col-md-10">
+                    @Html.Action("build_contract_territory", new { contractid = Model.ContractId })
+                </div>
+            </div>
             @*Доп параметры*@
             <p></p>
             <fieldset>
@@ -126,6 +133,33 @@
                 </div>
             </fieldset>
 
+            @*<fieldset>
+                <legend>Территория</legend>
+                <div class="well well-sm">
+                    <div class="row">
+                        <div class="col-md-2"><label>Выберите территорию:</label> </div>
+                        <div class="col-md-10">
+
+                            @if (Model.Contract_territory.Count() > 0)
+                            {
+
+                                foreach (var t in Model.Contract_territory)
+                                {
+
+                                    @Html.Action("build_contract_territory", new { ContractTerritoryId = t.ContractTerritoryId })
+
+                                }
+                            }
+                            else
+                            {
+                                @Html.Action("build_contract_territory", new { contractid = Model.ContractId })
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            </fieldset>*@
 
             @*//страхователь*@
             <div class="panel panel-success">
@@ -311,12 +345,33 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 @risk.BaseTarif
                             </td>
                             <td>
-                                <small>
-                                    @risk.FactorsDescr
-                                </small>
-                                <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top"
-                                      title="Тип коэффициента: значение коэффициента (количество)">?</span>
+                                <!-- Single button -->
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        Добавить <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Программа A</a></li>
+                                        <li><a href="#">Программа B</a></li>
+                                        <li><a href="#">Программа C</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#" title="Авто/мотогонки, хоккей, зимние виды спорта (кроме горных лыж)">Авто/мотогонки...</a></li>
+                                        <li><a href="#" title="Горнолыжный и другие виды спорта">Горнолыжный и другие виды спорта</a></li>
+                                    </ul>
+                                </div>
 
+                                <div class="alert alert-warning alert-dismissible small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    Программа A
+                                </div>
+                                <div class="alert alert-warning alert-dismissible small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    Горнолыжный и другие виды спорта
+                                </div>
+             
+                                <div class="alert alert-success small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
+                                    Возрастной коэф
+                                </div>
                             </td>
                             <td>
                                 @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })
