@@ -199,6 +199,9 @@ namespace gTravel.Models
             }
             //#endregion
 
+            #region СкидкиНадбавки
+            #endregion
+
             db.SaveChanges();
 
             return true;

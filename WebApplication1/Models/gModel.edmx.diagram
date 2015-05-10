@@ -71,6 +71,9 @@
         <EntityTypeShape EntityType="goDbModel.AgentSeria" Width="1.5" PointX="23.375" PointY="2.5" />
         <AssociationConnector Association="goDbModel.FK_AgentSeria_Toseria" />
         <EntityTypeShape EntityType="goDbModel.v_agentseria" Width="1.5" PointX="20.375" PointY="0.75" />
+        <EntityTypeShape EntityType="goDbModel.ContractFactor" Width="1.5" PointX="17.375" PointY="13.75" />
+        <EntityTypeShape EntityType="goDbModel.TerritoryGrp" Width="1.5" PointX="17.375" PointY="10.875" />
+        <AssociationConnector Association="goDbModel.FK_AgentSeria_ToTerritoryGrp" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

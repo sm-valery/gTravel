@@ -271,6 +271,9 @@
     <Compile Include="Models\ContractCondition.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ContractFactor.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ContractRisk.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -351,6 +354,9 @@
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Territory.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TerritoryGrp.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\v_agentseria.cs">
@@ -646,6 +652,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Contract\ContractTo.cshtml" />
+    <Content Include="Views\Contract\_bonus_btn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

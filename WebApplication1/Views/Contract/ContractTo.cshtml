@@ -345,22 +345,12 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 @risk.BaseTarif
                             </td>
                             <td>
-                                <!-- Single button -->
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        Добавить <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Программа A</a></li>
-                                        <li><a href="#">Программа B</a></li>
-                                        <li><a href="#">Программа C</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#" title="Авто/мотогонки, хоккей, зимние виды спорта (кроме горных лыж)">Авто/мотогонки...</a></li>
-                                        <li><a href="#" title="Горнолыжный и другие виды спорта">Горнолыжный и другие виды спорта</a></li>
-                                    </ul>
-                                </div>
+                                @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid  = risk.RiskId})
+                           
+                                <span>
 
-                                <div class="alert alert-warning alert-dismissible small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
+                                </span>
+                                @*<div class="alert alert-warning alert-dismissible small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     Программа A
                                 </div>
@@ -371,7 +361,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
              
                                 <div class="alert alert-success small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
                                     Возрастной коэф
-                                </div>
+                                </div>*@
                             </td>
                             <td>
                                 @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })

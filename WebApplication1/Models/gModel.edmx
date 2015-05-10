@@ -28,6 +28,7 @@
           <Property Name="AgentSeria" Type="uniqueidentifier" Nullable="false" />
           <Property Name="AgentId" Type="uniqueidentifier" />
           <Property Name="SeriaId" Type="uniqueidentifier" />
+          <Property Name="TerritoryGrpId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="AgentUser">
           <Key>
@@ -164,6 +165,13 @@
           <Property Name="Val_l" Type="bit" />
           <Property Name="Val_d" Type="date" />
           <Property Name="num" Type="int" />
+        </EntityType>
+        <EntityType Name="ContractFactor">
+          <Key>
+            <PropertyRef Name="ContractFactorId" />
+          </Key>
+          <Property Name="ContractFactorId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IdFactor" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="ContractRisk">
           <Key>
@@ -328,6 +336,15 @@
           </Key>
           <Property Name="TerritoryId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="512" />
+          <Property Name="TerritoryGrpId" Type="uniqueidentifier" />
+          <Property Name="ParentId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="TerritoryGrp">
+          <Key>
+            <PropertyRef Name="TerritoryGrpId" />
+          </Key>
+          <Property Name="TerritoryGrpId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="nchar" MaxLength="20" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_agentseria' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -504,6 +521,18 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
             </Principal>
             <Dependent Role="AgentSeria">
               <PropertyRef Name="SeriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentSeria_ToTerritoryGrp">
+          <End Role="TerritoryGrp" Type="Self.TerritoryGrp" Multiplicity="0..1" />
+          <End Role="AgentSeria" Type="Self.AgentSeria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TerritoryGrp">
+              <PropertyRef Name="TerritoryGrpId" />
+            </Principal>
+            <Dependent Role="AgentSeria">
+              <PropertyRef Name="TerritoryGrpId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -880,6 +909,7 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contract_territory" EntityType="Self.Contract_territory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractCondition" EntityType="Self.ContractCondition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractFactor" EntityType="Self.ContractFactor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractRisk" EntityType="Self.ContractRisk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractStatus" EntityType="Self.ContractStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurRate" EntityType="Self.CurRate" Schema="dbo" store:Type="Tables" />
@@ -895,6 +925,7 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tarif" EntityType="Self.Tarif" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Territory" EntityType="Self.Territory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TerritoryGrp" EntityType="Self.TerritoryGrp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="v_agentseria" EntityType="Self.v_agentseria" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [v_agentseria].[AgentId] AS [AgentId], 
@@ -1030,6 +1061,10 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           </EntitySet>
           <AssociationSet Name="FK_AgentSeria_Toseria" Association="Self.FK_AgentSeria_Toseria">
             <End Role="seria" EntitySet="seria" />
+            <End Role="AgentSeria" EntitySet="AgentSeria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentSeria_ToTerritoryGrp" Association="Self.FK_AgentSeria_ToTerritoryGrp">
+            <End Role="TerritoryGrp" EntitySet="TerritoryGrp" />
             <End Role="AgentSeria" EntitySet="AgentSeria" />
           </AssociationSet>
           <AssociationSet Name="FK_AgentUser_ToTable" Association="Self.FK_AgentUser_ToTable">
@@ -1312,6 +1347,12 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
             <End Role="AgentSeria" EntitySet="AgentSerias" />
           </AssociationSet>
           <EntitySet Name="v_agentseria" EntityType="goDbModel.v_agentseria" />
+          <EntitySet Name="ContractFactors" EntityType="goDbModel.ContractFactor" />
+          <EntitySet Name="TerritoryGrps" EntityType="goDbModel.TerritoryGrp" />
+          <AssociationSet Name="FK_AgentSeria_ToTerritoryGrp" Association="goDbModel.FK_AgentSeria_ToTerritoryGrp">
+            <End Role="TerritoryGrp" EntitySet="TerritoryGrps" />
+            <End Role="AgentSeria" EntitySet="AgentSerias" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -1559,6 +1600,8 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <Property Name="Name" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Contract_territory" Relationship="goDbModel.FK_Contract_territory_ToTerritory" FromRole="Territory" ToRole="Contract_territory" />
           <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToTerritory" FromRole="Territory" ToRole="Tarif" />
+          <Property Name="TerritoryGrpId" Type="Guid" />
+          <Property Name="ParentId" Type="Guid" />
         </EntityType>
         <EntityType Name="v_contract">
           <Key>
@@ -2227,6 +2270,8 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <Property Name="AgentId" Type="Guid" />
           <Property Name="SeriaId" Type="Guid" />
           <NavigationProperty Name="seria" Relationship="goDbModel.FK_AgentSeria_Toseria" FromRole="AgentSeria" ToRole="seria" />
+          <Property Name="TerritoryGrpId" Type="Guid" />
+          <NavigationProperty Name="TerritoryGrp" Relationship="goDbModel.FK_AgentSeria_ToTerritoryGrp" FromRole="AgentSeria" ToRole="TerritoryGrp" />
         </EntityType>
         <Association Name="FK_AgentSeria_Toseria">
           <End Type="goDbModel.seria" Role="seria" Multiplicity="0..1" />
@@ -2257,6 +2302,33 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <Property Name="PrintFunction" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="ContractFactor">
+          <Key>
+            <PropertyRef Name="ContractFactorId" />
+          </Key>
+          <Property Name="ContractFactorId" Type="Guid" Nullable="false" />
+          <Property Name="IdFactor" Type="Guid" />
+        </EntityType>
+        <EntityType Name="TerritoryGrp">
+          <Key>
+            <PropertyRef Name="TerritoryGrpId" />
+          </Key>
+          <Property Name="TerritoryGrpId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="AgentSerias" Relationship="goDbModel.FK_AgentSeria_ToTerritoryGrp" FromRole="TerritoryGrp" ToRole="AgentSeria" />
+        </EntityType>
+        <Association Name="FK_AgentSeria_ToTerritoryGrp">
+          <End Type="goDbModel.TerritoryGrp" Role="TerritoryGrp" Multiplicity="0..1" />
+          <End Type="goDbModel.AgentSeria" Role="AgentSeria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TerritoryGrp">
+              <PropertyRef Name="TerritoryGrpId" />
+            </Principal>
+            <Dependent Role="AgentSeria">
+              <PropertyRef Name="TerritoryGrpId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2429,6 +2501,8 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <EntitySetMapping Name="Territories">
             <EntityTypeMapping TypeName="goDbModel.Territory">
               <MappingFragment StoreEntitySet="Territory">
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="TerritoryGrpId" ColumnName="TerritoryGrpId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
               </MappingFragment>
@@ -2753,6 +2827,7 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <EntitySetMapping Name="AgentSerias">
             <EntityTypeMapping TypeName="goDbModel.AgentSeria">
               <MappingFragment StoreEntitySet="AgentSeria">
+                <ScalarProperty Name="TerritoryGrpId" ColumnName="TerritoryGrpId" />
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="AgentSeria1" ColumnName="AgentSeria" />
@@ -2774,6 +2849,22 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractFactors">
+            <EntityTypeMapping TypeName="goDbModel.ContractFactor">
+              <MappingFragment StoreEntitySet="ContractFactor">
+                <ScalarProperty Name="IdFactor" ColumnName="IdFactor" />
+                <ScalarProperty Name="ContractFactorId" ColumnName="ContractFactorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TerritoryGrps">
+            <EntityTypeMapping TypeName="goDbModel.TerritoryGrp">
+              <MappingFragment StoreEntitySet="TerritoryGrp">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="TerritoryGrpId" ColumnName="TerritoryGrpId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -112,6 +112,14 @@ namespace gTravel.Controllers
             return PartialView(available_serias);
         }
 
+        public ActionResult _bonus_btn(Guid seriaid, Guid riskid)
+        {
+
+            var fs = db.Factors.Where(x => x.SeriaId == seriaid && x.RiskId == riskid);
+
+            return PartialView(fs.ToList());
+        }
+
         private void Contract_ini(Guid contract_id)
         {
             ViewBag.currency = new SelectList(db.Currencies.ToList(), "currencyid", "code");
@@ -122,6 +130,9 @@ namespace gTravel.Controllers
                 new SelectListItem(){Text="За весь период", Value="1"},
                 new SelectListItem(){Text="за одну поездку",Value="2"}
             }, "Value", "Text");
+
+
+
 
         }
 
@@ -731,8 +742,6 @@ namespace gTravel.Controllers
             c.ContractConditions = c.ContractConditions.OrderBy(o => o.num).ToList();
 
             ViewBag.terr_count = c.Contract_territory.Count();
-
-
 
             Contract_ini(c.ContractId);
 

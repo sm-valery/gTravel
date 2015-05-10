@@ -22,6 +22,8 @@ namespace gTravel.Models
     
         public System.Guid TerritoryId { get; set; }
         public string Name { get; set; }
+        public Nullable<System.Guid> TerritoryGrpId { get; set; }
+        public Nullable<System.Guid> ParentId { get; set; }
     
         public virtual ICollection<Contract_territory> Contract_territory { get; set; }
         public virtual ICollection<Tarif> Tarifs { get; set; }
