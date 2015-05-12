@@ -185,10 +185,16 @@ border-bottom: 1px dotted;
 
 
 .frm-discounts{
-    background-color:antiquewhite;
 }
 
 
-.risk_bonus_content{
-    background-color:antiquewhite;
+.risk_bonus_content {
+    margin-top:5px;
+}
+.risk_bonus_content .alert{
+    font-size: x-small;
+    margin: 0;
+    padding-top:5px;
+    padding-bottom:5px;
+    padding-left:2px;
 }

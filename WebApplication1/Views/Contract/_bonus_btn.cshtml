@@ -14,8 +14,15 @@
             <ul class="dropdown-menu" role="menu">
                 @foreach (var item in Model)
                 {
+                    if (item.FactorType == "separator ")
+                    {
+                        <li class="divider"></li>
+                    }
+                    else
+                    {
+                        <li><a id="@item.IdFactor" href="#">@item.Name</a></li>
+                    }
 
-                    <li><a id="@item.IdFactor" href="#">@item.Name</a></li>
 
                     @*<li><a href="#">Программа A</a></li>
                         <li><a href="#">Программа B</a></li>
@@ -28,7 +35,7 @@
             </ul>
         </div>
 
-        <div class="risk_bonus_content">
+        <div  class="risk_bonus_content">
             @Html.Action("_bonus_list", "Contract", new { riskid = risk.RiskId, contractid = (Guid)ViewBag.contractid })
         </div>
 

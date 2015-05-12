@@ -3,7 +3,13 @@
 @foreach (var item in Model)
 {
 
-    <div class="alert alert-info">@item.Factor.Name (@Html.DisplayFor(x=>item.Val_n))</div>
+    <div  class="alert alert-info alert-dismissible" id="alert_@item.ContractFactorId">
+    
+        <button  type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+
+    @item.Factor.Name (@Html.DisplayFor(x => item.Val_n))</div>
 }
 
 

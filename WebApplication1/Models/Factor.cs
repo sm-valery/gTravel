@@ -28,6 +28,7 @@ namespace gTravel.Models
         public Nullable<System.Guid> RiskId { get; set; }
         public string Name { get; set; }
         public Nullable<int> SingleItemInGroup { get; set; }
+        public Nullable<int> Position { get; set; }
     
         public virtual ICollection<ContractFactor> ContractFactors { get; set; }
     }

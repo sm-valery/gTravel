@@ -438,6 +438,34 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
 
 <script type="text/javascript">
+    function bind_bonus() {
+        $('.alert-dismissible').on('close.bs.alert', function () {
+
+            var xpos = $(this).offset();
+
+            var contractfactor_id = $(this).attr('id').toString().replace('alert_', '');
+            var riskobj = $(this).parent().parent();
+            //var risk_id = riskobj.attr('id').toString().replace('risk_bonus_', '');
+
+            $.ajax({
+                url: '@Url.Action("_dellbonusRow", "Contract")',
+                type: "GET",
+                data: { contractfactorid: contractfactor_id },
+                beforeSend: function () {
+                    $("#insured_add img").offset(xpos);
+                    $("#insured_add img").show();
+                },
+                success: function (data) {
+
+                    riskobj.children(".risk_bonus_content").html(data);
+                    bind_bonus();
+                }
+            }).done(function () {
+                $("#insured_add img").hide();
+            });
+
+        });
+    }
 
     $(function () {
 
@@ -456,7 +484,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     alert(error);
                 },
                 beforeSend: function () {
-                   // $("#insured_add img").offset(xpos);
+                    // $("#insured_add img").offset(xpos);
                     $("#insured_add img").show();
                 },
                 success: function (data) {
@@ -514,9 +542,9 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
                 var factor_id = $(this).attr("id");
 
-                var riskobj = $(this).parent().parent().parent().parent(); 
+                var riskobj = $(this).parent().parent().parent().parent();
 
-                var risk_id =riskobj.attr("id").toString().replace('risk_bonus_', '');
+                var risk_id = riskobj.attr("id").toString().replace('risk_bonus_', '');
 
                 $.ajax({
                     url: '@Url.Action("_addbonusRow", "Contract")',
@@ -529,7 +557,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     success: function (data) {
 
                         riskobj.children(".risk_bonus_content").html(data);
-
+                        bind_bonus();
                     }
                 }).done(function () {
                     $("#insured_add img").hide();
@@ -537,8 +565,10 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
                 e.preventDefault();
             })
-        })
-        //показать ошибки
+        });@*скидки*@
+
+        bind_bonus();
+
 
     })
 </script>

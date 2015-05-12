@@ -116,7 +116,7 @@ namespace gTravel.Controllers
         public ActionResult _bonus_btn(Guid seriaid, Guid riskid, Guid contractid)
         {
 
-            var fs = db.Factors.Where(x => x.SeriaId == seriaid && x.RiskId == riskid);
+            var fs = db.Factors.Where(x => x.SeriaId == seriaid && x.RiskId == riskid).OrderBy(o=>o.Position);
 
             ViewBag.contractid = contractid;
 
@@ -174,6 +174,23 @@ namespace gTravel.Controllers
             return PartialView("_bonus_list", db.ContractFactors.Where(x => x.ContractId == contractid).OrderBy(o => o.Position).ToList());
 
            // return PartialView(db.ContractFactors.Where(x=>x.ContractId==contractid).ToList());
+        }
+
+        public PartialViewResult _dellbonusRow(Guid contractfactorid)
+        {
+            Guid contract_id;
+            var cvdell = db.ContractFactors.FirstOrDefault(x => x.ContractFactorId == contractfactorid);
+            if (cvdell == null)
+                return null;
+
+            contract_id = cvdell.ContractId.Value;
+
+            db.ContractFactors.Remove(cvdell);
+            db.SaveChanges();
+
+
+            return PartialView("_bonus_list", db.ContractFactors.Where(x => x.ContractId == contract_id).OrderBy(o => o.Position).ToList());
+
         }
 
         public PartialViewResult _bonus_list(Guid riskid, Guid contractid)
