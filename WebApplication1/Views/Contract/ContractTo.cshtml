@@ -345,11 +345,11 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 @risk.BaseTarif
                             </td>
                             <td>
-                                @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid  = risk.RiskId})
-                           
-                                <span>
+                                @*Скидки*@
 
-                                </span>
+                                @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid  = risk.RiskId, contractid = Model.ContractId})
+                           
+            
                                 @*<div class="alert alert-warning alert-dismissible small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     Программа A
@@ -438,10 +438,13 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
 
 <script type="text/javascript">
+
     $(function () {
 
         //добавить застрахованного
         $("#insured_add").click(function (e) {
+
+           // var xpos = $(this).offset();
 
             var indx = $("#insdtable tbody tr").length;
 
@@ -453,6 +456,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     alert(error);
                 },
                 beforeSend: function () {
+                   // $("#insured_add img").offset(xpos);
                     $("#insured_add img").show();
                 },
                 success: function (data) {
@@ -483,7 +487,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
             e.preventDefault();
         });
 
-        //изменение типа страхователя
+        @* ////изменение типа страхователя*@
         $("input[name='Subject.Type']").change(function () {
 
             var stype = $(this).val();
@@ -501,6 +505,39 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
         });
 
 
+        @*Скидки*@
+        $(function () {
+
+            $(".frm-discounts a").click(function (e) {
+
+                var xpos = $(this).offset();
+
+                var factor_id = $(this).attr("id");
+
+                var riskobj = $(this).parent().parent().parent().parent(); 
+
+                var risk_id =riskobj.attr("id").toString().replace('risk_bonus_', '');
+
+                $.ajax({
+                    url: '@Url.Action("_addbonusRow", "Contract")',
+                    type: 'GET',
+                    data: { factorid: factor_id, riskid: risk_id, contractid: '@Model.ContractId' },
+                    beforeSend: function () {
+                        $("#insured_add img").offset(xpos);
+                        $("#insured_add img").show();
+                    },
+                    success: function (data) {
+
+                        riskobj.children(".risk_bonus_content").html(data);
+
+                    }
+                }).done(function () {
+                    $("#insured_add img").hide();
+                });
+
+                e.preventDefault();
+            })
+        })
         //показать ошибки
 
     })

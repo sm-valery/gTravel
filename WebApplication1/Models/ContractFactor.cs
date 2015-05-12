@@ -16,5 +16,11 @@ namespace gTravel.Models
     {
         public System.Guid ContractFactorId { get; set; }
         public Nullable<System.Guid> IdFactor { get; set; }
+        public Nullable<System.Guid> ContractId { get; set; }
+        public Nullable<decimal> Val_n { get; set; }
+        public Nullable<int> Position { get; set; }
+    
+        public virtual Contract Contract { get; set; }
+        public virtual Factor Factor { get; set; }
     }
 }

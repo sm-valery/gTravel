@@ -1,0 +1,9 @@
+﻿@model IEnumerable<gTravel.Models.ContractFactor>
+
+@foreach (var item in Model)
+{
+
+    <div class="alert alert-info">@item.Factor.Name (@Html.DisplayFor(x=>item.Val_n))</div>
+}
+
+

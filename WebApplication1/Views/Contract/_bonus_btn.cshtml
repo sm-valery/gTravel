@@ -1,29 +1,37 @@
 ﻿@model IEnumerable<gTravel.Models.Factor>
-
 @if(Model.Count()>0)
 {
- 
-<!-- Single button -->
-<div class="btn-group">
-    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-        Добавить <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-        @foreach (var item in Model)
-        {
+    var risk = Model.FirstOrDefault();
+    
+    
+    <!-- Single button -->
+    <div id="risk_bonus_@risk.RiskId">
 
-            <li><a href="#">@item.FactorType</a></li>
+        <div class="btn-group frm-discounts">
+            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                Добавить <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                @foreach (var item in Model)
+                {
 
-            @*<li><a href="#">Программа A</a></li>
-            <li><a href="#">Программа B</a></li>
-            <li><a href="#">Программа C</a></li>
-            <li class="divider"></li>
-            <li><a href="#" title="Авто/мотогонки, хоккей, зимние виды спорта (кроме горных лыж)">Авто/мотогонки...</a></li>
-            <li><a href="#" title="Горнолыжный и другие виды спорта">Горнолыжный и другие виды спорта</a></li>*@
+                    <li><a id="@item.IdFactor" href="#">@item.Name</a></li>
 
-        }
-    </ul>
+                    @*<li><a href="#">Программа A</a></li>
+                        <li><a href="#">Программа B</a></li>
+                        <li><a href="#">Программа C</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#" title="Авто/мотогонки, хоккей, зимние виды спорта (кроме горных лыж)">Авто/мотогонки...</a></li>
+                        <li><a href="#" title="Горнолыжный и другие виды спорта">Горнолыжный и другие виды спорта</a></li>*@
 
-</div>
-       
+                }
+            </ul>
+        </div>
+
+        <div class="risk_bonus_content">
+            @Html.Action("_bonus_list", "Contract", new { riskid = risk.RiskId, contractid = (Guid)ViewBag.contractid })
+        </div>
+
+    </div>
 }
+

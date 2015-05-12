@@ -653,6 +653,8 @@
     </Content>
     <Content Include="Views\Contract\ContractTo.cshtml" />
     <Content Include="Views\Contract\_bonus_btn.cshtml" />
+    <Content Include="Views\Contract\_addbonusRow.cshtml" />
+    <Content Include="Views\Contract\_bonus_list.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

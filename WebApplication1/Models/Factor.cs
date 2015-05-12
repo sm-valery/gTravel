@@ -14,6 +14,11 @@ namespace gTravel.Models
     
     public partial class Factor
     {
+        public Factor()
+        {
+            this.ContractFactors = new HashSet<ContractFactor>();
+        }
+    
         public System.Guid IdFactor { get; set; }
         public string FactorType { get; set; }
         public Nullable<decimal> Factor1 { get; set; }
@@ -21,5 +26,9 @@ namespace gTravel.Models
         public Nullable<decimal> ValueTo { get; set; }
         public Nullable<System.Guid> SeriaId { get; set; }
         public Nullable<System.Guid> RiskId { get; set; }
+        public string Name { get; set; }
+        public Nullable<int> SingleItemInGroup { get; set; }
+    
+        public virtual ICollection<ContractFactor> ContractFactors { get; set; }
     }
 }

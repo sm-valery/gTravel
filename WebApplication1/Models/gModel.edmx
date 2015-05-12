@@ -172,6 +172,9 @@
           </Key>
           <Property Name="ContractFactorId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IdFactor" Type="uniqueidentifier" />
+          <Property Name="ContractId" Type="uniqueidentifier" />
+          <Property Name="Val_n" Type="numeric" Precision="10" Scale="4" />
+          <Property Name="Position" Type="int" />
         </EntityType>
         <EntityType Name="ContractRisk">
           <Key>
@@ -227,6 +230,8 @@
           <Property Name="ValueTo" Type="numeric" Precision="18" Scale="0" />
           <Property Name="SeriaId" Type="uniqueidentifier" />
           <Property Name="RiskId" Type="uniqueidentifier" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="SingleItemInGroup" Type="int" />
         </EntityType>
         <EntityType Name="import_settings">
           <Key>
@@ -347,7 +352,7 @@
           <Property Name="Code" Type="nchar" MaxLength="20" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_agentseria' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_agentseria' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_agentseria">
           <Key>
             <PropertyRef Name="SeriaId" />
@@ -366,7 +371,7 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -378,7 +383,7 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <Property Name="contractcount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero_new">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -401,7 +406,7 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <Property Name="agentname" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -437,7 +442,7 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <Property Name="PrintFunction" Type="varchar" MaxLength="128" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_ag">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -464,7 +469,7 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_history">
           <Key>
             <PropertyRef Name="ContractStatusId" />
@@ -479,7 +484,7 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_risk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_risk' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_risk">
           <Key>
             <PropertyRef Name="ContractRiskId" />
@@ -499,7 +504,7 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <Property Name="isMandatory" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_importlog">
           <Key>
             <PropertyRef Name="ImportLogId" />
@@ -665,6 +670,30 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
             </Principal>
             <Dependent Role="Contract">
               <PropertyRef Name="seriaid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractFactor_To">
+          <End Role="Factors" Type="Self.Factors" Multiplicity="0..1" />
+          <End Role="ContractFactor" Type="Self.ContractFactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Factors">
+              <PropertyRef Name="IdFactor" />
+            </Principal>
+            <Dependent Role="ContractFactor">
+              <PropertyRef Name="IdFactor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractFactor_ToContract">
+          <End Role="Contract" Type="Self.Contract" Multiplicity="0..1" />
+          <End Role="ContractFactor" Type="Self.ContractFactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="ContractId" />
+            </Principal>
+            <Dependent Role="ContractFactor">
+              <PropertyRef Name="ContractId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1111,6 +1140,14 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
             <End Role="seria" EntitySet="seria" />
             <End Role="Contract" EntitySet="Contract" />
           </AssociationSet>
+          <AssociationSet Name="FK_ContractFactor_To" Association="Self.FK_ContractFactor_To">
+            <End Role="Factors" EntitySet="Factors" />
+            <End Role="ContractFactor" EntitySet="ContractFactor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractFactor_ToContract" Association="Self.FK_ContractFactor_ToContract">
+            <End Role="Contract" EntitySet="Contract" />
+            <End Role="ContractFactor" EntitySet="ContractFactor" />
+          </AssociationSet>
           <AssociationSet Name="FK_ContractRisk_ToContract" Association="Self.FK_ContractRisk_ToContract">
             <End Role="Contract" EntitySet="Contract" />
             <End Role="ContractRisk" EntitySet="ContractRisk" />
@@ -1352,6 +1389,14 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <AssociationSet Name="FK_AgentSeria_ToTerritoryGrp" Association="goDbModel.FK_AgentSeria_ToTerritoryGrp">
             <End Role="TerritoryGrp" EntitySet="TerritoryGrps" />
             <End Role="AgentSeria" EntitySet="AgentSerias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractFactor_ToTable" Association="goDbModel.FK_ContractFactor_ToTable">
+            <End Role="Contract" EntitySet="Contracts" />
+            <End Role="ContractFactor" EntitySet="ContractFactors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractFactor_To" Association="goDbModel.FK_ContractFactor_To">
+            <End Role="Factor" EntitySet="Factors" />
+            <End Role="ContractFactor" EntitySet="ContractFactors" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="ConditionSeria">
@@ -1719,6 +1764,7 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <NavigationProperty Name="ContractConditions" Relationship="goDbModel.FK_Table_ToContract" FromRole="Contract" ToRole="ContractCondition" />
           <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="seria" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="Contract" ToRole="seria" />
+          <NavigationProperty Name="ContractFactors" Relationship="goDbModel.FK_ContractFactor_ToTable" FromRole="Contract" ToRole="ContractFactor" />
         </EntityType>
         <Association Name="FK_Contract_AspNetUsers">
           <End Type="goDbModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
@@ -2261,6 +2307,9 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <Property Name="ValueTo" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="SeriaId" Type="Guid" />
           <Property Name="RiskId" Type="Guid" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SingleItemInGroup" Type="Int32" />
+          <NavigationProperty Name="ContractFactors" Relationship="goDbModel.FK_ContractFactor_To" FromRole="Factor" ToRole="ContractFactor" />
         </EntityType>
         <EntityType Name="AgentSeria">
           <Key>
@@ -2308,6 +2357,11 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           </Key>
           <Property Name="ContractFactorId" Type="Guid" Nullable="false" />
           <Property Name="IdFactor" Type="Guid" />
+          <Property Name="ContractId" Type="Guid" />
+          <Property Name="Val_n" Type="Decimal" Precision="10" Scale="4" />
+          <NavigationProperty Name="Contract" Relationship="goDbModel.FK_ContractFactor_ToTable" FromRole="ContractFactor" ToRole="Contract" />
+          <Property Name="Position" Type="Int32" />
+          <NavigationProperty Name="Factor" Relationship="goDbModel.FK_ContractFactor_To" FromRole="ContractFactor" ToRole="Factor" />
         </EntityType>
         <EntityType Name="TerritoryGrp">
           <Key>
@@ -2326,6 +2380,30 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
             </Principal>
             <Dependent Role="AgentSeria">
               <PropertyRef Name="TerritoryGrpId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractFactor_ToTable">
+          <End Type="goDbModel.Contract" Role="Contract" Multiplicity="0..1" />
+          <End Type="goDbModel.ContractFactor" Role="ContractFactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="ContractId" />
+            </Principal>
+            <Dependent Role="ContractFactor">
+              <PropertyRef Name="ContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractFactor_To">
+          <End Type="goDbModel.Factor" Role="Factor" Multiplicity="0..1" />
+          <End Type="goDbModel.ContractFactor" Role="ContractFactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Factor">
+              <PropertyRef Name="IdFactor" />
+            </Principal>
+            <Dependent Role="ContractFactor">
+              <PropertyRef Name="IdFactor" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2814,6 +2892,8 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <EntitySetMapping Name="Factors">
             <EntityTypeMapping TypeName="goDbModel.Factor">
               <MappingFragment StoreEntitySet="Factors">
+                <ScalarProperty Name="SingleItemInGroup" ColumnName="SingleItemInGroup" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="RiskId" ColumnName="RiskId" />
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
                 <ScalarProperty Name="ValueTo" ColumnName="ValueTo" />
@@ -2855,6 +2935,9 @@ warning 6002: The table/view 'C:\PROJECT\REPOSITORY\GTRAVEL\WEBAPPLICATION1\APP_
           <EntitySetMapping Name="ContractFactors">
             <EntityTypeMapping TypeName="goDbModel.ContractFactor">
               <MappingFragment StoreEntitySet="ContractFactor">
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Val_n" ColumnName="Val_n" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
                 <ScalarProperty Name="IdFactor" ColumnName="IdFactor" />
                 <ScalarProperty Name="ContractFactorId" ColumnName="ContractFactorId" />
               </MappingFragment>

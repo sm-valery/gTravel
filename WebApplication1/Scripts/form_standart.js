@@ -23,6 +23,9 @@
 
 $(function () {
 
+
+
+
     //если есть ошибки покаазываем окошко
     //validation-summary-errors
     if ($(".validation-summary-errors").length > 0) {

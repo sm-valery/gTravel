@@ -14,6 +14,7 @@ using PagedList;
 using System.Collections.Generic;
 
 using SelectPdf;
+using System.Text;
 
 
 namespace gTravel.Controllers
@@ -65,8 +66,8 @@ namespace gTravel.Controllers
 
 
             //TODO 27042015 добавить в таблицу seria поле PrintFunction добавить во вью
-            
-           
+
+
             if (clist != null)
             {
 
@@ -98,7 +99,7 @@ namespace gTravel.Controllers
 
         public PartialViewResult _mainMenuCreateContract()
         {
-     
+
             return PartialView(getAgentSeias());
         }
 
@@ -112,12 +113,74 @@ namespace gTravel.Controllers
             return PartialView(available_serias);
         }
 
-        public ActionResult _bonus_btn(Guid seriaid, Guid riskid)
+        public ActionResult _bonus_btn(Guid seriaid, Guid riskid, Guid contractid)
         {
 
             var fs = db.Factors.Where(x => x.SeriaId == seriaid && x.RiskId == riskid);
 
+            ViewBag.contractid = contractid;
+
             return PartialView(fs.ToList());
+        }
+
+        public PartialViewResult _addbonusRow(Guid factorid, Guid riskid, Guid contractid)
+        {
+            //это чтоб работало в ie, иначе ajax запросы будут кешироваться
+            Response.CacheControl = "no-cache";
+            Response.Cache.SetETag((Guid.NewGuid()).ToString());
+
+            if (db.ContractFactors.Any(x => x.ContractId == contractid && x.IdFactor == factorid))
+                return PartialView("_bonus_list", db.ContractFactors.Where(x => x.ContractId == contractid).OrderBy(o => o.Position).ToList());
+
+
+            var newfactor = db.Factors.SingleOrDefault(x => x.IdFactor == factorid);
+
+            bool isadd = true;
+
+
+
+            if (newfactor.SingleItemInGroup == 1)
+            {
+                var oldfact = db.ContractFactors.FirstOrDefault(x => x.Factor.FactorType==newfactor.FactorType && x.ContractId == contractid);
+                if (oldfact != null)
+                {
+                    oldfact.IdFactor = newfactor.IdFactor;
+                    oldfact.Val_n = newfactor.Factor1;
+
+                    db.Entry(oldfact).State = EntityState.Modified;
+
+                    db.SaveChanges();
+                    isadd = false;
+                }
+            }
+
+            if (isadd)
+            {
+                var num = db.ContractFactors.Count(x => x.ContractId == contractid);
+
+                var cfnew = new ContractFactor();
+                cfnew.ContractFactorId = Guid.NewGuid();
+                cfnew.IdFactor = newfactor.IdFactor;
+                cfnew.ContractId = contractid;
+                cfnew.Val_n = newfactor.Factor1;
+                cfnew.Position = num++;
+
+                db.ContractFactors.Add(cfnew);
+
+                db.SaveChanges();
+            }
+
+
+            return PartialView("_bonus_list", db.ContractFactors.Where(x => x.ContractId == contractid).OrderBy(o => o.Position).ToList());
+
+           // return PartialView(db.ContractFactors.Where(x=>x.ContractId==contractid).ToList());
+        }
+
+        public PartialViewResult _bonus_list(Guid riskid, Guid contractid)
+        {
+
+            return PartialView(db.ContractFactors.Where(x => x.ContractId == contractid).OrderBy(o=>o.Position).ToList());
+
         }
 
         private void Contract_ini(Guid contract_id)
@@ -205,7 +268,7 @@ namespace gTravel.Controllers
 
             if (caction == "confirm")
             {
-                if (c.date_diff<=0)
+                if (c.date_diff <= 0)
                     ModelState.AddModelError(string.Empty, "Период задан не верно!");
 
                 if (!c.date_begin.HasValue)
@@ -237,7 +300,7 @@ namespace gTravel.Controllers
                 }
 
                 if (caction != "confirm")
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
             }
             Contract_ini(c.ContractId);
 
@@ -462,29 +525,29 @@ namespace gTravel.Controllers
             return CalcSubjectsPremium(subjects, seriaid, sum, curdate, new List<factorgrp> { });
         }
 
-        private decimal getXtrimFactor(IEnumerable<ContractCondition> conds,Guid seriaid,
+        private decimal getXtrimFactor(IEnumerable<ContractCondition> conds, Guid seriaid,
             List<factorgrp> factor_descr)
         {
-            decimal fct=1;
+            decimal fct = 1;
             var dbextrim = db.Conditions.FirstOrDefault(x => x.Code == "extrim");
 
-            if(dbextrim!=null)
+            if (dbextrim != null)
             {
                 var cextrim = conds.FirstOrDefault(x => x.ConditionId == dbextrim.ConditionId);
-                if(cextrim!=null && cextrim.Val_c=="on")
+                if (cextrim != null && cextrim.Val_c == "on")
                 {
-                   var vfct = db.Factors.FirstOrDefault(x => x.FactorType == "extrim" && x.SeriaId==seriaid);
-                   if (vfct != null)
-                   {
-                       fct = vfct.Factor1.Value;
-                       factor_descr.Add(new factorgrp { ftype = "экстрим", fvalue = fct.ToString() });
-                   }
-                       
+                    var vfct = db.Factors.FirstOrDefault(x => x.FactorType == "extrim" && x.SeriaId == seriaid);
+                    if (vfct != null)
+                    {
+                        fct = vfct.Factor1.Value;
+                        factor_descr.Add(new factorgrp { ftype = "экстрим", fvalue = fct.ToString() });
+                    }
+
                 }
             }
 
 
-           
+
 
             return fct;
         }
@@ -495,7 +558,7 @@ namespace gTravel.Controllers
 
             decimal date_diff = (decimal)c.date_diff;
 
-           
+
             try
             {
 
@@ -508,7 +571,7 @@ namespace gTravel.Controllers
                 //валидация
                 foreach (var s in c.Subjects)
                 {
-            
+
 
                     if (!s.DateOfBirth.HasValue)
                     {
@@ -532,7 +595,7 @@ namespace gTravel.Controllers
                              tr.RiskId == crisk.RiskId
                              select tr).FirstOrDefault();
 
-                 
+
                     if (t != null && ret)
                     {
                         crisk.BaseTarif = (decimal)t.PremSum;
@@ -540,7 +603,7 @@ namespace gTravel.Controllers
 
                         List<factorgrp> factor_descr = new List<factorgrp>();
 
-                        riskprem = riskprem * getXtrimFactor(c.ContractConditions,c.seriaid, factor_descr);
+                        riskprem = riskprem * getXtrimFactor(c.ContractConditions, c.seriaid, factor_descr);
 
                         crisk.InsPrem = CalcSubjectsPremium(c.Subjects, c.seriaid, riskprem, c.date_out.Value, factor_descr);
                         crisk.InsFee = CalcSubjectsPremium(c.Subjects, c.seriaid, (decimal)t.InsFee * (decimal)c.date_diff, c.date_out.Value);
@@ -548,14 +611,17 @@ namespace gTravel.Controllers
 
                         //TODO 27042015 добавить поле FactorsDescr в таблицу [ContractRisk]
                         var fgrp = from n in factor_descr
-                                   group n by new {t= n.ftype, v =n.fvalue} into g
-                                   select new factorgrp {ftype = g.Key.t, fvalue =g.Key.v, qnt= g.Count()};
-                                  
-                        foreach(var f in fgrp)
+                                   group n by new { t = n.ftype, v = n.fvalue } into g
+                                   select new factorgrp { ftype = g.Key.t, fvalue = g.Key.v, qnt = g.Count() };
+
+                        StringBuilder fdescr = new StringBuilder();
+
+                        foreach (var f in fgrp)
                         {
-                            crisk.FactorsDescr += string.Format("{0}: {1}({2}); ",f.ftype,f.fvalue,f.qnt);
+                            fdescr.AppendFormat("{0}: {1}({2}); ", f.ftype, f.fvalue, f.qnt);
+                            //crisk.FactorsDescr += string.Format("{0}: {1}({2}); ",f.ftype,f.fvalue,f.qnt);
                         }
-                        
+                        crisk.FactorsDescr = fdescr.ToString();
 
                         //crisk.BaseTarif = (decimal)t.PremSum;
                         //dcount = (decimal)(c.date_diff * c.Subjects.Count());
@@ -616,7 +682,7 @@ namespace gTravel.Controllers
             #endregion
 
             #region застрахованные
-            
+
 
             foreach (var s in c.Subjects)
             {
@@ -624,7 +690,7 @@ namespace gTravel.Controllers
                 //если -1 значит строка удалена
                 if (s.num != -1)
                     db.Entry(s).State = EntityState.Modified;
-   
+
             }
             #endregion
 
@@ -1209,17 +1275,29 @@ namespace gTravel.Controllers
 
         public ActionResult _ConditionsAddRefs(string condcode, string addcode)
         {
-            string content = string.Format("<datalist id='{0}'>", condcode.Trim() + addcode.Trim());
+            StringBuilder content = new StringBuilder();
 
+            content.AppendFormat("<datalist id='{0}'>", condcode.Trim() + addcode.Trim());
             var addr = db.AddRefs.Where(x => x.Code == addcode).OrderBy(o => o.OrderNum);
+
             foreach (var itm in addr)
             {
-                content += "<option>" + itm.Value + "</option>";
+                content.Append("<option>" + itm.Value + "</option>");
             }
+            content.Append("</datalist>");
 
-            content += "</datalist>";
+            return Content(content.ToString());
+            //string content = string.Format("<datalist id='{0}'>", condcode.Trim() + addcode.Trim());
 
-            return Content(content);
+            //var addr = db.AddRefs.Where(x => x.Code == addcode).OrderBy(o => o.OrderNum);
+            //foreach (var itm in addr)
+            //{
+            //    content += "<option>" + itm.Value + "</option>";
+            //}
+
+            //content += "</datalist>";
+
+            //return Content(content);
         }
 
         [Authorize(Roles = @"Admin")]
@@ -1276,12 +1354,12 @@ namespace gTravel.Controllers
 
             //var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
 
-          
+
 
             ////pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Landscape;
             //pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
             //pdfgen.Size = NReco.PdfGenerator.PageSize.A4;
-            
+
             //var pdfBytes = pdfgen.GeneratePdf(htmlContent);
 
             //Response.Clear();
@@ -1373,7 +1451,7 @@ namespace gTravel.Controllers
 
             var htmlContent = RenderRazorViewToString("printag", model);
 
-  
+
 
             HtmlToPdf converter = new HtmlToPdf();
 
