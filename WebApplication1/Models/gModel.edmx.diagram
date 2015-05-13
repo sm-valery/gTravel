@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="goDbModel.ContractCondition" Width="2.875" PointX="5.75" PointY="4.125" />
         <EntityTypeShape EntityType="goDbModel.Subject" Width="1.5" PointX="10.125" PointY="10.875" />
         <EntityTypeShape EntityType="goDbModel.Status" Width="1.5" PointX="2.375" PointY="9.375" />
-        <EntityTypeShape EntityType="goDbModel.RiskSeria" Width="1.5" PointX="14.375" PointY="5" />
+        <EntityTypeShape EntityType="goDbModel.RiskSeria" Width="2.25" PointX="13.625" PointY="5" />
         <EntityTypeShape EntityType="goDbModel.Contract_territory" Width="1.5" PointX="2.375" PointY="3.875" />
         <EntityTypeShape EntityType="goDbModel.Risk" Width="1.5" PointX="14.625" PointY="0.5" />
         <AssociationConnector Association="goDbModel.FK_RiskSeria_ToRisk" />

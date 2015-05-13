@@ -24,6 +24,8 @@ namespace gTravel.Models
         public Nullable<decimal> InsPremRur { get; set; }
         public Nullable<int> sort { get; set; }
         public string FactorsDescr { get; set; }
+        public bool isMandatory { get; set; }
+        public bool ischecked { get; set; }
     
         public virtual Risk Risk { get; set; }
         public virtual Contract Contract { get; set; }

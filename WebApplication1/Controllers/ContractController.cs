@@ -350,6 +350,92 @@ namespace gTravel.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public ActionResult ContractTo(Contract c, string caction = "save")
+        {
+            List<string> ErrMess = new List<string>();
+
+            //очистить застрахованных от удаленных
+            c.SubjectClearDeleted();
+
+            c.db = db;
+            c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
+
+            //пересчет
+            bool isCalculated = ContractRecalc(c, ErrMess);
+
+            if (caction == "recalc" || caction == "confirm")
+            {
+                if (!isCalculated)
+                {
+                    foreach (var e in ErrMess)
+                        ModelState.AddModelError(string.Empty, e);
+                }
+            }
+
+            if (caction == "confirm")
+            {
+                if (c.date_diff <= 0)
+                    ModelState.AddModelError(string.Empty, "Период задан не верно!");
+
+                if (!c.date_begin.HasValue)
+                    ModelState.AddModelError(string.Empty, "Дата начала договора не заполнена!");
+
+                if (string.IsNullOrWhiteSpace(c.Subject.Name1))
+                    ModelState.AddModelError(string.Empty, "ФИО страхователя не заполнено!");
+
+                if (!c.Subject.DateOfBirth.HasValue)
+                    ModelState.AddModelError(string.Empty, "Дата рождения страхователя не заполнена!");
+
+                if (c.date_begin < c.date_out)
+                    ModelState.AddModelError(string.Empty, "Дата начала договора не может быть меньше даты выдачи!");
+
+                if (ModelState.IsValid)
+                    c.ContractStatusId = c.change_status(User.Identity.GetUserId(), "confirmed");
+            }
+
+            ContractSave(c);
+
+            if (ModelState.IsValid && caction == "save")
+                return RedirectToAction("Index");
+
+
+            if (ModelState.IsValid)
+            {
+                if (caction == "recalc")
+                {
+                    return Redirect(Url.RouteUrl(new { Controller = "Contract", Action = "Contract_edit", id = c.ContractId }) + "#block-total");
+                }
+
+                if (caction != "confirm")
+                    return RedirectToAction("Index");
+            }
+            Contract_ini(c.ContractId);
+
+            var retc = db.Contracts.Include("Contract_territory")
+                .Include("ContractConditions")
+                .Include("Subjects")
+                .Include("ContractRisks")
+                .Include("ContractStatu")
+                .SingleOrDefault(x => x.ContractId == c.ContractId);
+            retc.ContractConditions = retc.ContractConditions.OrderBy(o => o.num).ToList();
+            foreach (var cc in retc.ContractConditions)
+            {
+                cc.Condition = db.Conditions.SingleOrDefault(x => x.ConditionId == cc.ConditionId);
+            }
+            foreach (var rr in retc.ContractRisks)
+            {
+                rr.Risk = db.Risks.SingleOrDefault(x => x.RiskId == rr.RiskId);
+            }
+            ViewBag.terr_count = retc.Contract_territory.Count();
+
+            return View(retc);
+
+
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ContractAg(Contract c, string caction = "save")
         {
             c.db = db;
@@ -752,6 +838,9 @@ namespace gTravel.Controllers
                 #region Риски
                 foreach (var r in c.ContractRisks)
                 {
+                    if (r.isMandatory)
+                        r.ischecked = true;
+
                     db.Entry(r).State = EntityState.Modified;
                 }
                 #endregion

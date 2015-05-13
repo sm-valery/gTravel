@@ -12,7 +12,7 @@
 
 }
 
-@using (Html.BeginForm("ContractCrm", null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
+@using (Html.BeginForm("ContractTo", null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.AntiForgeryToken()
 
@@ -159,14 +159,14 @@
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       }
                                value="fiz" />
                         физ-лицо
                     </label>
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (!subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   }
                                value="jur">
                         юр-лицо
                     </label>
@@ -309,20 +309,31 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     </tr>
                     @foreach (var risk in Model.ContractRisks.OrderBy(o => o.sort))
                     {
-
-                        <tr>
+                        <tr >
                             <td class="active">
-                                @risk.Risk.Name
-                                @*<div class="label label-default"> @risk.Risk.Name</div>*@
+                                <label>
+                                    @if (risk.isMandatory)
+                                    {
+                                        @Html.Hidden(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked)
+                                    }
+                                    else
+                                    {
+                                        @Html.CheckBox(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked)
+                                    }
+
+                                    @risk.Risk.Name
+                                </label>
                             </td>
+
                             <td>
                                 @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
-                                @Html.DisplayFor(m => risk.InsSum)
-                                @*@Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value",@readonly=true })*@
+                                @Html.Hidden(string.Format("ContractRisks[{0}].isMandatory", risk_num), risk.isMandatory)
+                                
+                                @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value"})
                             </td>
                             <td>
                                 @risk.BaseTarif
@@ -352,9 +363,9 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })
                                 @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
                                 @{
-                        contract_fee += (decimal)(risk.InsFee ?? 0);
-                        contract_prem += (decimal)(risk.InsPrem ?? 0);
-                        contract_prem_rur += (decimal)(risk.InsPremRur ?? 0);
+                                    contract_fee += (decimal)(risk.InsFee ?? 0);
+                                    contract_prem += (decimal)(risk.InsPrem ?? 0);
+                                    contract_prem_rur += (decimal)(risk.InsPremRur ?? 0);
                                 }
                                 <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top"
                                       title="@string.Format("базовый тариф: {0}, дней {1}, кол-во застрахованных {2}", risk.BaseTarif, Model.date_diff,Model.Subjects.Count())">?</span>
@@ -362,7 +373,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             </td>
                         </tr>
 
-                        risk_num++;
+                                    risk_num++;
                     }
                 </table>
 
@@ -437,8 +448,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
         });
     }
 
-    function add_insrow(fam,dayofbirth)
-    {
+    function add_insrow(fam, dayofbirth) {
         var indx = $("#insdtable tbody tr").length;
 
         $.ajax({
@@ -486,7 +496,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
             add_insrow(fam, dob);
             e.preventDefault();
         });
-        
+
 
         //добавить застрахованного
         $("#insured_add").click(function (e) {

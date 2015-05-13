@@ -154,6 +154,8 @@ namespace gTravel.Models
 
                 //TODO 27042015 добавить поле sort в  ContractRisk, изменить view: v_contract_risk
                 item_rs.sort = item.sort;
+                item_rs.isMandatory = item.isMandatory;
+                item_rs.ischecked = item.isMandatory;
 
                 db.ContractRisks.Add(item_rs);
             }
@@ -185,7 +187,7 @@ namespace gTravel.Models
             }
             #endregion
             ////TODO территория по умолчанию
-            //#region территория по умолчанию
+            #region территория по умолчанию
             if(seria.DefaultTerritoryId !=null)
             {
                 Contract_territory crt = new Contract_territory();
@@ -197,7 +199,7 @@ namespace gTravel.Models
                 db.Contract_territory.Add(crt);
 
             }
-            //#endregion
+            #endregion
 
             #region СкидкиНадбавки
             #endregion

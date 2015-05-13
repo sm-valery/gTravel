@@ -190,6 +190,8 @@
           <Property Name="InsPremRur" Type="money" />
           <Property Name="sort" Type="int" />
           <Property Name="FactorsDescr" Type="varchar" MaxLength="500" />
+          <Property Name="isMandatory" Type="bit" Nullable="false" />
+          <Property Name="ischecked" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ContractStatus">
           <Key>
@@ -1519,6 +1521,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_ContractRisk_ToContract" FromRole="ContractRisk" ToRole="Contract" />
           <Property Name="sort" Type="Int32" />
           <Property Name="FactorsDescr" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="isMandatory" Type="Boolean" Nullable="false" />
+          <Property Name="ischecked" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_ContractRisk_ToRisk">
           <End Type="goDbModel.Risk" Role="Risk" Multiplicity="0..1" />
@@ -2503,6 +2507,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="ContractRisks">
             <EntityTypeMapping TypeName="goDbModel.ContractRisk">
               <MappingFragment StoreEntitySet="ContractRisk">
+                <ScalarProperty Name="ischecked" ColumnName="ischecked" />
+                <ScalarProperty Name="isMandatory" ColumnName="isMandatory" />
                 <ScalarProperty Name="FactorsDescr" ColumnName="FactorsDescr" />
                 <ScalarProperty Name="sort" ColumnName="sort" />
                 <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
