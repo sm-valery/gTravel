@@ -2,14 +2,25 @@
 
 @foreach (var item in Model)
 {
+    if (item.Factor.auto == 1)
+    {
+        <div class="alert alert-success" id="alert_@item.ContractFactorId">
+            @item.Factor.Name (@Html.DisplayFor(x => item.Val_n))
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info alert-dismissible" id="alert_@item.ContractFactorId">
 
-    <div  class="alert alert-info alert-dismissible" id="alert_@item.ContractFactorId">
-    
-        <button  type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
 
-    @item.Factor.Name (@Html.DisplayFor(x => item.Val_n))</div>
+            @item.Factor.Name (@Html.DisplayFor(x => item.Val_n))
+        </div>
+    }
+
+
 }
 
 

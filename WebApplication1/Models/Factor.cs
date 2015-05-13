@@ -29,6 +29,7 @@ namespace gTravel.Models
         public string Name { get; set; }
         public Nullable<int> SingleItemInGroup { get; set; }
         public Nullable<int> Position { get; set; }
+        public Nullable<int> auto { get; set; }
     
         public virtual ICollection<ContractFactor> ContractFactors { get; set; }
     }

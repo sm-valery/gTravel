@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Договор";
 }
-
 @{
     bool viewonly = false;
 
@@ -24,19 +23,14 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Ошибки</h4>
                 </div>
-
                 <div class="modal-body">
                     @Html.ValidationSummary()
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
-
         </div>
-
-
 
     </div>
 
@@ -60,9 +54,7 @@
             @Model.seria.Name
             &nbsp;&nbsp;@helpers.ContractStatus(Model.ContractStatu.Status)
 
-
         </div>
-
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-2"><label>Дата выдачи полиса:</label></div>
@@ -70,7 +62,6 @@
                     @Html.TextBoxFor(m => Model.date_out, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value", @readonly = true })
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-2">
                     <label><b>Номер:</b></label>
@@ -79,7 +70,6 @@
                     @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", type = "tel", @readonly = true })
                 </div>
             </div>
-
             <p></p>
             <div class="row">
                 <div class="col-md-2"><label>Период страхования:</label> </div>
@@ -103,7 +93,6 @@
                     @Html.TextBoxFor(m => Model.period_multi, new { @class = "form-control input-sm input-value" })  дней
 
                     @Html.DropDownListFor(m => Model.period_multi_type, (SelectList)ViewBag.PeriodMultiType, new { @class = "form-control input-sm input-value" })
-
                 </div>
             </div>
             <p></p>
@@ -132,35 +121,33 @@
                     }
                 </div>
             </fieldset>
-
             @*<fieldset>
-                <legend>Территория</legend>
-                <div class="well well-sm">
-                    <div class="row">
-                        <div class="col-md-2"><label>Выберите территорию:</label> </div>
-                        <div class="col-md-10">
+                    <legend>Территория</legend>
+                    <div class="well well-sm">
+                        <div class="row">
+                            <div class="col-md-2"><label>Выберите территорию:</label> </div>
+                            <div class="col-md-10">
 
-                            @if (Model.Contract_territory.Count() > 0)
-                            {
-
-                                foreach (var t in Model.Contract_territory)
+                                @if (Model.Contract_territory.Count() > 0)
                                 {
 
-                                    @Html.Action("build_contract_territory", new { ContractTerritoryId = t.ContractTerritoryId })
+                                    foreach (var t in Model.Contract_territory)
+                                    {
 
+                                        @Html.Action("build_contract_territory", new { ContractTerritoryId = t.ContractTerritoryId })
+
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                @Html.Action("build_contract_territory", new { contractid = Model.ContractId })
-                            }
+                                else
+                                {
+                                    @Html.Action("build_contract_territory", new { contractid = Model.ContractId })
+                                }
 
 
+                            </div>
                         </div>
                     </div>
-                </div>
-            </fieldset>*@
-
+                </fieldset>*@
             @*//страхователь*@
             <div class="panel panel-success">
                 <div class="panel-heading small">
@@ -172,73 +159,74 @@
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         }
                                value="fiz" />
                         физ-лицо
                     </label>
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (!subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     }
                                value="jur">
                         юр-лицо
                     </label>
                 </div>
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <label id="subj_lab_name">@( (subj_f) ? "Имя" : "Наименование"):</label>
-                        </div>
-                        <div class="col-md-10">
-                            @Html.HiddenFor(model => Model.Holder_SubjectId)
-                            @Html.HiddenFor(model => Model.Subject.SubjectId)
-                            @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value", name = "SubjectF.Name" })
-                        </div>
-                    </div>
-                    <div id="subj_dfb" class="row">
-                        <p></p>
-                        <div class="col-md-2">
-                            <label>Дата рождения:</label>
-                        </div>
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(m => Model.Subject.DateOfBirth, new { @class = "form-control input-sm date3 date_period input-value" })
-                        </div>
-                    </div>
-                    <p></p>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <label id="subj_lab_id">@( (subj_f) ? "Паспорт" : "ИНН"):</label>
-                        </div>
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(m => Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
-                        </div>
-                    </div>
-                    @*<p></p>
-                        <div class="row">
+                    @Html.HiddenFor(model => Model.Holder_SubjectId)
+                    @Html.HiddenFor(model => Model.Subject.SubjectId)
+                    <span class="form-field">
+                        <label id="subj_lab_name">@( (subj_f) ? "Имя" : "Наименование"):</label>
+                        @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value", name = "SubjectF.Name" })
+                    </span>
+                    <span class="form-field">
+                        <label>Дата рождения:</label>
+                        @Html.TextBoxFor(m => Model.Subject.DateOfBirth, new { @class = "form-control input-sm date3 date_period input-value" })
+                    </span>
+
+                    <span class="form-field">
+                        <label id="subj_lab_id">@( (subj_f) ? "Паспорт" : "ИНН"):</label>
+                        @Html.TextBoxFor(m => Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
+                    </span>
+
+                    @*<div class="row">
                             <div class="col-md-2">
-                                <label>Адрес:</label>
+                                <label id="subj_lab_name">@( (subj_f) ? "Имя" : "Наименование"):</label>
                             </div>
                             <div class="col-md-10">
-                                @Html.TextAreaFor(m => Model.Subject.Address, new { @class = "form-control input-sm input-value", style = "width:100%" })
-                                <label>Телефон:</label>
-                                @Html.TextBoxFor(m => Model.Subject.Phone, new { @class = "form-control input-sm input-value" })
+                                @Html.HiddenFor(model => Model.Holder_SubjectId)
+                                @Html.HiddenFor(model => Model.Subject.SubjectId)
+                                @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value", name = "SubjectF.Name" })
+                            </div>
+                        </div>
+                        <div id="subj_dfb" class="row">
+                            <p></p>
+                            <div class="col-md-2">
+                                <label>Дата рождения:</label>
+                            </div>
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => Model.Subject.DateOfBirth, new { @class = "form-control input-sm date3 date_period input-value" })
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label id="subj_lab_id">@( (subj_f) ? "Паспорт" : "ИНН"):</label>
+                            </div>
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
                             </div>
                         </div>*@
                 </div> @*панель страхователя*@
             </div>
 
-
             <fieldset>
                 <legend>
-
                     Список застрахованных
 
                 </legend>
                 <div id="div-summary-insd" class="alert alert-warning hidden">
                     Всего застрахованно человек: <label>10</label>
                 </div>
-
-
 
                 <div id="div-togle-insd" class="alert alert-warning ">
                     <table id="insdtable" class="table-condensed scrolling-table">
@@ -250,7 +238,6 @@
                             </tr>
                         </thead>
                         <tbody>
-
 
                             @{
 int indx = 0;
@@ -266,23 +253,28 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
                             }
                         </tbody>
-
                     </table>
-
 
                     @if (!viewonly)
                     {
-                        <a id="insured_add" href="#">
-                            <img src="~/Content/loading_white_small.gif"
-                                 style="position:absolute;z-index:1000;display:none;" />
+                        <img id="insured_add_wait" src="~/Content/loading_white_small.gif"
+                             style="position:absolute; z-index:1000;display:none;" />
 
-                            <span class="glyphicon glyphicon-plus-sign"></span>
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                        <a id="insured_add" href="#">
+
+
                             <span style="font-weight:normal;">
                                 &nbsp;Добавить застрахованного
-
-
                             </span>
 
+                        </a>
+
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                        <a id="insurer_add" href="#">
+                            <span style="font-weight:normal;">
+                                &nbsp;Добавить страхователя
+                            </span>
 
                         </a>
 
@@ -291,15 +283,10 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
 
 
-
-
-
             </fieldset>
-
 
             <fieldset>
                 <legend>Риски</legend>
-
 
                 @{
                     int risk_num = 0;
@@ -307,7 +294,6 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     decimal contract_prem = 0;
                     decimal contract_prem_rur = 0;
                 }
-
 
                 <table class="table table-condensed table-bordered">
                     <tr>
@@ -333,41 +319,38 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
-
                                 @Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
-
                                 @Html.DisplayFor(m => risk.InsSum)
                                 @*@Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value",@readonly=true })*@
-
                             </td>
                             <td>
                                 @risk.BaseTarif
                             </td>
                             <td>
                                 @*Скидки*@
+                                <img id="bonus_wait" src="~/Content/loading_white_small.gif"
+                                     style="position:absolute; z-index:1000;display:none;" />
+                                @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = risk.RiskId, contractid = Model.ContractId })
 
-                                @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid  = risk.RiskId, contractid = Model.ContractId})
-                           
-            
+
+
                                 @*<div class="alert alert-warning alert-dismissible small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    Программа A
-                                </div>
-                                <div class="alert alert-warning alert-dismissible small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    Горнолыжный и другие виды спорта
-                                </div>
-             
-                                <div class="alert alert-success small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
-                                    Возрастной коэф
-                                </div>*@
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        Программа A
+                                    </div>
+                                    <div class="alert alert-warning alert-dismissible small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        Горнолыжный и другие виды спорта
+                                    </div>
+
+                                    <div class="alert alert-success small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
+                                        Возрастной коэф
+                                    </div>*@
                             </td>
                             <td>
                                 @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })
-
                                 @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
-
                                 @{
                         contract_fee += (decimal)(risk.InsFee ?? 0);
                         contract_prem += (decimal)(risk.InsPrem ?? 0);
@@ -376,14 +359,12 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top"
                                       title="@string.Format("базовый тариф: {0}, дней {1}, кол-во застрахованных {2}", risk.BaseTarif, Model.date_diff,Model.Subjects.Count())">?</span>
 
-
                             </td>
                         </tr>
 
                         risk_num++;
                     }
                 </table>
-
 
                 <div class="blockquote-warning" id="block-total">
                     <h4>Итого</h4>
@@ -394,14 +375,10 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
                         <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
                     }
-
                 </div>
 
-
             </fieldset>
-
         </div>
-
         <div class="panel-footer">
             @if (!viewonly)
             {
@@ -412,15 +389,12 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     <button name="caction" value="confirm" class="btn btn-success">Утвердить</button>
                 }
             }
-
             @if (Model.ContractStatu.Status.Code == "confirmed")
             {
                 @Html.ActionLink("Печать", Model.seria.PrintFunction, new { contractid = Model.ContractId }, new { @class = "btn btn-info" })
             }
 
-
             @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
-
             @if (User.IsInRole("Admin"))
             {
                 @:&nbsp;&nbsp;
@@ -428,14 +402,10 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
             }
 
-
         </div>
-
-
 
     </div>
 }
-
 
 <script type="text/javascript">
     function bind_bonus() {
@@ -452,8 +422,8 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                 type: "GET",
                 data: { contractfactorid: contractfactor_id },
                 beforeSend: function () {
-                    $("#insured_add img").offset(xpos);
-                    $("#insured_add img").show();
+                    $("#waitimg").offset(xpos);
+                    $("#waitimg").show();
                 },
                 success: function (data) {
 
@@ -461,57 +431,67 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     bind_bonus();
                 }
             }).done(function () {
-                $("#insured_add img").hide();
+                $("#waitimg").hide();
             });
 
         });
     }
 
+    function add_insrow(fam,dayofbirth)
+    {
+        var indx = $("#insdtable tbody tr").length;
+
+        $.ajax({
+            url: '@Url.Action("_addInsuredRow", "Contract")',
+            type: "GET",
+            data: { contractid: '@Model.ContractId', indx: indx, fieldlist: 'DateOfBirth', ins_name: fam, dayob: dayofbirth },
+            error: function (request, status, error) {
+                alert(error);
+            },
+            beforeSend: function () {
+
+                $("#insured_add_wait").show();
+            },
+            success: function (data) {
+
+                $('#insdtable>tbody:last').append(data);
+
+                $(".date3").datepicker({
+                    format: "dd.mm.yyyy",
+                    language: "ru",
+                    autoclose: true
+                });
+
+                $("#insdtable >tbody>tr:last > td:last a").bind("click", function (e) {
+                    //удаление
+                    ins_delete($(this).parent().parent().index(), $(this).attr("id").substr(4))
+                    e.preventDefault();
+                })
+
+
+            }
+        }).done(function () {
+            $("#insured_add_wait").hide();
+        });
+    }
+
     $(function () {
+
+        //добавить страхователя
+        $("#insurer_add").click(function (e) {
+
+            var fam = $("#Subject_Name1").val();
+            var dob = $("#Subject_DateOfBirth").val();
+
+            add_insrow(fam, dob);
+            e.preventDefault();
+        });
+        
 
         //добавить застрахованного
         $("#insured_add").click(function (e) {
 
-           // var xpos = $(this).offset();
-
-            var indx = $("#insdtable tbody tr").length;
-
-            $.ajax({
-                url: '@Url.Action("_addInsuredRow", "Contract")',
-                type: "GET",
-                data: { contractid: '@Model.ContractId', indx: indx, fieldlist: 'DateOfBirth' },
-                error: function (request, status, error) {
-                    alert(error);
-                },
-                beforeSend: function () {
-                    // $("#insured_add img").offset(xpos);
-                    $("#insured_add img").show();
-                },
-                success: function (data) {
-
-                    //$(data).insertAfter("#insdtable>tbody>tr:last");
-                    //$(data).insertAfter("#insdtable>tbody:last");
-
-                    $('#insdtable>tbody:last').append(data);
-
-                    $(".date3").datepicker({
-                        format: "dd.mm.yyyy",
-                        language: "ru",
-                        autoclose: true
-                    });
-
-                    $("#insdtable >tbody>tr:last > td:last a").bind("click", function (e) {
-                        //удаление
-                        ins_delete($(this).parent().parent().index(), $(this).attr("id").substr(4))
-                        e.preventDefault();
-                    })
-
-
-                }
-            }).done(function () {
-                $("#insured_add img").hide();
-            });
-
+            add_insrow();
             e.preventDefault();
         });
 
@@ -538,8 +518,6 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
             $(".frm-discounts a").click(function (e) {
 
-                var xpos = $(this).offset();
-
                 var factor_id = $(this).attr("id");
 
                 var riskobj = $(this).parent().parent().parent().parent();
@@ -551,8 +529,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     type: 'GET',
                     data: { factorid: factor_id, riskid: risk_id, contractid: '@Model.ContractId' },
                     beforeSend: function () {
-                        $("#insured_add img").offset(xpos);
-                        $("#insured_add img").show();
+                        $("#bonus_wait").show();
                     },
                     success: function (data) {
 
@@ -560,7 +537,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                         bind_bonus();
                     }
                 }).done(function () {
-                    $("#insured_add img").hide();
+                    $("#bonus_wait").hide();
                 });
 
                 e.preventDefault();

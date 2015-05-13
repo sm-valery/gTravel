@@ -198,3 +198,8 @@ border-bottom: 1px dotted;
     padding-bottom:5px;
     padding-left:2px;
 }
+
+.form-field{
+    white-space:nowrap;
+    padding-right:10px;
+}

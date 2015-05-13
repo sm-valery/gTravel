@@ -1219,7 +1219,7 @@ namespace gTravel.Controllers
             return Content(ret);
         }
 
-        public ActionResult _addInsuredRow(string contractid, int indx, string fieldlist)
+        public ActionResult _addInsuredRow(string contractid, int indx, string fieldlist, string ins_name, string dayob)
         {
             //это чтоб работало в ie, иначе ajax запросы будут кешироваться
             Response.CacheControl = "no-cache";
@@ -1242,6 +1242,20 @@ namespace gTravel.Controllers
             ViewBag.fieldlist = fieldlist;
 
             var s = contr.Single().add_insured(db);
+
+            if (!string.IsNullOrEmpty(ins_name))
+                s.Name1 = ins_name.Trim();
+
+            if(!string.IsNullOrEmpty(dayob))
+            {
+                DateTime dob;
+
+                if(DateTime.TryParse(dayob,out dob))
+                {
+                    s.DateOfBirth = dob;
+                }
+            }
+          
 
             ViewBag.viewonly = false;
 
