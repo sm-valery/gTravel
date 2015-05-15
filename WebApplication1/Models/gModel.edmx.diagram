@@ -76,6 +76,11 @@
         <AssociationConnector Association="goDbModel.FK_AgentSeria_ToTerritoryGrp" />
         <AssociationConnector Association="goDbModel.FK_ContractFactor_ToTable" />
         <AssociationConnector Association="goDbModel.FK_ContractFactor_To" />
+        <EntityTypeShape EntityType="goDbModel.TarifPlan" Width="1.5" PointX="20.375" PointY="5.875" />
+        <EntityTypeShape EntityType="goDbModel.TarifPlanAgent" Width="1.5" PointX="22.625" PointY="8" />
+        <AssociationConnector Association="goDbModel.FK_TarifPlanAgent_Agent" />
+        <AssociationConnector Association="goDbModel.FK_Tarif_ToTarifPlan" />
+        <AssociationConnector Association="goDbModel.FK_TarifPlanAgent_TarifPlan" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

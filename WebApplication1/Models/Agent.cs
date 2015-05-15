@@ -17,11 +17,13 @@ namespace gTravel.Models
         public Agent()
         {
             this.AgentUsers = new HashSet<AgentUser>();
+            this.TarifPlanAgents = new HashSet<TarifPlanAgent>();
         }
     
         public System.Guid AgentId { get; set; }
         public string Name { get; set; }
     
         public virtual ICollection<AgentUser> AgentUsers { get; set; }
+        public virtual ICollection<TarifPlanAgent> TarifPlanAgents { get; set; }
     }
 }

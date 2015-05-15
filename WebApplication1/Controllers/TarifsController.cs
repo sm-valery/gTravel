@@ -130,6 +130,47 @@ namespace gTravel.Controllers
             return RedirectToAction("Index");
         }
 
+
+        #region тарифы план
+        public ActionResult tplan()
+        {
+
+            return View(db.TarifPlans.ToList());
+        }
+        #endregion
+
+
+        public ActionResult tplan_edit(Guid id)
+        {
+            ViewBag.TarifPlan = db.TarifPlans.SingleOrDefault(x => x.TarifPlanId == id);
+
+            return View(db.Tarifs.Where(x => x.TarifPlanId == id).OrderBy(o=>o.seria.Code).ToList());
+        }
+
+        public ActionResult tplan_addrow(Guid TarifPlanId)
+        {
+            var t = new Tarif();
+            t.TarifPlanId = TarifPlanId;
+
+            ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code",null);
+            ViewBag.TerritoryId = new SelectList(db.Territories, "TerritoryId", "Name");
+
+            return View(t);
+        }
+
+        public PartialViewResult _changeseria(Guid seriaid)
+        {
+
+            var risklist = from rs in db.RiskSerias
+                     join r in db.Risks on rs.RiskId equals r.RiskId
+                     where rs.SeriaId == seriaid
+                     select r;
+
+            ViewBag.RiskId = new SelectList(risklist, "RiskId", "Code");
+
+            return PartialView();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

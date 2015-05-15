@@ -258,15 +258,7 @@ namespace gTravel.Controllers
         }
         #endregion
 
-        #region Tarifs
-        public ActionResult tarif()
-        {
 
-
-            return View(db.Tarifs.ToList());
-        }
-
-        #endregion
 
         protected override void Dispose(bool disposing)
         {

@@ -24,9 +24,11 @@ namespace gTravel.Models
         public Nullable<System.Guid> SeriaId { get; set; }
         public Nullable<System.Guid> TerritoryId { get; set; }
         public Nullable<double> InsFee { get; set; }
+        public Nullable<System.Guid> TarifPlanId { get; set; }
     
         public virtual Risk Risk { get; set; }
         public virtual Territory Territory { get; set; }
         public virtual seria seria { get; set; }
+        public virtual TarifPlan TarifPlan { get; set; }
     }
 }

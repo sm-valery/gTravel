@@ -338,6 +338,23 @@
           <Property Name="SeriaId" Type="uniqueidentifier" />
           <Property Name="TerritoryId" Type="uniqueidentifier" />
           <Property Name="InsFee" Type="float" />
+          <Property Name="TarifPlanId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="TarifPlan">
+          <Key>
+            <PropertyRef Name="TarifPlanId" />
+          </Key>
+          <Property Name="TarifPlanId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="nchar" MaxLength="10" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TarifPlanAgent">
+          <Key>
+            <PropertyRef Name="TarifPlanAgentId" />
+          </Key>
+          <Property Name="TarifPlanAgentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AgentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TarifPlanId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="Territory">
           <Key>
@@ -901,6 +918,18 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Tarif_ToTarifPlan">
+          <End Role="TarifPlan" Type="Self.TarifPlan" Multiplicity="0..1" />
+          <End Role="Tarif" Type="Self.Tarif" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TarifPlan">
+              <PropertyRef Name="TarifPlanId" />
+            </Principal>
+            <Dependent Role="Tarif">
+              <PropertyRef Name="TarifPlanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tarif_ToTerritory">
           <End Role="Territory" Type="Self.Territory" Multiplicity="0..1" />
           <End Role="Tarif" Type="Self.Tarif" Multiplicity="*" />
@@ -910,6 +939,30 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Principal>
             <Dependent Role="Tarif">
               <PropertyRef Name="TerritoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TarifPlanAgent_Agent">
+          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+          <End Role="TarifPlanAgent" Type="Self.TarifPlanAgent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="AgentId" />
+            </Principal>
+            <Dependent Role="TarifPlanAgent">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TarifPlanAgent_TarifPlan">
+          <End Role="TarifPlan" Type="Self.TarifPlan" Multiplicity="1" />
+          <End Role="TarifPlanAgent" Type="Self.TarifPlanAgent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TarifPlan">
+              <PropertyRef Name="TarifPlanId" />
+            </Principal>
+            <Dependent Role="TarifPlanAgent">
+              <PropertyRef Name="TarifPlanId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -957,6 +1010,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tarif" EntityType="Self.Tarif" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TarifPlan" EntityType="Self.TarifPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TarifPlanAgent" EntityType="Self.TarifPlanAgent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Territory" EntityType="Self.Territory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TerritoryGrp" EntityType="Self.TerritoryGrp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="v_agentseria" EntityType="Self.v_agentseria" store:Type="Views" store:Schema="dbo">
@@ -1216,9 +1271,21 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="seria" EntitySet="seria" />
             <End Role="Tarif" EntitySet="Tarif" />
           </AssociationSet>
+          <AssociationSet Name="FK_Tarif_ToTarifPlan" Association="Self.FK_Tarif_ToTarifPlan">
+            <End Role="TarifPlan" EntitySet="TarifPlan" />
+            <End Role="Tarif" EntitySet="Tarif" />
+          </AssociationSet>
           <AssociationSet Name="FK_Tarif_ToTerritory" Association="Self.FK_Tarif_ToTerritory">
             <End Role="Territory" EntitySet="Territory" />
             <End Role="Tarif" EntitySet="Tarif" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TarifPlanAgent_Agent" Association="Self.FK_TarifPlanAgent_Agent">
+            <End Role="Agent" EntitySet="Agent" />
+            <End Role="TarifPlanAgent" EntitySet="TarifPlanAgent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TarifPlanAgent_TarifPlan" Association="Self.FK_TarifPlanAgent_TarifPlan">
+            <End Role="TarifPlan" EntitySet="TarifPlan" />
+            <End Role="TarifPlanAgent" EntitySet="TarifPlanAgent" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -1401,6 +1468,20 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <AssociationSet Name="FK_ContractFactor_To" Association="goDbModel.FK_ContractFactor_To">
             <End Role="Factor" EntitySet="Factors" />
             <End Role="ContractFactor" EntitySet="ContractFactors" />
+          </AssociationSet>
+          <EntitySet Name="TarifPlans" EntityType="goDbModel.TarifPlan" />
+          <EntitySet Name="TarifPlanAgents" EntityType="goDbModel.TarifPlanAgent" />
+          <AssociationSet Name="FK_TarifPlanAgent_Agent" Association="goDbModel.FK_TarifPlanAgent_Agent">
+            <End Role="Agent" EntitySet="Agents" />
+            <End Role="TarifPlanAgent" EntitySet="TarifPlanAgents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tarif_ToTarifPlan" Association="goDbModel.FK_Tarif_ToTarifPlan">
+            <End Role="TarifPlan" EntitySet="TarifPlans" />
+            <End Role="Tarif" EntitySet="Tarifs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TarifPlanAgent_TarifPlan" Association="goDbModel.FK_TarifPlanAgent_TarifPlan">
+            <End Role="TarifPlan" EntitySet="TarifPlans" />
+            <End Role="TarifPlanAgent" EntitySet="TarifPlanAgents" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="ConditionSeria">
@@ -1904,6 +1985,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="AgentId" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AgentUsers" Relationship="goDbModel.FK_AgentUser_ToTable" FromRole="Agent" ToRole="AgentUser" />
+          <NavigationProperty Name="TarifPlanAgents" Relationship="goDbModel.FK_TarifPlanAgent_Agent" FromRole="Agent" ToRole="TarifPlanAgent" />
         </EntityType>
         <EntityType Name="AgentUser">
           <Key>
@@ -2196,6 +2278,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="Risk" Relationship="goDbModel.FK_Tarif_ToRisk" FromRole="Tarif" ToRole="Risk" />
           <NavigationProperty Name="Territory" Relationship="goDbModel.FK_Tarif_ToTerritory" FromRole="Tarif" ToRole="Territory" />
           <NavigationProperty Name="seria" Relationship="goDbModel.FK_Tarif_ToTable" FromRole="Tarif" ToRole="seria" />
+          <Property Name="TarifPlanId" Type="Guid" />
+          <NavigationProperty Name="TarifPlan" Relationship="goDbModel.FK_Tarif_ToTarifPlan" FromRole="Tarif" ToRole="TarifPlan" />
         </EntityType>
         <Association Name="FK_Tarif_ToRisk">
           <End Type="goDbModel.Risk" Role="Risk" Multiplicity="1" />
@@ -2412,6 +2496,62 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Principal>
             <Dependent Role="ContractFactor">
               <PropertyRef Name="IdFactor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TarifPlan">
+          <Key>
+            <PropertyRef Name="TarifPlanId" />
+          </Key>
+          <Property Name="TarifPlanId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToTarifPlan" FromRole="TarifPlan" ToRole="Tarif" />
+          <NavigationProperty Name="TarifPlanAgents" Relationship="goDbModel.FK_TarifPlanAgent_TarifPlan" FromRole="TarifPlan" ToRole="TarifPlanAgent" />
+        </EntityType>
+        <EntityType Name="TarifPlanAgent">
+          <Key>
+            <PropertyRef Name="TarifPlanAgentId" />
+          </Key>
+          <Property Name="TarifPlanAgentId" Type="Guid" Nullable="false" />
+          <Property Name="AgentId" Type="Guid" Nullable="false" />
+          <Property Name="TarifPlanId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Agent" Relationship="goDbModel.FK_TarifPlanAgent_Agent" FromRole="TarifPlanAgent" ToRole="Agent" />
+          <NavigationProperty Name="TarifPlan" Relationship="goDbModel.FK_TarifPlanAgent_TarifPlan" FromRole="TarifPlanAgent" ToRole="TarifPlan" />
+        </EntityType>
+        <Association Name="FK_TarifPlanAgent_Agent">
+          <End Type="goDbModel.Agent" Role="Agent" Multiplicity="1" />
+          <End Type="goDbModel.TarifPlanAgent" Role="TarifPlanAgent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="AgentId" />
+            </Principal>
+            <Dependent Role="TarifPlanAgent">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tarif_ToTarifPlan">
+          <End Type="goDbModel.TarifPlan" Role="TarifPlan" Multiplicity="0..1" />
+          <End Type="goDbModel.Tarif" Role="Tarif" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TarifPlan">
+              <PropertyRef Name="TarifPlanId" />
+            </Principal>
+            <Dependent Role="Tarif">
+              <PropertyRef Name="TarifPlanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TarifPlanAgent_TarifPlan">
+          <End Type="goDbModel.TarifPlan" Role="TarifPlan" Multiplicity="1" />
+          <End Type="goDbModel.TarifPlanAgent" Role="TarifPlanAgent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TarifPlan">
+              <PropertyRef Name="TarifPlanId" />
+            </Principal>
+            <Dependent Role="TarifPlanAgent">
+              <PropertyRef Name="TarifPlanId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2870,6 +3010,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="Tarifs">
             <EntityTypeMapping TypeName="goDbModel.Tarif">
               <MappingFragment StoreEntitySet="Tarif">
+                <ScalarProperty Name="TarifPlanId" ColumnName="TarifPlanId" />
                 <ScalarProperty Name="InsFee" ColumnName="InsFee" />
                 <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
@@ -2960,6 +3101,24 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
               <MappingFragment StoreEntitySet="TerritoryGrp">
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="TerritoryGrpId" ColumnName="TerritoryGrpId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TarifPlans">
+            <EntityTypeMapping TypeName="goDbModel.TarifPlan">
+              <MappingFragment StoreEntitySet="TarifPlan">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="TarifPlanId" ColumnName="TarifPlanId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TarifPlanAgents">
+            <EntityTypeMapping TypeName="goDbModel.TarifPlanAgent">
+              <MappingFragment StoreEntitySet="TarifPlanAgent">
+                <ScalarProperty Name="TarifPlanId" ColumnName="TarifPlanId" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="TarifPlanAgentId" ColumnName="TarifPlanAgentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

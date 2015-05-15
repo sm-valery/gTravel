@@ -353,6 +353,12 @@
     <Compile Include="Models\Tarif.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TarifPlan.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TarifPlanAgent.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Territory.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -655,6 +661,11 @@
     <Content Include="Views\Contract\_bonus_btn.cshtml" />
     <Content Include="Views\Contract\_addbonusRow.cshtml" />
     <Content Include="Views\Contract\_bonus_list.cshtml" />
+    <Content Include="Views\Settings\tplan.cshtml" />
+    <Content Include="Views\Tarifs\tplan.cshtml" />
+    <Content Include="Views\Tarifs\tplan_edit.cshtml" />
+    <Content Include="Views\Tarifs\tplan_addrow.cshtml" />
+    <Content Include="Views\Tarifs\_changeseria.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
