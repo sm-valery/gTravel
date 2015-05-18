@@ -8,14 +8,14 @@
         <EntityTypeShape EntityType="goDbModel.ConditionSeria" Width="1.5" PointX="13.5" PointY="8.875" />
         <EntityTypeShape EntityType="goDbModel.ContractCondition" Width="2.875" PointX="5.75" PointY="4.125" />
         <EntityTypeShape EntityType="goDbModel.Subject" Width="1.5" PointX="10.125" PointY="10.875" />
-        <EntityTypeShape EntityType="goDbModel.Status" Width="1.5" PointX="2.375" PointY="9.375" />
+        <EntityTypeShape EntityType="goDbModel.Status" Width="1.5" PointX="0.625" PointY="11.125" />
         <EntityTypeShape EntityType="goDbModel.RiskSeria" Width="2.25" PointX="13.625" PointY="5" />
         <EntityTypeShape EntityType="goDbModel.Contract_territory" Width="1.5" PointX="2.375" PointY="3.875" />
         <EntityTypeShape EntityType="goDbModel.Risk" Width="1.5" PointX="14.625" PointY="0.5" />
         <AssociationConnector Association="goDbModel.FK_RiskSeria_ToRisk" />
         <EntityTypeShape EntityType="goDbModel.ContractRisk" Width="1.5" PointX="18.125" PointY="0.875" />
         <AssociationConnector Association="goDbModel.FK_ContractRisk_ToRisk" />
-        <EntityTypeShape EntityType="goDbModel.ContractStatu" Width="1.5" PointX="5.625" PointY="9.625" />
+        <EntityTypeShape EntityType="goDbModel.ContractStatu" Width="1.5" PointX="7.625" PointY="9.875" />
         <AssociationConnector Association="goDbModel.FK_ContractStatus_ToStatus" />
         <EntityTypeShape EntityType="goDbModel.AspNetRole" Width="1.5" PointX="0.75" PointY="14.5" />
         <EntityTypeShape EntityType="goDbModel.AspNetUserClaim" Width="1.5" PointX="5" PointY="16.875" />
@@ -31,7 +31,7 @@
         <EntityTypeShape EntityType="goDbModel.Currency" Width="1.5" PointX="12.5" PointY="12.375" />
         <AssociationConnector Association="goDbModel.FK_CurRate_ToCurrency" />
         <EntityTypeShape EntityType="goDbModel.import_settings" Width="1.5" PointX="1.125" PointY="20" />
-        <EntityTypeShape EntityType="goDbModel.Contract" Width="2.375" PointX="22" PointY="10.875" />
+        <EntityTypeShape EntityType="goDbModel.Contract" Width="2.375" PointX="23.125" PointY="12.875" />
         <AssociationConnector Association="goDbModel.FK_Contract_AspNetUsers" />
         <AssociationConnector Association="goDbModel.FK_Contract_territory_ToContract" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToContractStatus" />
@@ -67,13 +67,10 @@
         <AssociationConnector Association="goDbModel.FK_seria_ToTable" />
         <AssociationConnector Association="goDbModel.FK_RiskSeria_ToSeria" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToTable" />
-        <EntityTypeShape EntityType="goDbModel.Factor" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="goDbModel.AgentSeria" Width="1.5" PointX="23.375" PointY="2.5" />
-        <AssociationConnector Association="goDbModel.FK_AgentSeria_Toseria" />
+        <EntityTypeShape EntityType="goDbModel.Factor" Width="2.625" PointX="1.875" PointY="7.125" />
         <EntityTypeShape EntityType="goDbModel.v_agentseria" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="goDbModel.ContractFactor" Width="1.5" PointX="17.375" PointY="13.375" />
-        <EntityTypeShape EntityType="goDbModel.TerritoryGrp" Width="1.5" PointX="17.375" PointY="10.875" />
-        <AssociationConnector Association="goDbModel.FK_AgentSeria_ToTerritoryGrp" />
+        <EntityTypeShape EntityType="goDbModel.TerritoryGrp" Width="1.5" PointX="20" PointY="10.125" />
         <AssociationConnector Association="goDbModel.FK_ContractFactor_ToTable" />
         <AssociationConnector Association="goDbModel.FK_ContractFactor_To" />
         <EntityTypeShape EntityType="goDbModel.TarifPlan" Width="1.5" PointX="20.375" PointY="5.875" />
@@ -81,6 +78,12 @@
         <AssociationConnector Association="goDbModel.FK_TarifPlanAgent_Agent" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToTarifPlan" />
         <AssociationConnector Association="goDbModel.FK_TarifPlanAgent_TarifPlan" />
+        <EntityTypeShape EntityType="goDbModel.AgentSeria" Width="1.5" PointX="19.5" PointY="13.25" />
+        <AssociationConnector Association="goDbModel.FK_AgentSeria_Toseria" />
+        <AssociationConnector Association="goDbModel.FK_AgentSeria_ToTerritoryGrp" />
+        <AssociationConnector Association="goDbModel.FK_Tarif_ToAgentSeria" />
+        <AssociationConnector Association="goDbModel.FK_AgentSeria_ToAgent" />
+        <AssociationConnector Association="goDbModel.FK_Factors_ToAgentSeria" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

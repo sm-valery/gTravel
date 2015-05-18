@@ -1,0 +1,34 @@
+﻿@model IEnumerable<gTravel.Models.Agent>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AgentId }) |
+            @Html.ActionLink("Пользователи", "index", "AgentUsers", new { agentid = item.AgentId }, null) |
+            @Html.ActionLink("Серии", "index", "AgentSerias", new { agentid = item.AgentId }, null) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AgentId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -30,7 +30,9 @@ namespace gTravel.Models
         public Nullable<int> SingleItemInGroup { get; set; }
         public Nullable<int> Position { get; set; }
         public Nullable<int> auto { get; set; }
+        public Nullable<System.Guid> AgentSeriaId { get; set; }
     
         public virtual ICollection<ContractFactor> ContractFactors { get; set; }
+        public virtual AgentSeria AgentSeria { get; set; }
     }
 }

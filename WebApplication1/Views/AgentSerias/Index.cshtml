@@ -1,0 +1,44 @@
+﻿@model IEnumerable<gTravel.Models.AgentSeria>
+
+@{
+    ViewBag.Title = "Серии";
+
+    var agent = (gTravel.Models.Agent)ViewBag.agent;
+}
+
+<h3>@agent.Name</h3>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { agentid = agent.AgentId })
+</p>
+<table class="table">
+    <tr>
+
+        <th>
+            Серия
+        </th>
+        <th>
+            Пакет территорий
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+
+        <td>
+            @Html.HiddenFor(modelItem => item.AgentId)
+            @Html.DisplayFor(modelItem => item.seria.Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TerritoryGrp.Code)
+        </td>
+        <td>
+            @Html.ActionLink("Тариф", "index", "Tarifs", new { agentseriaid = item.AgentSeriaId }, null) |
+            @Html.ActionLink("Скидки", "index", "Tarifs", new { agentseriaid = item.AgentSeriaId }, null) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.AgentSeriaId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,42 @@
+﻿@model gTravel.Models.AgentSeria
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AgentSeria</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AgentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AgentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.seria.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.seria.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TerritoryGrp.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TerritoryGrp.Code)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AgentSeria1 }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

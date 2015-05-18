@@ -1,6 +1,115 @@
 ﻿@model gTravel.Models.Tarif
 
 @{
+    ViewBag.Title =ViewBag.action;
+
+    var agentser = (gTravel.Models.AgentSeria)ViewBag.agentseria;
+}
+
+<h3>@agentser.Agent.Name (@agentser.seria.Code). @ViewBag.action</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => Model.TarifId)
+    @Html.HiddenFor(m => Model.AgentSeriaId)
+    @Html.Hidden("action")
+
+    <div class="form-horizontal">
+        <h4>Tarif</h4>
+        @Html.ValidationSummary()
+        <hr />
+
+        <div class="form-group form-group-sm">
+            @Html.Label("Риск", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RiskId", null, htmlAttributes: new { @class = "form-control" })
+
+            </div>
+        </div>
+
+
+        @*<div class="form-group form-group-sm">
+                @Html.LabelFor(model => model.TerritoryId, "TerritoryId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("TerritoryId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TerritoryId, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group form-group-sm">
+            @Html.Label("Страх сумма от", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.InsSumFrom, new { htmlAttributes = new { @class = "form-control", @list = "isslist" } })
+
+            </div>
+        </div>
+
+        <datalist id="isslist">
+            <option value="5000"></option>
+            <option value="15000"></option>
+            <option value="30000"></option>
+            <option value="50000"></option>
+        </datalist>
+
+
+        <div class="form-group form-group-sm">
+            @Html.Label("Страх сумма до", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.InsSumTo, new { htmlAttributes = new { @class = "form-control", @list = "isslist" } })
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            @Html.Label("Франшиза от", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FranshSum, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            @Html.Label("Франшиза до", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FranshPerc, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm alert alert-info">
+            @Html.Label("Премия", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 active">
+                @Html.EditorFor(model => model.PremSum, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group form-group-sm">
+            @Html.Label("Вознаграждение IC", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.InsFee, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", new { agentseriaid = Model.AgentSeriaId })
+</div>
+
+@*@model gTravel.Models.Tarif
+
+@{
     ViewBag.Title = "Edit";
 }
 
@@ -16,7 +125,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.TarifId)
 
-        <div class="form-group">
+        <div class="form-group form-group-sm">
             @Html.LabelFor(model => model.RiskId, "RiskId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("RiskId", null, htmlAttributes: new { @class = "form-control" })
@@ -24,7 +133,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-group-sm">
             @Html.LabelFor(model => model.SeriaId, "SeriaId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("SeriaId", null, htmlAttributes: new { @class = "form-control" })
@@ -32,7 +141,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-group-sm">
             @Html.LabelFor(model => model.TerritoryId, "TerritoryId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("TerritoryId", null, htmlAttributes: new { @class = "form-control" })
@@ -40,7 +149,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-group-sm">
             @Html.LabelFor(model => model.InsSumFrom, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.InsSumFrom, new { htmlAttributes = new { @class = "form-control" } })
@@ -48,7 +157,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-group-sm">
             @Html.LabelFor(model => model.InsSumTo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.InsSumTo, new { htmlAttributes = new { @class = "form-control" } })
@@ -56,7 +165,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-group-sm">
             @Html.LabelFor(model => model.FranshSum, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FranshSum, new { htmlAttributes = new { @class = "form-control" } })
@@ -64,7 +173,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-group-sm">
             @Html.LabelFor(model => model.FranshPerc, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FranshPerc, new { htmlAttributes = new { @class = "form-control" } })
@@ -72,7 +181,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-group-sm">
             @Html.LabelFor(model => model.PremSum, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PremSum, new { htmlAttributes = new { @class = "form-control" } })
@@ -80,7 +189,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-group-sm">
             @Html.Label("Вознаграждение", htmlAttributes: new { @class = "control-label col-md-2" })
             
             <div class="col-md-10">
@@ -89,7 +198,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-group-sm">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
@@ -99,4 +208,4 @@
 
 <div>
     @Html.ActionLink("Back to List", "Index")
-</div>
+</div>*@

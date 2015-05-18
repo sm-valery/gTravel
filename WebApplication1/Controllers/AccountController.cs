@@ -290,6 +290,8 @@ namespace gTravel.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            Session.Abandon();
+
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
         }

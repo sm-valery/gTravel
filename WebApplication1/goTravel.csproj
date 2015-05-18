@@ -211,6 +211,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="clBorderoxls.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AgentsController.cs" />
+    <Compile Include="Controllers\AgentSeriasController.cs" />
     <Compile Include="Controllers\AgentUsersController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -666,6 +668,16 @@
     <Content Include="Views\Tarifs\tplan_edit.cshtml" />
     <Content Include="Views\Tarifs\tplan_addrow.cshtml" />
     <Content Include="Views\Tarifs\_changeseria.cshtml" />
+    <Content Include="Views\Agents\Create.cshtml" />
+    <Content Include="Views\Agents\Delete.cshtml" />
+    <Content Include="Views\Agents\Details.cshtml" />
+    <Content Include="Views\Agents\Edit.cshtml" />
+    <Content Include="Views\Agents\Index.cshtml" />
+    <Content Include="Views\AgentSerias\Create.cshtml" />
+    <Content Include="Views\AgentSerias\Delete.cshtml" />
+    <Content Include="Views\AgentSerias\Details.cshtml" />
+    <Content Include="Views\AgentSerias\Edit.cshtml" />
+    <Content Include="Views\AgentSerias\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

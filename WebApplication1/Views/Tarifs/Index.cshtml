@@ -2,39 +2,40 @@
 
 @{
     ViewBag.Title = "Index";
-}
 
-<h2>Index</h2>
+    var agetseria = (gTravel.Models.AgentSeria)ViewBag.agentseria;
+    
+    }
+
+<h3>@agetseria.Agent.Name (@agetseria.seria.Code)</h3>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", new {agentseriaid = agetseria.AgentSeriaId })
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.InsSumFrom)
+           Риск
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.InsSumTo)
+            Стр сумма от
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FranshSum)
+            Стр сумма до
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FranshPerc)
+            Франшиза от
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PremSum)
+            Франшиза до
+        </th>
+        <th>
+            Премия
         </th>
         <th>
             IC
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Risk.Code)
-        </th>
-        <th>
-            Серия
-        </th>
+
         <th>
             Территория
         </th>
@@ -43,6 +44,9 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Risk.Code)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.InsSumFrom)
         </td>
@@ -61,18 +65,13 @@
         <td>
             @Html.DisplayFor(modelItem => item.InsFee)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Risk.Code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.seria.Code)
-        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.Territory.Name)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.TarifId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TarifId }) |
+            @Html.ActionLink("Copy", "Copy", new { id=item.TarifId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.TarifId })
         </td>
     </tr>

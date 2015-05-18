@@ -18,6 +18,7 @@ namespace gTravel.Models
         {
             this.AgentUsers = new HashSet<AgentUser>();
             this.TarifPlanAgents = new HashSet<TarifPlanAgent>();
+            this.AgentSerias = new HashSet<AgentSeria>();
         }
     
         public System.Guid AgentId { get; set; }
@@ -25,5 +26,6 @@ namespace gTravel.Models
     
         public virtual ICollection<AgentUser> AgentUsers { get; set; }
         public virtual ICollection<TarifPlanAgent> TarifPlanAgents { get; set; }
+        public virtual ICollection<AgentSeria> AgentSerias { get; set; }
     }
 }

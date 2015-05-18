@@ -82,7 +82,7 @@ namespace gTravel.Controllers
 
         private List<v_agentseria> getAgentSeias()
         {
-            //TODO 27042015 добавить вьюху v_agentseria
+            //TODO изменить вьюху v_agentseria
 
             var userserias = (List<v_agentseria>)Session["userserias"];
 

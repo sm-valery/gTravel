@@ -16,14 +16,18 @@ namespace gTravel.Controllers
         private goDbEntities db = new goDbEntities();
 
         // GET: Tarifs
-        public ActionResult Index()
+        public ActionResult Index(Guid agentseriaid)
         {
-            var tarifs = db.Tarifs.Include(t => t.Risk).Include(t=>t.Territory).Include(t=>t.seria);
+            var tarifs = db.Tarifs.Include(t => t.Risk).Include(t=>t.Territory).Include(t=>t.seria).Where(x=>x.AgentSeriaId==agentseriaid)
+                .OrderBy(o=>o.RiskId).ThenBy(o=>o.InsSumFrom);
+
+            ViewBag.agentseria = db.AgentSerias.SingleOrDefault(x => x.AgentSeriaId == agentseriaid);
+
             return View(tarifs.ToList());
         }
 
-        // GET: Tarifs/Details/5
-        public ActionResult Details(Guid? id)
+
+        public ActionResult Copy(Guid? id)
         {
             if (id == null)
             {
@@ -34,16 +38,45 @@ namespace gTravel.Controllers
             {
                 return HttpNotFound();
             }
-            return View(tarif);
+
+            Tarif t = new Tarif();
+            t.TarifId = Guid.NewGuid();
+            t.AgentSeriaId = tarif.AgentSeriaId;
+            t.FranshPerc = tarif.FranshPerc;
+            t.FranshSum = tarif.FranshSum;
+            t.InsFee = tarif.InsFee;
+            t.InsSumFrom = tarif.InsSumFrom;
+            t.InsSumTo = tarif.InsSumTo;
+            t.PremSum = tarif.PremSum;
+            t.RiskId = tarif.RiskId;
+            t.SeriaId = tarif.SeriaId;
+            t.TerritoryId = tarif.TerritoryId;
+
+            db.Tarifs.Add(t);
+            db.SaveChanges();
+
+            return RedirectToAction("edit", new { id = t.TarifId, editaction = "Копирование" });
         }
 
         // GET: Tarifs/Create
-        public ActionResult Create()
+        public ActionResult Create(Guid agentseriaid)
         {
-            ViewBag.RiskId = new SelectList(db.Risks, "RiskId", "Code");
-            ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code");
+
+            var ags= db.AgentSerias.SingleOrDefault(x => x.AgentSeriaId == agentseriaid);
+
+            ViewBag.agentseria=ags;
+
+            var rser = from rs in db.RiskSerias 
+                       join r in db.Risks on rs.RiskId equals r.RiskId
+                       where rs.SeriaId == ags.SeriaId
+                       select r;
+
+            ViewBag.RiskId = new SelectList(rser, "RiskId", "Code");
+           // ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code");
             ViewBag.TerritoryId = new SelectList(db.Territories, "TerritoryId", "Name");
-            return View();
+
+
+            return View(new Tarif {TarifId=Guid.NewGuid(), AgentSeriaId =agentseriaid });
         }
 
         // POST: Tarifs/Create
@@ -51,37 +84,66 @@ namespace gTravel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TarifId,RiskId,SeriaId,TerritoryId,InsSumFrom,InsSumTo,FranshSum,FranshPerc,PremSum,InsFee")] Tarif tarif)
+        public ActionResult Create(Tarif tarif)
         {
+            var ags = db.AgentSerias.SingleOrDefault(x => x.AgentSeriaId == tarif.AgentSeriaId);
+
+
             if (ModelState.IsValid)
             {
-                tarif.TarifId = Guid.NewGuid();
+                
+                if (!tarif.InsFee.HasValue)
+                    tarif.InsFee = tarif.PremSum;
+                tarif.SeriaId = ags.SeriaId;
+
                 db.Tarifs.Add(tarif);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { agentseriaid =tarif.AgentSeriaId});
             }
 
-            ViewBag.RiskId = new SelectList(db.Risks, "RiskId", "Code", tarif.RiskId);
-            ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code",tarif.SeriaId);
-            ViewBag.TerritoryId = new SelectList(db.Territories, "TerritoryId", "Name",tarif.TerritoryId);
+           
+            ViewBag.agentseria = ags;
+
+            var rser = from rs in db.RiskSerias
+                       join r in db.Risks on rs.RiskId equals r.RiskId
+                       where rs.SeriaId == ags.SeriaId
+                       select r;
+
+            ViewBag.RiskId = new SelectList(rser, "RiskId", "Code");
+            ViewBag.TerritoryId = new SelectList(db.Territories, "TerritoryId", "Name");
+
+
             return View(tarif);
         }
 
         // GET: Tarifs/Edit/5
-        public ActionResult Edit(Guid? id)
+        public ActionResult Edit(Guid? id, string editaction="Редактирование")
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Tarif tarif = db.Tarifs.Find(id);
             if (tarif == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.RiskId = new SelectList(db.Risks, "RiskId", "Code", tarif.RiskId);
-            ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code",tarif.SeriaId);
-            ViewBag.TerritoryId = new SelectList(db.Territories, "TerritoryId", "Name",tarif.TerritoryId);
+
+            var ags = db.AgentSerias.SingleOrDefault(x => x.AgentSeriaId == tarif.AgentSeriaId);
+
+            ViewBag.agentseria = ags;
+
+            var rser = from rs in db.RiskSerias
+                       join r in db.Risks on rs.RiskId equals r.RiskId
+                       where rs.SeriaId == ags.SeriaId
+                       select r;
+
+            ViewBag.RiskId = new SelectList(rser, "RiskId", "Code");
+            ViewBag.TerritoryId = new SelectList(db.Territories, "TerritoryId", "Name");
+
+            ViewBag.action = editaction;
+
             return View(tarif);
         }
 
@@ -90,17 +152,33 @@ namespace gTravel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TarifId,RiskId,SeriaId,TerritoryId,InsSumFrom,InsSumTo,FranshSum,FranshPerc,PremSum,InsFee")] Tarif tarif)
+        public ActionResult Edit(Tarif tarif,string editaction)
         {
             if (ModelState.IsValid)
             {
+                if (!tarif.InsFee.HasValue)
+                    tarif.InsFee = tarif.PremSum;
+
                 db.Entry(tarif).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index" , new { agentseriaid=tarif.AgentSeriaId});
             }
-            ViewBag.RiskId = new SelectList(db.Risks, "RiskId", "Code", tarif.RiskId);
-            ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code",tarif.SeriaId);
-            ViewBag.TerritoryId = new SelectList(db.Territories, "TerritoryId", "Name",tarif.TerritoryId);
+           
+            var ags = db.AgentSerias.SingleOrDefault(x => x.AgentSeriaId == tarif.AgentSeriaId);
+
+            ViewBag.agentseria = ags;
+
+            var rser = from rs in db.RiskSerias
+                       join r in db.Risks on rs.RiskId equals r.RiskId
+                       where rs.SeriaId == ags.SeriaId
+                       select r;
+
+            ViewBag.RiskId = new SelectList(rser, "RiskId", "Code");
+            ViewBag.TerritoryId = new SelectList(db.Territories, "TerritoryId", "Name");
+
+            ViewBag.action = editaction;
+
+
             return View(tarif);
         }
 
@@ -131,45 +209,45 @@ namespace gTravel.Controllers
         }
 
 
-        #region тарифы план
-        public ActionResult tplan()
-        {
+        //#region тарифы план
+        //public ActionResult tplan()
+        //{
 
-            return View(db.TarifPlans.ToList());
-        }
-        #endregion
+        //    return View(db.TarifPlans.ToList());
+        //}
+        //#endregion
 
 
-        public ActionResult tplan_edit(Guid id)
-        {
-            ViewBag.TarifPlan = db.TarifPlans.SingleOrDefault(x => x.TarifPlanId == id);
+        //public ActionResult tplan_edit(Guid id)
+        //{
+        //    ViewBag.TarifPlan = db.TarifPlans.SingleOrDefault(x => x.TarifPlanId == id);
 
-            return View(db.Tarifs.Where(x => x.TarifPlanId == id).OrderBy(o=>o.seria.Code).ToList());
-        }
+        //    return View(db.Tarifs.Where(x => x.TarifPlanId == id).OrderBy(o=>o.seria.Code).ToList());
+        //}
 
-        public ActionResult tplan_addrow(Guid TarifPlanId)
-        {
-            var t = new Tarif();
-            t.TarifPlanId = TarifPlanId;
+        //public ActionResult tplan_addrow(Guid TarifPlanId)
+        //{
+        //    var t = new Tarif();
+        //    t.TarifPlanId = TarifPlanId;
 
-            ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code",null);
-            ViewBag.TerritoryId = new SelectList(db.Territories, "TerritoryId", "Name");
+        //    ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code",null);
+        //    ViewBag.TerritoryId = new SelectList(db.Territories, "TerritoryId", "Name");
 
-            return View(t);
-        }
+        //    return View(t);
+        //}
 
-        public PartialViewResult _changeseria(Guid seriaid)
-        {
+        //public PartialViewResult _changeseria(Guid seriaid)
+        //{
 
-            var risklist = from rs in db.RiskSerias
-                     join r in db.Risks on rs.RiskId equals r.RiskId
-                     where rs.SeriaId == seriaid
-                     select r;
+        //    var risklist = from rs in db.RiskSerias
+        //             join r in db.Risks on rs.RiskId equals r.RiskId
+        //             where rs.SeriaId == seriaid
+        //             select r;
 
-            ViewBag.RiskId = new SelectList(risklist, "RiskId", "Code");
+        //    ViewBag.RiskId = new SelectList(risklist, "RiskId", "Code");
 
-            return PartialView();
-        }
+        //    return PartialView();
+        //}
 
         protected override void Dispose(bool disposing)
         {
