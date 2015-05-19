@@ -2,7 +2,7 @@
 
 @foreach (var item in Model)
 {
-    if (item.Factor.auto == 1)
+    if (item.Factor.auto)
     {
         <div class="alert alert-success" id="alert_@item.ContractFactorId">
             @item.Factor.Name (@Html.DisplayFor(x => item.Val_n))

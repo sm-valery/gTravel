@@ -139,7 +139,7 @@ namespace gTravel.Controllers
 
 
 
-            if (newfactor.SingleItemInGroup == 1)
+            if (newfactor.SingleItemInGroup)
             {
                 var oldfact = db.ContractFactors.FirstOrDefault(x => x.Factor.FactorType==newfactor.FactorType && x.ContractId == contractid);
                 if (oldfact != null)

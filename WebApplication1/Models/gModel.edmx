@@ -233,10 +233,11 @@
           <Property Name="SeriaId" Type="uniqueidentifier" />
           <Property Name="RiskId" Type="uniqueidentifier" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
-          <Property Name="SingleItemInGroup" Type="int" />
+          <Property Name="SingleItemInGroup" Type="bit" Nullable="false" />
           <Property Name="Position" Type="int" />
-          <Property Name="auto" Type="int" />
+          <Property Name="auto" Type="bit" Nullable="false" />
           <Property Name="AgentSeriaId" Type="uniqueidentifier" />
+          <Property Name="TerritoryId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="import_settings">
           <Key>
@@ -848,6 +849,30 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Factors_ToRisk">
+          <End Role="Risk" Type="Self.Risk" Multiplicity="0..1" />
+          <End Role="Factors" Type="Self.Factors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risk">
+              <PropertyRef Name="RiskId" />
+            </Principal>
+            <Dependent Role="Factors">
+              <PropertyRef Name="RiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factors_ToTerritory">
+          <End Role="Territory" Type="Self.Territory" Multiplicity="0..1" />
+          <End Role="Factors" Type="Self.Factors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Territory">
+              <PropertyRef Name="TerritoryId" />
+            </Principal>
+            <Dependent Role="Factors">
+              <PropertyRef Name="TerritoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RiskSeria_ToRisk">
           <End Role="Risk" Type="Self.Risk" Multiplicity="0..1" />
           <End Role="RiskSeria" Type="Self.RiskSeria" Multiplicity="*" />
@@ -1285,6 +1310,14 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="AgentSeria" EntitySet="AgentSeria" />
             <End Role="Factors" EntitySet="Factors" />
           </AssociationSet>
+          <AssociationSet Name="FK_Factors_ToRisk" Association="Self.FK_Factors_ToRisk">
+            <End Role="Risk" EntitySet="Risk" />
+            <End Role="Factors" EntitySet="Factors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factors_ToTerritory" Association="Self.FK_Factors_ToTerritory">
+            <End Role="Territory" EntitySet="Territory" />
+            <End Role="Factors" EntitySet="Factors" />
+          </AssociationSet>
           <AssociationSet Name="FK_RiskSeria_ToRisk" Association="Self.FK_RiskSeria_ToRisk">
             <End Role="Risk" EntitySet="Risk" />
             <End Role="RiskSeria" EntitySet="RiskSeria" />
@@ -1498,16 +1531,11 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="seria" EntitySet="serias" />
             <End Role="Tarif" EntitySet="Tarifs" />
           </AssociationSet>
-          <EntitySet Name="Factors" EntityType="goDbModel.Factor" />
           <EntitySet Name="v_agentseria" EntityType="goDbModel.v_agentseria" />
           <EntitySet Name="ContractFactors" EntityType="goDbModel.ContractFactor" />
           <EntitySet Name="TerritoryGrps" EntityType="goDbModel.TerritoryGrp" />
           <AssociationSet Name="FK_ContractFactor_ToTable" Association="goDbModel.FK_ContractFactor_ToTable">
             <End Role="Contract" EntitySet="Contracts" />
-            <End Role="ContractFactor" EntitySet="ContractFactors" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ContractFactor_To" Association="goDbModel.FK_ContractFactor_To">
-            <End Role="Factor" EntitySet="Factors" />
             <End Role="ContractFactor" EntitySet="ContractFactors" />
           </AssociationSet>
           <EntitySet Name="TarifPlans" EntityType="goDbModel.TarifPlan" />
@@ -1541,8 +1569,21 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="Agent" EntitySet="Agents" />
             <End Role="AgentSeria" EntitySet="AgentSerias" />
           </AssociationSet>
+          <EntitySet Name="Factors" EntityType="goDbModel.Factor" />
           <AssociationSet Name="FK_Factors_ToAgentSeria" Association="goDbModel.FK_Factors_ToAgentSeria">
             <End Role="AgentSeria" EntitySet="AgentSerias" />
+            <End Role="Factor" EntitySet="Factors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractFactor_To" Association="goDbModel.FK_ContractFactor_To">
+            <End Role="Factor" EntitySet="Factors" />
+            <End Role="ContractFactor" EntitySet="ContractFactors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factors_ToRisk" Association="goDbModel.FK_Factors_ToRisk">
+            <End Role="Risk" EntitySet="Risks" />
+            <End Role="Factor" EntitySet="Factors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factors_ToTerritory" Association="goDbModel.FK_Factors_ToTerritory">
+            <End Role="Territory" EntitySet="Territories" />
             <End Role="Factor" EntitySet="Factors" />
           </AssociationSet>
           </EntityContainer>
@@ -1635,6 +1676,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="RiskSerias" Relationship="goDbModel.FK_RiskSeria_ToRisk" FromRole="Risk" ToRole="RiskSeria" />
           <NavigationProperty Name="ContractRisks" Relationship="goDbModel.FK_ContractRisk_ToRisk" FromRole="Risk" ToRole="ContractRisk" />
           <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToRisk" FromRole="Risk" ToRole="Tarif" />
+          <NavigationProperty Name="Factors" Relationship="goDbModel.FK_Factors_ToRisk" FromRole="Risk" ToRole="Factor" />
         </EntityType>
         <Association Name="FK_RiskSeria_ToRisk">
           <End Type="goDbModel.Risk" Role="Risk" Multiplicity="0..1" />
@@ -1796,6 +1838,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToTerritory" FromRole="Territory" ToRole="Tarif" />
           <Property Name="TerritoryGrpId" Type="Guid" />
           <Property Name="ParentId" Type="Guid" />
+          <NavigationProperty Name="Factors" Relationship="goDbModel.FK_Factors_ToTerritory" FromRole="Territory" ToRole="Factor" />
         </EntityType>
         <EntityType Name="v_contract">
           <Key>
@@ -2451,25 +2494,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Factor">
-          <Key>
-            <PropertyRef Name="IdFactor" />
-          </Key>
-          <Property Name="IdFactor" Type="Guid" Nullable="false" />
-          <Property Name="FactorType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Factor1" Type="Decimal" Precision="10" Scale="4" />
-          <Property Name="ValueFrom" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="ValueTo" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="SeriaId" Type="Guid" />
-          <Property Name="RiskId" Type="Guid" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SingleItemInGroup" Type="Int32" />
-          <NavigationProperty Name="ContractFactors" Relationship="goDbModel.FK_ContractFactor_To" FromRole="Factor" ToRole="ContractFactor" />
-          <Property Name="Position" Type="Int32" />
-          <Property Name="auto" Type="Int32" />
-          <Property Name="AgentSeriaId" Type="Guid" />
-          <NavigationProperty Name="AgentSeria" Relationship="goDbModel.FK_Factors_ToAgentSeria" FromRole="Factor" ToRole="AgentSeria" />
-        </EntityType>
         <EntityType Name="v_agentseria">
           <Key>
             <PropertyRef Name="SeriaId" />
@@ -2516,18 +2540,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Principal>
             <Dependent Role="ContractFactor">
               <PropertyRef Name="ContractId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ContractFactor_To">
-          <End Type="goDbModel.Factor" Role="Factor" Multiplicity="0..1" />
-          <End Type="goDbModel.ContractFactor" Role="ContractFactor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Factor">
-              <PropertyRef Name="IdFactor" />
-            </Principal>
-            <Dependent Role="ContractFactor">
-              <PropertyRef Name="IdFactor" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2649,6 +2661,28 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Factor">
+          <Key>
+            <PropertyRef Name="IdFactor" />
+          </Key>
+          <Property Name="IdFactor" Type="Guid" Nullable="false" />
+          <Property Name="FactorType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Factor1" Type="Decimal" Precision="10" Scale="4" />
+          <Property Name="ValueFrom" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ValueTo" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="SeriaId" Type="Guid" />
+          <Property Name="RiskId" Type="Guid" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SingleItemInGroup" Type="Boolean" Nullable="false" />
+          <Property Name="Position" Type="Int32" />
+          <Property Name="auto" Type="Boolean" Nullable="false" />
+          <Property Name="AgentSeriaId" Type="Guid" />
+          <Property Name="TerritoryId" Type="Guid" />
+          <NavigationProperty Name="AgentSeria" Relationship="goDbModel.FK_Factors_ToAgentSeria" FromRole="Factor" ToRole="AgentSeria" />
+          <NavigationProperty Name="ContractFactors" Relationship="goDbModel.FK_ContractFactor_To" FromRole="Factor" ToRole="ContractFactor" />
+          <NavigationProperty Name="Risk" Relationship="goDbModel.FK_Factors_ToRisk" FromRole="Factor" ToRole="Risk" />
+          <NavigationProperty Name="Territory" Relationship="goDbModel.FK_Factors_ToTerritory" FromRole="Factor" ToRole="Territory" />
+        </EntityType>
         <Association Name="FK_Factors_ToAgentSeria">
           <End Type="goDbModel.AgentSeria" Role="AgentSeria" Multiplicity="0..1" />
           <End Type="goDbModel.Factor" Role="Factor" Multiplicity="*" />
@@ -2658,6 +2692,42 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Principal>
             <Dependent Role="Factor">
               <PropertyRef Name="AgentSeriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractFactor_To">
+          <End Type="goDbModel.Factor" Role="Factor" Multiplicity="0..1" />
+          <End Type="goDbModel.ContractFactor" Role="ContractFactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Factor">
+              <PropertyRef Name="IdFactor" />
+            </Principal>
+            <Dependent Role="ContractFactor">
+              <PropertyRef Name="IdFactor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factors_ToRisk">
+          <End Type="goDbModel.Risk" Role="Risk" Multiplicity="0..1" />
+          <End Type="goDbModel.Factor" Role="Factor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Risk">
+              <PropertyRef Name="RiskId" />
+            </Principal>
+            <Dependent Role="Factor">
+              <PropertyRef Name="RiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factors_ToTerritory">
+          <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
+          <End Type="goDbModel.Factor" Role="Factor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Territory">
+              <PropertyRef Name="TerritoryId" />
+            </Principal>
+            <Dependent Role="Factor">
+              <PropertyRef Name="TerritoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3147,24 +3217,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Factors">
-            <EntityTypeMapping TypeName="goDbModel.Factor">
-              <MappingFragment StoreEntitySet="Factors">
-                <ScalarProperty Name="AgentSeriaId" ColumnName="AgentSeriaId" />
-                <ScalarProperty Name="auto" ColumnName="auto" />
-                <ScalarProperty Name="Position" ColumnName="Position" />
-                <ScalarProperty Name="SingleItemInGroup" ColumnName="SingleItemInGroup" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
-                <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
-                <ScalarProperty Name="ValueTo" ColumnName="ValueTo" />
-                <ScalarProperty Name="ValueFrom" ColumnName="ValueFrom" />
-                <ScalarProperty Name="Factor1" ColumnName="Factor" />
-                <ScalarProperty Name="FactorType" ColumnName="FactorType" />
-                <ScalarProperty Name="IdFactor" ColumnName="IdFactor" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="v_agentseria">
             <EntityTypeMapping TypeName="goDbModel.v_agentseria">
               <MappingFragment StoreEntitySet="v_agentseria">
@@ -3227,6 +3279,25 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="AgentSeriaId" ColumnName="AgentSeriaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Factors">
+            <EntityTypeMapping TypeName="goDbModel.Factor">
+              <MappingFragment StoreEntitySet="Factors">
+                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
+                <ScalarProperty Name="AgentSeriaId" ColumnName="AgentSeriaId" />
+                <ScalarProperty Name="auto" ColumnName="auto" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="SingleItemInGroup" ColumnName="SingleItemInGroup" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+                <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
+                <ScalarProperty Name="ValueTo" ColumnName="ValueTo" />
+                <ScalarProperty Name="ValueFrom" ColumnName="ValueFrom" />
+                <ScalarProperty Name="Factor1" ColumnName="Factor" />
+                <ScalarProperty Name="FactorType" ColumnName="FactorType" />
+                <ScalarProperty Name="IdFactor" ColumnName="IdFactor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

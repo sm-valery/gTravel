@@ -18,6 +18,7 @@ namespace gTravel.Models
         {
             this.Contract_territory = new HashSet<Contract_territory>();
             this.Tarifs = new HashSet<Tarif>();
+            this.Factors = new HashSet<Factor>();
         }
     
         public System.Guid TerritoryId { get; set; }
@@ -27,5 +28,6 @@ namespace gTravel.Models
     
         public virtual ICollection<Contract_territory> Contract_territory { get; set; }
         public virtual ICollection<Tarif> Tarifs { get; set; }
+        public virtual ICollection<Factor> Factors { get; set; }
     }
 }

@@ -27,12 +27,15 @@ namespace gTravel.Models
         public Nullable<System.Guid> SeriaId { get; set; }
         public Nullable<System.Guid> RiskId { get; set; }
         public string Name { get; set; }
-        public Nullable<int> SingleItemInGroup { get; set; }
+        public bool SingleItemInGroup { get; set; }
         public Nullable<int> Position { get; set; }
-        public Nullable<int> auto { get; set; }
+        public bool auto { get; set; }
         public Nullable<System.Guid> AgentSeriaId { get; set; }
+        public Nullable<System.Guid> TerritoryId { get; set; }
     
-        public virtual ICollection<ContractFactor> ContractFactors { get; set; }
         public virtual AgentSeria AgentSeria { get; set; }
+        public virtual ICollection<ContractFactor> ContractFactors { get; set; }
+        public virtual Risk Risk { get; set; }
+        public virtual Territory Territory { get; set; }
     }
 }

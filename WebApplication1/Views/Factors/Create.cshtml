@@ -1,0 +1,155 @@
+﻿@model gTravel.Models.Factor
+
+@{
+    ViewBag.Title = "Скидки и надбавки";
+
+    var agentser = (gTravel.Models.AgentSeria)ViewBag.agent;
+}
+
+<h3>@agentser.Agent.Name </h3>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m=>Model.IdFactor)
+    @Html.HiddenFor(m=>Model.AgentSeriaId)
+    @Html.HiddenFor(m=>Model.action)
+    
+    <div class="form-horizontal">
+        <h4>@ViewBag.Title. @Model.action</h4>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <hr />
+        <div class="form-group form-group-sm">
+            @Html.Label("Риск", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RiskId", null, htmlAttributes: new { @class = "form-control" })
+
+                <span class="help-block small">Если не заполнено, то скидка действует на весь договор</span>
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            @Html.Label("Тип ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FactorType, new { htmlAttributes = new { @class = "form-control", list="ftypedata" } })
+                @Html.ValidationMessageFor(model => model.FactorType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <datalist id="ftypedata">
+            <option value="age"></option>
+            <option value="Program"></option>
+            <option value="sport"></option>
+            <option value="territory"></option>
+            <option value="extrim"></option>
+            <option value="separator"></option>
+        </datalist>
+
+
+        <div id="div_territory" class="form-group form-group-sm">
+            @Html.Label("Территория", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TerritoryId", null, htmlAttributes: new { @class = "form-control chosen-select" })
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            @Html.Label("Диапазон с", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ValueFrom, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ValueFrom, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            @Html.Label("Диапазон по", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ValueTo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ValueTo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm alert alert-info">
+            @Html.Label("Значение", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Factor1, new { htmlAttributes = new { @class = "form-control" } })
+               
+                @Html.ValidationMessageFor(model => model.Factor1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group form-group-sm">
+            @Html.Label("Наименование скидки", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+                <label>@Html.CheckBoxFor(m=>Model.SingleItemInGroup) Одно значение для группы </label>
+               <br />
+                <label>@Html.CheckBoxFor(m=>m.auto) Автоматическая скидка</label>
+            </div>
+        </div>
+
+
+        <div class="form-group form-group-sm">
+            @Html.Label("Порядковый номер", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Position, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    
+
+        <div class="form-group form-group-sm">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", new { agentseriaid= Model.AgentSeriaId })
+</div>
+
+
+<script type="text/javascript">
+    function factor_type_change() {
+        var ftype = $("#FactorType").val();
+    
+        if (ftype.toString().trim() == "territory") {
+          //  $("#TerritoryId").show();
+            $("#div_territory").show();
+
+
+        }
+        else {
+          //  $("#TerritoryId").hide();
+            $("#div_territory").hide();
+
+        }
+    };
+
+    $(function () {
+
+        factor_type_change();
+
+        $("#FactorType").change(function () {
+     
+
+            factor_type_change();
+
+        });
+    })
+</script>

@@ -18,7 +18,7 @@ namespace gTravelAzur.Controllers
         // GET: Territories
         public ActionResult Index()
         {
-            return View(db.Territories.ToList());
+            return View(db.Territories.OrderBy(o=>o.Name).ToList());
         }
 
         // GET: Territories/Details/5

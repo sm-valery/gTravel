@@ -6,7 +6,7 @@
     var agent = (gTravel.Models.Agent)ViewBag.agent;
 }
 
-<h3>@agent.Name</h3>
+<h3>@Html.ActionLink(agent.Name, "index", "Agents", new {id =agent.AgentId },null)</h3>
 
 <p>
     @Html.ActionLink("Create New", "Create", new { agentid = agent.AgentId })
@@ -35,7 +35,7 @@
         </td>
         <td>
             @Html.ActionLink("Тариф", "index", "Tarifs", new { agentseriaid = item.AgentSeriaId }, null) |
-            @Html.ActionLink("Скидки", "index", "Tarifs", new { agentseriaid = item.AgentSeriaId }, null) |
+            @Html.ActionLink("Скидки", "index", "Factors", new { agentseriaid = item.AgentSeriaId }, null) |
             @Html.ActionLink("Delete", "Delete", new { id = item.AgentSeriaId })
         </td>
     </tr>

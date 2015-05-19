@@ -215,6 +215,7 @@
     <Compile Include="Controllers\AgentSeriasController.cs" />
     <Compile Include="Controllers\AgentUsersController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
+    <Compile Include="Controllers\FactorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\RiskSeriasController.cs" />
@@ -294,6 +295,7 @@
     <Compile Include="Models\Factor.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FactorAction.cs" />
     <Compile Include="Models\gModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -678,6 +680,11 @@
     <Content Include="Views\AgentSerias\Details.cshtml" />
     <Content Include="Views\AgentSerias\Edit.cshtml" />
     <Content Include="Views\AgentSerias\Index.cshtml" />
+    <Content Include="Views\Factors\Create.cshtml" />
+    <Content Include="Views\Factors\Delete.cshtml" />
+    <Content Include="Views\Factors\Details.cshtml" />
+    <Content Include="Views\Factors\Edit.cshtml" />
+    <Content Include="Views\Factors\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -16,9 +16,19 @@ namespace gTravel.Controllers
         private goDbEntities db = new goDbEntities();
 
         // GET: Agents
-        public ActionResult Index()
+
+        public ActionResult Index(Guid? id)
         {
-            return View(db.Agents.ToList());
+            var ag = from a in db.Agents select a;
+
+            if(id.HasValue)
+            {
+                ag = ag.Where(x => x.AgentId == id);
+            }
+
+               
+
+            return View(ag.OrderBy(o=>o.Name).ToList());
         }
 
         // GET: Agents/Details/5

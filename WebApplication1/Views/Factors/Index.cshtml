@@ -1,0 +1,113 @@
+﻿@model IEnumerable<gTravel.Models.Factor>
+
+@{
+    ViewBag.Title = "Скидки и надбавки";
+
+    var agent = (gTravel.Models.AgentSeria)ViewBag.agent;
+}
+
+<h3>
+    @ViewBag.Title (@agent.seria.Code).
+    @Html.ActionLink(agent.Agent.Name, "index", "AgentSerias", new { agentid=agent.AgentId},null)
+   
+</h3>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { agentseriaid=agent.AgentSeriaId })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Наименование на экране
+        </th>
+        <th>
+            Тип
+        </th>
+        <th>
+            Значение
+        </th>
+        <th>
+            С
+        </th>
+        <th>
+            По
+        </th>
+  <th>Территория
+      </th>
+        <th>
+            Риск
+        </th>
+
+        <th>
+            Одно в группе
+        </th>
+
+        <th>
+           Авто
+        </th>
+        <th>
+           Позиция
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td class="info">
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FactorType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Factor1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ValueFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ValueTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Territory.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Risk.Code)
+        </td>
+
+        <td>
+            @if( item.SingleItemInGroup)
+            {
+                @:Да
+            }
+            else
+            {
+                @:Нет
+            }
+            
+        </td>
+
+        <td>
+            @if (item.auto)
+            {
+                @:Да
+            }
+            else
+            {
+                @:Нет
+            }
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Position)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdFactor }) |
+            @Html.ActionLink("Копировать", "Copy", new { id = item.IdFactor }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdFactor }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdFactor })
+        </td>
+    </tr>
+}
+
+</table>

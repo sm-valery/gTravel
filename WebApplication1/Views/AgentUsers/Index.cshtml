@@ -2,12 +2,16 @@
 
 @{
     ViewBag.Title = "Index";
+    
+    var agent = (gTravel.Models.Agent)ViewBag.agent;
 }
 
-<h2>Index</h2>
+<h3>@Html.ActionLink(agent.Name, "index", "Agents", new { id = agent.AgentId}, null)
+
+</h3>
 
 <p>
-    @Html.ActionLink("Create New", "Create", new { agentid = (Guid)ViewBag.agentid })
+    @Html.ActionLink("Create New", "Create", new { agentid = agent.AgentId})
 </p>
 <table class="table">
     <tr>

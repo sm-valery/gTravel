@@ -39,14 +39,11 @@ namespace gTravel.Controllers
 
         }
         // GET: AgentUsers
-        public ActionResult Index(Guid? agentid)
+        public ActionResult Index(Guid agentid)
         {
-            var agentUsers = db.AgentUsers.Include(a => a.Agent).Include(a => a.AspNetUser);
+            var agentUsers = db.AgentUsers.Include(a => a.Agent).Include(a => a.AspNetUser).Where(x => x.AgentId == agentid);
 
-            if (agentid.HasValue)
-                agentUsers = agentUsers.Where(x => x.AgentId == agentid);
-
-            ViewBag.agentid = agentid;
+            ViewBag.agent = db.Agents.SingleOrDefault(x=>x.AgentId == agentid);
 
             return View(agentUsers.ToList());
         }

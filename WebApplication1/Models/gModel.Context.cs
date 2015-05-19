@@ -62,13 +62,13 @@ namespace gTravel.Models
         public virtual DbSet<v_contract_risk> v_contract_risk { get; set; }
         public virtual DbSet<Tarif> Tarifs { get; set; }
         public virtual DbSet<seria> serias { get; set; }
-        public virtual DbSet<Factor> Factors { get; set; }
         public virtual DbSet<v_agentseria> v_agentseria { get; set; }
         public virtual DbSet<ContractFactor> ContractFactors { get; set; }
         public virtual DbSet<TerritoryGrp> TerritoryGrps { get; set; }
         public virtual DbSet<TarifPlan> TarifPlans { get; set; }
         public virtual DbSet<TarifPlanAgent> TarifPlanAgents { get; set; }
         public virtual DbSet<AgentSeria> AgentSerias { get; set; }
+        public virtual DbSet<Factor> Factors { get; set; }
     
         public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, Nullable<System.Guid> borderoId)
         {
