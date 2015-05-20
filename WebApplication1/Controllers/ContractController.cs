@@ -80,7 +80,7 @@ namespace gTravel.Controllers
 
         }
 
-        private List<v_agentseria> getAgentSeias()
+        private List<v_agentseria> getAgentSerias()
         {
             //TODO изменить вьюху v_agentseria
 
@@ -100,13 +100,13 @@ namespace gTravel.Controllers
         public PartialViewResult _mainMenuCreateContract()
         {
 
-            return PartialView(getAgentSeias());
+            return PartialView(getAgentSerias());
         }
 
         public ActionResult _tools_add_contract_btn()
         {
             //TODO 27042015 добавить и заполнить таблицу agentseria
-            var available_serias = getAgentSeias();
+            var available_serias = getAgentSerias();
 
             //ViewBag.available_serias = available_serias;
 
@@ -211,9 +211,16 @@ namespace gTravel.Controllers
                 new SelectListItem(){Text="за одну поездку",Value="2"}
             }, "Value", "Text");
 
+            /*
+             * 
+              string userid = User.Identity.GetUserId();
+                userserias = db.v_agentseria.Where(x => x.UserId == userid).ToList();
+*/
 
+            var aa = from ags in db.AgentSerias 
+                     where ags.SeriaId ==
 
-
+            ViewBag.hasFactorContrat = db.Factors
         }
 
 
@@ -354,6 +361,7 @@ namespace gTravel.Controllers
         {
             List<string> ErrMess = new List<string>();
 
+      
             //очистить застрахованных от удаленных
             c.SubjectClearDeleted();
 
@@ -916,7 +924,7 @@ namespace gTravel.Controllers
             ViewBag.terr_count = c.Contract_territory.Count();
 
             Contract_ini(c.ContractId);
-
+            
 
             return View(c.seria.formname, c);
         }

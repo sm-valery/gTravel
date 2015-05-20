@@ -303,8 +303,9 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             Базовый тариф
                         </th>
                         <th>
-                            Скидки/надбавки
+                            Коэф. по риску
                         </th>
+                        <th>Коэф по договору</th>
                         <th>Премия</th>
                     </tr>
                     @foreach (var risk in Model.ContractRisks.OrderBy(o => o.sort))
@@ -339,7 +340,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 @risk.BaseTarif
                             </td>
                             <td>
-                                @*Скидки*@
+                                @*Скидки по риску*@
                                 <img id="bonus_wait" src="~/Content/loading_white_small.gif"
                                      style="position:absolute; z-index:1000;display:none;" />
                                 @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = risk.RiskId, contractid = Model.ContractId })
@@ -358,6 +359,15 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                     <div class="alert alert-success small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
                                         Возрастной коэф
                                     </div>*@
+                            </td>
+                            <td >
+                                @*Скидки по договору*@
+                                <img id="bonus_wait" src="~/Content/loading_white_small.gif"
+                                     style="position:absolute; z-index:1000;display:none;" />
+                                @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = risk.RiskId, contractid = Model.ContractId })
+
+
+
                             </td>
                             <td>
                                 @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })

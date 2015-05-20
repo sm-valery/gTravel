@@ -13,16 +13,89 @@ using System.Web.Mvc;
 namespace gTravel.Models
 {
 
+    //public static class ContractManager
+    //{
+    //    public static int checkaccess(goDbEntities db, Guid ContractId, string userid)
+    //    {
+
+    //        if (!db.spContract(userid, null, null, ContractId, null).Any())
+    //            return 0;
+
+    //        return 1;
+    //    }
+
+    //    public static decimal getnextnumber(goDbEntities db, Contract c, string userid)
+    //    {
+
+    //        return getnextnumber(db,c.seriaid, userid);
+    //    }
+    //    public static decimal getnextnumber(goDbEntities db, Guid seriaid, string userid)
+    //    {
+    //        decimal? newnum;
+
+    //        var agentid = db.AgentUsers.FirstOrDefault(x => x.UserId == userid).AgentId;
+
+    //        newnum = (from c in db.Contracts
+    //                  join au in db.AgentUsers on c.UserId equals au.UserId
+    //                  where au.AgentId == agentid
+    //                  && c.seriaid == seriaid
+    //                  select c).Max(x => x.contractnumber);
+
+ 
+    //        if (newnum == null)
+    //            newnum = 0;
+
+    //        return newnum.Value + 1;
+    //    }
+
+
+    //    public static Guid change_status(goDbEntities db, Guid ContractId, string userid, string new_status_code = "project")
+    //    {
+
+    //        ContractStatu stat = new ContractStatu();
+    //        stat.ContractStatusId = Guid.NewGuid();
+    //        stat.ContractId = ContractId;
+
+    //        stat.StatusId = db.Status.SingleOrDefault(x => x.Code.Trim() == new_status_code).StatusId;
+    //        stat.DateInsert = DateTime.Now;
+    //        stat.UserId = userid;
+
+
+    //        db.ContractStatus.Add(stat);
+
+    //        return stat.ContractStatusId;
+    //    }
+
+    //    public void SubjectClearDeleted()
+    //    {
+    //        var deleted = this.Subjects.Where(x => x.num == -1).ToList();
+
+    //        foreach (var s in deleted)
+    //        {
+    //            this.Subjects.Remove(s);
+    //        }
+
+    //    }
+    //}
+
     public partial class Contract
     {
        public goDbEntities db;
 
+       public bool HasAllContractFactors { get; set; }
+       public bool HasRiskFactors { get; set; }
+
        public Contract(goDbEntities DbEntities)
        {
-           
 
            this.db = DbEntities;
        }
+
+        ~Contract()
+       {
+           this.db.Dispose();
+       }
+
 
         public int checkaccess( string userid)
         {
@@ -237,7 +310,6 @@ namespace gTravel.Models
 
             return s;
         }
-
 
     }
 
