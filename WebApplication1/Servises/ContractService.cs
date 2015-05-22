@@ -252,9 +252,10 @@ namespace gTravel.Servises
                             join tf in db.Tarifs on au.AgentSeriaId equals tf.AgentSeriaId
                             where ags.UserId == c.UserId
                             && au.SeriaId == c.seriaid
-                            && tf.PeriodFrom >= date_diff 
-                            && tf.PeriodTo <= 
-                            select f);
+                            && tf.RiskId ==crisk.RiskId
+                            && tf.PeriodFrom >= date_diff
+                            && tf.PeriodTo <= date_diff
+                            select tf).FirstOrDefault();
 
                     //var t = (from tr in db.Tarifs
                     //         where tr.SeriaId == c.seriaid &&
