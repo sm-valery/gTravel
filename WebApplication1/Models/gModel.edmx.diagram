@@ -60,7 +60,29 @@
         <EntityTypeShape EntityType="goDbModel.v_contract_risk" Width="1.5" PointX="20.375" PointY="19.75" />
         <EntityTypeShape EntityType="goDbModel.Tarif" Width="1.5" PointX="18" PointY="5.5" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToRisk" />
-        <AssociationConnector Association="goDbModel.FK_Tarif_ToTerritory" />
+        <AssociationConnector Association="goDbModel.FK_Tarif_ToTerritory" ManuallyRouted="true" >
+          <ConnectorPoint PointX="2" PointY="6.24001827604166" />
+          <ConnectorPoint PointX="2.25" PointY="6.24001827604166" />
+          <ConnectorPoint PointX="2.25" PointY="9.4898893229166674" />
+          <ConnectorPoint PointX="3.0416666666666665" PointY="9.4898893229166674" />
+          <ConnectorPoint PointX="3.2083333333333335" PointY="9.4898893229166674" />
+          <ConnectorPoint PointX="6.979166666666667" PointY="9.4898893229166674" />
+          <ConnectorPoint PointX="7.145833333333333" PointY="9.4898893229166674" />
+          <ConnectorPoint PointX="13" PointY="9.4898893229166674" />
+          <ConnectorPoint PointX="13" PointY="11.360087890625" />
+          <ConnectorPoint PointX="15.197916916666665" PointY="11.360087890625" />
+          <ConnectorPoint PointX="15.364583583333333" PointY="11.360087890625" />
+          <ConnectorPoint PointX="15.541667166666665" PointY="11.360087890625" />
+          <ConnectorPoint PointX="15.708333833333333" PointY="11.360087890625" />
+          <ConnectorPoint PointX="16.057291666666668" PointY="11.360087890625" />
+          <ConnectorPoint PointX="16.223958333333332" PointY="11.360087890625" />
+          <ConnectorPoint PointX="17.31066229243384" PointY="11.360087890625" />
+          <ConnectorPoint PointX="17.31066229243384" PointY="10.306724446614583" />
+          <ConnectorPoint PointX="17.572916666666668" PointY="10.306724446614583" />
+          <ConnectorPoint PointX="17.739583333333332" PointY="10.306724446614583" />
+          <ConnectorPoint PointX="18.75" PointY="10.306724446614583" />
+          <ConnectorPoint PointX="18.75" PointY="10.172506510416666" />
+        </AssociationConnector>
         <EntityTypeShape EntityType="goDbModel.seria" Width="1.5" PointX="14.75" PointY="11.75" />
         <AssociationConnector Association="goDbModel.FK_ConditionSeria_ToSeria" />
         <AssociationConnector Association="goDbModel.FK_Contract_ToTable_1" />

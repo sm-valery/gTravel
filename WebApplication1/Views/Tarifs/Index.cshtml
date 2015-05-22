@@ -24,6 +24,9 @@
            Риск
         </th>
         <th>
+            Период
+        </th>
+        <th>
             Стр сумма от
         </th>
         <th>
@@ -52,6 +55,11 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Risk.Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PeriodFrom)
+            -
+            @Html.DisplayFor(modelItem => item.PeriodTo)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.InsSumFrom)

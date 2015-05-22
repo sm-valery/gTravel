@@ -35,9 +35,7 @@
             @Html.DisplayFor(modelItem => item.num)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ConditionSeriaId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ConditionSeriaId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ConditionSeriaId })
+            @Html.ActionLink("Delete", "ConditionSeriaDelete", new { id = item.ConditionSeriaId })
         </td>
     </tr>
 }

@@ -1,14 +1,54 @@
-﻿@model gTravel.Models.Contract
+﻿@helper HelperRiskFactors(int numrow, int riskcount, Guid riskid, Guid contractid)
+{
+    if (numrow == 0)
+    {
+
+        <td rowspan="@riskcount">
+            @*Скидки по договору*@
+            <img id="bonus_wait" src="~/Content/loading_white_small.gif"
+                 style="position:absolute; z-index:1000;display:none;" />
+            @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = riskid, contractid = contractid })
+
+
+
+        </td>
+
+    }
+
+}
+
+@helper HelperAddition()
+{
+    if (Model.ContractConditions.Any())
+    {
+        <p></p>
+        <fieldset>
+            <legend>Доп. параметры</legend>
+            <div class="well well-sm">
+                @{
+        int idx = 0;
+
+        foreach (var item in Model.ContractConditions)
+        {
+            <p>
+                @helpers.BuildCond(idx, item)
+            </p>
+            idx++;
+
+        }
+                }
+            </div>
+        </fieldset>
+    }
+}
+
+
+@model gTravel.Models.Contract
 @{
     ViewBag.Title = "Договор";
 }
 @{
-    bool viewonly = false;
-
-    if (Model.ContractStatu.Status.Readonly == 1)
-    {
-        viewonly = true;
-    }
+    var viewonly = Model.ContractStatu.Status.Readonly == 1;
 
 }
 
@@ -40,12 +80,15 @@
     @Html.HiddenFor(m => Model.seriaid)
     @Html.HiddenFor(m => Model.UserId)
 
-    foreach (var terr in Model.Contract_territory)
-    {
-        @Html.Hidden("Contract_territory[0].ContractId", Model.ContractId)
-        @Html.Hidden("Contract_territory[0].ContractTerritoryId", terr.ContractTerritoryId)
-        @Html.Hidden("Contract_territory[0].TerritoryId", terr.TerritoryId)
-    }
+    var cterr = Model.Contract_territory.FirstOrDefault();
+    Guid ContractTerritoryId = (cterr ==null)?Guid.Empty: cterr.ContractTerritoryId;
+    
+    //foreach (var terr in Model.Contract_territory)
+    //{
+    //    @Html.Hidden("Contract_territory[0].ContractId", Model.ContractId)
+    //    @Html.Hidden("Contract_territory[0].ContractTerritoryId", terr.ContractTerritoryId)
+    //    @Html.Hidden("Contract_territory[0].TerritoryId", terr.TerritoryId)
+    //}
 
 
 
@@ -99,56 +142,15 @@
             <div class="row">
                 <div class="col-md-2"><label><b>Территория:</b></label> </div>
                 <div class="col-md-10">
-                    @Html.Action("build_contract_territory", new { contractid = Model.ContractId })
+                    @Html.Action("build_contract_territory", new {ContractTerritoryId = ContractTerritoryId,  contractid = Model.ContractId })
                 </div>
             </div>
             @*Доп параметры*@
-            <p></p>
-            <fieldset>
-                <legend>Доп. параметры</legend>
-                <div class="well well-sm">
-                    @{
-    int idx = 0;
 
-    foreach (var item in Model.ContractConditions)
-    {
-        <p>
-            @helpers.BuildCond(idx, item)
-        </p>
-        idx++;
+            @HelperAddition()
 
-    }
-                    }
-                </div>
-            </fieldset>
-            @*<fieldset>
-                    <legend>Территория</legend>
-                    <div class="well well-sm">
-                        <div class="row">
-                            <div class="col-md-2"><label>Выберите территорию:</label> </div>
-                            <div class="col-md-10">
-
-                                @if (Model.Contract_territory.Count() > 0)
-                                {
-
-                                    foreach (var t in Model.Contract_territory)
-                                    {
-
-                                        @Html.Action("build_contract_territory", new { ContractTerritoryId = t.ContractTerritoryId })
-
-                                    }
-                                }
-                                else
-                                {
-                                    @Html.Action("build_contract_territory", new { contractid = Model.ContractId })
-                                }
-
-
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>*@
             @*//страхователь*@
+            <p></p>
             <div class="panel panel-success">
                 <div class="panel-heading small">
                     Страхователь:&nbsp;&nbsp;
@@ -159,14 +161,14 @@
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       }
                                value="fiz" />
                         физ-лицо
                     </label>
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (!subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   }
                                value="jur">
                         юр-лицо
                     </label>
@@ -289,7 +291,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                 <legend>Риски</legend>
 
                 @{
-                    int risk_num = 0;
+                    var risk_num = 0;
                     decimal contract_fee = 0;
                     decimal contract_prem = 0;
                     decimal contract_prem_rur = 0;
@@ -302,25 +304,16 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                         <th>
                             Базовый тариф
                         </th>
-                        <th>
-                            Коэф. по риску
-                        </th>
+
                         <th>Коэф по договору</th>
                         <th>Премия</th>
                     </tr>
                     @foreach (var risk in Model.ContractRisks.OrderBy(o => o.sort))
                     {
-                        <tr >
+                        <tr>
                             <td class="active">
                                 <label>
-                                    @if (risk.isMandatory)
-                                    {
-                                        @Html.Hidden(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked)
-                                    }
-                                    else
-                                    {
-                                        @Html.CheckBox(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked)
-                                    }
+                                    @(risk.isMandatory ? Html.Hidden(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked) : Html.CheckBox(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked))
 
                                     @risk.Risk.Name
                                 </label>
@@ -333,49 +326,31 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 @Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].isMandatory", risk_num), risk.isMandatory)
-                                
-                                @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value"})
+
+                                @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
                             </td>
                             <td>
                                 @risk.BaseTarif
                             </td>
-                            <td>
-                                @*Скидки по риску*@
-                                <img id="bonus_wait" src="~/Content/loading_white_small.gif"
-                                     style="position:absolute; z-index:1000;display:none;" />
-                                @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = risk.RiskId, contractid = Model.ContractId })
+
+                            @HelperRiskFactors(risk_num, Model.ContractRisks.Count, (Guid)risk.RiskId, Model.ContractId)
+
+                            @*<td>
+
+                                    <img id="bonus_wait" src="~/Content/loading_white_small.gif"
+                                         style="position:absolute; z-index:1000;display:none;" />
+                                    @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = risk.RiskId, contractid = Model.ContractId })
 
 
 
-                                @*<div class="alert alert-warning alert-dismissible small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        Программа A
-                                    </div>
-                                    <div class="alert alert-warning alert-dismissible small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        Горнолыжный и другие виды спорта
-                                    </div>
-
-                                    <div class="alert alert-success small" style="padding-top:0; padding-bottom:0; margin-top:2px; margin-bottom:2px;" role="alert">
-                                        Возрастной коэф
-                                    </div>*@
-                            </td>
-                            <td >
-                                @*Скидки по договору*@
-                                <img id="bonus_wait" src="~/Content/loading_white_small.gif"
-                                     style="position:absolute; z-index:1000;display:none;" />
-                                @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = risk.RiskId, contractid = Model.ContractId })
-
-
-
-                            </td>
+                                </td>*@
                             <td>
                                 @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })
                                 @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
                                 @{
-                                    contract_fee += (decimal)(risk.InsFee ?? 0);
-                                    contract_prem += (decimal)(risk.InsPrem ?? 0);
-                                    contract_prem_rur += (decimal)(risk.InsPremRur ?? 0);
+                        contract_fee += (decimal)(risk.InsFee ?? 0);
+                        contract_prem += (decimal)(risk.InsPrem ?? 0);
+                        contract_prem_rur += (decimal)(risk.InsPremRur ?? 0);
                                 }
                                 <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top"
                                       title="@string.Format("базовый тариф: {0}, дней {1}, кол-во застрахованных {2}", risk.BaseTarif, Model.date_diff,Model.Subjects.Count())">?</span>
@@ -383,7 +358,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             </td>
                         </tr>
 
-                                    risk_num++;
+                        risk_num++;
                     }
                 </table>
 
@@ -547,7 +522,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                 $.ajax({
                     url: '@Url.Action("_addbonusRow", "Contract")',
                     type: 'GET',
-                    data: { factorid: factor_id, riskid: risk_id, contractid: '@Model.ContractId' },
+                    data: { factorid: factor_id, contractid: '@Model.ContractId' },
                     beforeSend: function () {
                         $("#bonus_wait").show();
                     },

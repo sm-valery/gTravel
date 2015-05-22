@@ -1,8 +1,10 @@
 ﻿using gTravel.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Linq;
 using System.Net.Mail;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -82,29 +84,41 @@ namespace gTravel.Models
     {
        public goDbEntities db;
 
-       public bool HasAllContractFactors { get; set; }
-       public bool HasRiskFactors { get; set; }
+       public bool IsBaseFactorInRisk { get; set; }
 
-       public Contract(goDbEntities DbEntities)
+
+        public Contract(goDbEntities dbEntities)
        {
 
-           this.db = DbEntities;
+           this.db = dbEntities;
        }
 
         ~Contract()
        {
-           this.db.Dispose();
+            if(db!=null)
+               this.db.Dispose();
        }
 
-
-        public int checkaccess( string userid)
+        public void CheckFactors(string userid)
         {
+            IsBaseFactorInRisk = (from agu in db.AgentUsers
+                join ags in db.AgentSerias on agu.AgentId equals ags.AgentId
+                join f in db.Factors on ags.AgentSeriaId equals f.AgentSeriaId
+            where agu.UserId == userid 
+            && f.RiskId !=null
+                                select agu).Any();
 
-            if (!db.spContract(userid, null, null, this.ContractId,null).Any())
-                return 0;
-            
-            return 1;
         }
+
+
+        //public int checkaccess( string userid)
+        //{
+
+        //    if (!db.spContract(userid, null, null, this.ContractId,null).Any())
+        //        return 0;
+            
+        //    return 1;
+        //}
         public decimal getnextnumber(string userid)
         {
 
@@ -357,6 +371,41 @@ namespace gTravel
 
     static class mLib
     {
+        public static bool IsSetCurrentUserAgent(string userid)
+        {
+            return HttpContext.Current.Session["useragentid"] != null;
+        }
+
+        public static void SetCurrentUserAgent(string userid)
+        {
+            if (IsSetCurrentUserAgent(userid)) return;
+
+            goDbEntities db = new goDbEntities();
+
+            var singleOrDefault = db.AgentUsers.SingleOrDefault(x => x.UserId == userid);
+
+            if (singleOrDefault != null)
+            {
+                HttpContext.Current.Session["useragentid"] = singleOrDefault.AgentId;
+                HttpContext.Current.Session["useragentname"] = singleOrDefault.Agent.Name;
+            }
+                
+        }
+
+
+        [UserIdFilter]
+        public static Agent GetCurrentUserAgent(string userid)
+        {
+            if(IsSetCurrentUserAgent(userid))
+                return (Agent)HttpContext.Current.Session["useragent"];
+
+            SetCurrentUserAgent(userid);
+
+            return GetCurrentUserAgent(userid);
+        }
+
+
+
         public static string gethash(string key)
         {
            var h= MD5.Create();

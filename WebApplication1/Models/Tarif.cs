@@ -26,6 +26,8 @@ namespace gTravel.Models
         public Nullable<double> InsFee { get; set; }
         public Nullable<System.Guid> TarifPlanId { get; set; }
         public Nullable<System.Guid> AgentSeriaId { get; set; }
+        public Nullable<int> PeriodFrom { get; set; }
+        public Nullable<int> PeriodTo { get; set; }
     
         public virtual Risk Risk { get; set; }
         public virtual Territory Territory { get; set; }

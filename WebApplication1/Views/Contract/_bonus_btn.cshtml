@@ -1,12 +1,10 @@
 ﻿@model IEnumerable<gTravel.Models.Factor>
-@if(Model.Count()>0)
+@if (Model.Any())
 {
     var risk = Model.FirstOrDefault();
-    
-    
+   
     <!-- Single button -->
     <div id="risk_bonus_@risk.RiskId">
-
         <div class="btn-group frm-discounts">
             <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 Добавить <span class="caret"></span>
@@ -34,11 +32,10 @@
                 }
             </ul>
         </div>
+        <div class="risk_bonus_content">
 
-        <div  class="risk_bonus_content">
-            @Html.Action("_bonus_list", "Contract", new { riskid = risk.RiskId, contractid = (Guid)ViewBag.contractid })
+            @Html.Action("_bonus_list", "Contract", new { contractid = (Guid)ViewBag.contractid })
+
         </div>
-
     </div>
 }
-

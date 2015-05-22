@@ -19,7 +19,7 @@ namespace gTravel.Controllers
         public ActionResult Index(Guid agentseriaid)
         {
             var tarifs = db.Tarifs.Include(t => t.Risk).Include(t=>t.Territory).Include(t=>t.seria).Where(x=>x.AgentSeriaId==agentseriaid)
-                .OrderBy(o=>o.RiskId).ThenBy(o=>o.InsSumFrom);
+                .OrderBy(o=>o.RiskId).ThenBy(o=>o.InsSumFrom).ThenBy(o=>o.PeriodFrom);
 
             ViewBag.agentseria = db.AgentSerias.SingleOrDefault(x => x.AgentSeriaId == agentseriaid);
 
@@ -44,16 +44,21 @@ namespace gTravel.Controllers
             t.AgentSeriaId = tarif.AgentSeriaId;
             t.FranshPerc = tarif.FranshPerc;
             t.FranshSum = tarif.FranshSum;
-            t.InsFee = tarif.InsFee;
+
             t.InsSumFrom = tarif.InsSumFrom;
             t.InsSumTo = tarif.InsSumTo;
-            t.PremSum = tarif.PremSum;
+            t.PremSum = 0;
             t.RiskId = tarif.RiskId;
             t.SeriaId = tarif.SeriaId;
             t.TerritoryId = tarif.TerritoryId;
 
+            t.PeriodFrom = tarif.PeriodFrom;
+            t.PeriodTo = tarif.PeriodTo;
+
             db.Tarifs.Add(t);
             db.SaveChanges();
+
+            ViewData.Model = tarif;
 
             return RedirectToAction("edit", new { id = t.TarifId, editaction = "Копирование" });
         }
@@ -84,7 +89,7 @@ namespace gTravel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Tarif tarif)
+        public ActionResult Create(Tarif tarif, string editaction = "save")
         {
             var ags = db.AgentSerias.SingleOrDefault(x => x.AgentSeriaId == tarif.AgentSeriaId);
 
@@ -98,7 +103,12 @@ namespace gTravel.Controllers
 
                 db.Tarifs.Add(tarif);
                 db.SaveChanges();
-                return RedirectToAction("Index", new { agentseriaid =tarif.AgentSeriaId});
+
+
+                if (editaction == "SaveCopy")
+                    return RedirectToAction("Copy", new { id = tarif.TarifId });
+
+                return RedirectToAction("Index", new { agentseriaid = tarif.AgentSeriaId });
             }
 
            
@@ -161,7 +171,13 @@ namespace gTravel.Controllers
 
                 db.Entry(tarif).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index" , new { agentseriaid=tarif.AgentSeriaId});
+                
+
+                if (editaction == "SaveCopy")
+                    return RedirectToAction("Copy", new { id = tarif.TarifId });
+
+                return RedirectToAction("Index", new { agentseriaid = tarif.AgentSeriaId });
+
             }
            
             var ags = db.AgentSerias.SingleOrDefault(x => x.AgentSeriaId == tarif.AgentSeriaId);

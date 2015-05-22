@@ -342,6 +342,8 @@
           <Property Name="InsFee" Type="float" />
           <Property Name="TarifPlanId" Type="uniqueidentifier" />
           <Property Name="AgentSeriaId" Type="uniqueidentifier" />
+          <Property Name="PeriodFrom" Type="int" />
+          <Property Name="PeriodTo" Type="int" />
         </EntityType>
         <EntityType Name="TarifPlan">
           <Key>
@@ -2388,6 +2390,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="TarifPlan" Relationship="goDbModel.FK_Tarif_ToTarifPlan" FromRole="Tarif" ToRole="TarifPlan" />
           <Property Name="AgentSeriaId" Type="Guid" />
           <NavigationProperty Name="AgentSeria" Relationship="goDbModel.FK_Tarif_ToAgentSeria" FromRole="Tarif" ToRole="AgentSeria" />
+          <Property Name="PeriodFrom" Type="Int32" />
+          <Property Name="PeriodTo" Type="Int32" />
         </EntityType>
         <Association Name="FK_Tarif_ToRisk">
           <End Type="goDbModel.Risk" Role="Risk" Multiplicity="1" />
@@ -3186,6 +3190,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="Tarifs">
             <EntityTypeMapping TypeName="goDbModel.Tarif">
               <MappingFragment StoreEntitySet="Tarif">
+                <ScalarProperty Name="PeriodTo" ColumnName="PeriodTo" />
+                <ScalarProperty Name="PeriodFrom" ColumnName="PeriodFrom" />
                 <ScalarProperty Name="AgentSeriaId" ColumnName="AgentSeriaId" />
                 <ScalarProperty Name="TarifPlanId" ColumnName="TarifPlanId" />
                 <ScalarProperty Name="InsFee" ColumnName="InsFee" />

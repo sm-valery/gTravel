@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using gTravel.Models
+@using Microsoft.AspNet.Identity
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,16 +38,24 @@
     </script>
 </head>
 <body>
-
     <div class="container">
         <div class="blockquote-bottom">
             @if (Request.IsAuthenticated)
             {
+                //  var agent = Session["useragentname"];
                 using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.Label("Пользователь:")
-                    <span>&nbsp;</span>
+                    <span>
+                        &nbsp;
+                        
+                    </span>
+
+
+
+
+
                     @Html.ActionLink("[" + User.Identity.GetUserName() + "]", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
 
                     <a href="javascript:document.getElementById('logoutForm').submit()">&nbsp;Выйти</a>
@@ -54,9 +63,7 @@
                 }
             }
         </div>
-
         <div class="navbar navbar-default">
-
             <div class="navbar-header " role="navigation">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -64,30 +71,30 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a href="@Url.Action("index","home")">
-                <img src="~/Content/logo-nav.png" class="title-brand" />
-                    </a>
+                    <img src="~/Content/logo-nav.png" class="title-brand" />
+                </a>
                 @*@Html.ActionLink("TIT", "Index", "Home", null, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse active">
                 <ul class="nav navbar-nav ">
                     <li>@Html.ActionLink("Список договоров", "Index", "Contract")</li>
 
-                    @Html.Action("_mainMenuCreateContract","Contract")
+                    @Html.Action(actionName: @"_mainMenuCreateContract", controllerName: "Contract")
 
                     @*<li>
-                        @Html.ActionLink("Новый договор", "Contract_create", "Contract", new { seriaid = "d6c115e5-538e-4cca-b33f-113d12de8386" }, null)
-                    </li>
-                    <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Новый договор<b class="caret"></b></a>
-                                            <ul class="dropdown-menu">
-                                <li>
+                            @Html.ActionLink("Новый договор", "Contract_create", "Contract", new { seriaid = "d6c115e5-538e-4cca-b33f-113d12de8386" }, null)
+                        </li>
+                        <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Новый договор<b class="caret"></b></a>
+                                                <ul class="dropdown-menu">
+                                    <li>
 
-                                    @Html.ActionLink("AG", "Contract_create", "Contract", new { seriaid = "d6c115e5-538e-4cca-b33f-113d12de8386" }, null)
-                                </li>
-                                <li>@Html.ActionLink("Крым", "Contract_create", "Contract", new { seriaid = "5866c41d-3b1c-432a-bf26-423b860dc33b" }, null)</li>
-                                <li><a href="#">TR </a></li>
-                            </ul>
-                        </li>*@
+                                        @Html.ActionLink("AG", "Contract_create", "Contract", new { seriaid = "d6c115e5-538e-4cca-b33f-113d12de8386" }, null)
+                                    </li>
+                                    <li>@Html.ActionLink("Крым", "Contract_create", "Contract", new { seriaid = "5866c41d-3b1c-432a-bf26-423b860dc33b" }, null)</li>
+                                    <li><a href="#">TR </a></li>
+                                </ul>
+                            </li>*@
                     <li>@Html.ActionLink("Импорт", "import_contract", "Contract")</li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Отчеты<b class="caret"></b></a>
@@ -102,7 +109,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Агенты", "Index", "Agents")</li>
                             @*<li>@Html.ActionLink("Добавить пользователя", "Register", "Account")</li>
-                            <li>@Html.ActionLink("Пользователи агента", "Index", "AgentUsers")</li>*@
+                                <li>@Html.ActionLink("Пользователи агента", "Index", "AgentUsers")</li>*@
                             <li>@Html.ActionLink("Валюты", "Currency", "Settings")</li>
                             <li>@Html.ActionLink("Курсы валют", "Currate", "Settings")</li>
                             <li>@Html.ActionLink("Серия", "seria", "Settings")</li>
@@ -133,7 +140,6 @@
             </div>
         </div>
 
-
         <div class="row">
             <div class="container body-content">
                 @RenderBody()
@@ -150,7 +156,6 @@
         </div>
     </div>
     @RenderSection("scripts", required: false)
-
     @Scripts.Render("~/Scripts/form_standart.js")
 </body>
 </html>

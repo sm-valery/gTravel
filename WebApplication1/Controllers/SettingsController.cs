@@ -225,6 +225,22 @@ namespace gTravel.Controllers
             return View(cc);
         }
 
+
+        public ActionResult ConditionSeriaDelete(Guid id)
+        {
+
+            return View(db.ConditionSerias.SingleOrDefault(x=>x.ConditionSeriaId==id));
+        }
+
+        [HttpPost, ActionName("ConditionSeriaDelete")]
+        public ActionResult ConditionSeriaConfirmDelete(Guid id)
+        {
+            ConditionSeria cs = db.ConditionSerias.Find(id);
+            db.ConditionSerias.Remove(cs);
+            db.SaveChanges();
+            return RedirectToAction("ConditionSeria");
+        }
+
 #endregion
 
         #region AddRefs

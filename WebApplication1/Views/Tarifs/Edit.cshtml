@@ -38,6 +38,14 @@
             </div>*@
 
         <div class="form-group form-group-sm">
+            @Html.Label("Период", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PeriodFrom, new { htmlAttributes = new { @class = "form-control", @list = "periodlist" } })
+                @Html.EditorFor(model => model.PeriodTo, new { htmlAttributes = new { @class = "form-control", @list = "periodlist" } })
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
             @Html.Label("Страх сумма от", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.InsSumFrom, new { htmlAttributes = new { @class = "form-control", @list = "isslist" } })
@@ -61,6 +69,15 @@
             </div>
         </div>
 
+        <div class="form-group form-group-sm alert alert-info">
+            @Html.Label("Премия", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 active">
+                @Html.EditorFor(model => model.PremSum, new { htmlAttributes = new { @class = "form-control" } })
+
+            </div>
+        </div>
+
+
         <div class="form-group form-group-sm">
             @Html.Label("Франшиза от", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -77,13 +94,6 @@
             </div>
         </div>
 
-        <div class="form-group form-group-sm alert alert-info">
-            @Html.Label("Премия", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10 active">
-                @Html.EditorFor(model => model.PremSum, new { htmlAttributes = new { @class = "form-control" } })
-
-            </div>
-        </div>
 
 
 
@@ -98,6 +108,8 @@
         <div class="form-group form-group-sm">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
+                <button name="editaction" type="submit" value="SaveCopy" class="btn btn-default">Save And Copy</button>
+                
             </div>
         </div>
     </div>

@@ -25,9 +25,11 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AgentId }) |
-            @Html.ActionLink("Пользователи", "index", "AgentUsers", new { agentid = item.AgentId }, null) |
             @Html.ActionLink("Серии", "index", "AgentSerias", new { agentid = item.AgentId }, null) |
+            @Html.ActionLink("Пользователи", "index", "AgentUsers", new { agentid = item.AgentId }, null) |
+            @Html.ActionLink("Edit", "Edit", new { id=item.AgentId }) |
+          
+            
             @Html.ActionLink("Delete", "Delete", new { id=item.AgentId })
         </td>
     </tr>

@@ -131,7 +131,7 @@ namespace gTravel.Controllers
 
                 db.Entry(factor).State = EntityState.Modified;
                 db.SaveChanges();
-
+                
                 return RedirectToAction("Index", new { agentseriaid = factor.AgentSeriaId });
             }
 
