@@ -402,10 +402,13 @@ namespace gTravel.Servises
 
 
                     //найдем тариф
-                    var t = db.Tarifs.FirstOrDefault(x => x.AgentSeriaId == seriaagentid
-                        && x.RiskId == crisk.RiskId
-                            && x.PeriodFrom >= date_diff
-                            && x.PeriodTo <= date_diff);
+                    var t = db.Tarifs.FirstOrDefault(
+                        x => x.AgentSeriaId == seriaagentid
+                            && x.RiskId == crisk.RiskId
+                            && date_diff >=x.PeriodFrom
+                            && date_diff <= x.PeriodTo
+                            && crisk.InsSum >=x.InsSumFrom
+                            && crisk.InsSum <=x.InsSumTo);
 
 
 
@@ -414,7 +417,9 @@ namespace gTravel.Servises
                         crisk.BaseTarif = (decimal)t.PremSum;
                         var riskprem = (decimal)crisk.BaseTarif * (decimal)c.date_diff;
 
+                        int agefactorscount = c.ContractFactors.Count(x => x.Factor.FactorType == "age");
 
+                        riskprem = riskprem * (c.Subjects.Count() - agefactorscount);
 
                         //var factor_descr = new List<factorgrp>();
 

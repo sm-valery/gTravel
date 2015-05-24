@@ -323,7 +323,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
-                                @Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)
+                                @*@Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)*@
                                 @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].isMandatory", risk_num), risk.isMandatory)
 
