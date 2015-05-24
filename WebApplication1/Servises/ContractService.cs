@@ -11,7 +11,7 @@ using System.Data.Entity;
 
 namespace gTravel.Servises
 {
-    public class ContractService : IDisposable
+    public class ContractService 
     {
         private goDbEntities db = new goDbEntities();
 
@@ -467,10 +467,6 @@ namespace gTravel.Servises
 
 
 
-        void IDisposable.Dispose()
-        {
-            if (db != null)
-                db.Dispose();
-        }
+   
     }
 }
