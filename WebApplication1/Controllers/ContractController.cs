@@ -109,7 +109,7 @@ namespace gTravel.Controllers
 
             ViewBag.contractid = contractid;
 
-            return PartialView(new ContractService().BaseFactors(db,userid,seriaid));
+            return PartialView(new ContractService(db).BaseFactors(userid,seriaid));
         }
 
         public PartialViewResult _addbonusRow(Guid factorid,Guid contractid, Guid? riskid )
@@ -122,7 +122,7 @@ namespace gTravel.Controllers
                 return PartialView("_bonus_list",
                     db.ContractFactors.Where(x => x.ContractId == contractid).OrderBy(o => o.Position).ToList());
 
-            new ContractService().AddNewBonusToContract(db, factorid, contractid);
+            new ContractService(db).AddNewBonusToContract(factorid, contractid);
            
 
             return PartialView("_bonus_list",
@@ -204,7 +204,7 @@ namespace gTravel.Controllers
         [UserIdFilter]
         public ActionResult Contract_create(string userid, Guid seriaid)
         {
-            var c = new ContractService().create_contract(db, seriaid, userid);
+            var c = new ContractService(db).create_contract(seriaid, userid);
 
             if (c != null)
                 return RedirectToAction("Contract_edit", new {contractid = c.ContractId});
@@ -319,8 +319,12 @@ namespace gTravel.Controllers
             c.db = db;
             c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
 
+
+            ContractSave(c);
+
             //пересчет
-            var isCalculated = ContractRecalc(c, errMess);
+            //var isCalculated = ContractRecalc(c, errMess);
+            var isCalculated = new ContractService(db).ContractRecalc(c, errMess);
 
             if (caction == "recalc" || caction == "confirm")
             {
@@ -352,7 +356,6 @@ namespace gTravel.Controllers
                     c.ContractStatusId = c.change_status(userid, "confirmed");
             }
 
-            ContractSave(c);
 
             if (ModelState.IsValid && caction == "save")
                 return RedirectToAction("Index");
@@ -394,7 +397,7 @@ namespace gTravel.Controllers
             //}
             //ViewBag.terr_count = retc.Contract_territory.Count();
 
-            return View(new ContractService().GetContractForEdit(db, c.ContractId,userid));
+            return View(new ContractService(db).GetContractForEdit(c.ContractId,userid));
         }
 
         [HttpPost]
@@ -864,7 +867,7 @@ namespace gTravel.Controllers
 
            //// ViewBag.terr_count = c.Contract_territory.Count();
 
-            Contract c = new ContractService().GetContractForEdit(db,contractid,userid);
+            Contract c = new ContractService(db).GetContractForEdit(contractid,userid);
 
             ContractForm_ini(c.ContractId);
 
@@ -932,7 +935,7 @@ namespace gTravel.Controllers
 
         public void importexapmle()
         {
-         new ContractService().GetImportExampleFile(db);
+         new ContractService(db).GetImportExampleFile();
         }
 
         //private void import_data(IXLRows rows, string userid)

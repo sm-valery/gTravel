@@ -17,7 +17,7 @@ namespace gTravel
                 if (filterContext.HttpContext.User.Identity.IsAuthenticated)
                 {
                    
-                    if(!new ContractService().spContract(new goDbEntities(),  filterContext.HttpContext.User.Identity.GetUserId(),
+                    if(!new ContractService(new goDbEntities()).spContract(filterContext.HttpContext.User.Identity.GetUserId(),
                         Guid.Parse(filterContext.ActionParameters[Key].ToString())))
                     {
                         filterContext.Result = new HttpNotFoundResult("ContractId: wrong id");

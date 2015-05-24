@@ -43,7 +43,7 @@ namespace gTravel.Models
     //                  && c.seriaid == seriaid
     //                  select c).Max(x => x.contractnumber);
 
- 
+
     //        if (newnum == null)
     //            newnum = 0;
 
@@ -82,31 +82,31 @@ namespace gTravel.Models
 
     public partial class Contract
     {
-       public goDbEntities db;
+        public goDbEntities db;
 
-       public bool IsBaseFactorInRisk { get; set; }
+        public bool IsBaseFactorInRisk { get; set; }
 
 
         public Contract(goDbEntities dbEntities)
-       {
+        {
 
-           this.db = dbEntities;
-       }
+            this.db = dbEntities;
+        }
 
         ~Contract()
-       {
-            if(db!=null)
-               this.db.Dispose();
-       }
+        {
+            if (db != null)
+                this.db.Dispose();
+        }
 
         public void CheckFactors(string userid)
         {
             IsBaseFactorInRisk = (from agu in db.AgentUsers
-                join ags in db.AgentSerias on agu.AgentId equals ags.AgentId
-                join f in db.Factors on ags.AgentSeriaId equals f.AgentSeriaId
-            where agu.UserId == userid 
-            && f.RiskId !=null
-                                select agu).Any();
+                                  join ags in db.AgentSerias on agu.AgentId equals ags.AgentId
+                                  join f in db.Factors on ags.AgentSeriaId equals f.AgentSeriaId
+                                  where agu.UserId == userid
+                                  && f.RiskId != null
+                                  select agu).Any();
 
         }
 
@@ -116,7 +116,7 @@ namespace gTravel.Models
 
         //    if (!db.spContract(userid, null, null, this.ContractId,null).Any())
         //        return 0;
-            
+
         //    return 1;
         //}
         public decimal getnextnumber(string userid)
@@ -124,27 +124,27 @@ namespace gTravel.Models
 
             return getnextnumber(this.seriaid, userid);
         }
-        public decimal getnextnumber( Guid seriaid,string userid)
+        public decimal getnextnumber(Guid seriaid, string userid)
         {
             decimal? newnum;
 
-           // if (db.Contracts.Any(x=>x.seriaid==seriaid))
+            // if (db.Contracts.Any(x=>x.seriaid==seriaid))
             //{
-                var agentid = db.AgentUsers.FirstOrDefault(x=>x.UserId==userid).AgentId;
+            var agentid = db.AgentUsers.FirstOrDefault(x => x.UserId == userid).AgentId;
 
-          
 
-                newnum = (from c in db.Contracts
-                          join au in db.AgentUsers on c.UserId equals au.UserId
-                          where au.AgentId == agentid
-                          && c.seriaid ==seriaid
-                          select c).Max(x => x.contractnumber);
 
-                //newnum = db.Contracts.Where(x => x.seriaid == seriaid && x.UserId != "86cf7814-6257-4057-b143-0f50d07dce7f").Max(s => s.contractnumber).Value;
+            newnum = (from c in db.Contracts
+                      join au in db.AgentUsers on c.UserId equals au.UserId
+                      where au.AgentId == agentid
+                      && c.seriaid == seriaid
+                      select c).Max(x => x.contractnumber);
+
+            //newnum = db.Contracts.Where(x => x.seriaid == seriaid && x.UserId != "86cf7814-6257-4057-b143-0f50d07dce7f").Max(s => s.contractnumber).Value;
             //}
 
-                if (newnum == null)
-                    newnum = 0;
+            if (newnum == null)
+                newnum = 0;
 
             return newnum.Value + 1;
         }
@@ -155,7 +155,7 @@ namespace gTravel.Models
             ContractStatu stat = new ContractStatu();
             stat.ContractStatusId = Guid.NewGuid();
             stat.ContractId = this.ContractId;
-          
+
             stat.StatusId = db.Status.SingleOrDefault(x => x.Code.Trim() == new_status_code).StatusId;
             stat.DateInsert = DateTime.Now;
             stat.UserId = userid;
@@ -169,9 +169,9 @@ namespace gTravel.Models
         //очистить застрахованных от удаленных
         public void SubjectClearDeleted()
         {
-            var deleted =this.Subjects.Where(x=>x.num==-1).ToList();
+            var deleted = this.Subjects.Where(x => x.num == -1).ToList();
 
-            foreach(var s in deleted)
+            foreach (var s in deleted)
             {
                 this.Subjects.Remove(s);
             }
@@ -201,27 +201,27 @@ namespace gTravel.Models
             #endregion
 
             #region contract
-         
+
             this.ContractId = Guid.NewGuid();
             this.currencyid = (this.currencyid == Guid.Parse("{00000000-0000-0000-0000-000000000000}")) ? seria.DefaultCurrencyId.Value : this.currencyid;
 
-   
+
             this.date_out = (this.date_out == null) ? DateTime.Now : this.date_out;
             this.date_diff = mLib.get_period_diff(date_begin, date_end);
-            
+
 
             if (seria.AutoNumber == 1)
             {
-                contractnumber = getnextnumber(seriaid,userid);
+                contractnumber = getnextnumber(seriaid, userid);
             }
-               
+
 
             ContractStatusId = change_status(userid);
 
             UserId = userid;
             db.Contracts.Add(this);
 
-        
+
 
             #endregion
 
@@ -275,7 +275,7 @@ namespace gTravel.Models
             #endregion
             ////TODO территория по умолчанию
             #region территория по умолчанию
-            if(seria.DefaultTerritoryId !=null)
+            if (seria.DefaultTerritoryId != null)
             {
                 Contract_territory crt = new Contract_territory();
                 crt.ContractTerritoryId = Guid.NewGuid();
@@ -302,18 +302,18 @@ namespace gTravel.Models
                 db = DbEntities;
 
             Subject s = new Subject();
-            
+
             s.ContractId = this.ContractId;
 
 
-           return add_insured(s);
+            return add_insured(s);
 
         }
 
         public Subject add_insured(Subject s)
         {
             s.SubjectId = Guid.NewGuid();
-            
+
             if (s.ContractId == null)
                 s.ContractId = this.ContractId;
 
@@ -336,7 +336,7 @@ namespace gTravel.Models
 
         }
 
-        public ImportLog(goDbEntities db,  string UserId)
+        public ImportLog(goDbEntities db, string UserId)
         {
             this.ImportLogId = Guid.NewGuid();
             this.userid = UserId;
@@ -346,12 +346,12 @@ namespace gTravel.Models
             db.ImportLogs.Add(this);
             db.SaveChanges();
         }
-        
+
 
         public void add_log(goDbEntities db, Guid contract_id)
         {
-            if(!db.ImportLogContracts.Any(x=>x.ImportLogId==this.ImportLogId && x.ContractId==contract_id))
-            { 
+            if (!db.ImportLogContracts.Any(x => x.ImportLogId == this.ImportLogId && x.ContractId == contract_id))
+            {
                 ImportLogContract l = new ImportLogContract();
 
                 l.ImportLogContract1 = Guid.NewGuid();
@@ -371,6 +371,14 @@ namespace gTravel
 
     static class mLib
     {
+        public static int GetAge(DateTime birthDate, DateTime date)
+        {
+            var years = date.Year - birthDate.Year;
+            if (date.Month < birthDate.Month || (date.Month == birthDate.Month && date.Day < birthDate.Day))
+                years--;
+            return years;
+        }
+
         public static bool IsSetCurrentUserAgent(string userid)
         {
             return HttpContext.Current.Session["useragentid"] != null;
@@ -389,14 +397,14 @@ namespace gTravel
                 HttpContext.Current.Session["useragentid"] = singleOrDefault.AgentId;
                 HttpContext.Current.Session["useragentname"] = singleOrDefault.Agent.Name;
             }
-                
+
         }
 
 
         [UserIdFilter]
         public static Agent GetCurrentUserAgent(string userid)
         {
-            if(IsSetCurrentUserAgent(userid))
+            if (IsSetCurrentUserAgent(userid))
                 return (Agent)HttpContext.Current.Session["useragent"];
 
             SetCurrentUserAgent(userid);
@@ -408,21 +416,21 @@ namespace gTravel
 
         public static string gethash(string key)
         {
-           var h= MD5.Create();
+            var h = MD5.Create();
 
-           byte[] data = h.ComputeHash(Encoding.Default.GetBytes(key));
+            byte[] data = h.ComputeHash(Encoding.Default.GetBytes(key));
 
-           StringBuilder sBuilder = new StringBuilder();
+            StringBuilder sBuilder = new StringBuilder();
 
-           // Loop through each byte of the hashed data 
-           // and format each one as a hexadecimal string.
-           for (int i = 0; i < data.Length; i++)
-           {
-               sBuilder.Append(data[i].ToString("x2"));
-           }
+            // Loop through each byte of the hashed data 
+            // and format each one as a hexadecimal string.
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
 
-           // Return the hexadecimal string.
-           return sBuilder.ToString();
+            // Return the hexadecimal string.
+            return sBuilder.ToString();
 
         }
         public static SelectList GenderList(string gender = "N")
@@ -431,7 +439,7 @@ namespace gTravel
                                                 new SelectListItem(){Text="Мужской", Value="M"},
                                                 new SelectListItem(){Text="Женский",Value="F"},
                                                 new SelectListItem(){Text="Неизвестно",Value="N"}
-                                            }, "Value", "Text",gender);
+                                            }, "Value", "Text", gender);
         }
 
 
@@ -442,15 +450,15 @@ namespace gTravel
             if (d1.HasValue && d2.HasValue)
                 diff = (d2.Value - d1.Value).Days + 1;
 
-            return (diff>0)?diff:0;
+            return (diff > 0) ? diff : 0;
         }
         public static string gender_parse(string gender_code)
         {
             string ret = "N";
 
-            
 
-            switch(gender_code.Trim())
+
+            switch (gender_code.Trim())
             {
                 case "1":
                     ret = "M";
@@ -463,5 +471,7 @@ namespace gTravel
             return ret;
 
         }
+
+
     }
 }
