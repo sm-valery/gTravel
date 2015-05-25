@@ -288,7 +288,7 @@ namespace gTravel.Servises
         //        return subj_sum;
         //    }
 
-        private void ContractFactorsFillAutoFactors(Guid contractid, DateTime DateContract, Guid agentseriaid)
+        private void ContractFactorsFillAutoFactors(Contract c, Guid agentseriaid)
         {
             var fs = db.Factors.Where(x => x.AgentSeriaId == agentseriaid && x.auto);
             foreach (var x in fs)
@@ -296,21 +296,21 @@ namespace gTravel.Servises
                 switch (x.FactorType.Trim())
                 {
                     case "age":
-                        ContractFactorsFillAge(contractid, DateContract, x);
+                        ContractFactorsFillAge(c, x);
                         break;
                 }
             }
 
-            db.SaveChanges();
+           db.SaveChanges();
         }
 
-        private void ContractFactorsFillAge(Guid contractid, DateTime DateContract, Factor f)
+        private void ContractFactorsFillAge(Contract c, Factor f)
         {
             //bool issave = false;
-            var slist = db.Subjects.Where(x => x.ContractId == contractid);
-            foreach (var s in slist)
+            //var slist = db.Subjects.Where(x => x.ContractId == c.ContractId);
+            foreach (var s in c.Subjects)
             {
-                int cage = mLib.GetAge(s.DateOfBirth.Value, DateContract);
+                int cage = mLib.GetAge(s.DateOfBirth.Value, c.date_out.Value);
                 if (cage >= f.ValueFrom && cage <= f.ValueTo)
                 {
                   //  issave = true;
@@ -318,7 +318,7 @@ namespace gTravel.Servises
                     {
                         ContractFactorId = Guid.NewGuid(),
                         IdFactor = f.IdFactor,
-                        ContractId = contractid,
+                        ContractId = c.ContractId,
                         Val_n = f.Factor1
                     });
                 }
@@ -328,15 +328,15 @@ namespace gTravel.Servises
                
         }
 
-        private void ContractFactorsDeleteAutoFactors(Guid contractid, Guid agentseriaid)
+        private void ContractFactorsDeleteAutoFactors(Contract c, Guid agentseriaid)
         {
-            var ff = from cf in db.ContractFactors
-                     join fct in db.Factors on cf.IdFactor equals fct.IdFactor
-                     where cf.ContractId == contractid
-                     && fct.auto
-                     select cf;
+            //var ff = from cf in db.ContractFactors
+            //         join fct in db.Factors on cf.IdFactor equals fct.IdFactor
+            //         where cf.ContractId == c.ContractId
+            //         && fct.auto
+            //         select cf;
 
-            db.ContractFactors.RemoveRange(ff);
+            db.ContractFactors.RemoveRange(db.ContractFactors.Where(x=>x.ContractId == c.ContractId && x.Factor.auto));
             db.SaveChanges();
         }
 
@@ -382,9 +382,12 @@ namespace gTravel.Servises
                                 select au).FirstOrDefault().AgentSeriaId;
 
             //Удалить автоскидки
-            ContractFactorsDeleteAutoFactors(c.ContractId, seriaagentid);
+            ContractFactorsDeleteAutoFactors(c, seriaagentid);
+            //db.ContractFactors.RemoveRange(c.ContractFactors.Where(x => x.Factor.auto));
+ 
+
             //Заполним автоскидки
-            ContractFactorsFillAutoFactors(c.ContractId, c.date_out.Value, seriaagentid);
+            ContractFactorsFillAutoFactors(c, seriaagentid);
 
 
             try
@@ -415,11 +418,18 @@ namespace gTravel.Servises
                     if (t != null && ret)
                     {
                         crisk.BaseTarif = (decimal)t.PremSum;
-                        var riskprem = (decimal)crisk.BaseTarif * (decimal)c.date_diff;
+                        decimal riskprem = (decimal)crisk.BaseTarif * (decimal)c.date_diff;
 
-                        int agefactorscount = c.ContractFactors.Count(x => x.Factor.FactorType == "age");
+                        int agefactorscount = c.ContractFactors.Count(x => x.Factor.FactorType.Trim() == "age");
 
-                        riskprem = riskprem * (c.Subjects.Count() - agefactorscount);
+                        //застрахованные без скидок
+                        riskprem *=  (c.Subjects.Count() - agefactorscount);
+
+                        foreach(var f in c.ContractFactors)
+                        {
+                            riskprem += (decimal)crisk.BaseTarif * (decimal)f.Val_n;
+                        }
+
 
                         //var factor_descr = new List<factorgrp>();
 
