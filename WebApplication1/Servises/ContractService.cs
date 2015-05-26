@@ -340,6 +340,25 @@ namespace gTravel.Servises
             db.SaveChanges();
         }
 
+
+        private decimal calcprem(decimal basetarif, IEnumerable<ContractFactor> ContractFactors, int subj_count, decimal daycount =0)
+        {
+            decimal riskprem = 0;
+            decimal riskpremdatediff = basetarif * daycount;
+
+            int agefactorscount = ContractFactors.Count(x => x.Factor.FactorType.Trim() == "age");
+
+            //застрахованные без скидок
+            riskprem = riskpremdatediff * (subj_count - agefactorscount);
+
+            foreach (var f in ContractFactors)
+            {
+                riskprem += riskpremdatediff * (decimal)f.Val_n;
+            }
+
+            return riskprem;
+        }
+
         public bool ContractRecalc(Contract c, List<string> ErrMess)
         {
             var ret = true;
@@ -418,18 +437,25 @@ namespace gTravel.Servises
                     if (t != null && ret)
                     {
                         crisk.BaseTarif = (decimal)t.PremSum;
-                        decimal riskprem = (decimal)crisk.BaseTarif * (decimal)c.date_diff;
+                        //decimal riskprem = 0;
+                        //decimal riskpremdatediff = (decimal)crisk.BaseTarif * (decimal)c.date_diff;
+                     
+                        //int agefactorscount = c.ContractFactors.Count(x => x.Factor.FactorType.Trim() == "age");
 
-                        int agefactorscount = c.ContractFactors.Count(x => x.Factor.FactorType.Trim() == "age");
+                        ////застрахованные без скидок
+                        //riskprem = riskpremdatediff * (c.Subjects.Count() - agefactorscount);
+                        
+                        //foreach(var f in c.ContractFactors)
+                        //{
+                        //    riskprem += riskpremdatediff * (decimal)f.Val_n;
+                        //    crisk.InsFee += icFeeDatediff * (decimal)f.Val_n;
+                        //}
 
-                        //застрахованные без скидок
-                        riskprem *=  (c.Subjects.Count() - agefactorscount);
+                        crisk.InsPrem = calcprem((decimal)crisk.BaseTarif,c.ContractFactors,c.Subjects.Count(),(decimal)c.date_diff);
+                        crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
 
-                        foreach(var f in c.ContractFactors)
-                        {
-                            riskprem += (decimal)crisk.BaseTarif * (decimal)f.Val_n;
-                        }
-
+                        crisk.InsFee = calcprem((decimal)t.InsFee, c.ContractFactors, c.Subjects.Count(), (decimal)c.date_diff);
+                        
 
                         //var factor_descr = new List<factorgrp>();
 

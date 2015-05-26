@@ -9,14 +9,11 @@
                  style="position:absolute; z-index:1000;display:none;" />
             @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = riskid, contractid = contractid })
 
-
-
         </td>
 
     }
 
 }
-
 @helper HelperAddition()
 {
     if (Model.ContractConditions.Any())
@@ -42,7 +39,6 @@
     }
 }
 
-
 @model gTravel.Models.Contract
 @{
     ViewBag.Title = "Договор";
@@ -51,7 +47,6 @@
     var viewonly = Model.ContractStatu.Status.Readonly == 1;
 
 }
-
 @using (Html.BeginForm("ContractTo", null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.AntiForgeryToken()
@@ -71,7 +66,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
 
@@ -81,8 +75,8 @@
     @Html.HiddenFor(m => Model.UserId)
 
     var cterr = Model.Contract_territory.FirstOrDefault();
-    Guid ContractTerritoryId = (cterr ==null)?Guid.Empty: cterr.ContractTerritoryId;
-    
+    Guid ContractTerritoryId = (cterr == null) ? Guid.Empty : cterr.ContractTerritoryId;
+
     //foreach (var terr in Model.Contract_territory)
     //{
     //    @Html.Hidden("Contract_territory[0].ContractId", Model.ContractId)
@@ -96,13 +90,20 @@
         <div class="panel-heading" style="color:#b94a48;">
             @Model.seria.Name
             &nbsp;&nbsp;@helpers.ContractStatus(Model.ContractStatu.Status)
-
+            <a href="@Url.Action("index")" class="close" title="Закрыть"><span aria-hidden="true">&times;</span></a>
         </div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-2"><label>Дата выдачи полиса:</label></div>
                 <div class="col-md-10">
                     @Html.TextBoxFor(m => Model.date_out, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value", @readonly = true })
+
+                    <span class="alert">
+                        Валюта:
+                        @Html.DropDownListFor(model => Model.currencyid, (SelectList)ViewBag.currency, new { @class = "form-control input-sm input-value" })
+                    </span>
+                    
+                   
                 </div>
             </div>
             <div class="row">
@@ -111,8 +112,15 @@
                 </div>
                 <div class="col-md-10">
                     @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", type = "tel", @readonly = true })
+
                 </div>
             </div>
+            @*<div class="row">
+                    <div class="col-md-2"><label>Валюта:</label></div>
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => Model.currencyid, (SelectList)ViewBag.currency, new { @class = "form-control input-sm input-value" })
+                    </div>
+                </div>*@
             <p></p>
             <div class="row">
                 <div class="col-md-2"><label>Период страхования:</label> </div>
@@ -133,7 +141,7 @@
             <div class="row">
                 <div class="col-md-2"><label>Многократная поездка:</label> </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => Model.period_multi, new { @class = "form-control input-sm input-value" })  дней
+                    @Html.TextBoxFor(m => Model.period_multi, new { @class = "form-control input-sm input-value" }) <label> дней</label>
 
                     @Html.DropDownListFor(m => Model.period_multi_type, (SelectList)ViewBag.PeriodMultiType, new { @class = "form-control input-sm input-value" })
                 </div>
@@ -142,13 +150,11 @@
             <div class="row">
                 <div class="col-md-2"><label><b>Территория:</b></label> </div>
                 <div class="col-md-10">
-                    @Html.Action("build_contract_territory", new {ContractTerritoryId = ContractTerritoryId,  contractid = Model.ContractId })
+                    @Html.Action("build_contract_territory", new { ContractTerritoryId = ContractTerritoryId, contractid = Model.ContractId })
                 </div>
             </div>
             @*Доп параметры*@
-
             @HelperAddition()
-
             @*//страхователь*@
             <p></p>
             <div class="panel panel-success">
@@ -161,14 +167,14 @@
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      }
                                value="fiz" />
                         физ-лицо
                     </label>
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (!subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  }
                                value="jur">
                         юр-лицо
                     </label>
@@ -184,12 +190,10 @@
                         <label>Дата рождения:</label>
                         @Html.TextBoxFor(m => Model.Subject.DateOfBirth, new { @class = "form-control input-sm date3 date_period input-value" })
                     </span>
-
                     <span class="form-field">
                         <label id="subj_lab_id">@( (subj_f) ? "Паспорт" : "ИНН"):</label>
                         @Html.TextBoxFor(m => Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
                     </span>
-
                     @*<div class="row">
                             <div class="col-md-2">
                                 <label id="subj_lab_name">@( (subj_f) ? "Имя" : "Наименование"):</label>
@@ -220,7 +224,6 @@
                         </div>*@
                 </div> @*панель страхователя*@
             </div>
-
             <fieldset>
                 <legend>
                     Список застрахованных
@@ -229,7 +232,6 @@
                 <div id="div-summary-insd" class="alert alert-warning hidden">
                     Всего застрахованно человек: <label>10</label>
                 </div>
-
                 <div id="div-togle-insd" class="alert alert-warning ">
                     <table id="insdtable" class="table-condensed scrolling-table">
                         <thead>
@@ -240,7 +242,6 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             @{
 int indx = 0;
 
@@ -256,7 +257,6 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             }
                         </tbody>
                     </table>
-
                     @if (!viewonly)
                     {
                         <img id="insured_add_wait" src="~/Content/loading_white_small.gif"
@@ -265,11 +265,9 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                         <span class="glyphicon glyphicon-plus-sign"></span>
                         <a id="insured_add" href="#">
 
-
                             <span style="font-weight:normal;">
                                 &nbsp;Добавить застрахованного
                             </span>
-
                         </a>
 
                         <span class="glyphicon glyphicon-plus-sign"></span>
@@ -277,26 +275,20 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             <span style="font-weight:normal;">
                                 &nbsp;Добавить страхователя
                             </span>
-
                         </a>
 
                     }
                 </div>
 
-
-
             </fieldset>
-
             <fieldset>
                 <legend>Риски</legend>
-
                 @{
                     var risk_num = 0;
                     decimal contract_fee = 0;
                     decimal contract_prem = 0;
                     decimal contract_prem_rur = 0;
                 }
-
                 <table class="table table-condensed table-bordered">
                     <tr>
                         <td>Риск</td>
@@ -304,7 +296,6 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                         <th>
                             Базовый тариф
                         </th>
-
                         <th>Коэф по договору</th>
                         <th>Премия</th>
                     </tr>
@@ -314,11 +305,9 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             <td class="active">
                                 <label>
                                     @(risk.isMandatory ? Html.Hidden(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked) : Html.CheckBox(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked))
-
                                     @risk.Risk.Name
                                 </label>
                             </td>
-
                             <td>
                                 @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
@@ -326,15 +315,12 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 @*@Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)*@
                                 @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].isMandatory", risk_num), risk.isMandatory)
-
                                 @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
                             </td>
                             <td>
                                 @risk.BaseTarif
                             </td>
-
                             @HelperRiskFactors(risk_num, Model.ContractRisks.Count, (Guid)risk.RiskId, Model.ContractId)
-
                             @*<td>
 
                                     <img id="bonus_wait" src="~/Content/loading_white_small.gif"
@@ -354,14 +340,12 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 }
                                 <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top"
                                       title="@string.Format("базовый тариф: {0}, дней {1}, кол-во застрахованных {2}", risk.BaseTarif, Model.date_diff,Model.Subjects.Count())">?</span>
-
                             </td>
                         </tr>
 
                         risk_num++;
                     }
                 </table>
-
                 <div class="blockquote-warning" id="block-total">
                     <h4>Итого</h4>
                     <div>Премия: <span class="input-value">@contract_prem </span></div>
@@ -372,7 +356,6 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                         <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
                     }
                 </div>
-
             </fieldset>
         </div>
         <div class="panel-footer">
@@ -389,7 +372,6 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
             {
                 @Html.ActionLink("Печать", Model.seria.PrintFunction, new { contractid = Model.ContractId }, new { @class = "btn btn-info" })
             }
-
             @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
             @if (User.IsInRole("Admin"))
             {
@@ -397,12 +379,9 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                 @Html.ActionLink("Аннулировать", "contract_annul", new { contractid = Model.ContractId }, new { onclick = "return confirm('Аннулировать договор?');" })
 
             }
-
         </div>
-
     </div>
 }
-
 <script type="text/javascript">
     function bind_bonus() {
         $('.alert-dismissible').on('close.bs.alert', function () {

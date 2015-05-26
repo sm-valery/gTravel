@@ -154,9 +154,9 @@ namespace gTravel.Controllers
                 PartialView(db.ContractFactors.Where(x => x.ContractId == contractid).OrderBy(o => o.Position).ToList());
         }
 
-        private void ContractForm_ini(Guid contract_id)
+        private void ContractForm_ini(Contract c)
         {
-            ViewBag.currency = new SelectList(db.Currencies.ToList(), "currencyid", "code");
+            ViewBag.currency = new SelectList(db.Currencies.ToList(), "currencyid", "code",c.currencyid);
 
             //ViewBag.risklist = db.v_contract_risk.Where(x => x.ContractId == contract_id).OrderBy(o => o.sort);
 
@@ -278,7 +278,7 @@ namespace gTravel.Controllers
                 if (caction != "confirm")
                     return RedirectToAction("Index");
             }
-            ContractForm_ini(c.ContractId);
+            ContractForm_ini(c);
 
             var retc = db.Contracts.Include("Contract_territory")
                 .Include("ContractConditions")
@@ -374,7 +374,7 @@ namespace gTravel.Controllers
                 if (caction != "confirm")
                     return RedirectToAction("Index");
             }
-            ContractForm_ini(c.ContractId);
+            ContractForm_ini(c);
 
 
             //var retc = db.Contracts.Include("Contract_territory")
@@ -439,7 +439,7 @@ namespace gTravel.Controllers
             if (ModelState.IsValid && caction == "save")
                 return RedirectToAction("Index");
 
-            ContractForm_ini(c.ContractId);
+            ContractForm_ini(c);
 
             var retc = db.Contracts.Include("Contract_territory")
                 .Include("ContractConditions")
@@ -869,7 +869,7 @@ namespace gTravel.Controllers
 
             Contract c = new ContractService(db).GetContractForEdit(contractid,userid);
 
-            ContractForm_ini(c.ContractId);
+            ContractForm_ini(c);
 
 
             return View(c.seria.formname, c);
