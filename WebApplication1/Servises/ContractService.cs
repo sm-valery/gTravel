@@ -346,7 +346,12 @@ namespace gTravel.Servises
             decimal riskprem = 0;
             decimal riskpremdatediff = basetarif * daycount;
 
-            int agefactorscount = ContractFactors.Count(x => x.Factor.FactorType.Trim() == "age");
+            var agefactorscount = (from cf in ContractFactors
+                      join f in db.Factors on cf.IdFactor equals f.IdFactor
+                      where f.FactorType.Trim() == "age"
+                      select cf).Count();
+
+            //int agefactorscount = ContractFactors.Count(x => x.Factor.FactorType.Trim() == "age");
 
             //застрахованные без скидок
             riskprem = riskpremdatediff * (subj_count - agefactorscount);
@@ -421,7 +426,11 @@ namespace gTravel.Servises
                     crisk.InsPremRur = 0;
                     crisk.FactorsDescr = "";
 
-
+                    if(!crisk.isMandatory && !crisk.ischecked)
+                    {
+                       
+                        continue;
+                    }
 
                     //найдем тариф
                     var t = db.Tarifs.FirstOrDefault(
@@ -455,8 +464,8 @@ namespace gTravel.Servises
                         crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
 
                         crisk.InsFee = calcprem((decimal)t.InsFee, c.ContractFactors, c.Subjects.Count(), (decimal)c.date_diff);
-                        
 
+   
                         //var factor_descr = new List<factorgrp>();
 
                         //riskprem = riskprem * getXtrimFactor(c.ContractConditions, c.seriaid, factor_descr);
@@ -502,6 +511,9 @@ namespace gTravel.Servises
 
                 ret = false;
             }
+
+            if(ret)
+                db.SaveChanges();
 
             return ret;
         }

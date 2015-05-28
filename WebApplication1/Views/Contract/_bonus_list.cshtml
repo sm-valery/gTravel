@@ -1,7 +1,17 @@
 ﻿@model IEnumerable<gTravel.Models.ContractFactor>
 
+@{
+    int indx = 0;
+}
+
 @foreach (var item in Model)
 {
+    @Html.Hidden(string.Format("ContractFactors[{0}].ContractFactorId", indx), item.ContractFactorId)
+    @Html.Hidden(string.Format("ContractFactors[{0}].IdFactor", indx), item.IdFactor)
+    @Html.Hidden(string.Format("ContractFactors[{0}].ContractId", indx), item.ContractId)
+    @Html.Hidden(string.Format("ContractFactors[{0}].Val_n", indx), item.Val_n)
+    @Html.Hidden(string.Format("ContractFactors[{0}].Position", indx), item.Position)
+
     if (item.Factor.auto)
     {
         <div class="alert alert-success" id="alert_@item.ContractFactorId">
@@ -20,7 +30,7 @@
         </div>
     }
 
-
+    indx++;
 }
 
 

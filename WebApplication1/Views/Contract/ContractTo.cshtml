@@ -156,30 +156,39 @@
             @*Доп параметры*@
             @HelperAddition()
             @*//страхователь*@
-            <p></p>
-            <div class="panel panel-success">
-                <div class="panel-heading small">
-                    Страхователь:&nbsp;&nbsp;
 
-                    @{
+
+            <p>&nbsp;</p>
+
+            <fieldset>
+                @{
     bool subj_f = Model.Subject.Type.Trim() == "fiz";
-                    }
+                }
+                <legend>
+                    Страхователь
+
+
+                </legend>
+
+                <div style="margin-bottom:5px; margin-top:-5px;">
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
                                value="fiz" />
                         физ-лицо
                     </label>
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (!subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }
                                value="jur">
                         юр-лицо
                     </label>
                 </div>
-                <div class="panel-body">
+                <div class="alert alert-success">
+        
+
                     @Html.HiddenFor(model => Model.Holder_SubjectId)
                     @Html.HiddenFor(model => Model.Subject.SubjectId)
                     <span class="form-field">
@@ -194,170 +203,145 @@
                         <label id="subj_lab_id">@( (subj_f) ? "Паспорт" : "ИНН"):</label>
                         @Html.TextBoxFor(m => Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
                     </span>
-                    @*<div class="row">
-                            <div class="col-md-2">
-                                <label id="subj_lab_name">@( (subj_f) ? "Имя" : "Наименование"):</label>
-                            </div>
-                            <div class="col-md-10">
-                                @Html.HiddenFor(model => Model.Holder_SubjectId)
-                                @Html.HiddenFor(model => Model.Subject.SubjectId)
-                                @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm input-value", name = "SubjectF.Name" })
-                            </div>
-                        </div>
-                        <div id="subj_dfb" class="row">
-                            <p></p>
-                            <div class="col-md-2">
-                                <label>Дата рождения:</label>
-                            </div>
-                            <div class="col-md-10">
-                                @Html.TextBoxFor(m => Model.Subject.DateOfBirth, new { @class = "form-control input-sm date3 date_period input-value" })
-                            </div>
-                        </div>
-                        <p></p>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label id="subj_lab_id">@( (subj_f) ? "Паспорт" : "ИНН"):</label>
-                            </div>
-                            <div class="col-md-10">
-                                @Html.TextBoxFor(m => Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
-                            </div>
-                        </div>*@
-                </div> @*панель страхователя*@
-            </div>
-            <fieldset>
-                <legend>
-                    Список застрахованных
 
-                </legend>
-                <div id="div-summary-insd" class="alert alert-warning hidden">
-                    Всего застрахованно человек: <label>10</label>
                 </div>
-                <div id="div-togle-insd" class="alert alert-warning ">
-                    <table id="insdtable" class="table-condensed scrolling-table">
-                        <thead>
-                            <tr>
-                                <th>ФИО по паспорту</th>
-                                <th>Дата рождения</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
+                </fieldset>
+
+                
+                <fieldset>
+                    <legend>
+                        Список застрахованных
+
+                    </legend>
+                    <div id="div-summary-insd" class="alert alert-warning hidden">
+                        Всего застрахованно человек: <label>10</label>
+                    </div>
+                    <div id="div-togle-insd" class="alert alert-warning ">
+                        <table id="insdtable" class="table-condensed scrolling-table">
+                            <thead>
+                                <tr>
+                                    <th>ФИО по паспорту</th>
+                                    <th>Дата рождения</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
 int indx = 0;
 
 foreach (var item in Model.Subjects.OrderBy(x => x.num))
 {
-    @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
+                                    @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
 
-                                @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId, indx = indx, fieldlist = "DateOfBirth" })
+                                    @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId, indx = indx, fieldlist = "DateOfBirth" })
 
     indx++;
 }
 
-                            }
-                        </tbody>
-                    </table>
-                    @if (!viewonly)
+                                }
+                            </tbody>
+                        </table>
+                        @if (!viewonly)
                     {
-                        <img id="insured_add_wait" src="~/Content/loading_white_small.gif"
-                             style="position:absolute; z-index:1000;display:none;" />
+                            <img id="insured_add_wait" src="~/Content/loading_white_small.gif"
+                                 style="position:absolute; z-index:1000;display:none;" />
 
-                        <span class="glyphicon glyphicon-plus-sign"></span>
-                        <a id="insured_add" href="#">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            <a id="insured_add" href="#">
 
-                            <span style="font-weight:normal;">
-                                &nbsp;Добавить застрахованного
-                            </span>
-                        </a>
+                                <span style="font-weight:normal;">
+                                    &nbsp;Добавить застрахованного
+                                </span>
+                            </a>
 
-                        <span class="glyphicon glyphicon-plus-sign"></span>
-                        <a id="insurer_add" href="#">
-                            <span style="font-weight:normal;">
-                                &nbsp;Добавить страхователя
-                            </span>
-                        </a>
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            <a id="insurer_add" href="#">
+                                <span style="font-weight:normal;">
+                                    &nbsp;Добавить страхователя
+                                </span>
+                            </a>
 
                     }
-                </div>
+                    </div>
 
-            </fieldset>
-            <fieldset>
-                <legend>Риски</legend>
-                @{
+                </fieldset>
+                <fieldset>
+                    <legend>Риски</legend>
+                    @{
                     var risk_num = 0;
                     decimal contract_fee = 0;
                     decimal contract_prem = 0;
                     decimal contract_prem_rur = 0;
-                }
-                <table class="table table-condensed table-bordered">
-                    <tr>
-                        <td>Риск</td>
-                        <th>Страховая сумма</th>
-                        <th>
-                            Базовый тариф
-                        </th>
-                        <th>Коэф по договору</th>
-                        <th>Премия</th>
-                    </tr>
-                    @foreach (var risk in Model.ContractRisks.OrderBy(o => o.sort))
-                    {
+                    }
+                    <table class="table table-condensed table-bordered">
                         <tr>
-                            <td class="active">
-                                <label>
-                                    @(risk.isMandatory ? Html.Hidden(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked) : Html.CheckBox(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked))
-                                    @risk.Risk.Name
-                                </label>
-                            </td>
-                            <td>
-                                @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
-                                @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
-                                @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
-                                @*@Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)*@
-                                @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
-                                @Html.Hidden(string.Format("ContractRisks[{0}].isMandatory", risk_num), risk.isMandatory)
-                                @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
-                            </td>
-                            <td>
-                                @risk.BaseTarif
-                            </td>
-                            @HelperRiskFactors(risk_num, Model.ContractRisks.Count, (Guid)risk.RiskId, Model.ContractId)
-                            @*<td>
+                            <td>Риск</td>
+                            <th>Страховая сумма</th>
+                            <th>
+                                Базовый тариф
+                            </th>
+                            <th>Коэф по договору</th>
+                            <th>Премия</th>
+                        </tr>
+                        @foreach (var risk in Model.ContractRisks.OrderBy(o => o.sort))
+                    {
+                            <tr>
+                                <td class="active">
+                                    <label>
+                                        @(risk.isMandatory ? Html.Hidden(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked) : Html.CheckBox(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked))
+                                        @risk.Risk.Name
+                                    </label>
+                                </td>
+                                <td>
+                                    @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
+                                    @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
+                                    @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
+                                    @*@Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)*@
+                                    @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
+                                    @Html.Hidden(string.Format("ContractRisks[{0}].isMandatory", risk_num), risk.isMandatory)
+                                    @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
+                                </td>
+                                <td>
+                                    @risk.BaseTarif
+                                </td>
+                                @HelperRiskFactors(risk_num, Model.ContractRisks.Count, (Guid)risk.RiskId, Model.ContractId)
+                                @*<td>
 
-                                    <img id="bonus_wait" src="~/Content/loading_white_small.gif"
-                                         style="position:absolute; z-index:1000;display:none;" />
-                                    @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = risk.RiskId, contractid = Model.ContractId })
+                                <img id="bonus_wait" src="~/Content/loading_white_small.gif"
+                                     style="position:absolute; z-index:1000;display:none;" />
+                                @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = risk.RiskId, contractid = Model.ContractId })
 
 
 
-                                </td>*@
-                            <td>
-                                @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })
-                                @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
-                                @{
+                            </td>*@
+                                <td>
+                                    @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })
+                                    @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
+                                    @{
                         contract_fee += (decimal)(risk.InsFee ?? 0);
                         contract_prem += (decimal)(risk.InsPrem ?? 0);
                         contract_prem_rur += (decimal)(risk.InsPremRur ?? 0);
-                                }
-                                <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top"
-                                      title="@string.Format("базовый тариф: {0}, дней {1}, кол-во застрахованных {2}", risk.BaseTarif, Model.date_diff,Model.Subjects.Count())">?</span>
-                            </td>
-                        </tr>
+                                    }
+                                    <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top"
+                                          title="@string.Format("базовый тариф: {0}, дней {1}, кол-во застрахованных {2}", risk.BaseTarif, Model.date_diff,Model.Subjects.Count())">?</span>
+                                </td>
+                            </tr>
 
                         risk_num++;
                     }
-                </table>
-                <div class="blockquote-warning" id="block-total">
-                    <h4>Итого</h4>
-                    <div>Премия: <span class="input-value">@contract_prem </span></div>
-                    <div>Премия, руб: <span class="input-value">@contract_prem_rur </span></div>
-                    @if (User.IsInRole("Admin"))
+                    </table>
+                    <div class="blockquote-warning" id="block-total">
+                        <h4>Итого</h4>
+                        <div>Премия: <span class="input-value">@contract_prem </span></div>
+                        <div>Премия, руб: <span class="input-value">@contract_prem_rur </span></div>
+                        @if (User.IsInRole("Admin"))
                     {
 
-                        <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
+                            <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
                     }
-                </div>
-            </fieldset>
-        </div>
+                    </div>
+                </fieldset>
+</div>
         <div class="panel-footer">
             @if (!viewonly)
             {
