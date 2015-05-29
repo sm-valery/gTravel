@@ -341,7 +341,7 @@ namespace gTravel.Servises
         }
 
 
-        private decimal calcprem(decimal basetarif, IEnumerable<ContractFactor> ContractFactors, int subj_count, decimal daycount =0)
+        private decimal calcprem(decimal basetarif, IEnumerable<v_contract_factors> ContractFactors, int subj_count, decimal daycount =0)
         {
             decimal riskprem = 0;
             decimal riskpremdatediff = basetarif * daycount;
@@ -358,7 +358,8 @@ namespace gTravel.Servises
 
             foreach (var f in ContractFactors)
             {
-                riskprem += riskpremdatediff * (decimal)f.Val_n;
+
+                riskprem += ((f.FactorType.Trim() == "age") ? riskpremdatediff : riskprem) * (decimal)f.Val_n;
             }
 
             return riskprem;
@@ -413,6 +414,7 @@ namespace gTravel.Servises
             //Заполним автоскидки
             ContractFactorsFillAutoFactors(c, seriaagentid);
 
+            var vContractF = db.v_contract_factors.Where(x => x.ContractId == c.ContractId);
 
             try
             {
@@ -460,10 +462,10 @@ namespace gTravel.Servises
                         //    crisk.InsFee += icFeeDatediff * (decimal)f.Val_n;
                         //}
 
-                        crisk.InsPrem = calcprem((decimal)crisk.BaseTarif,c.ContractFactors,c.Subjects.Count(),(decimal)c.date_diff);
+                        crisk.InsPrem = calcprem((decimal)crisk.BaseTarif, vContractF, c.Subjects.Count(), (decimal)c.date_diff);
                         crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
 
-                        crisk.InsFee = calcprem((decimal)t.InsFee, c.ContractFactors, c.Subjects.Count(), (decimal)c.date_diff);
+                        crisk.InsFee = calcprem((decimal)t.InsFee, vContractF, c.Subjects.Count(), (decimal)c.date_diff);
 
    
                         //var factor_descr = new List<factorgrp>();

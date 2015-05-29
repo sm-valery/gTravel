@@ -314,6 +314,9 @@
     <Compile Include="Models\v_contract_ag.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\v_contract_factors.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\v_contract_history.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
