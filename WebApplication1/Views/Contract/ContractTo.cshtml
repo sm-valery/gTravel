@@ -96,7 +96,7 @@
             <div class="row">
                 <div class="col-md-2"><label>Дата выдачи полиса:</label></div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => Model.date_out, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value", @readonly = true })
+                    @Html.TextBoxFor(m => Model.date_out, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value", disabled="disabled" })
 
                     <span class="alert">
                         Валюта:
@@ -111,7 +111,7 @@
                     <label><b>Номер:</b></label>
                 </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", type = "tel", @readonly = true })
+                    @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", type = "tel", disabled = "disabled" })
 
                 </div>
             </div>
@@ -153,6 +153,7 @@
                     @Html.Action("build_contract_territory", new { ContractTerritoryId = ContractTerritoryId, contractid = Model.ContractId })
                 </div>
             </div>
+
             @*Доп параметры*@
             @HelperAddition()
             @*//страхователь*@

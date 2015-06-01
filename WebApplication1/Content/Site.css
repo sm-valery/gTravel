@@ -204,3 +204,7 @@ border-bottom: 1px dotted;
     white-space:nowrap;
     padding-right:10px;
 }
+.input-100p{
+    max-width:100%;
+    width:100%;
+}

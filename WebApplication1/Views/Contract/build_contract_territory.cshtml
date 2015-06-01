@@ -1,6 +1,26 @@
 ﻿@model gTravel.Models.Contract_territory
 
-@Html.Hidden("Contract_territory[0].ContractId", Model.ContractId)
+
+
+@*@Html.Hidden("Contract_territory[0].ContractId", Model.ContractId)
 @Html.Hidden("Contract_territory[0].ContractTerritoryId", Model.ContractTerritoryId)
 
-@Html.DropDownList("Contract_territory[0].TerritoryId",(SelectList) ViewBag.TerritoryId, new { @class = "form-control chosen-select " })
+@Html.DropDownList("Contract_territory[0].TerritoryId", (SelectList)ViewBag.TerritoryId, htmlAttributes: new { @class = "form-control chosen-select input-100p", Multiple = "Multiple", data_placeholder = "Выберите территорию..." })*@
+
+
+@Html.DropDownList("TerritoryId", (MultiSelectList)ViewBag.TerritoryId, htmlAttributes: new { @class = "form-control chosen-select input-100p", Multiple = "Multiple", data_placeholder = "Выберите территорию..." })
+
+@*<select class="form-control chosen-select input-100p" multiple data_placeholder="Выберите территорию...">
+    <option selected>aaaaaaaaaaaaaa</option>
+    <option >bbbbbbb</option>
+    <option >ccccccccccc</option>
+    <option selected>ddddddddd</option>
+</select>*@
+
+<script type="text/javascript">
+    $("#Contract_territory_chosen").chosen().change(function () {
+       // alert($(this).val());
+    });
+
+    $(".chosen-select").chosen({ no_results_text: "Ничего не найдено!" });
+</script>

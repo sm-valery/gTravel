@@ -189,12 +189,12 @@ namespace gTravel.Controllers
                 t = new Contract_territory();
                 t.ContractId = contractid.Value;
                 t.ContractTerritoryId = Guid.NewGuid();
-                ViewBag.TerritoryId = new SelectList(db.Territories.ToList(), "TerritoryId", "name");
+                ViewBag.TerritoryId = new MultiSelectList(db.Territories.ToList(), "TerritoryId", "name");
 
             }
             else
             {
-                ViewBag.TerritoryId = new SelectList(db.Territories.ToList(), "TerritoryId", "name", t.TerritoryId);
+                ViewBag.TerritoryId = new MultiSelectList(db.Territories.ToList(), "TerritoryId", "name", db.Contract_territory.Where(x=>x.ContractId == contractid));
 
             }
 

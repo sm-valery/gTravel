@@ -341,26 +341,23 @@ namespace gTravel.Servises
         }
 
 
-        private decimal calcprem(decimal basetarif, IEnumerable<v_contract_factors> ContractFactors, int subj_count, decimal daycount =0)
+        private decimal calcprem(decimal basetarif, IEnumerable<v_contract_factors> vContractFactors, int subj_count, decimal daycount =0)
         {
             decimal riskprem = 0;
             decimal riskpremdatediff = basetarif * daycount;
 
-            var agefactorscount = (from cf in ContractFactors
-                      join f in db.Factors on cf.IdFactor equals f.IdFactor
-                      where f.FactorType.Trim() == "age"
-                      select cf).Count();
+            int agefactorscount = vContractFactors.Count(x=>x.FactorType.Trim()=="age");
 
-            //int agefactorscount = ContractFactors.Count(x => x.Factor.FactorType.Trim() == "age");
+            decimal zfactor = vContractFactors.Where(x => x.FactorType.Trim() != "age").Aggregate((decimal)1.0, (sa, b) => sa * b.Val_n.Value);
 
-            //застрахованные без скидок
-            riskprem = riskpremdatediff * (subj_count - agefactorscount);
+            riskprem += zfactor * (subj_count - agefactorscount) * riskpremdatediff;
 
-            foreach (var f in ContractFactors)
+            foreach(var f in vContractFactors.Where(x=>x.FactorType.Trim()=="age"))
             {
-
-                riskprem += ((f.FactorType.Trim() == "age") ? riskpremdatediff : riskprem) * (decimal)f.Val_n;
+                 riskprem += zfactor * (decimal)f.Val_n * riskpremdatediff;
             }
+
+
 
             return riskprem;
         }
