@@ -16,19 +16,20 @@ namespace gTravel.Models
     {
         public AgentSeria()
         {
-            this.Tarifs = new HashSet<Tarif>();
             this.Factors = new HashSet<Factor>();
+            this.Tarifs = new HashSet<Tarif>();
         }
     
         public System.Guid AgentSeriaId { get; set; }
         public Nullable<System.Guid> AgentId { get; set; }
         public Nullable<System.Guid> SeriaId { get; set; }
         public Nullable<System.Guid> TerritoryGrpId { get; set; }
+        public Nullable<decimal> AgentFee { get; set; }
     
         public virtual seria seria { get; set; }
         public virtual TerritoryGrp TerritoryGrp { get; set; }
-        public virtual ICollection<Tarif> Tarifs { get; set; }
         public virtual Agent Agent { get; set; }
         public virtual ICollection<Factor> Factors { get; set; }
+        public virtual ICollection<Tarif> Tarifs { get; set; }
     }
 }

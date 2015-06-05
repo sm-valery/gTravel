@@ -23,6 +23,8 @@ namespace gTravel.Models
     
         public System.Guid AgentId { get; set; }
         public string Name { get; set; }
+        public string AgentContractNum { get; set; }
+        public Nullable<System.DateTime> AgentContractDate { get; set; }
     
         public virtual ICollection<AgentUser> AgentUsers { get; set; }
         public virtual ICollection<TarifPlanAgent> TarifPlanAgents { get; set; }

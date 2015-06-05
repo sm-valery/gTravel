@@ -21,6 +21,7 @@ namespace gTravel.Models
             this.Subjects = new HashSet<Subject>();
             this.ContractConditions = new HashSet<ContractCondition>();
             this.ContractFactors = new HashSet<ContractFactor>();
+            this.ContractAgents = new HashSet<ContractAgent>();
         }
     
         public System.Guid ContractId { get; set; }
@@ -48,5 +49,6 @@ namespace gTravel.Models
         public virtual ICollection<ContractCondition> ContractConditions { get; set; }
         public virtual seria seria { get; set; }
         public virtual ICollection<ContractFactor> ContractFactors { get; set; }
+        public virtual ICollection<ContractAgent> ContractAgents { get; set; }
     }
 }

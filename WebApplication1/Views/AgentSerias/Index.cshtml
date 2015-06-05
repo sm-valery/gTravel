@@ -1,44 +1,95 @@
 ﻿@model IEnumerable<gTravel.Models.AgentSeria>
 
+<link href="~/Content/bootstrap-editable.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-editable.min.js"></script>
+
 @{
-    ViewBag.Title = "Серии";
+    ViewBag.Title = "Агентский договор";
 
     var agent = (gTravel.Models.Agent)ViewBag.agent;
 }
 
-<h3>@Html.ActionLink(agent.Name, "index", "Agents", new {id =agent.AgentId },null)</h3>
+<h3>Агентский договор. @Html.ActionLink(agent.Name, "index", "Agents", new {id =agent.AgentId },null)</h3>
 
-<p>
-    @Html.ActionLink("Create New", "Create", new { agentid = agent.AgentId })
-</p>
-<table class="table">
-    <tr>
+<fieldset>
+    <legend>Доступные серии</legend>
+    <p>
+        @Html.ActionLink("Create New", "Create", new { agentid = agent.AgentId })
+    </p>
+    <table class="table table-hover table-striped">
+        <tr>
 
-        <th>
-            Серия
-        </th>
-        <th>
-            Пакет территорий
-        </th>
-        <th></th>
-    </tr>
+            <th>
+                Серия
+            </th>
+            <th>Вознаграждение</th>
+            <th>
+                Пакет территорий
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
+        @foreach (var item in Model)
+        {
+            <tr>
 
-        <td>
-            @Html.HiddenFor(modelItem => item.AgentId)
-            @Html.DisplayFor(modelItem => item.seria.Code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TerritoryGrp.Code)
-        </td>
-        <td>
-            @Html.ActionLink("Тариф", "index", "Tarifs", new { agentseriaid = item.AgentSeriaId }, null) |
-            @Html.ActionLink("Скидки", "index", "Factors", new { agentseriaid = item.AgentSeriaId }, null) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.AgentSeriaId })
-        </td>
-    </tr>
-}
+                <td>
+                    @Html.HiddenFor(modelItem => item.AgentId)
+                    @Html.DisplayFor(modelItem => item.seria.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AgentFee)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TerritoryGrp.Code)
+                </td>
+                <td>
+                    @Html.ActionLink("Тариф", "index", "Tarifs", new { agentseriaid = item.AgentSeriaId }, null) |
+                    @Html.ActionLink("Скидки", "index", "Factors", new { agentseriaid = item.AgentSeriaId }, null) |
+                    @Html.ActionLink("Изменить", "Edit", new { id = item.AgentSeriaId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.AgentSeriaId })
+                </td>
+            </tr>
+        }
 
-</table>
+    </table>
+    </fieldset> 
+
+    <fieldset>
+        <legend>Доровор</legend>
+
+        <div class="row">
+            <div class="col-md-3">Номер:</div>
+            <div class="col-md-7">
+                @*@Html.TextBox("agentnumber", null, new { @class = "form-control input-sm input-value" })*@
+
+                <a href="#" id="docnumber" data-type="text" data-pk="@agent.AgentId" data-url="@Url.Action("EditAgentNumber")" data-title="Новое значение">@agent.AgentContractNum</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">Дата заключения договора:</div>
+            <div class="col-md-7">
+                <a href="#" id="agentdate" data-type="date" data-pk="@agent.AgentId" data-url="@Url.Action("EditAgentDate")" data-title="Новое значение (дд.мм.гггг)">@agent.AgentContractDate</a>
+
+                @*@Html.TextBox("agentdate", null, new { @class = "form-control input-sm input-value date3" })*@
+
+            </div>
+        </div>
+    </fieldset>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#docnumber').editable();
+        $('#agentdate').editable(
+            {
+                format: 'dd.mm.yyyy',    
+                viewformat: 'dd.mm.yyyy',
+                datepicker: {
+                    weekStart: 1
+                }
+            });
+
+
+    });
+</script>

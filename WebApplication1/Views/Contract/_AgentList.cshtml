@@ -1,0 +1,37 @@
+﻿@model IEnumerable<gTravel.Models.ContractAgent>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AgentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Percent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contract.period_multi_type)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AgentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Percent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contract.period_multi_type)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ContractAgentId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ContractAgentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ContractAgentId })
+        </td>
+    </tr>
+}
+
+</table>

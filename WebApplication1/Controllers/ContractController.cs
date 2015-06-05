@@ -102,21 +102,25 @@ namespace gTravel.Controllers
 
 
         [UserIdFilter]
-        public ActionResult _bonus_btn(Guid seriaid, Guid riskid, Guid contractid, string userid)
+        public ActionResult _bonus_btn(Guid seriaid, Guid riskid, Guid contractid, string userid, bool viewonly = false)
         {
           //  var fs = db.Factors.Where(x => x.SeriaId == seriaid && x.RiskId == riskid).OrderBy(o => o.Position);
-            
+
+            ViewBag.viewonly = viewonly;
 
             ViewBag.contractid = contractid;
 
             return PartialView(new ContractService(db).BaseFactors(userid,seriaid));
         }
 
-        public PartialViewResult _addbonusRow(Guid factorid,Guid contractid, Guid? riskid )
+        public PartialViewResult _addbonusRow(Guid factorid,Guid contractid, Guid? riskid, bool xv=false )
         {
             //это чтоб работало в ie, иначе ajax запросы будут кешироваться
             Response.CacheControl = "no-cache";
             Response.Cache.SetETag((Guid.NewGuid()).ToString());
+
+
+            ViewBag.viewonly = xv;
 
             if (db.ContractFactors.Any(x => x.ContractId == contractid && x.IdFactor == factorid))
                 return PartialView("_bonus_list",
@@ -131,7 +135,27 @@ namespace gTravel.Controllers
             // return PartialView(db.ContractFactors.Where(x=>x.ContractId==contractid).ToList());
         }
 
-        public PartialViewResult _dellbonusRow(Guid contractfactorid)
+
+        [HttpPost]
+        public PartialViewResult _addAgentRow(Guid contractid)
+        {
+            ContractService cs = new ContractService();
+            ViewBag.idx = cs.ContractAgent_Count(contractid);
+
+            ViewBag.agentlist = new SelectList(db.Agents.ToList(), "AgentId", "Name");
+
+           return PartialView(cs.Create_ContractAgent(contractid));
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult _AgentList(Guid contractid)
+        {
+            ViewBag.agentlist = new SelectList(db.Agents.ToList(), "AgentId", "Name");
+
+            return PartialView(db.ContractAgents.Where(x => x.ContractId == contractid).ToList());
+        }
+
+        public PartialViewResult _dellbonusRow(Guid contractfactorid, bool xv = false)
         {
             Guid contract_id;
             var cvdell = db.ContractFactors.FirstOrDefault(x => x.ContractFactorId == contractfactorid);
@@ -144,14 +168,48 @@ namespace gTravel.Controllers
             db.SaveChanges();
 
 
+            ViewBag.viewonly = xv;
+
             return PartialView("_bonus_list",
                 db.ContractFactors.Where(x => x.ContractId == contract_id).OrderBy(o => o.Position).ToList());
         }
 
-        public PartialViewResult _bonus_list(Guid contractid)
+        public PartialViewResult _bonus_list(Guid contractid, bool viewonly = false)
         {
+            ViewBag.viewonly = viewonly;
+
             return
                 PartialView(db.ContractFactors.Where(x => x.ContractId == contractid).OrderBy(o => o.Position).ToList());
+        }
+
+
+        public PartialViewResult _addContractTerritory(Guid contractid, string territorylist)
+        {
+            var list_comma = territorylist.Split(',');
+
+            List<Contract_territory> tlist = new List<Contract_territory>();
+
+            db.Contract_territory.RemoveRange(db.Contract_territory.Where(x => x.ContractId == contractid));
+
+            foreach(var t in list_comma)
+            {
+                if (string.IsNullOrEmpty(t))
+                    continue;
+
+                var ct = new Contract_territory();
+                ct.ContractId = contractid;
+                ct.ContractTerritoryId = Guid.NewGuid();
+                ct.TerritoryId = Guid.Parse(t);
+
+                tlist.Add(ct);
+   
+            }
+
+            db.Contract_territory.AddRange(tlist);
+
+            db.SaveChanges();
+
+            return PartialView(tlist);
         }
 
         private void ContractForm_ini(Contract c)
@@ -166,7 +224,19 @@ namespace gTravel.Controllers
                 new SelectListItem {Text = "за одну поездку", Value = "2"}
             }, "Value", "Text");
 
+            string[] selectedterritory = new string[c.Contract_territory.Count];
 
+            int i=0;
+            foreach(var ct in c.Contract_territory)
+            {
+                selectedterritory[i] = ct.TerritoryId.ToString();
+                i++;
+            }
+
+            ViewBag.TerritoryId = new MultiSelectList(db.Territories.ToList(),
+                "TerritoryId", "name", selectedterritory);
+
+       
             /*
              * 
               string userid = User.Identity.GetUserId();
@@ -353,9 +423,13 @@ namespace gTravel.Controllers
                     ModelState.AddModelError(string.Empty, "Дата начала договора не может быть меньше даты выдачи!");
 
                 if (ModelState.IsValid)
+                {
                     c.ContractStatusId = c.change_status(userid, "confirmed");
+                    c.save();
+                }
+                   
             }
-
+            
 
             if (ModelState.IsValid && caction == "save")
                 return RedirectToAction("Index");
@@ -751,24 +825,24 @@ namespace gTravel.Controllers
 
             #region территория
 
-            foreach (var t in c.Contract_territory)
-            {
-                if (!db.Contract_territory.Any(x => x.ContractTerritoryId == t.ContractTerritoryId))
-                {
-                    //добавляем
-                    var ct = new Contract_territory();
-                    ct.ContractTerritoryId = Guid.NewGuid();
-                    ct.TerritoryId = t.TerritoryId;
-                    ct.ContractId = c.ContractId;
+            //foreach (var t in c.Contract_territory)
+            //{
+            //    if (!db.Contract_territory.Any(x => x.ContractTerritoryId == t.ContractTerritoryId))
+            //    {
+            //        //добавляем
+            //        var ct = new Contract_territory();
+            //        ct.ContractTerritoryId = Guid.NewGuid();
+            //        ct.TerritoryId = t.TerritoryId;
+            //        ct.ContractId = c.ContractId;
 
-                    db.Contract_territory.Add(ct);
-                }
-                else
-                {
-                    //обновляем
-                    db.Entry(t).State = EntityState.Modified;
-                }
-            }
+            //        db.Contract_territory.Add(ct);
+            //    }
+            //    else
+            //    {
+            //        //обновляем
+            //        db.Entry(t).State = EntityState.Modified;
+            //    }
+            //}
 
             #endregion
 

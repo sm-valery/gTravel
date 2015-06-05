@@ -24,6 +24,35 @@ namespace gTravel.Controllers
             return View(agentSerias.ToList());
         }
 
+        public ActionResult EditAgentNumber(Guid pk,string value)
+        {
+            var ag = db.Agents.SingleOrDefault(x => x.AgentId == pk);
+
+            if(ag==null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            ag.AgentContractNum = value;
+
+            db.Entry(ag).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return null;
+        }
+        public ActionResult EditAgentDate(Guid pk, DateTime? value)
+        {
+            var ag = db.Agents.SingleOrDefault(x => x.AgentId == pk);
+
+            if (ag == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            ag.AgentContractDate = value;
+
+            db.Entry(ag).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return null;
+        }
+        
         // GET: AgentSerias/Details/5
         public ActionResult Details(Guid? id)
         {
@@ -95,17 +124,19 @@ namespace gTravel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AgentSeria1,AgentId,SeriaId,TerritoryGrpId")] AgentSeria agentSeria)
+        public ActionResult Edit( AgentSeria agentSeria)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(agentSeria).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { agentid = agentSeria.AgentId });
             }
             ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code", agentSeria.SeriaId);
             ViewBag.TerritoryGrpId = new SelectList(db.TerritoryGrps, "TerritoryGrpId", "Code", agentSeria.TerritoryGrpId);
+
             return View(agentSeria);
+
         }
 
         // GET: AgentSerias/Delete/5

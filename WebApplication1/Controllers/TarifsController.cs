@@ -80,6 +80,12 @@ namespace gTravel.Controllers
            // ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code");
             ViewBag.TerritoryId = new SelectList(db.Territories, "TerritoryId", "Name");
 
+            ViewBag.PeriodMultiType = new SelectList(new[]
+            {
+                new SelectListItem {Text = "Нет", Value = "0"},
+                new SelectListItem {Text = "За весь период", Value = "1"},
+                new SelectListItem {Text = "за одну поездку", Value = "2"}
+            }, "Value", "Text"); 
 
             return View(new Tarif {TarifId=Guid.NewGuid(), AgentSeriaId =agentseriaid });
         }
@@ -153,6 +159,13 @@ namespace gTravel.Controllers
             ViewBag.TerritoryId = new SelectList(db.Territories, "TerritoryId", "Name");
 
             ViewBag.action = editaction;
+
+            ViewBag.PeriodMultiType = new SelectList(new[]
+            {
+                new SelectListItem {Text = "Нет", Value = "0"},
+                new SelectListItem {Text = "За весь период", Value = "1"},
+                new SelectListItem {Text = "за одну поездку", Value = "2"}
+            }, "Value", "Text",tarif.RepeatedType); 
 
             return View(tarif);
         }

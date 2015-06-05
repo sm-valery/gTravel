@@ -1,6 +1,7 @@
 ﻿using gTravel.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Common.CommandTrees;
 using System.Linq;
 using System.Net.Mail;
@@ -163,7 +164,14 @@ namespace gTravel.Models
 
             db.ContractStatus.Add(stat);
 
+        
             return stat.ContractStatusId;
+        }
+
+        public void save()
+        {
+            db.Entry(this).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         //очистить застрахованных от удаленных

@@ -1,4 +1,46 @@
-﻿@helper HelperRiskFactors(int numrow, int riskcount, Guid riskid, Guid contractid)
+﻿@functions{
+
+    object getcontrolattr(bool isonlyview, string control)
+    {
+        object o;
+
+        if (control == "Contract_territory_chosen")
+        {
+            if (isonlyview)
+            {
+                o = new
+                {
+                    @class = "form-control chosen-select input-100p",
+                    Multiple = "Multiple",
+                    data_placeholder = "Выберите территорию...",
+                    disabled = "disabled"
+                };
+            }
+            else
+            {
+                o = new
+                {
+                    @class = "form-control chosen-select input-100p",
+                    Multiple = "Multiple",
+                    data_placeholder = "Выберите территорию..."
+                };
+            }
+
+
+            return o;
+        }
+
+        if (isonlyview)
+            o = new { @class = "form-control input-sm input-value", disabled = "disabled" };
+        else
+            o = new { @class = "form-control input-sm input-value" };
+
+        return o;
+    }
+
+}
+
+@helper HelperRiskFactors(int numrow, int riskcount, Guid riskid, Guid contractid, bool viewonly = false)
 {
     if (numrow == 0)
     {
@@ -7,7 +49,10 @@
             @*Скидки по договору*@
             <img id="bonus_wait" src="~/Content/loading_white_small.gif"
                  style="position:absolute; z-index:1000;display:none;" />
-            @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = riskid, contractid = contractid })
+
+
+            @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = riskid, contractid = contractid, viewonly = viewonly })
+
 
         </td>
 
@@ -96,14 +141,15 @@
             <div class="row">
                 <div class="col-md-2"><label>Дата выдачи полиса:</label></div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => Model.date_out, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value", disabled="disabled" })
+                    @Html.HiddenFor(model => Model.date_out)
+                    @Html.TextBoxFor(m => Model.date_out, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value", disabled = "disabled" })
 
                     <span class="alert">
                         Валюта:
-                        @Html.DropDownListFor(model => Model.currencyid, (SelectList)ViewBag.currency, new { @class = "form-control input-sm input-value" })
+                        @Html.DropDownListFor(model => Model.currencyid, (SelectList)ViewBag.currency, getcontrolattr(viewonly, "currencyid"))
                     </span>
-                    
-                   
+
+
                 </div>
             </div>
             <div class="row">
@@ -111,7 +157,18 @@
                     <label><b>Номер:</b></label>
                 </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", type = "tel", disabled = "disabled" })
+                    @Html.HiddenFor(model => Model.contractnumber)
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">@Model.seria.Code.Trim()</div>
+                            <input type="text" readonly class="form-control input-sm input-value" placeholder="Amount" value="@Model.contractnumber">
+                            @*@Html.TextBox("seria_contractnumber", Model.contractnumber, new { @class = "form-control input-sm input-value", disabled = "disabled" })*@
+                        </div>
+                    </div>
+
+
+                    @*@Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", disabled = "disabled" })*@
 
                 </div>
             </div>
@@ -128,14 +185,15 @@
                     @Html.TextBoxFor(model => Model.date_begin, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
                     <span>/</span>
                     @Html.TextBoxFor(m => Model.date_end, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
-                    <span>
-                        &nbsp;
-
+   
+                    <span class="label label-primary">
                         <span id="period_day_count">
                             @Html.DisplayFor(m => Model.date_diff)
+
                         </span>
                         дня(ей)
                     </span>
+  
                 </div>
             </div>
             <div class="row">
@@ -150,7 +208,15 @@
             <div class="row">
                 <div class="col-md-2"><label><b>Территория:</b></label> </div>
                 <div class="col-md-10">
-                    @Html.Action("build_contract_territory", new { ContractTerritoryId = ContractTerritoryId, contractid = Model.ContractId })
+
+                    @Html.DropDownList("Contract_territory_chosen", (MultiSelectList)ViewBag.TerritoryId, getcontrolattr(viewonly, "Contract_territory_chosen"))
+
+                    <span id="Contract_territory_content">
+                        @Html.Partial("_addContractTerritory", Model.Contract_territory)
+                    </span>
+
+                    @*@Html.Action("build_contract_territory", new { ContractTerritoryId = ContractTerritoryId, contractid = Model.ContractId })*@
+
                 </div>
             </div>
 
@@ -175,20 +241,20 @@
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              }
                                value="fiz" />
                         физ-лицо
                     </label>
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (!subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          }
                                value="jur">
                         юр-лицо
                     </label>
                 </div>
                 <div class="alert alert-success">
-        
+
 
                     @Html.HiddenFor(model => Model.Holder_SubjectId)
                     @Html.HiddenFor(model => Model.Subject.SubjectId)
@@ -206,107 +272,107 @@
                     </span>
 
                 </div>
-                </fieldset>
+            </fieldset>
 
-                
-                <fieldset>
-                    <legend>
-                        Список застрахованных
 
-                    </legend>
-                    <div id="div-summary-insd" class="alert alert-warning hidden">
-                        Всего застрахованно человек: <label>10</label>
-                    </div>
-                    <div id="div-togle-insd" class="alert alert-warning ">
-                        <table id="insdtable" class="table-condensed scrolling-table">
-                            <thead>
-                                <tr>
-                                    <th>ФИО по паспорту</th>
-                                    <th>Дата рождения</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
+            <fieldset>
+                <legend>
+                    Список застрахованных
+
+                </legend>
+                <div id="div-summary-insd" class="alert alert-warning hidden">
+                    Всего застрахованно человек: <label>10</label>
+                </div>
+                <div id="div-togle-insd" class="alert alert-warning ">
+                    <table id="insdtable" class="table-condensed scrolling-table">
+                        <thead>
+                            <tr>
+                                <th>ФИО по паспорту</th>
+                                <th>Дата рождения</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
 int indx = 0;
 
 foreach (var item in Model.Subjects.OrderBy(x => x.num))
 {
-                                    @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
+                            @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
 
-                                    @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId, indx = indx, fieldlist = "DateOfBirth" })
+                            @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId, indx = indx, fieldlist = "DateOfBirth" })
 
     indx++;
 }
 
-                                }
-                            </tbody>
-                        </table>
-                        @if (!viewonly)
+                            }
+                        </tbody>
+                    </table>
+                    @if (!viewonly)
                     {
-                            <img id="insured_add_wait" src="~/Content/loading_white_small.gif"
-                                 style="position:absolute; z-index:1000;display:none;" />
+                    <img id="insured_add_wait" src="~/Content/loading_white_small.gif"
+                         style="position:absolute; z-index:1000;display:none;" />
 
-                            <span class="glyphicon glyphicon-plus-sign"></span>
-                            <a id="insured_add" href="#">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    <a id="insured_add" href="#">
 
-                                <span style="font-weight:normal;">
-                                    &nbsp;Добавить застрахованного
-                                </span>
-                            </a>
+                        <span style="font-weight:normal;">
+                            &nbsp;Добавить застрахованного
+                        </span>
+                    </a>
 
-                            <span class="glyphicon glyphicon-plus-sign"></span>
-                            <a id="insurer_add" href="#">
-                                <span style="font-weight:normal;">
-                                    &nbsp;Добавить страхователя
-                                </span>
-                            </a>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    <a id="insurer_add" href="#">
+                        <span style="font-weight:normal;">
+                            &nbsp;Добавить страхователя
+                        </span>
+                    </a>
 
                     }
-                    </div>
+                </div>
 
-                </fieldset>
-                <fieldset>
-                    <legend>Риски</legend>
-                    @{
+            </fieldset>
+            <fieldset>
+                <legend>Риски</legend>
+                @{
                     var risk_num = 0;
                     decimal contract_fee = 0;
                     decimal contract_prem = 0;
                     decimal contract_prem_rur = 0;
-                    }
-                    <table class="table table-condensed table-bordered">
-                        <tr>
-                            <td>Риск</td>
-                            <th>Страховая сумма</th>
-                            <th>
-                                Базовый тариф
-                            </th>
-                            <th>Коэф по договору</th>
-                            <th>Премия</th>
-                        </tr>
-                        @foreach (var risk in Model.ContractRisks.OrderBy(o => o.sort))
+                }
+                <table class="table table-condensed table-bordered">
+                    <tr>
+                        <td>Риск</td>
+                        <th>Страховая сумма</th>
+                        <th>
+                            Базовый тариф
+                        </th>
+                        <th>Доп. условия</th>
+                        <th>Премия</th>
+                    </tr>
+                    @foreach (var risk in Model.ContractRisks.OrderBy(o => o.sort))
                     {
-                            <tr>
-                                <td class="active">
-                                    <label>
-                                        @(risk.isMandatory ? Html.Hidden(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked) : Html.CheckBox(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked))
-                                        @risk.Risk.Name
-                                    </label>
-                                </td>
-                                <td>
-                                    @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
-                                    @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
-                                    @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
-                                    @*@Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)*@
-                                    @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
-                                    @Html.Hidden(string.Format("ContractRisks[{0}].isMandatory", risk_num), risk.isMandatory)
-                                    @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
-                                </td>
-                                <td>
-                                    @risk.BaseTarif
-                                </td>
-                                @HelperRiskFactors(risk_num, Model.ContractRisks.Count, (Guid)risk.RiskId, Model.ContractId)
-                                @*<td>
+                    <tr>
+                        <td class="active">
+                            <label>
+                                @(risk.isMandatory ? Html.Hidden(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked) : Html.CheckBox(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked))
+                                @risk.Risk.Name
+                            </label>
+                        </td>
+                        <td>
+                            @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
+                            @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
+                            @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
+                            @*@Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)*@
+                            @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
+                            @Html.Hidden(string.Format("ContractRisks[{0}].isMandatory", risk_num), risk.isMandatory)
+                            @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
+                        </td>
+                        <td>
+                            @risk.BaseTarif
+                        </td>
+                        @HelperRiskFactors(risk_num, Model.ContractRisks.Count, (Guid)risk.RiskId, Model.ContractId,viewonly)
+                        @*<td>
 
                                 <img id="bonus_wait" src="~/Content/loading_white_small.gif"
                                      style="position:absolute; z-index:1000;display:none;" />
@@ -315,34 +381,52 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
 
                             </td>*@
-                                <td>
-                                    @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })
-                                    @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
-                                    @{
+                        <td>
+                            @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })
+                            @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
+                            @{
                         contract_fee += (decimal)(risk.InsFee ?? 0);
                         contract_prem += (decimal)(risk.InsPrem ?? 0);
                         contract_prem_rur += (decimal)(risk.InsPremRur ?? 0);
-                                    }
-                                    <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top"
-                                          title="@string.Format("базовый тариф: {0}, дней {1}, кол-во застрахованных {2}", risk.BaseTarif, Model.date_diff,Model.Subjects.Count())">?</span>
-                                </td>
-                            </tr>
+                            }
+                            <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top"
+                                  title="@string.Format("базовый тариф: {0}, дней {1}, кол-во застрахованных {2}", risk.BaseTarif, Model.date_diff,Model.Subjects.Count())">?</span>
+                        </td>
+                    </tr>
 
                         risk_num++;
                     }
-                    </table>
-                    <div class="blockquote-warning" id="block-total">
-                        <h4>Итого</h4>
-                        <div>Премия: <span class="input-value">@contract_prem </span></div>
-                        <div>Премия, руб: <span class="input-value">@contract_prem_rur </span></div>
-                        @if (User.IsInRole("Admin"))
+                </table>
+                <div class="blockquote-warning" id="block-total">
+                    <h4>Итого</h4>
+                    <div>Премия, @Model.Currency.code: <span class="input-value">@contract_prem </span></div>
+                    <div>Премия, руб: <span class="input-value">@contract_prem_rur </span></div>
+                    @if (User.IsInRole("Admin"))
                     {
 
-                            <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
+                    <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
                     }
-                    </div>
-                </fieldset>
-</div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Агенты</legend>
+
+                <a id="agents_add" href="#">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    <span style="font-weight:normal;">
+                        &nbsp;Добавить
+                    </span>
+                </a>
+
+                <div id="agentcontent">
+                    @Html.Action("_AgentList", new { contractid =Model.ContractId})
+                </div>
+            </fieldset>
+        </div>
+
+     
+
         <div class="panel-footer">
             @if (!viewonly)
             {
@@ -380,7 +464,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
             $.ajax({
                 url: '@Url.Action("_dellbonusRow", "Contract")',
                 type: "GET",
-                data: { contractfactorid: contractfactor_id },
+                data: { contractfactorid: contractfactor_id, xv: "@viewonly" },
                 beforeSend: function () {
                     $("#waitimg").offset(xpos);
                     $("#waitimg").show();
@@ -436,6 +520,34 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
     $(function () {
 
+        $("#Contract_territory_chosen").chosen().change(function () {
+
+            var territorylist = "";
+
+            if ($(this).val() != null)
+                territorylist = $(this).val().toString();
+
+            $.ajax({
+                url: '@Url.Action("_addContractTerritory", "Contract")',
+                type: 'GET',
+                data: { contractid: '@Model.ContractId', territorylist: territorylist },
+                beforeSend: function () {
+                    //$("#bonus_wait").show();
+                },
+                success: function (data) {
+                    $("#Contract_territory_content").html(data);
+
+                    // riskobj.children(".risk_bonus_content").html(data);
+                    // bind_bonus();
+                }
+            }).done(function () {
+                // $("#bonus_wait").hide();
+            });
+
+
+            // alert($(this).val());
+        });
+
         //добавить страхователя
         $("#insurer_add").click(function (e) {
 
@@ -473,9 +585,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
 
         @*Скидки*@
-        $(function () {
-
-            $(".frm-discounts a").click(function (e) {
+        $(".frm-discounts a").click(function (e) {
 
                 var factor_id = $(this).attr("id");
 
@@ -486,7 +596,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                 $.ajax({
                     url: '@Url.Action("_addbonusRow", "Contract")',
                     type: 'GET',
-                    data: { factorid: factor_id, contractid: '@Model.ContractId' },
+                    data: { factorid: factor_id, contractid: '@Model.ContractId', xv: '@viewonly' },
                     beforeSend: function () {
                         $("#bonus_wait").show();
                     },
@@ -500,8 +610,23 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                 });
 
                 e.preventDefault();
-            })
-        });@*скидки*@
+            });@*скидки*@
+
+
+        @*//агенты*@
+        $("#agents_add").click(function (e) {
+           
+            $.ajax({
+                url: '@Url.Action("_addAgentRow", "Contract")',
+                type: 'POST',
+                data: { contractid: '@Model.ContractId' },
+                success: function (data) {
+                    $("#agentcontent").html(data);
+                }
+            });
+
+            e.preventDefault();
+        });
 
         bind_bonus();
 

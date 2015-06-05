@@ -18,7 +18,7 @@ namespace gTravel.Controllers
         // GET: RiskSerias
         public ActionResult Index()
         {
-            var riskSerias = db.RiskSerias.Include(r => r.seria).Include(r => r.Risk);
+            var riskSerias = db.RiskSerias.Include(r => r.seria).Include(r => r.Risk).OrderBy(o=>o.SeriaId);
             return View(riskSerias.ToList());
         }
 

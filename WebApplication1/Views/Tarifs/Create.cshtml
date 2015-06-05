@@ -79,7 +79,7 @@
 
 
         <div class="form-group">
-            @Html.Label("Франшиза от", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Франшиза сумма", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FranshSum, new { htmlAttributes = new { @class = "form-control" } })
 
@@ -87,17 +87,18 @@
         </div>
 
         <div class="form-group">
-            @Html.Label("Франшиза до", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Франшиза процент", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FranshPerc, new { htmlAttributes = new { @class = "form-control" } })
 
             </div>
         </div>
 
-        <div class="form-group form-group-sm alert alert-info">
-            @Html.Label("Премия", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10 active">
-                @Html.EditorFor(model => model.PremSum, new { htmlAttributes = new { @class = "form-control" } })
+        <div class="form-group form-group-sm">
+            @Html.Label("Многократное льготное страхование", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RepeatedDays, new { htmlAttributes = new { @class = "form-control", placeholder = "дней" } })
+                @Html.DropDownListFor(m => Model.RepeatedType, (SelectList)ViewBag.PeriodMultiType, new { @class = "form-control input-sm input-value" })
 
             </div>
         </div>
@@ -119,6 +120,9 @@
 
             </div>
         </div>
+
+
+
     </div>
 }
 

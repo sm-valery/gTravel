@@ -59,8 +59,6 @@ namespace gTravel.Models
         public virtual DbSet<v_contract_history> v_contract_history { get; set; }
         public virtual DbSet<v_bordero_new> v_bordero_new { get; set; }
         public virtual DbSet<v_contract_ag> v_contract_ag { get; set; }
-        public virtual DbSet<v_contract_risk> v_contract_risk { get; set; }
-        public virtual DbSet<Tarif> Tarifs { get; set; }
         public virtual DbSet<seria> serias { get; set; }
         public virtual DbSet<v_agentseria> v_agentseria { get; set; }
         public virtual DbSet<ContractFactor> ContractFactors { get; set; }
@@ -70,6 +68,8 @@ namespace gTravel.Models
         public virtual DbSet<AgentSeria> AgentSerias { get; set; }
         public virtual DbSet<Factor> Factors { get; set; }
         public virtual DbSet<v_contract_factors> v_contract_factors { get; set; }
+        public virtual DbSet<Tarif> Tarifs { get; set; }
+        public virtual DbSet<ContractAgent> ContractAgents { get; set; }
     
         public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, Nullable<System.Guid> borderoId)
         {

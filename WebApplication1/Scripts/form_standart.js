@@ -24,7 +24,7 @@
 $(function () {
 
 
-
+    $(".chosen-select").chosen({ no_results_text: "не найдено: " });
 
     //если есть ошибки покаазываем окошко
     //validation-summary-errors

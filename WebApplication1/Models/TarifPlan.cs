@@ -16,15 +16,15 @@ namespace gTravel.Models
     {
         public TarifPlan()
         {
-            this.Tarifs = new HashSet<Tarif>();
             this.TarifPlanAgents = new HashSet<TarifPlanAgent>();
+            this.Tarifs = new HashSet<Tarif>();
         }
     
         public System.Guid TarifPlanId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
     
-        public virtual ICollection<Tarif> Tarifs { get; set; }
         public virtual ICollection<TarifPlanAgent> TarifPlanAgents { get; set; }
+        public virtual ICollection<Tarif> Tarifs { get; set; }
     }
 }

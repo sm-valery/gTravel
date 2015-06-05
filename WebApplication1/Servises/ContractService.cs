@@ -91,6 +91,8 @@ namespace gTravel.Servises
                     rr.Risk = db.Risks.SingleOrDefault(x => x.RiskId == rr.RiskId);
                 }
 
+              //  c.ContractStatu = db.ContractStatus.SingleOrDefault(x => x.ContractStatusId == c.ContractStatusId);
+
                 return c;
             }
 
@@ -293,10 +295,13 @@ namespace gTravel.Servises
             var fs = db.Factors.Where(x => x.AgentSeriaId == agentseriaid && x.auto);
             foreach (var x in fs)
             {
-                switch (x.FactorType.Trim())
+                switch (x.FactorType.Trim().ToLower())
                 {
                     case "age":
                         ContractFactorsFillAge(c, x);
+                        break;
+                    case "territory":
+                        ContractFactorFillTerrit(c, x);
                         break;
                 }
             }
@@ -313,19 +318,34 @@ namespace gTravel.Servises
                 int cage = mLib.GetAge(s.DateOfBirth.Value, c.date_out.Value);
                 if (cage >= f.ValueFrom && cage <= f.ValueTo)
                 {
-                  //  issave = true;
-                    db.ContractFactors.Add(new ContractFactor()
-                    {
-                        ContractFactorId = Guid.NewGuid(),
-                        IdFactor = f.IdFactor,
-                        ContractId = c.ContractId,
-                        Val_n = f.Factor1
-                    });
+                    ContractFactorsAdd(c, f);
                 }
             }
 
             //if (issave)
                
+        }
+
+        private void ContractFactorFillTerrit(Contract c, Factor f)
+        {
+            foreach(var t in c.Contract_territory)
+            {
+                if(t.TerritoryId == f.TerritoryId)
+                {
+                    ContractFactorsAdd(c, f);
+                }
+            }
+        }
+
+        private void ContractFactorsAdd(Contract c, Factor f)
+        {
+            db.ContractFactors.Add(new ContractFactor()
+            {
+                ContractFactorId = Guid.NewGuid(),
+                IdFactor = f.IdFactor,
+                ContractId = c.ContractId,
+                Val_n = f.Factor1
+            });
         }
 
         private void ContractFactorsDeleteAutoFactors(Contract c, Guid agentseriaid)
@@ -341,10 +361,15 @@ namespace gTravel.Servises
         }
 
 
-        private decimal calcprem(decimal basetarif, IEnumerable<v_contract_factors> vContractFactors, int subj_count, decimal daycount =0)
+        private decimal calcprem(decimal basetarif, IEnumerable<v_contract_factors> vContractFactors, int subj_count, decimal daycount =0, bool ismulty = false)
         {
             decimal riskprem = 0;
-            decimal riskpremdatediff = basetarif * daycount;
+            decimal riskpremdatediff =0;
+                
+            if(ismulty)
+                riskpremdatediff = basetarif;
+            else
+                riskpremdatediff = basetarif * daycount;
 
             int agefactorscount = vContractFactors.Count(x=>x.FactorType.Trim()=="age");
 
@@ -432,7 +457,7 @@ namespace gTravel.Servises
                     }
 
                     //найдем тариф
-                    var t = db.Tarifs.FirstOrDefault(
+                    var tt = db.Tarifs.Where(
                         x => x.AgentSeriaId == seriaagentid
                             && x.RiskId == crisk.RiskId
                             && date_diff >=x.PeriodFrom
@@ -440,10 +465,28 @@ namespace gTravel.Servises
                             && crisk.InsSum >=x.InsSumFrom
                             && crisk.InsSum <=x.InsSumTo);
 
+                    var t = new Tarif();
 
+                    
+                     bool ismulty = false;
+                    //многократное
+                    if (c.period_multi.HasValue && (decimal)c.period_multi > 0)
+                    {
+                        t = tt.FirstOrDefault(x => x.RepeatedType == c.period_multi_type
+                            && x.RepeatedDays == c.period_multi);
+                        
+                        ismulty = true;
+                    }
+                    else
+                    {
+                        t = tt.FirstOrDefault();
+                    }
 
                     if (t != null && ret)
                     {
+
+                       
+
                         crisk.BaseTarif = (decimal)t.PremSum;
                         //decimal riskprem = 0;
                         //decimal riskpremdatediff = (decimal)crisk.BaseTarif * (decimal)c.date_diff;
@@ -459,10 +502,10 @@ namespace gTravel.Servises
                         //    crisk.InsFee += icFeeDatediff * (decimal)f.Val_n;
                         //}
 
-                        crisk.InsPrem = calcprem((decimal)crisk.BaseTarif, vContractF, c.Subjects.Count(), (decimal)c.date_diff);
+                        crisk.InsPrem = calcprem((decimal)crisk.BaseTarif, vContractF, c.Subjects.Count(), (decimal)c.date_diff, ismulty);
                         crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
 
-                        crisk.InsFee = calcprem((decimal)t.InsFee, vContractF, c.Subjects.Count(), (decimal)c.date_diff);
+                        crisk.InsFee = calcprem((decimal)t.InsFee, vContractF, c.Subjects.Count(), (decimal)c.date_diff, ismulty);
 
    
                         //var factor_descr = new List<factorgrp>();
@@ -517,8 +560,24 @@ namespace gTravel.Servises
             return ret;
         }
 
+        public ContractAgent Create_ContractAgent(Guid contractid)
+        {
 
+            ContractAgent ca = new ContractAgent();
+            ca.ContractAgentId = Guid.NewGuid();
+            ca.ContractId = contractid;
+            
+            db.ContractAgents.Add(ca);
 
+            db.SaveChanges();
+
+            return ca;
+        }
+
+        public int ContractAgent_Count(Guid contractid)
+        {
+            return db.ContractAgents.Count(x => x.ContractId == contractid);
+        }
    
     }
 }

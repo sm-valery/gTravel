@@ -1,0 +1,14 @@
+﻿@model IEnumerable<gTravel.Models.Contract_territory>
+
+@{
+    int indx = 0;
+}
+
+@foreach (var item in Model)
+{
+    @Html.Hidden(string.Format("Contract_territory[{0}].ContractTerritoryId",indx),item.ContractTerritoryId)
+    @Html.Hidden(string.Format("Contract_territory[{0}].ContractId", indx), item.ContractId)
+    @Html.Hidden(string.Format("Contract_territory[{0}].TerritoryId", indx), item.TerritoryId)
+
+    indx++;
+}

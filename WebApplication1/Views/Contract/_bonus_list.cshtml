@@ -2,6 +2,8 @@
 
 @{
     int indx = 0;
+
+    bool viewonly = (bool)ViewBag.viewonly;
 }
 
 @foreach (var item in Model)
@@ -22,10 +24,14 @@
     {
         <div class="alert alert-info alert-dismissible" id="alert_@item.ContractFactorId">
 
+            @if(!viewonly)
+            {
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
 
+            }
+            
             @item.Factor.Name (@Html.DisplayFor(x => item.Val_n))
         </div>
     }

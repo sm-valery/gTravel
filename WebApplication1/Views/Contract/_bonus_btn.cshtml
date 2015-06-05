@@ -1,14 +1,21 @@
 ﻿@model IEnumerable<gTravel.Models.Factor>
 @if (Model.Any())
 {
+    bool viewonly = (bool)ViewBag.viewonly;
+
     var risk = Model.FirstOrDefault();
-   
+
     <!-- Single button -->
     <div id="risk_bonus_@risk.RiskId">
         <div class="btn-group frm-discounts">
-            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                Добавить <span class="caret"></span>
-            </button>
+
+            @if (!viewonly)
+            {
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    Добавить <span class="caret"></span>
+                </button>
+            }
+            
             <ul class="dropdown-menu" role="menu">
                 @foreach (var item in Model)
                 {
