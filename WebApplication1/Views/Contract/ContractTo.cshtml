@@ -87,11 +87,12 @@
 @model gTravel.Models.Contract
 @{
     ViewBag.Title = "Договор";
-}
-@{
+
     var viewonly = Model.ContractStatu.Status.Readonly == 1;
 
 }
+
+
 @using (Html.BeginForm("ContractTo", null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.AntiForgeryToken()
@@ -418,14 +419,17 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                         &nbsp;Добавить
                     </span>
                 </a>
-
                 <div id="agentcontent">
-                    @Html.Action("_AgentList", new { contractid =Model.ContractId})
+                    <img id="agent_wait" src="~/Content/loading_white_small.gif"
+                         style="position:absolute; z-index:1000;display:none;" />
+
+                    @Html.Action("_AgentList", new { contractid = Model.ContractId })
                 </div>
             </fieldset>
-        </div>
 
-     
+
+
+     <p>&nbsp;</p>
 
         <div class="panel-footer">
             @if (!viewonly)
@@ -450,8 +454,11 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
             }
         </div>
     </div>
+        </div>
 }
+
 <script type="text/javascript">
+
     function bind_bonus() {
         $('.alert-dismissible').on('close.bs.alert', function () {
 
@@ -518,7 +525,10 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
         });
     }
 
+
     $(function () {
+
+
 
         $("#Contract_territory_chosen").chosen().change(function () {
 
@@ -545,7 +555,6 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
             });
 
 
-            // alert($(this).val());
         });
 
         //добавить страхователя
@@ -587,46 +596,66 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
         @*Скидки*@
         $(".frm-discounts a").click(function (e) {
 
-                var factor_id = $(this).attr("id");
+            var factor_id = $(this).attr("id");
 
-                var riskobj = $(this).parent().parent().parent().parent();
+            var riskobj = $(this).parent().parent().parent().parent();
 
-                var risk_id = riskobj.attr("id").toString().replace('risk_bonus_', '');
+            var risk_id = riskobj.attr("id").toString().replace('risk_bonus_', '');
 
-                $.ajax({
-                    url: '@Url.Action("_addbonusRow", "Contract")',
-                    type: 'GET',
-                    data: { factorid: factor_id, contractid: '@Model.ContractId', xv: '@viewonly' },
-                    beforeSend: function () {
-                        $("#bonus_wait").show();
-                    },
-                    success: function (data) {
+            $.ajax({
+                url: '@Url.Action("_addbonusRow", "Contract")',
+                type: 'GET',
+                data: { factorid: factor_id, contractid: '@Model.ContractId', xv: '@viewonly' },
+                beforeSend: function () {
+                    $("#bonus_wait").show();
+                },
+                success: function (data) {
 
-                        riskobj.children(".risk_bonus_content").html(data);
-                        bind_bonus();
-                    }
-                }).done(function () {
-                    $("#bonus_wait").hide();
-                });
+                    riskobj.children(".risk_bonus_content").html(data);
+                    bind_bonus();
+                }
+            }).done(function () {
+                $("#bonus_wait").hide();
+            });
 
-                e.preventDefault();
-            });@*скидки*@
+            e.preventDefault();
+        });@*скидки*@
 
 
         @*//агенты*@
         $("#agents_add").click(function (e) {
-           
+
             $.ajax({
                 url: '@Url.Action("_addAgentRow", "Contract")',
                 type: 'POST',
                 data: { contractid: '@Model.ContractId' },
+                beforeSend: function () {
+                    $("#agent_wait").show();
+                },
                 success: function (data) {
-                    $("#agentcontent").html(data);
+
+                    $(data).insertAfter("#agent_wait");
+
+                    $(".agent-dell").on("click", function (e) {
+
+                        var id = $(this).attr("data-id");
+                        var agentnum = $(this).attr("data-num").toString();
+
+                        agent_delete(id, agentnum);
+
+                        e.stopImmediatePropagation();
+                        return false;
+                    });
+
+                    //$("#agentcontent").insertAfter( .html(data);
                 }
+            }).done(function () {
+                $("#agent_wait").hide();
             });
 
             e.preventDefault();
         });
+
 
         bind_bonus();
 

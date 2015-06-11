@@ -1,37 +1,32 @@
-﻿@model IEnumerable<gTravel.Models.ContractAgent>
+﻿
 
+@model IEnumerable<gTravel.Models.ContractAgent>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.AgentId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Percent)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Contract.period_multi_type)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AgentId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Percent)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Contract.period_multi_type)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ContractAgentId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ContractAgentId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ContractAgentId })
-        </td>
-    </tr>
+@{
+    int idx = 0;
+    
 }
 
-</table>
+@foreach (var item in Model)
+{
+    @Html.Partial("_addAgentRow", item, new ViewDataDictionary(ViewData) { { "idx", idx } })
+    @*<div class="row">
+
+        <div class="col-md-12">
+            @Html.Hidden(string.Format("ContractAgents[{0}].ContractAgentId", idx),item.ContractAgentId)
+            @Html.Hidden(string.Format("ContractAgents[{0}].ContractId", idx),item.ContractId)
+
+            @droplist(string.Format("ContractAgents[{0}].AgentId", idx),
+            (SelectList)ViewBag.agentlist,
+            item.AgentId.ToString()
+            )
+
+            <a class="agent-dell" id="agent_dell_@item.ContractAgentId" href="#">
+                <span class="glyphicon glyphicon-trash"></span>
+            </a>
+        </div>
+
+    </div>*@
+    idx++;
+}
+

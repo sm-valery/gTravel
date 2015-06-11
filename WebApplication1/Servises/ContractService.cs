@@ -566,7 +566,8 @@ namespace gTravel.Servises
             ContractAgent ca = new ContractAgent();
             ca.ContractAgentId = Guid.NewGuid();
             ca.ContractId = contractid;
-            
+            ca.num = db.ContractAgents.Count(x => x.ContractId == contractid) + 1;
+
             db.ContractAgents.Add(ca);
 
             db.SaveChanges();

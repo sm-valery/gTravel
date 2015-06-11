@@ -1,4 +1,6 @@
-﻿function ins_delete(rownum, id) {
+﻿
+
+function ins_delete(rownum, id) {
     if (confirm("Удалить строку?")) {
         var subj_num = rownum;
         
@@ -17,6 +19,28 @@
             }
         });
 
+    }
+}
+
+function agent_delete(id, agentnum)
+{
+    if (confirm("Удалить строку?")) {
+
+      
+        $.ajax({
+            url: "/Contract/_removeAgentRow",
+            type: "POST",
+            data: { contractagentid: id },
+            success: function (data) {
+                $("[data-id=" + id + "]").parent().parent().hide();
+
+                $("#ContractAgents_" + agentnum + "__num").val(-1);
+
+            },
+            error: function (request, status, error) {
+                alert(error);
+            }
+        });
     }
 }
 
@@ -51,6 +75,19 @@ $(function () {
         e.preventDefault();
     });
 
+
+    //удаление агента
+    $(".agent-dell").click(function (e) {
+
+        var id = $(this).attr("data-id");
+        var agentnum = $(this).attr("data-num").toString();
+
+        agent_delete(id, agentnum);
+
+        e.stopImmediatePropagation();
+
+        return false;
+    });
 
     //изменение периода
     $(".date_period").change(function () {

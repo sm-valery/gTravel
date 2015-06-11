@@ -164,6 +164,7 @@
           <Property Name="ContractId" Type="uniqueidentifier" />
           <Property Name="AgentId" Type="uniqueidentifier" />
           <Property Name="Percent" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="num" Type="int" />
         </EntityType>
         <EntityType Name="ContractCondition">
           <Key>
@@ -2767,6 +2768,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="AgentId" Type="Guid" />
           <Property Name="Percent" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_ContractAgent_ToTable" FromRole="ContractAgent" ToRole="Contract" />
+          <Property Name="num" Type="Int32" />
         </EntityType>
         <Association Name="FK_ContractAgent_ToTable">
           <End Type="goDbModel.Contract" Role="Contract" Multiplicity="0..1" />
@@ -3355,6 +3357,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="ContractAgents">
             <EntityTypeMapping TypeName="goDbModel.ContractAgent">
               <MappingFragment StoreEntitySet="ContractAgent">
+                <ScalarProperty Name="num" ColumnName="num" />
                 <ScalarProperty Name="Percent" ColumnName="Percent" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="ContractId" ColumnName="ContractId" />

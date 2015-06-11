@@ -18,6 +18,7 @@ namespace gTravel.Models
         public Nullable<System.Guid> ContractId { get; set; }
         public Nullable<System.Guid> AgentId { get; set; }
         public Nullable<decimal> Percent { get; set; }
+        public Nullable<int> num { get; set; }
     
         public virtual Contract Contract { get; set; }
     }

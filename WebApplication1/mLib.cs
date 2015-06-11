@@ -413,7 +413,9 @@ namespace gTravel
         public static Agent GetCurrentUserAgent(string userid)
         {
             if (IsSetCurrentUserAgent(userid))
-                return (Agent)HttpContext.Current.Session["useragent"];
+                return new Agent() { AgentId = Guid.Parse(HttpContext.Current.Session["useragentid"].ToString()), 
+                    Name = HttpContext.Current.Session["useragentname"].ToString() }; 
+            //(Agent)HttpContext.Current.Session["useragent"];
 
             SetCurrentUserAgent(userid);
 

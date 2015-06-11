@@ -1,14 +1,55 @@
-﻿@model gTravel.Models.ContractAgent
+﻿@helper droplist(string name, SelectList list, string selval)
+{
 
-@{
-    int indx = (int)ViewBag.idx;
+    selval = (string.IsNullOrEmpty(selval)) ? Guid.Empty.ToString() : selval;
+
+    <select name="@name" class="form-control input-sm input-value" data-val="true">
+        @foreach (var item in list)
+        {
+            if (selval == item.Value)
+            {
+                <option value="@item.Value" selected="selected">@item.Text</option>
+            }
+            else
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+
+        }
+    </select>
+
 }
 
+@model gTravel.Models.ContractAgent
 
-@Html.Hidden(string.Format("ContractAgent[{0}].ContractAgentId", indx), Model.ContractAgentId)
-@Html.Hidden(string.Format("ContractAgent[{0}].ContractId", indx), Model.ContractId)
+@{
+    int indx = (int)ViewData["idx"];
+}
 
-@Html.DropDownList(string.Format("ContractAgent[{0}].AgentId", indx), (SelectList)ViewBag.agentlist, new { htmlAttributes = new { @class = "form-control" } })
+<div class="row">
 
+    <div class="col-md-12">
+        @Html.Hidden(string.Format("ContractAgents[{0}].ContractAgentId", indx), Model.ContractAgentId)
+        @Html.Hidden(string.Format("ContractAgents[{0}].ContractId", indx), Model.ContractId)
+        @Html.Hidden(string.Format("ContractAgents[{0}].num", indx), Model.num)
+       
+
+        @*@Html.DropDownList(string.Format("ContractAgent[{0}].AgentId", indx), (SelectList)ViewBag.agentlist, new { htmlAttributes = new { @class = "form-control" } })*@
+
+        @droplist(string.Format("ContractAgents[{0}].AgentId", indx),
+            (SelectList)ViewBag.agentlist,
+               Model.AgentId.ToString()
+            )
+
+        &nbsp;
+        <label>Процент: </label>
+        @Html.TextBox(string.Format("ContractAgents[{0}].Percent", indx), Model.Percent, new { @class="form-control input-sm"})
+
+        <a class="agent-dell" data-id="@Model.ContractAgentId" data-num="@indx" href="#">
+            <span class="glyphicon glyphicon-trash"></span>
+        </a>
+    </div>
+
+</div>
 
 

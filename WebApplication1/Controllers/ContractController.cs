@@ -139,10 +139,16 @@ namespace gTravel.Controllers
         [HttpPost]
         public PartialViewResult _addAgentRow(Guid contractid)
         {
+            Response.CacheControl = "no-cache";
+            Response.Cache.SetETag((Guid.NewGuid()).ToString());
+
+
             ContractService cs = new ContractService();
             ViewBag.idx = cs.ContractAgent_Count(contractid);
 
-            ViewBag.agentlist = new SelectList(db.Agents.ToList(), "AgentId", "Name");
+            var vagents = db.Agents.OrderBy(x=>x.Name).ToList();
+            vagents.Add(new Agent() { AgentId = Guid.Empty, Name = "не выбран" });
+            ViewBag.agentlist = new SelectList(vagents, "AgentId", "Name");
 
            return PartialView(cs.Create_ContractAgent(contractid));
         }
@@ -150,11 +156,34 @@ namespace gTravel.Controllers
         [ChildActionOnly]
         public PartialViewResult _AgentList(Guid contractid)
         {
-            ViewBag.agentlist = new SelectList(db.Agents.ToList(), "AgentId", "Name");
+            Response.CacheControl = "no-cache";
+            Response.Cache.SetETag((Guid.NewGuid()).ToString());
+
+
+            var vagents = db.Agents.OrderBy(x=>x.Name).ToList();
+            vagents.Add(new Agent() { AgentId = Guid.Empty, Name = "не выбран" });
+            ViewBag.agentlist = new SelectList(vagents, "AgentId", "Name");
 
             return PartialView(db.ContractAgents.Where(x => x.ContractId == contractid).ToList());
         }
 
+        [HttpPost]
+        public ActionResult _removeAgentRow(Guid contractagentid)
+        {
+
+            var ca = db.ContractAgents.SingleOrDefault(x => x.ContractAgentId == contractagentid);
+
+            if (ca == null)
+                return HttpNotFound();
+
+            db.ContractAgents.Remove(ca);
+            db.SaveChanges();
+
+            return null;
+        }
+
+
+ 
         public PartialViewResult _dellbonusRow(Guid contractfactorid, bool xv = false)
         {
             Guid contract_id;
@@ -777,6 +806,7 @@ namespace gTravel.Controllers
             return ret;
         }
 
+
         private bool ContractSave(Contract c)
         {
             var ret = true;
@@ -821,6 +851,30 @@ namespace gTravel.Controllers
                     db.Entry(s).State = EntityState.Modified;
             }
 
+            #endregion
+
+            #region Агенты
+
+            foreach(var ag in c.ContractAgents)
+            {
+                if(ag.num!=-1)
+                    db.Entry(ag).State = EntityState.Modified;
+            }
+
+            //если агенты не указаны, добавим агента пользователя
+            if(c.ContractAgents.Count==0)
+            {
+                var caguser = new ContractAgent();
+
+                caguser.ContractAgentId = Guid.NewGuid();
+                caguser.ContractId = c.ContractId;
+                caguser.num = 1;
+                caguser.Percent = 100;
+
+                 caguser.AgentId = mLib.GetCurrentUserAgent(c.UserId).AgentId;
+
+                db.ContractAgents.Add(caguser);
+            }
             #endregion
 
             #region территория
