@@ -88,6 +88,7 @@
         <AssociationConnector Association="goDbModel.FK_Tarif_ToTerritory" />
         <EntityTypeShape EntityType="goDbModel.ContractAgent" Width="1.5" PointX="26.25" PointY="20.75" />
         <AssociationConnector Association="goDbModel.FK_ContractAgent_ToTable" />
+        <EntityTypeShape EntityType="goDbModel.AgentRole" Width="1.5" PointX="0.75" PointY="7.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

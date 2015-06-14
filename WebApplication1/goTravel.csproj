@@ -173,6 +173,9 @@
     <Compile Include="Models\Agent.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AgentRole.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AgentSeria.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>

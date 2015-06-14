@@ -78,6 +78,18 @@
         </div>
     </fieldset>
 
+
+<fieldset>
+<legend>Роли</legend>
+    @Ajax.ActionLink("Добавить", "addRole", new { agentid = agent.AgentId },
+            new AjaxOptions {HttpMethod="POST",
+                InsertionMode= InsertionMode.InsertAfter,
+                 
+            })
+</fieldset>
+
+
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('#docnumber').editable();
