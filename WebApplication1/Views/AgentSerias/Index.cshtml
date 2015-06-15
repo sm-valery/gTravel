@@ -78,19 +78,31 @@
         </div>
     </fieldset>
 
+<p></p>
 
 <fieldset>
-<legend>Роли</legend>
-    @Ajax.ActionLink("Добавить", "addRole", new { agentid = agent.AgentId },
-            new AjaxOptions {HttpMethod="POST",
-                InsertionMode= InsertionMode.InsertAfter,
-                 
+    <legend>Роли</legend>
+    @Ajax.ActionLink("Добавить", "_addRole", new { agentid = agent.AgentId },
+            new AjaxOptions
+            {
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.InsertAfter,
+                UpdateTargetId = "addRoleLink",
+                OnSuccess = "addRoleSucc();"
             })
+
+    <div id="addRoleLink"></div>
 </fieldset>
 
 
 
 <script type="text/javascript">
+
+    function addRoleSucc()
+    {
+        $('.fld_agent_role').editable();
+    }
+
     $(document).ready(function () {
         $('#docnumber').editable();
         $('#agentdate').editable(

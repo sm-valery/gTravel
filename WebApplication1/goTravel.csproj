@@ -635,6 +635,7 @@
     <Content Include="Views\Contract\_addContractTerritory.cshtml" />
     <Content Include="Views\Contract\_addAgentRow.cshtml" />
     <Content Include="Views\Contract\_AgentList.cshtml" />
+    <Content Include="Views\AgentSerias\_addRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

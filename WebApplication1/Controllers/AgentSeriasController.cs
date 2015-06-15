@@ -24,6 +24,22 @@ namespace gTravel.Controllers
             return View(agentSerias.ToList());
         }
 
+        [HttpPost]
+        public ActionResult _addRole(Guid agentid)
+        {
+
+            ViewBag.AgentId = agentid;
+
+            return PartialView();
+        }
+
+        public ActionResult _saveRole(Guid pk,string value)
+        {
+            var oldv = db.AgentRoles.SingleOrDefault(x => x.AgentRoleId == pk);
+
+            return null;
+        }
+
         public ActionResult EditAgentNumber(Guid pk,string value)
         {
             var ag = db.Agents.SingleOrDefault(x => x.AgentId == pk);
