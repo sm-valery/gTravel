@@ -21,21 +21,35 @@ namespace gTravel.Controllers
 
             ViewBag.agent = db.Agents.SingleOrDefault(x => x.AgentId == agentid);
 
+            ViewBag.arole = db.AgentRoles.Where(x => x.AgentId == agentid).ToList();
+
             return View(agentSerias.ToList());
         }
 
         [HttpPost]
         public ActionResult _addRole(Guid agentid)
         {
+            var agrole = new AgentRole();
+            agrole.AgentId = agentid;
+            agrole.AgentRoleId = Guid.NewGuid();
 
-            ViewBag.AgentId = agentid;
+            db.AgentRoles.Add(agrole);
+            db.SaveChanges();
 
-            return PartialView();
+            return PartialView(agrole);
         }
 
         public ActionResult _saveRole(Guid pk,string value)
         {
-            var oldv = db.AgentRoles.SingleOrDefault(x => x.AgentRoleId == pk);
+            var agrole = db.AgentRoles.SingleOrDefault(x => x.AgentRoleId == pk);
+
+            if(agrole!=null)
+            {
+                agrole.RoleCode = value;
+                db.Entry(agrole).State = EntityState.Modified;
+
+                db.SaveChanges();
+            }
 
             return null;
         }

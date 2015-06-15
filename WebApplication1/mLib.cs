@@ -5,7 +5,7 @@ using System.Data.Entity;
 using System.Data.Entity.Core.Common.CommandTrees;
 using System.Linq;
 using System.Net.Mail;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
+//using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -406,6 +406,9 @@ namespace gTravel
                 HttpContext.Current.Session["useragentname"] = singleOrDefault.Agent.Name;
             }
 
+            HttpContext.Current.Session["AgentRoles"] = db.AgentRoles.Where(x => x.AgentId == singleOrDefault.AgentId).ToList();
+
+
         }
 
 
@@ -422,7 +425,18 @@ namespace gTravel
             return GetCurrentUserAgent(userid);
         }
 
+        [UserIdFilter]
+        public static bool AgentInRole(string userid, string role)
+        {
+            var ag = GetCurrentUserAgent(userid);
 
+            var aroles = (List<AgentRole>)HttpContext.Current.Session["AgentRoles"];
+
+            if (aroles.SingleOrDefault(x => x.RoleCode == role) != null)
+                return true;
+
+            return false;
+        }
 
         public static string gethash(string key)
         {

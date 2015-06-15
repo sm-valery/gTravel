@@ -1,5 +1,4 @@
-﻿
+﻿@model gTravel.Models.AgentRole
 
-<a href="#" class="fld_agent_role" data-type="text" data-pk="@ViewBag.AgentId" data-url="@Url.Action("_saveRole")" data-title="Введите роль">Пусто</a>
-<br />
-
+    <a href="#" class="fld_agent_role" data-type="text" data-pk="@Model.AgentRoleId" data-url="@Url.Action("_saveRole")" data-title="Введите роль">@Model.RoleCode</a>
+    <br />

@@ -82,7 +82,7 @@
 
 <fieldset>
     <legend>Роли</legend>
-    @Ajax.ActionLink("Добавить", "_addRole", new { agentid = agent.AgentId },
+    @Ajax.ActionLink("Добавить роль", "_addRole", new { agentid = agent.AgentId },
             new AjaxOptions
             {
                 HttpMethod = "POST",
@@ -91,7 +91,12 @@
                 OnSuccess = "addRoleSucc();"
             })
 
-    <div id="addRoleLink"></div>
+    <div id="addRoleLink">
+        @foreach(var r in (List<gTravel.Models.AgentRole>)ViewBag.arole)
+        {
+            @Html.Partial("_addRole",r)
+        }
+    </div>
 </fieldset>
 
 
