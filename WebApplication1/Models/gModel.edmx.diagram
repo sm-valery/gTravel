@@ -80,15 +80,15 @@
         <AssociationConnector Association="goDbModel.FK_Factors_ToRisk" />
         <AssociationConnector Association="goDbModel.FK_Factors_ToTerritory" />
         <EntityTypeShape EntityType="goDbModel.v_contract_factors" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="goDbModel.Tarif" Width="1.5" PointX="22.625" PointY="1.75" />
-        <AssociationConnector Association="goDbModel.FK_Tarif_ToAgentSeria" />
-        <AssociationConnector Association="goDbModel.FK_Tarif_ToRisk" />
-        <AssociationConnector Association="goDbModel.FK_Tarif_ToTable" />
-        <AssociationConnector Association="goDbModel.FK_Tarif_ToTarifPlan" />
-        <AssociationConnector Association="goDbModel.FK_Tarif_ToTerritory" />
         <EntityTypeShape EntityType="goDbModel.ContractAgent" Width="1.5" PointX="26.25" PointY="20.75" />
         <AssociationConnector Association="goDbModel.FK_ContractAgent_ToTable" />
         <EntityTypeShape EntityType="goDbModel.AgentRole" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="goDbModel.RiskProgram" Width="1.5" PointX="3.375" PointY="8.75" />
+        <EntityTypeShape EntityType="goDbModel.TarifSearch" Width="1.5" PointX="16.375" PointY="5.75" />
+        <EntityTypeShape EntityType="goDbModel.Tarif" Width="1.5" PointX="22.625" PointY="2.375" />
+        <AssociationConnector Association="goDbModel.FK_Tarif_ToAgentSeria" />
+        <AssociationConnector Association="goDbModel.FK_Tarif_ToTarifPlan" />
+        <AssociationConnector Association="goDbModel.FK_Tarif_ToTerritory" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

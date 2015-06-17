@@ -36,6 +36,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Seria_edit", new { id = item.SeriaId }) |
+            @Html.ActionLink("Критерии поиска тарифа", "TarifSearch", new { SeriaId = item.SeriaId }) |
             @Html.ActionLink("Details", "Details", new { id=item.SeriaId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.SeriaId })
         </td>

@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using gTravel.Models;
 using gTravel.Servises;
-//using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity;
 using PagedList;
 
 
@@ -241,7 +241,7 @@ namespace gTravel.Controllers
             return PartialView(tlist);
         }
 
-        private void ContractForm_ini(Contract c)
+        private void ContractForm_ini(Contract c,string currentuserid)
         {
             ViewBag.currency = new SelectList(db.Currencies.ToList(), "currencyid", "code",c.currencyid);
 
@@ -265,7 +265,8 @@ namespace gTravel.Controllers
             ViewBag.TerritoryId = new MultiSelectList(db.Territories.ToList(),
                 "TerritoryId", "name", selectedterritory);
 
-       
+
+            ViewBag.isic = mLib.AgentInRole(currentuserid, "IC");      
             /*
              * 
               string userid = User.Identity.GetUserId();
@@ -278,27 +279,27 @@ namespace gTravel.Controllers
             //ViewBag.hasFactorContrat = db.Factors
         }
 
-        public PartialViewResult build_contract_territory(Guid? ContractTerritoryId, Guid? contractid)
-        {
-            var t = db.Contract_territory.FirstOrDefault(x => x.ContractTerritoryId == ContractTerritoryId);
+        //public PartialViewResult build_contract_territory(Guid? ContractTerritoryId, Guid? contractid)
+        //{
+        //    var t = db.Contract_territory.FirstOrDefault(x => x.ContractTerritoryId == ContractTerritoryId);
 
 
-            if (t == null)
-            {
-                t = new Contract_territory();
-                t.ContractId = contractid.Value;
-                t.ContractTerritoryId = Guid.NewGuid();
-                ViewBag.TerritoryId = new MultiSelectList(db.Territories.ToList(), "TerritoryId", "name");
+        //    if (t == null)
+        //    {
+        //        t = new Contract_territory();
+        //        t.ContractId = contractid.Value;
+        //        t.ContractTerritoryId = Guid.NewGuid();
+        //        ViewBag.TerritoryId = new MultiSelectList(db.Territories.ToList(), "TerritoryId", "name");
 
-            }
-            else
-            {
-                ViewBag.TerritoryId = new MultiSelectList(db.Territories.ToList(), "TerritoryId", "name", db.Contract_territory.Where(x=>x.ContractId == contractid));
+        //    }
+        //    else
+        //    {
+        //        ViewBag.TerritoryId = new MultiSelectList(db.Territories.ToList(), "TerritoryId", "name", db.Contract_territory.Where(x=>x.ContractId == contractid));
 
-            }
+        //    }
 
-            return PartialView(t);
-        }
+        //    return PartialView(t);
+        //}
 
         [UserIdFilter]
         public ActionResult Contract_create(string userid, Guid seriaid)
@@ -377,7 +378,7 @@ namespace gTravel.Controllers
                 if (caction != "confirm")
                     return RedirectToAction("Index");
             }
-            ContractForm_ini(c);
+            ContractForm_ini(c, userid);
 
             var retc = db.Contracts.Include("Contract_territory")
                 .Include("ContractConditions")
@@ -477,7 +478,7 @@ namespace gTravel.Controllers
                 if (caction != "confirm")
                     return RedirectToAction("Index");
             }
-            ContractForm_ini(c);
+            ContractForm_ini(c,userid);
 
 
             //var retc = db.Contracts.Include("Contract_territory")
@@ -542,7 +543,7 @@ namespace gTravel.Controllers
             if (ModelState.IsValid && caction == "save")
                 return RedirectToAction("Index");
 
-            ContractForm_ini(c);
+            ContractForm_ini(c,userid);
 
             var retc = db.Contracts.Include("Contract_territory")
                 .Include("ContractConditions")
@@ -997,7 +998,7 @@ namespace gTravel.Controllers
 
             Contract c = new ContractService(db).GetContractForEdit(contractid,userid);
 
-            ContractForm_ini(c);
+            ContractForm_ini(c,userid);
 
 
             return View(c.seria.formname, c);
@@ -1219,66 +1220,66 @@ namespace gTravel.Controllers
             //          }
         }
 
-        private void contract_update_territory(Guid contractid, string[] territory)
-        {
-            if (territory == null)
-                return;
+        //private void contract_update_territory(Guid contractid, string[] territory)
+        //{
+        //    if (territory == null)
+        //        return;
 
-            var t_old = db.Contract_territory.Where(x => x.ContractId == contractid).ToList();
-            foreach (var item in t_old)
-            {
-                //удалить
-            }
+        //    var t_old = db.Contract_territory.Where(x => x.ContractId == contractid).ToList();
+        //    foreach (var item in t_old)
+        //    {
+        //        //удалить
+        //    }
 
-            foreach (var id in territory)
-            {
-                var tid = Guid.Parse(id);
-                //добавить
-                if (t_old.Where(x => x.TerritoryId == tid).Count() == 0)
-                {
-                    var tnew = new Contract_territory();
+        //    foreach (var id in territory)
+        //    {
+        //        var tid = Guid.Parse(id);
+        //        //добавить
+        //        if (t_old.Where(x => x.TerritoryId == tid).Count() == 0)
+        //        {
+        //            var tnew = new Contract_territory();
 
-                    tnew.ContractTerritoryId = Guid.NewGuid();
-                    tnew.TerritoryId = tid;
-                    tnew.ContractId = contractid;
+        //            tnew.ContractTerritoryId = Guid.NewGuid();
+        //            tnew.TerritoryId = tid;
+        //            tnew.ContractId = contractid;
 
-                    db.Contract_territory.Add(tnew);
-                }
-            }
-        }
+        //            db.Contract_territory.Add(tnew);
+        //        }
+        //    }
+        //}
 
-        private ActionResult contract_terr_insert_row(Guid id, string name, Guid contractid)
-        {
-            if (db.Contract_territory.Any(x => x.ContractId == contractid && x.TerritoryId == id))
-                return null;
+        //private ActionResult contract_terr_insert_row(Guid id, string name, Guid contractid)
+        //{
+        //    if (db.Contract_territory.Any(x => x.ContractId == contractid && x.TerritoryId == id))
+        //        return null;
 
-            var t = new Contract_territory();
-            t.ContractId = contractid;
-            t.ContractTerritoryId = Guid.NewGuid();
-            t.TerritoryId = id;
+        //    var t = new Contract_territory();
+        //    t.ContractId = contractid;
+        //    t.ContractTerritoryId = Guid.NewGuid();
+        //    t.TerritoryId = id;
 
-            db.Contract_territory.Add(t);
-            db.SaveChanges();
+        //    db.Contract_territory.Add(t);
+        //    db.SaveChanges();
 
-            var terr_count = db.Contract_territory.Where(x => x.ContractId == contractid).Count();
+        //    var terr_count = db.Contract_territory.Where(x => x.ContractId == contractid).Count();
 
-            ViewData["indx"] = terr_count - 1;
+        //    ViewData["indx"] = terr_count - 1;
 
-            return
-                PartialView(
-                    db.Contract_territory.Include("Territory")
-                        .SingleOrDefault(x => x.ContractTerritoryId == t.ContractTerritoryId));
-            //Contract_territory[" + iterrnum + "]
-            //return string.Format("<tr><td  class='input-value'> "
-            //    + "<input type='hidden' name='Contract_territory[{3}].ContractTerritoryId' value='{4}' >" +
-            //    "<input id='{2}' type='hidden' name='territory' value='{0}' /> {1}</td><td><button class='btn btn-default btn-sm'>x</button></td></tr>",
-            //    id//0
-            //    , name//1
-            //    , "terr_" + id//2
-            //    , tcount//3
-            //    , t.ContractTerritoryId//4
-            //    );
-        }
+        //    return
+        //        PartialView(
+        //            db.Contract_territory.Include("Territory")
+        //                .SingleOrDefault(x => x.ContractTerritoryId == t.ContractTerritoryId));
+        //    //Contract_territory[" + iterrnum + "]
+        //    //return string.Format("<tr><td  class='input-value'> "
+        //    //    + "<input type='hidden' name='Contract_territory[{3}].ContractTerritoryId' value='{4}' >" +
+        //    //    "<input id='{2}' type='hidden' name='territory' value='{0}' /> {1}</td><td><button class='btn btn-default btn-sm'>x</button></td></tr>",
+        //    //    id//0
+        //    //    , name//1
+        //    //    , "terr_" + id//2
+        //    //    , tcount//3
+        //    //    , t.ContractTerritoryId//4
+        //    //    );
+        //}
 
         //private int get_period_diff(DateTime? d1, DateTime? d2)
         //{

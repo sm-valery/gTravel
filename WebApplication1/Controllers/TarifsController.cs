@@ -18,8 +18,8 @@ namespace gTravel.Controllers
         // GET: Tarifs
         public ActionResult Index(Guid agentseriaid)
         {
-            var tarifs = db.Tarifs.Include(t => t.Risk).Include(t=>t.Territory).Include(t=>t.seria).Where(x=>x.AgentSeriaId==agentseriaid)
-                .OrderBy(o=>o.RiskId).ThenBy(o=>o.InsSumFrom).ThenBy(o=>o.PeriodFrom);
+            var tarifs = db.Tarifs.Include(t=>t.Territory).Where(x=>x.AgentSeriaId==agentseriaid)
+                .OrderBy(o=>o.RiskProgramId).ThenBy(o=>o.InsSumFrom).ThenBy(o=>o.PeriodFrom);
 
             ViewBag.agentseria = db.AgentSerias.SingleOrDefault(x => x.AgentSeriaId == agentseriaid);
 

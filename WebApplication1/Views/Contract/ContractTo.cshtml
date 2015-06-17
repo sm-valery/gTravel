@@ -40,6 +40,31 @@
 
 }
 
+@helper HelperAgents(bool isic)
+{
+
+    if (isic)
+    {
+        <fieldset>
+            <legend>Агенты</legend>
+
+            <a id="agents_add" href="#">
+                <span class="glyphicon glyphicon-plus-sign"></span>
+                <span style="font-weight:normal;">
+                    &nbsp;Добавить
+                </span>
+            </a>
+            <div id="agentcontent">
+                <img id="agent_wait" src="~/Content/loading_white_small.gif"
+                     style="position:absolute; z-index:1000;display:none;" />
+
+                @Html.Action("_AgentList", new { contractid = Model.ContractId })
+            </div>
+        </fieldset>
+    }
+}
+
+
 @helper HelperRiskFactors(int numrow, int riskcount, Guid riskid, Guid contractid, bool viewonly = false)
 {
     if (numrow == 0)
@@ -90,6 +115,7 @@
 
     var viewonly = Model.ContractStatu.Status.Readonly == 1;
 
+    bool isAgentIc = (bool)ViewBag.isic;
 }
 
 
@@ -410,27 +436,12 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                 </div>
             </fieldset>
 
-            <fieldset>
-                <legend>Агенты</legend>
-
-                <a id="agents_add" href="#">
-                    <span class="glyphicon glyphicon-plus-sign"></span>
-                    <span style="font-weight:normal;">
-                        &nbsp;Добавить
-                    </span>
-                </a>
-                <div id="agentcontent">
-                    <img id="agent_wait" src="~/Content/loading_white_small.gif"
-                         style="position:absolute; z-index:1000;display:none;" />
-
-                    @Html.Action("_AgentList", new { contractid = Model.ContractId })
-                </div>
-            </fieldset>
-
+    
+           @HelperAgents(isAgentIc)
 
 
      <p>&nbsp;</p>
-
+            @*Кнопки*@
         <div class="panel-footer">
             @if (!viewonly)
             {

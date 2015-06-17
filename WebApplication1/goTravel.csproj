@@ -267,6 +267,9 @@
     <Compile Include="Models\Risk.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RiskProgram.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RiskSeria.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -304,6 +307,9 @@
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TarifPlanAgent.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TarifSearch.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Territory.cs">
@@ -394,6 +400,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <None Include="Properties\PublishProfiles\tit test.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -636,6 +643,9 @@
     <Content Include="Views\Contract\_addAgentRow.cshtml" />
     <Content Include="Views\Contract\_AgentList.cshtml" />
     <Content Include="Views\AgentSerias\_addRole.cshtml" />
+    <Content Include="Views\RiskSerias\RiskPrograms.cshtml" />
+    <Content Include="Views\RiskSerias\CreateRiskProgram.cshtml" />
+    <Content Include="Views\RiskSerias\EditRiskProgram.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

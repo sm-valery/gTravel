@@ -1,0 +1,46 @@
+﻿@model IEnumerable<gTravel.Models.RiskProgram>
+
+@{
+    ViewBag.Title = "Список программ";
+}
+
+<h3> @ViewBag.Title</h3>
+
+
+<h4>
+    Серия:  @ViewBag.seria_code
+    &nbsp;
+    Риск: @ViewBag.risk_code
+</h4>
+
+<p>
+    @Html.ActionLink("Create New", "CreateRiskProgram", new { RiskSeriaId = @ViewBag.RiskSeriaId })
+</p>
+<table class="table">
+    <tr>
+        <th>
+           Код
+        </th>
+        <th>
+           Наименование
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProgramCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditRiskProgram", new { id = item.RiskProgramId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RiskProgramId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RiskProgramId })
+        </td>
+    </tr>
+}
+
+</table>

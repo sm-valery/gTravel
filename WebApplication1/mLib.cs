@@ -432,7 +432,7 @@ namespace gTravel
 
             var aroles = (List<AgentRole>)HttpContext.Current.Session["AgentRoles"];
 
-            if (aroles.SingleOrDefault(x => x.RoleCode == role) != null)
+            if (aroles.SingleOrDefault(x => x.RoleCode.Trim() == role) != null)
                 return true;
 
             return false;

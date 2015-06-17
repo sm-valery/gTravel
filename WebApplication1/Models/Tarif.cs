@@ -15,13 +15,12 @@ namespace gTravel.Models
     public partial class Tarif
     {
         public System.Guid TarifId { get; set; }
-        public System.Guid RiskId { get; set; }
+        public System.Guid RiskProgramId { get; set; }
         public Nullable<decimal> InsSumFrom { get; set; }
         public Nullable<decimal> InsSumTo { get; set; }
         public Nullable<double> FranshSum { get; set; }
         public Nullable<double> FranshPerc { get; set; }
         public Nullable<double> PremSum { get; set; }
-        public Nullable<System.Guid> SeriaId { get; set; }
         public Nullable<System.Guid> TerritoryId { get; set; }
         public Nullable<double> InsFee { get; set; }
         public Nullable<System.Guid> TarifPlanId { get; set; }
@@ -32,8 +31,6 @@ namespace gTravel.Models
         public Nullable<int> RepeatedDays { get; set; }
     
         public virtual AgentSeria AgentSeria { get; set; }
-        public virtual Risk Risk { get; set; }
-        public virtual seria seria { get; set; }
         public virtual TarifPlan TarifPlan { get; set; }
         public virtual Territory Territory { get; set; }
     }

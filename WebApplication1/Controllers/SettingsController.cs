@@ -148,6 +148,13 @@ namespace gTravel.Controllers
             return View(s);
         }
 
+        public ActionResult TarifSearch(Guid SeriaId)
+        {
+            ViewBag.seria_code = db.serias.SingleOrDefault(x => x.SeriaId == SeriaId).Code;
+
+            return View(db.TarifSearches.Where(x=>x.SeriaId == SeriaId));
+        }
+
         #endregion
 
         #region territory

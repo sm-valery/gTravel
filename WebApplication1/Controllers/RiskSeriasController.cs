@@ -18,6 +18,8 @@ namespace gTravel.Controllers
         // GET: RiskSerias
         public ActionResult Index()
         {
+//TODO добавить таблицу RiskSeria
+
             var riskSerias = db.RiskSerias.Include(r => r.seria).Include(r => r.Risk).OrderBy(o=>o.SeriaId);
             return View(riskSerias.ToList());
         }
@@ -124,6 +126,80 @@ namespace gTravel.Controllers
             db.RiskSerias.Remove(riskSeria);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult RiskPrograms(Guid RiskSeriaId)
+        {
+            var rs = db.RiskSerias.SingleOrDefault(x => x.RiskSeriaId == RiskSeriaId);
+            ViewBag.seria_code = rs.seria.Code;
+            ViewBag.risk_code = rs.Risk.Code;
+            ViewBag.RiskSeriaId = RiskSeriaId;
+
+          
+            return View(db.RiskPrograms.Where(x => x.RiskSeriaId == RiskSeriaId));
+        }
+
+        public ActionResult CreateRiskProgram(Guid RiskSeriaId)
+        {
+            var rs = db.RiskSerias.SingleOrDefault(x => x.RiskSeriaId == RiskSeriaId);
+            ViewBag.seria_code = rs.seria.Code;
+            ViewBag.risk_code = rs.Risk.Code;
+            ViewBag.RiskSeriaId = RiskSeriaId;
+
+
+            return View(new RiskProgram() {RiskSeriaId = RiskSeriaId});
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateRiskProgram(RiskProgram rp)
+        {
+            if(ModelState.IsValid)
+            {
+                rp.RiskProgramId = Guid.NewGuid();
+
+                db.RiskPrograms.Add(rp);
+                db.SaveChanges();
+
+                return RedirectToAction("RiskPrograms", new { RiskSeriaId =rp.RiskSeriaId});
+            }
+
+            var rs = db.RiskSerias.SingleOrDefault(x => x.RiskSeriaId == rp.RiskSeriaId);
+            ViewBag.seria_code = rs.seria.Code;
+            ViewBag.risk_code = rs.Risk.Code;
+            ViewBag.RiskSeriaId = rp.RiskSeriaId;
+
+            return View(rp);
+        }
+
+        public ActionResult EditRiskProgram(Guid id)
+        {
+            var rp= db.RiskPrograms.SingleOrDefault(x=>x.RiskProgramId==id);
+
+            var rs = db.RiskSerias.SingleOrDefault(x => x.RiskSeriaId == rp.RiskSeriaId);
+            ViewBag.seria_code = rs.seria.Code;
+            ViewBag.risk_code = rs.Risk.Code;
+        
+            return View(rp);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditRiskProgram(RiskProgram rp)
+        {
+            if(ModelState.IsValid)
+            {
+                db.Entry(rp).State = EntityState.Modified;
+
+                db.SaveChanges();
+                return RedirectToAction("RiskPrograms", new { RiskSeriaId = rp.RiskSeriaId });
+            }
+
+            var rs = db.RiskSerias.SingleOrDefault(x => x.RiskSeriaId == rp.RiskSeriaId);
+            ViewBag.seria_code = rs.seria.Code;
+            ViewBag.risk_code = rs.Risk.Code;
+            ViewBag.RiskSeriaId = rp.RiskSeriaId;
+
+            return View(rp);
         }
 
         protected override void Dispose(bool disposing)

@@ -1,10 +1,13 @@
 ﻿@model IEnumerable<gTravel.Models.RiskSeria>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Включенные риски";
+
+   
 }
 
-<h2>Index</h2>
+<h3>@ViewBag.Title</h3>
+
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -46,7 +49,7 @@
 
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.RiskSeriaId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RiskSeriaId }) |
+            @Html.ActionLink("Список программ", "RiskPrograms", new { RiskSeriaId = item.RiskSeriaId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.RiskSeriaId })
         </td>
     </tr>
