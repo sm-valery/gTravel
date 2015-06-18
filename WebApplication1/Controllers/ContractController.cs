@@ -249,8 +249,9 @@ namespace gTravel.Controllers
 
             ViewBag.PeriodMultiType = new SelectList(new[]
             {
-                new SelectListItem {Text = "За весь период", Value = "1"},
-                new SelectListItem {Text = "за одну поездку", Value = "2"}
+                new SelectListItem {Text = "Разовая поездка", Value = "0"},
+                new SelectListItem {Text = "Многократная. Каждая из поездок не больше", Value = "1"},
+                new SelectListItem {Text = "Многократная. Всего поездок не больше", Value = "2"}
             }, "Value", "Text");
 
             string[] selectedterritory = new string[c.Contract_territory.Count];
@@ -747,9 +748,9 @@ namespace gTravel.Controllers
 
                     //найдем тариф
                     var t = (from tr in db.Tarifs
-                        where tr.SeriaId == c.seriaid &&
-                              tr.TerritoryId == cter.TerritoryId &&
-                              tr.RiskId == crisk.RiskId
+                        where //tr.SeriaId == c.seriaid &&
+                              tr.TerritoryId == cter.TerritoryId 
+                            //  &&                              tr.RiskId == crisk.RiskId
                         select tr).FirstOrDefault();
 
 

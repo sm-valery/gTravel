@@ -73,6 +73,7 @@ namespace gTravel.Models
         public virtual DbSet<RiskProgram> RiskPrograms { get; set; }
         public virtual DbSet<TarifSearch> TarifSearches { get; set; }
         public virtual DbSet<Tarif> Tarifs { get; set; }
+        public virtual DbSet<v_Tarifs> v_Tarifs { get; set; }
     
         public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, Nullable<System.Guid> borderoId)
         {

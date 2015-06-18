@@ -224,11 +224,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2"><label>Многократная поездка:</label> </div>
+                <div class="col-md-2"><label>Срок поездки:</label> </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => Model.period_multi, new { @class = "form-control input-sm input-value" }) <label> дней</label>
+                    @Html.TextBoxFor(m => Model.period_multi, new { @class = "form-control input-sm input-value" }) 
 
                     @Html.DropDownListFor(m => Model.period_multi_type, (SelectList)ViewBag.PeriodMultiType, new { @class = "form-control input-sm input-value" })
+                    <label> дней</label>
                 </div>
             </div>
             <p></p>

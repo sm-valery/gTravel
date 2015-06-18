@@ -24,6 +24,9 @@
         <th>
            Наименование
         </th>
+        <th>
+            Обязательная страховая сумма
+        </th>
         <th></th>
     </tr>
 
@@ -34,6 +37,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DefaultInsSum)
         </td>
         <td>
             @Html.ActionLink("Edit", "EditRiskProgram", new { id = item.RiskProgramId }) |

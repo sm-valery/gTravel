@@ -1,4 +1,4 @@
-﻿@model IEnumerable<gTravel.Models.Tarif>
+﻿@model IEnumerable<gTravel.Models.v_Tarifs>
 
 @{
     ViewBag.Title = "Index";
@@ -22,6 +22,9 @@
     <tr>
         <th>
            Риск
+        </th>
+        <th>
+            Программа
         </th>
         <th>
             Период
@@ -52,7 +55,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.ri.Risk.Code)
+            @Html.DisplayFor(modelItem => item.risk_code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProgramCode)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PeriodFrom)
@@ -78,7 +84,7 @@
         </td>
 
         <td>
-            @Html.DisplayFor(modelItem => item.Territory.Name)
+            @Html.DisplayFor(modelItem => item.territory_name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.RepeatedDays)

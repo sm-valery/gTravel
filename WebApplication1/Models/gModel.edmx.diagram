@@ -89,6 +89,7 @@
         <AssociationConnector Association="goDbModel.FK_Tarif_ToAgentSeria" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToTarifPlan" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToTerritory" />
+        <EntityTypeShape EntityType="goDbModel.v_Tarifs" Width="1.5" PointX="20.375" PointY="17.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

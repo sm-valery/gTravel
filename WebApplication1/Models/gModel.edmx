@@ -302,6 +302,7 @@
           <Property Name="ProgramCode" Type="nchar" MaxLength="20" />
           <Property Name="RiskSeriaId" Type="uniqueidentifier" />
           <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="DefaultInsSum" Type="money" />
         </EntityType>
         <EntityType Name="RiskSeria">
           <Key>
@@ -575,6 +576,37 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="docnum" Type="decimal" Precision="18" Scale="0" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="contractcount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_Tarifs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_Tarifs">
+          <Key>
+            <PropertyRef Name="TarifId" />
+            <PropertyRef Name="RiskProgramId" />
+            <PropertyRef Name="RiskId" />
+          </Key>
+          <Property Name="TarifId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RiskProgramId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InsSumFrom" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="InsSumTo" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="FranshSum" Type="float" />
+          <Property Name="FranshPerc" Type="float" />
+          <Property Name="PremSum" Type="float" />
+          <Property Name="TerritoryId" Type="uniqueidentifier" />
+          <Property Name="InsFee" Type="float" />
+          <Property Name="TarifPlanId" Type="uniqueidentifier" />
+          <Property Name="AgentSeriaId" Type="uniqueidentifier" />
+          <Property Name="PeriodFrom" Type="int" />
+          <Property Name="PeriodTo" Type="int" />
+          <Property Name="RepeatedType" Type="nchar" MaxLength="1" />
+          <Property Name="RepeatedDays" Type="int" />
+          <Property Name="seria_code" Type="nchar" MaxLength="10" />
+          <Property Name="seria_name" Type="nchar" MaxLength="512" />
+          <Property Name="RiskId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="risk_code" Type="nchar" MaxLength="10" />
+          <Property Name="risk_name" Type="nchar" MaxLength="100" />
+          <Property Name="ProgramCode" Type="nchar" MaxLength="20" />
+          <Property Name="territory_name" Type="varchar" MaxLength="512" />
         </EntityType>
         <Association Name="FK_AgentSeria_ToAgent">
           <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
@@ -1172,6 +1204,32 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_importlog].[contractcount] AS [contractcount]
     FROM [dbo].[v_importlog] AS [v_importlog]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="v_Tarifs" EntityType="Self.v_Tarifs" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_Tarifs].[TarifId] AS [TarifId], 
+    [v_Tarifs].[RiskProgramId] AS [RiskProgramId], 
+    [v_Tarifs].[InsSumFrom] AS [InsSumFrom], 
+    [v_Tarifs].[InsSumTo] AS [InsSumTo], 
+    [v_Tarifs].[FranshSum] AS [FranshSum], 
+    [v_Tarifs].[FranshPerc] AS [FranshPerc], 
+    [v_Tarifs].[PremSum] AS [PremSum], 
+    [v_Tarifs].[TerritoryId] AS [TerritoryId], 
+    [v_Tarifs].[InsFee] AS [InsFee], 
+    [v_Tarifs].[TarifPlanId] AS [TarifPlanId], 
+    [v_Tarifs].[AgentSeriaId] AS [AgentSeriaId], 
+    [v_Tarifs].[PeriodFrom] AS [PeriodFrom], 
+    [v_Tarifs].[PeriodTo] AS [PeriodTo], 
+    [v_Tarifs].[RepeatedType] AS [RepeatedType], 
+    [v_Tarifs].[RepeatedDays] AS [RepeatedDays], 
+    [v_Tarifs].[seria_code] AS [seria_code], 
+    [v_Tarifs].[seria_name] AS [seria_name], 
+    [v_Tarifs].[RiskId] AS [RiskId], 
+    [v_Tarifs].[risk_code] AS [risk_code], 
+    [v_Tarifs].[risk_name] AS [risk_name], 
+    [v_Tarifs].[ProgramCode] AS [ProgramCode], 
+    [v_Tarifs].[territory_name] AS [territory_name]
+    FROM [dbo].[v_Tarifs] AS [v_Tarifs]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_AgentSeria_ToAgent" Association="Self.FK_AgentSeria_ToAgent">
             <End Role="Agent" EntitySet="Agent" />
             <End Role="AgentSeria" EntitySet="AgentSeria" />
@@ -1524,6 +1582,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="Territory" EntitySet="Territories" />
             <End Role="Tarif" EntitySet="Tarifs" />
           </AssociationSet>
+          <EntitySet Name="v_Tarifs" EntityType="goDbModel.v_Tarifs" />
           </EntityContainer>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -2621,6 +2680,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="ProgramCode" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
           <Property Name="RiskSeriaId" Type="Guid" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DefaultInsSum" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="TarifSearch">
           <Key>
@@ -2690,6 +2750,35 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="v_Tarifs">
+          <Key>
+            <PropertyRef Name="TarifId" />
+            <PropertyRef Name="RiskProgramId" />
+            <PropertyRef Name="RiskId" />
+          </Key>
+          <Property Name="TarifId" Type="Guid" Nullable="false" />
+          <Property Name="RiskProgramId" Type="Guid" Nullable="false" />
+          <Property Name="InsSumFrom" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="InsSumTo" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="FranshSum" Type="Double" />
+          <Property Name="FranshPerc" Type="Double" />
+          <Property Name="PremSum" Type="Double" />
+          <Property Name="TerritoryId" Type="Guid" />
+          <Property Name="InsFee" Type="Double" />
+          <Property Name="TarifPlanId" Type="Guid" />
+          <Property Name="AgentSeriaId" Type="Guid" />
+          <Property Name="PeriodFrom" Type="Int32" />
+          <Property Name="PeriodTo" Type="Int32" />
+          <Property Name="RepeatedType" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="RepeatedDays" Type="Int32" />
+          <Property Name="seria_code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="seria_name" Type="String" MaxLength="512" FixedLength="true" Unicode="true" />
+          <Property Name="risk_code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="risk_name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="ProgramCode" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="territory_name" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="RiskId" Type="Guid" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3263,6 +3352,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="RiskPrograms">
             <EntityTypeMapping TypeName="goDbModel.RiskProgram">
               <MappingFragment StoreEntitySet="RiskProgram">
+                <ScalarProperty Name="DefaultInsSum" ColumnName="DefaultInsSum" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="RiskSeriaId" ColumnName="RiskSeriaId" />
                 <ScalarProperty Name="ProgramCode" ColumnName="ProgramCode" />
@@ -3283,6 +3373,34 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="Tarifs">
             <EntityTypeMapping TypeName="goDbModel.Tarif">
               <MappingFragment StoreEntitySet="Tarif">
+                <ScalarProperty Name="RepeatedDays" ColumnName="RepeatedDays" />
+                <ScalarProperty Name="RepeatedType" ColumnName="RepeatedType" />
+                <ScalarProperty Name="PeriodTo" ColumnName="PeriodTo" />
+                <ScalarProperty Name="PeriodFrom" ColumnName="PeriodFrom" />
+                <ScalarProperty Name="AgentSeriaId" ColumnName="AgentSeriaId" />
+                <ScalarProperty Name="TarifPlanId" ColumnName="TarifPlanId" />
+                <ScalarProperty Name="InsFee" ColumnName="InsFee" />
+                <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
+                <ScalarProperty Name="PremSum" ColumnName="PremSum" />
+                <ScalarProperty Name="FranshPerc" ColumnName="FranshPerc" />
+                <ScalarProperty Name="FranshSum" ColumnName="FranshSum" />
+                <ScalarProperty Name="InsSumTo" ColumnName="InsSumTo" />
+                <ScalarProperty Name="InsSumFrom" ColumnName="InsSumFrom" />
+                <ScalarProperty Name="RiskProgramId" ColumnName="RiskProgramId" />
+                <ScalarProperty Name="TarifId" ColumnName="TarifId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_Tarifs">
+            <EntityTypeMapping TypeName="goDbModel.v_Tarifs">
+              <MappingFragment StoreEntitySet="v_Tarifs">
+                <ScalarProperty Name="RiskId" ColumnName="RiskId" />
+                <ScalarProperty Name="territory_name" ColumnName="territory_name" />
+                <ScalarProperty Name="ProgramCode" ColumnName="ProgramCode" />
+                <ScalarProperty Name="risk_name" ColumnName="risk_name" />
+                <ScalarProperty Name="risk_code" ColumnName="risk_code" />
+                <ScalarProperty Name="seria_name" ColumnName="seria_name" />
+                <ScalarProperty Name="seria_code" ColumnName="seria_code" />
                 <ScalarProperty Name="RepeatedDays" ColumnName="RepeatedDays" />
                 <ScalarProperty Name="RepeatedType" ColumnName="RepeatedType" />
                 <ScalarProperty Name="PeriodTo" ColumnName="PeriodTo" />

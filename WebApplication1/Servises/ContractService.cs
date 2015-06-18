@@ -444,6 +444,7 @@ namespace gTravel.Servises
 
                 foreach (var crisk in c.ContractRisks)
                 {
+  
                     crisk.BaseTarif = 0;
                     crisk.InsPrem = 0;
                     crisk.InsFee = 0;
@@ -456,10 +457,15 @@ namespace gTravel.Servises
                         continue;
                     }
 
+                    var riskprog = (from rs in db.RiskSerias
+                                   join rp in db.RiskPrograms on rs.RiskSeriaId equals rp.RiskSeriaId
+                                   where rs.RiskId == crisk.RiskId
+                                   && rs.SeriaId == c.seriaid select rp).SingleOrDefault();
+
                     //найдем тариф
                     var tt = db.Tarifs.Where(
                         x => x.AgentSeriaId == seriaagentid
-                            && x.RiskId == crisk.RiskId
+                            && x.RiskProgramId == riskprog.RiskProgramId
                             && date_diff >=x.PeriodFrom
                             && date_diff <= x.PeriodTo
                             && crisk.InsSum >=x.InsSumFrom
