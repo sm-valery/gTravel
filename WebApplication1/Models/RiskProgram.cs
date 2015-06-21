@@ -19,5 +19,6 @@ namespace gTravel.Models
         public Nullable<System.Guid> RiskSeriaId { get; set; }
         public string Name { get; set; }
         public Nullable<decimal> DefaultInsSum { get; set; }
+        public bool InsSumInList { get; set; }
     }
 }

@@ -418,9 +418,7 @@ namespace gTravel.Controllers
             c.SubjectClearDeleted();
 
             c.db = db;
-            c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
-
-
+          
             ContractSave(c);
 
             //пересчет
@@ -815,6 +813,10 @@ namespace gTravel.Controllers
 
             if (c.date_out == null)
                 c.date_out = DateTime.Now;
+
+            c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
+
+            c.tripduration = (c.tripduration != 0) ? c.tripduration : c.date_diff;
 
             var seria = db.serias.SingleOrDefault(x => x.SeriaId == c.seriaid);
             if (!string.IsNullOrEmpty(seria.numberformat))
@@ -1429,6 +1431,19 @@ namespace gTravel.Controllers
             //content += "</datalist>";
 
             //return Content(content);
+        }
+
+        public PartialViewResult _ContractRiskInsSum(Guid seriaid, Guid riskid, int risk_num, decimal riskinssum)
+        {
+            var agentid = mLib.GetCurrentUserAgent(User.Identity.GetUserId());
+
+            //var trf = from rs in db.RiskSerias 
+            //          join rp in db.RiskPrograms on rs.RiskSeriaId
+            //          where rs.SeriaId == seriaid
+            //          && rs.RiskId==riskid
+
+
+            return PartialView();
         }
 
         [Authorize(Roles = @"Admin")]
