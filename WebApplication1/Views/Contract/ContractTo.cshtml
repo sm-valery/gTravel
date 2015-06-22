@@ -394,20 +394,27 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             @*@Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)*@
                             @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
                             @Html.Hidden(string.Format("ContractRisks[{0}].isMandatory", risk_num), risk.isMandatory)
-                         
-                            
-                            @*@{
-                        Html.RenderAction("_ContractRiskInsSum", new
-                        {
-                            seriaid = Model.seriaid,
-                            riskid = risk.RiskId,
-                            risk_num = risk_num,
-                            riskinssum = risk.InsSum
-                        });
-                       }*@
 
-                               @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
+
+                            @*@{
+             Html.RenderAction("_ContractRiskInsSum", new
+             {
+                 seriaid = Model.seriaid,
+                 riskid = risk.RiskId,
+                 risk_num = risk_num,
+                 riskinssum = risk.InsSum
+             });
+            }*@
+                            @{
+
+                        //выбор программы
+                        Html.RenderAction("_RiskProgram", new { riskid = risk.RiskId, seriaid = Model.seriaid, idx = risk_num });
+                        
+                            }
+
+                            @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
                         </td>
+
                         <td>
                             @risk.BaseTarif
                         </td>

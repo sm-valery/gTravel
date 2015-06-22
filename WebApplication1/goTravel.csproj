@@ -288,6 +288,9 @@
     <Compile Include="Models\spContract_Result3.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\spContract_Result4.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\spMonthPrem_Result.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -650,6 +653,7 @@
     <Content Include="Views\RiskSerias\CreateRiskProgram.cshtml" />
     <Content Include="Views\RiskSerias\EditRiskProgram.cshtml" />
     <Content Include="Views\Tarifs\_RiskProgList.cshtml" />
+    <Content Include="Views\Contract\_RiskProgram.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

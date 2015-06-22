@@ -14,11 +14,18 @@ namespace gTravel.Models
     
     public partial class RiskProgram
     {
+        public RiskProgram()
+        {
+            this.ContractRisks = new HashSet<ContractRisk>();
+        }
+    
         public System.Guid RiskProgramId { get; set; }
         public string ProgramCode { get; set; }
         public Nullable<System.Guid> RiskSeriaId { get; set; }
         public string Name { get; set; }
         public Nullable<decimal> DefaultInsSum { get; set; }
         public bool InsSumInList { get; set; }
+    
+        public virtual ICollection<ContractRisk> ContractRisks { get; set; }
     }
 }

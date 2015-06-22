@@ -48,7 +48,7 @@ namespace gTravel.Controllers
                 ViewBag.filtr = string.Format("бордеро #{0}", bordero.DocNum);
             }
 
-            var clist = db.spContract(userid, contractnumber, ImportLogId, null, borderoid);
+            var clist = db.spContract(userid, contractnumber, ImportLogId, null, borderoid).ToList();
 
             if (contractnumber != null)
                 ViewBag.filtr = "номер договора = " + contractnumber;
@@ -59,7 +59,9 @@ namespace gTravel.Controllers
 
             if (clist != null)
             {
-                return View((PagedList<v_contract>) clist.ToList().ToPagedList(pageNumber, 25));
+              //  return View((PagedList<v_contract>) clist.ToList().ToPagedList(pageNumber, 25));
+
+                return View(clist);
             }
 
 
@@ -135,6 +137,21 @@ namespace gTravel.Controllers
             // return PartialView(db.ContractFactors.Where(x=>x.ContractId==contractid).ToList());
         }
 
+        [ChildActionOnly]
+        [OutputCache (Duration=60, VaryByParam="none")]
+        public PartialViewResult _RiskProgram(Guid riskid, Guid seriaid,  int idx)
+        {
+            var riskprog = from rs in db.RiskSerias
+                           join rp in db.RiskPrograms on rs.RiskSeriaId equals rp.RiskSeriaId
+                           where rs.RiskId == riskid
+                           && rs.SeriaId == seriaid
+                           select rp;
+
+            ViewBag.RiskProgramId = new SelectList(riskprog, "RiskProgramId", "ProgramCode");
+            ViewBag.idx = idx;
+
+            return PartialView();
+        }
 
         [HttpPost]
         public PartialViewResult _addAgentRow(Guid contractid)

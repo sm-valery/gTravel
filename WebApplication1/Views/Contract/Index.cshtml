@@ -1,5 +1,5 @@
 ﻿@functions{
-string getstatusclass(string statuscode)
+    string getstatusclass(string statuscode)
     {
         string ret = "status-default"; //"label label-default";
 
@@ -13,23 +13,21 @@ string getstatusclass(string statuscode)
 
         if (statuscode == "annul")
             return "status-" + statuscode;
-    
-    
+
+
         return ret;
     }
 }
-
 @using PagedList.Mvc;
-@using PagedList; 
+@using PagedList;
+@*@model PagedList.PagedList<gTravel.Models.v_contract>*@
+@model IEnumerable<gTravel.Models.v_contract>
 
-@model PagedList.PagedList<gTravel.Models.v_contract>
 @{
     ViewBag.Title = "Список договоров";
 }
 
-
 <h3>@ViewBag.Title </h3>
-
 @if (!string.IsNullOrEmpty((string)ViewBag.filtr))
 {
     <div class="alert alert-info">
@@ -37,27 +35,24 @@ string getstatusclass(string statuscode)
         <br />
         <a href=@Url.Action("index")> <span class="glyphicon glyphicon-remove-circle"></span> сбросить</a>
 
- 
     </div>
 }
-
-
 
 <p>
     @Html.Action("_tools_add_contract_btn")
 
-  
 </p>
-
 <div class="row">
     <div class="col-md-11"></div>
     <div class="col-md-1">
         <abbr title="Количество записей">
-            <span class="badge" style="margin-bottom:3px;">@Model.TotalItemCount</span>
-        </abbr> 
+            <span class="badge" style="margin-bottom:3px;">
+                @Model.Count()
+                @*Model.TotalItemCount*@
+            </span>
+        </abbr>
     </div>
 </div>
-
 
 <table class="table table-hover">
     <tr class="active">
@@ -74,15 +69,14 @@ string getstatusclass(string statuscode)
             Страхователь
         </th>
         @*<th>Территория</th>
-        <th>
-            <span class="tooltip-m" data-toggle="tooltip" data-placement="top" title="Количество застрахованных">Кол-во...</span>
+            <th>
+                <span class="tooltip-m" data-toggle="tooltip" data-placement="top" title="Количество застрахованных">Кол-во...</span>
 
-        </th>*@
+            </th>*@
         <th>Премия</th>
         @*<th>
-            Премия, руб
-        </th>*@
-
+                Премия, руб
+            </th>*@
         <th>Статус</th>
         <th>Пользователь</th>
         <th></th>
@@ -106,29 +100,27 @@ string getstatusclass(string statuscode)
             </td>
             <td>
                 @Html.DisplayFor(m=>item.holder_name)
-
                 @if(item.subject_count>0)
                 {
                     @:(@item.subject_count)
                 }
-                
-            
+
+
             </td>
             @*<td>
-                @Html.DisplayFor(modelItem => item.terr_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.subject_count)
-            </td>*@
+                    @Html.DisplayFor(modelItem => item.terr_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.subject_count)
+                </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.InsPrem)
                 @Html.DisplayFor(modelItem => item.curr_code)
             </td>
             @*<td>
-                @Html.DisplayFor(modelItem => item.InsPremRur)
-            </td>*@
-
-            <td >
+                    @Html.DisplayFor(modelItem => item.InsPremRur)
+                </td>*@
+            <td>
                 <label class="@getstatusclass(item.status_code)">
                     @Html.DisplayFor(m => item.status_name)
                 </label>
@@ -137,16 +129,14 @@ string getstatusclass(string statuscode)
                 @Html.DisplayFor(m => item.UserName)
             </td>
             <td>
-                @Html.ActionLink("Открыть", "Contract_edit", new { contractid = item.ContractId }, new { @class = "btn btn-default btn-sm" }) 
+                @Html.ActionLink("Открыть", "Contract_edit", new { contractid = item.ContractId }, new { @class = "btn btn-default btn-sm" })
                 @if(item.status_code=="confirmed")
-                { 
-                @Html.ActionLink("Печать", item.PrintFunction, new { contractid = item.ContractId }, new { @class = "btn btn-default btn-sm" }) 
+                {
+                    @Html.ActionLink("Печать", item.PrintFunction, new { contractid = item.ContractId }, new { @class = "btn btn-default btn-sm" })
                 }
                 @Html.ActionLink("История", "history", new { id = item.ContractId }, new { @class = "btn btn-default btn-sm" })
             </td>
         </tr>
     }
 </table>
-
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
-
+@*@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))*@

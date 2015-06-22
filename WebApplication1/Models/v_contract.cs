@@ -27,18 +27,18 @@ namespace gTravel.Models
         public string period_multi_type { get; set; }
         public string UserId { get; set; }
         public Nullable<System.DateTime> date_out { get; set; }
+        public string contractnumberformat { get; set; }
+        public Nullable<int> tripduration { get; set; }
         public string UserName { get; set; }
         public string curr_code { get; set; }
         public string status_name { get; set; }
-        public string terr_name { get; set; }
-        public Nullable<int> subject_count { get; set; }
-        public Nullable<decimal> InsPrem { get; set; }
-        public Nullable<decimal> InsFee { get; set; }
-        public Nullable<decimal> InsPremRur { get; set; }
-        public Nullable<System.Guid> AgentId { get; set; }
         public string status_code { get; set; }
+        public Nullable<System.Guid> AgentId { get; set; }
+        public Nullable<int> subject_count { get; set; }
         public string holder_name { get; set; }
-        public string contractnumberformat { get; set; }
+        public Nullable<decimal> InsPrem { get; set; }
+        public Nullable<decimal> InsPremRur { get; set; }
+        public Nullable<decimal> InsFee { get; set; }
         public string serianame { get; set; }
         public string PrintFunction { get; set; }
     }

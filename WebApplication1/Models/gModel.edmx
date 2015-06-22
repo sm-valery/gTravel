@@ -214,6 +214,7 @@
           <Property Name="FactorsDescr" Type="varchar" MaxLength="500" />
           <Property Name="isMandatory" Type="bit" Nullable="false" />
           <Property Name="ischecked" Type="bit" Nullable="false" />
+          <Property Name="RiskProgramId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="ContractStatus">
           <Key>
@@ -421,7 +422,7 @@
           <Property Name="Code" Type="nchar" MaxLength="20" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_agentseria' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_agentseria' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_agentseria">
           <Key>
             <PropertyRef Name="SeriaId" />
@@ -440,7 +441,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -452,7 +453,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="contractcount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero_new">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -475,7 +476,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="agentname" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -496,12 +497,12 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
           <Property Name="date_out" Type="date" />
           <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
+          <Property Name="tripduration" Type="int" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" />
           <Property Name="curr_code" Type="nchar" MaxLength="10" />
           <Property Name="status_name" Type="nchar" MaxLength="25" />
           <Property Name="status_code" Type="varchar" MaxLength="10" />
           <Property Name="AgentId" Type="uniqueidentifier" />
-          <Property Name="terr_name" Type="varchar" MaxLength="2000" />
           <Property Name="subject_count" Type="int" />
           <Property Name="holder_name" Type="nchar" MaxLength="255" />
           <Property Name="InsPrem" Type="money" />
@@ -511,7 +512,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="PrintFunction" Type="varchar" MaxLength="128" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_ag">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -538,7 +539,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_factors' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_factors' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_factors">
           <Key>
             <PropertyRef Name="ContractFactorId" />
@@ -551,7 +552,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="FactorType" Type="nchar" MaxLength="10" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_history">
           <Key>
             <PropertyRef Name="ContractStatusId" />
@@ -566,7 +567,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_importlog">
           <Key>
             <PropertyRef Name="ImportLogId" />
@@ -580,7 +581,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="contractcount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_Tarifs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_Tarifs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_Tarifs">
           <Key>
             <PropertyRef Name="TarifId" />
@@ -835,6 +836,18 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
             </Principal>
             <Dependent Role="ContractRisk">
               <PropertyRef Name="RiskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractRisk_ToTable">
+          <End Role="RiskProgram" Type="Self.RiskProgram" Multiplicity="0..1" />
+          <End Role="ContractRisk" Type="Self.ContractRisk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RiskProgram">
+              <PropertyRef Name="RiskProgramId" />
+            </Principal>
+            <Dependent Role="ContractRisk">
+              <PropertyRef Name="RiskProgramId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1137,12 +1150,12 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
     [v_contract].[UserId] AS [UserId], 
     [v_contract].[date_out] AS [date_out], 
     [v_contract].[contractnumberformat] AS [contractnumberformat], 
+    [v_contract].[tripduration] AS [tripduration], 
     [v_contract].[UserName] AS [UserName], 
     [v_contract].[curr_code] AS [curr_code], 
     [v_contract].[status_name] AS [status_name], 
     [v_contract].[status_code] AS [status_code], 
     [v_contract].[AgentId] AS [AgentId], 
-    [v_contract].[terr_name] AS [terr_name], 
     [v_contract].[subject_count] AS [subject_count], 
     [v_contract].[holder_name] AS [holder_name], 
     [v_contract].[InsPrem] AS [InsPrem], 
@@ -1308,6 +1321,10 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
             <End Role="Risk" EntitySet="Risk" />
             <End Role="ContractRisk" EntitySet="ContractRisk" />
           </AssociationSet>
+          <AssociationSet Name="FK_ContractRisk_ToTable" Association="Self.FK_ContractRisk_ToTable">
+            <End Role="RiskProgram" EntitySet="RiskProgram" />
+            <End Role="ContractRisk" EntitySet="ContractRisk" />
+          </AssociationSet>
           <AssociationSet Name="FK_ContractStatus_ToStatus" Association="Self.FK_ContractStatus_ToStatus">
             <End Role="Status" EntitySet="Status" />
             <End Role="ContractStatus" EntitySet="ContractStatus" />
@@ -1412,7 +1429,6 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="Territories" EntityType="goDbModel.Territory" />
-          <EntitySet Name="v_contract" EntityType="goDbModel.v_contract" />
           <AssociationSet Name="FK_Contract_territory_ToTerritory" Association="goDbModel.FK_Contract_territory_ToTerritory">
             <End Role="Territory" EntitySet="Territories" />
             <End Role="Contract_territory" EntitySet="Contract_territory" />
@@ -1470,13 +1486,6 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="AgentUser" EntitySet="AgentUsers" />
           </AssociationSet>
-          <FunctionImport Name="spContract" EntitySet="v_contract" ReturnType="Collection(goDbModel.v_contract)">
-            <Parameter Name="UserId" Mode="In" Type="String" />
-            <Parameter Name="contractnumber" Mode="In" Type="Decimal" />
-            <Parameter Name="ImportLogId" Mode="In" Type="Guid" />
-            <Parameter Name="contractid" Mode="In" Type="Guid" />
-            <Parameter Name="BorderoId" Mode="In" Type="Guid" />
-          </FunctionImport>
           <EntitySet Name="AddRefs" EntityType="goDbModel.AddRef" />
           <EntitySet Name="Conditions" EntityType="goDbModel.Condition" />
           <AssociationSet Name="FK_ConditionSeria_ToCondition" Association="goDbModel.FK_ConditionSeria_ToCondition">
@@ -1585,6 +1594,18 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
             <End Role="Tarif" EntitySet="Tarifs" />
           </AssociationSet>
           <EntitySet Name="v_Tarifs" EntityType="goDbModel.v_Tarifs" />
+          <AssociationSet Name="FK_ContractRisk_ToTable" Association="goDbModel.FK_ContractRisk_ToTable">
+            <End Role="RiskProgram" EntitySet="RiskPrograms" />
+            <End Role="ContractRisk" EntitySet="ContractRisks" />
+          </AssociationSet>
+          <EntitySet Name="v_contract" EntityType="goDbModel.v_contract" />
+          <FunctionImport Name="spContract" ReturnType="Collection(goDbModel.spContract_Result4)">
+            <Parameter Name="UserId" Mode="In" Type="String" />
+            <Parameter Name="contractnumber" Mode="In" Type="Decimal" />
+            <Parameter Name="ImportLogId" Mode="In" Type="Guid" />
+            <Parameter Name="contractid" Mode="In" Type="Guid" />
+            <Parameter Name="BorderoId" Mode="In" Type="Guid" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -1706,6 +1727,8 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="FactorsDescr" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="isMandatory" Type="Boolean" Nullable="false" />
           <Property Name="ischecked" Type="Boolean" Nullable="false" />
+          <Property Name="RiskProgramId" Type="Guid" />
+          <NavigationProperty Name="RiskProgram" Relationship="goDbModel.FK_ContractRisk_ToTable" FromRole="ContractRisk" ToRole="RiskProgram" />
         </EntityType>
         <Association Name="FK_ContractRisk_ToRisk">
           <End Type="goDbModel.Risk" Role="Risk" Multiplicity="0..1" />
@@ -1837,40 +1860,6 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="ParentId" Type="Guid" />
           <NavigationProperty Name="Factors" Relationship="goDbModel.FK_Factors_ToTerritory" FromRole="Territory" ToRole="Factor" />
           <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToTerritory" FromRole="Territory" ToRole="Tarif" />
-        </EntityType>
-        <EntityType Name="v_contract">
-          <Key>
-            <PropertyRef Name="ContractId" />
-            <PropertyRef Name="currencyid" />
-            <PropertyRef Name="seriaid" />
-          </Key>
-          <Property Name="ContractId" Type="Guid" Nullable="false" />
-          <Property Name="currencyid" Type="Guid" Nullable="false" />
-          <Property Name="contractnumber" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="seriaid" Type="Guid" Nullable="false" />
-          <Property Name="date_begin" Type="DateTime" Precision="0" />
-          <Property Name="date_end" Type="DateTime" Precision="0" />
-          <Property Name="date_diff" Type="Int32" />
-          <Property Name="Holder_SubjectId" Type="Guid" />
-          <Property Name="ContractStatusId" Type="Guid" />
-          <Property Name="period_multi" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="period_multi_type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="date_out" Type="DateTime" Precision="0" />
-          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="curr_code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="status_name" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
-          <Property Name="terr_name" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="subject_count" Type="Int32" />
-          <Property Name="InsPrem" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="InsFee" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="InsPremRur" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="AgentId" Type="Guid" />
-          <Property Name="status_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="holder_name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
-          <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="serianame" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="PrintFunction" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Contract_territory_ToTerritory">
           <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
@@ -2685,6 +2674,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DefaultInsSum" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="InsSumInList" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ContractRisks" Relationship="goDbModel.FK_ContractRisk_ToTable" FromRole="RiskProgram" ToRole="ContractRisk" />
         </EntityType>
         <EntityType Name="TarifSearch">
           <Key>
@@ -2783,6 +2773,81 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="territory_name" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
           <Property Name="RiskId" Type="Guid" Nullable="false" />
         </EntityType>
+        <Association Name="FK_ContractRisk_ToTable">
+          <End Type="goDbModel.RiskProgram" Role="RiskProgram" Multiplicity="0..1" />
+          <End Type="goDbModel.ContractRisk" Role="ContractRisk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RiskProgram">
+              <PropertyRef Name="RiskProgramId" />
+            </Principal>
+            <Dependent Role="ContractRisk">
+              <PropertyRef Name="RiskProgramId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="v_contract">
+          <Key>
+            <PropertyRef Name="ContractId" />
+            <PropertyRef Name="currencyid" />
+            <PropertyRef Name="seriaid" />
+          </Key>
+          <Property Name="ContractId" Type="Guid" Nullable="false" />
+          <Property Name="currencyid" Type="Guid" Nullable="false" />
+          <Property Name="contractnumber" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="seriaid" Type="Guid" Nullable="false" />
+          <Property Name="date_begin" Type="DateTime" Precision="0" />
+          <Property Name="date_end" Type="DateTime" Precision="0" />
+          <Property Name="date_diff" Type="Int32" />
+          <Property Name="Holder_SubjectId" Type="Guid" />
+          <Property Name="ContractStatusId" Type="Guid" />
+          <Property Name="period_multi" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="period_multi_type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="date_out" Type="DateTime" Precision="0" />
+          <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tripduration" Type="Int32" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="curr_code" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="status_name" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="status_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="AgentId" Type="Guid" />
+          <Property Name="subject_count" Type="Int32" />
+          <Property Name="holder_name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="InsPrem" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="InsPremRur" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="InsFee" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="serianame" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="PrintFunction" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="spContract_Result4">
+          <Property Type="Guid" Name="ContractId" Nullable="false" />
+          <Property Type="Guid" Name="currencyid" Nullable="false" />
+          <Property Type="Decimal" Name="contractnumber" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Guid" Name="seriaid" Nullable="false" />
+          <Property Type="DateTime" Name="date_begin" Nullable="true" />
+          <Property Type="DateTime" Name="date_end" Nullable="true" />
+          <Property Type="Int32" Name="date_diff" Nullable="true" />
+          <Property Type="Guid" Name="Holder_SubjectId" Nullable="true" />
+          <Property Type="Guid" Name="ContractStatusId" Nullable="true" />
+          <Property Type="Decimal" Name="period_multi" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="period_multi_type" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="date_out" Nullable="true" />
+          <Property Type="String" Name="contractnumberformat" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="tripduration" Nullable="true" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="256" />
+          <Property Type="String" Name="curr_code" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="status_name" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="status_code" Nullable="true" MaxLength="10" />
+          <Property Type="Guid" Name="AgentId" Nullable="true" />
+          <Property Type="Int32" Name="subject_count" Nullable="true" />
+          <Property Type="String" Name="holder_name" Nullable="true" MaxLength="255" />
+          <Property Type="Decimal" Name="InsPrem" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="InsPremRur" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="InsFee" Nullable="true" Precision="19" />
+          <Property Type="String" Name="serianame" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="PrintFunction" Nullable="true" MaxLength="128" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2875,6 +2940,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <EntitySetMapping Name="ContractRisks">
             <EntityTypeMapping TypeName="goDbModel.ContractRisk">
               <MappingFragment StoreEntitySet="ContractRisk">
+                <ScalarProperty Name="RiskProgramId" ColumnName="RiskProgramId" />
                 <ScalarProperty Name="ischecked" ColumnName="ischecked" />
                 <ScalarProperty Name="isMandatory" ColumnName="isMandatory" />
                 <ScalarProperty Name="FactorsDescr" ColumnName="FactorsDescr" />
@@ -2961,39 +3027,6 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
                 <ScalarProperty Name="TerritoryGrpId" ColumnName="TerritoryGrpId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="TerritoryId" ColumnName="TerritoryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="v_contract">
-            <EntityTypeMapping TypeName="goDbModel.v_contract">
-              <MappingFragment StoreEntitySet="v_contract">
-                <ScalarProperty Name="PrintFunction" ColumnName="PrintFunction" />
-                <ScalarProperty Name="serianame" ColumnName="serianame" />
-                <ScalarProperty Name="contractnumberformat" ColumnName="contractnumberformat" />
-                <ScalarProperty Name="holder_name" ColumnName="holder_name" />
-                <ScalarProperty Name="status_code" ColumnName="status_code" />
-                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
-                <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
-                <ScalarProperty Name="InsFee" ColumnName="InsFee" />
-                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
-                <ScalarProperty Name="subject_count" ColumnName="subject_count" />
-                <ScalarProperty Name="terr_name" ColumnName="terr_name" />
-                <ScalarProperty Name="status_name" ColumnName="status_name" />
-                <ScalarProperty Name="curr_code" ColumnName="curr_code" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="date_out" ColumnName="date_out" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="period_multi_type" ColumnName="period_multi_type" />
-                <ScalarProperty Name="period_multi" ColumnName="period_multi" />
-                <ScalarProperty Name="ContractStatusId" ColumnName="ContractStatusId" />
-                <ScalarProperty Name="Holder_SubjectId" ColumnName="Holder_SubjectId" />
-                <ScalarProperty Name="date_diff" ColumnName="date_diff" />
-                <ScalarProperty Name="date_end" ColumnName="date_end" />
-                <ScalarProperty Name="date_begin" ColumnName="date_begin" />
-                <ScalarProperty Name="seriaid" ColumnName="seriaid" />
-                <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
-                <ScalarProperty Name="currencyid" ColumnName="currencyid" />
-                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3099,7 +3132,6 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spContract" FunctionName="goDbModel.Store.spContract" />
           <EntitySetMapping Name="AddRefs">
             <EntityTypeMapping TypeName="goDbModel.AddRef">
               <MappingFragment StoreEntitySet="AddRefs">
@@ -3425,6 +3457,72 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="v_contract">
+            <EntityTypeMapping TypeName="goDbModel.v_contract">
+              <MappingFragment StoreEntitySet="v_contract">
+                <ScalarProperty Name="PrintFunction" ColumnName="PrintFunction" />
+                <ScalarProperty Name="serianame" ColumnName="serianame" />
+                <ScalarProperty Name="InsFee" ColumnName="InsFee" />
+                <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
+                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
+                <ScalarProperty Name="holder_name" ColumnName="holder_name" />
+                <ScalarProperty Name="subject_count" ColumnName="subject_count" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="status_code" ColumnName="status_code" />
+                <ScalarProperty Name="status_name" ColumnName="status_name" />
+                <ScalarProperty Name="curr_code" ColumnName="curr_code" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="tripduration" ColumnName="tripduration" />
+                <ScalarProperty Name="contractnumberformat" ColumnName="contractnumberformat" />
+                <ScalarProperty Name="date_out" ColumnName="date_out" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="period_multi_type" ColumnName="period_multi_type" />
+                <ScalarProperty Name="period_multi" ColumnName="period_multi" />
+                <ScalarProperty Name="ContractStatusId" ColumnName="ContractStatusId" />
+                <ScalarProperty Name="Holder_SubjectId" ColumnName="Holder_SubjectId" />
+                <ScalarProperty Name="date_diff" ColumnName="date_diff" />
+                <ScalarProperty Name="date_end" ColumnName="date_end" />
+                <ScalarProperty Name="date_begin" ColumnName="date_begin" />
+                <ScalarProperty Name="seriaid" ColumnName="seriaid" />
+                <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
+                <ScalarProperty Name="currencyid" ColumnName="currencyid" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spContract" FunctionName="goDbModel.Store.spContract">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="goDbModel.spContract_Result4">
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="currencyid" ColumnName="currencyid" />
+                <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
+                <ScalarProperty Name="seriaid" ColumnName="seriaid" />
+                <ScalarProperty Name="date_begin" ColumnName="date_begin" />
+                <ScalarProperty Name="date_end" ColumnName="date_end" />
+                <ScalarProperty Name="date_diff" ColumnName="date_diff" />
+                <ScalarProperty Name="Holder_SubjectId" ColumnName="Holder_SubjectId" />
+                <ScalarProperty Name="ContractStatusId" ColumnName="ContractStatusId" />
+                <ScalarProperty Name="period_multi" ColumnName="period_multi" />
+                <ScalarProperty Name="period_multi_type" ColumnName="period_multi_type" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="date_out" ColumnName="date_out" />
+                <ScalarProperty Name="contractnumberformat" ColumnName="contractnumberformat" />
+                <ScalarProperty Name="tripduration" ColumnName="tripduration" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="curr_code" ColumnName="curr_code" />
+                <ScalarProperty Name="status_name" ColumnName="status_name" />
+                <ScalarProperty Name="status_code" ColumnName="status_code" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="subject_count" ColumnName="subject_count" />
+                <ScalarProperty Name="holder_name" ColumnName="holder_name" />
+                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
+                <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
+                <ScalarProperty Name="InsFee" ColumnName="InsFee" />
+                <ScalarProperty Name="serianame" ColumnName="serianame" />
+                <ScalarProperty Name="PrintFunction" ColumnName="PrintFunction" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

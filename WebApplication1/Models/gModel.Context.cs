@@ -41,7 +41,6 @@ namespace gTravel.Models
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Territory> Territories { get; set; }
-        public virtual DbSet<v_contract> v_contract { get; set; }
         public virtual DbSet<CurRate> CurRates { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<import_settings> import_settings { get; set; }
@@ -74,56 +73,7 @@ namespace gTravel.Models
         public virtual DbSet<TarifSearch> TarifSearches { get; set; }
         public virtual DbSet<Tarif> Tarifs { get; set; }
         public virtual DbSet<v_Tarifs> v_Tarifs { get; set; }
-    
-        public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, Nullable<System.Guid> borderoId)
-        {
-            var userIdParameter = userId != null ?
-                new ObjectParameter("UserId", userId) :
-                new ObjectParameter("UserId", typeof(string));
-    
-            var contractnumberParameter = contractnumber.HasValue ?
-                new ObjectParameter("contractnumber", contractnumber) :
-                new ObjectParameter("contractnumber", typeof(decimal));
-    
-            var importLogIdParameter = importLogId.HasValue ?
-                new ObjectParameter("ImportLogId", importLogId) :
-                new ObjectParameter("ImportLogId", typeof(System.Guid));
-    
-            var contractidParameter = contractid.HasValue ?
-                new ObjectParameter("contractid", contractid) :
-                new ObjectParameter("contractid", typeof(System.Guid));
-    
-            var borderoIdParameter = borderoId.HasValue ?
-                new ObjectParameter("BorderoId", borderoId) :
-                new ObjectParameter("BorderoId", typeof(System.Guid));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<v_contract>("spContract", userIdParameter, contractnumberParameter, importLogIdParameter, contractidParameter, borderoIdParameter);
-        }
-    
-        public virtual ObjectResult<v_contract> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, Nullable<System.Guid> borderoId, MergeOption mergeOption)
-        {
-            var userIdParameter = userId != null ?
-                new ObjectParameter("UserId", userId) :
-                new ObjectParameter("UserId", typeof(string));
-    
-            var contractnumberParameter = contractnumber.HasValue ?
-                new ObjectParameter("contractnumber", contractnumber) :
-                new ObjectParameter("contractnumber", typeof(decimal));
-    
-            var importLogIdParameter = importLogId.HasValue ?
-                new ObjectParameter("ImportLogId", importLogId) :
-                new ObjectParameter("ImportLogId", typeof(System.Guid));
-    
-            var contractidParameter = contractid.HasValue ?
-                new ObjectParameter("contractid", contractid) :
-                new ObjectParameter("contractid", typeof(System.Guid));
-    
-            var borderoIdParameter = borderoId.HasValue ?
-                new ObjectParameter("BorderoId", borderoId) :
-                new ObjectParameter("BorderoId", typeof(System.Guid));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<v_contract>("spContract", mergeOption, userIdParameter, contractnumberParameter, importLogIdParameter, contractidParameter, borderoIdParameter);
-        }
+        public virtual DbSet<v_contract> v_contract { get; set; }
     
         public virtual int BorderoCreate()
         {
@@ -142,6 +92,31 @@ namespace gTravel.Models
                 new ObjectParameter("UserId", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spMonthPrem_Result1>("spMonthPrem", userIdParameter);
+        }
+    
+        public virtual ObjectResult<spContract_Result4> spContract(string userId, Nullable<decimal> contractnumber, Nullable<System.Guid> importLogId, Nullable<System.Guid> contractid, Nullable<System.Guid> borderoId)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(string));
+    
+            var contractnumberParameter = contractnumber.HasValue ?
+                new ObjectParameter("contractnumber", contractnumber) :
+                new ObjectParameter("contractnumber", typeof(decimal));
+    
+            var importLogIdParameter = importLogId.HasValue ?
+                new ObjectParameter("ImportLogId", importLogId) :
+                new ObjectParameter("ImportLogId", typeof(System.Guid));
+    
+            var contractidParameter = contractid.HasValue ?
+                new ObjectParameter("contractid", contractid) :
+                new ObjectParameter("contractid", typeof(System.Guid));
+    
+            var borderoIdParameter = borderoId.HasValue ?
+                new ObjectParameter("BorderoId", borderoId) :
+                new ObjectParameter("BorderoId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spContract_Result4>("spContract", userIdParameter, contractnumberParameter, importLogIdParameter, contractidParameter, borderoIdParameter);
         }
     }
 }

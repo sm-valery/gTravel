@@ -1,0 +1,7 @@
+﻿@{
+    
+    int idx = (int)ViewBag.idx;
+}
+
+
+@Html.DropDownList(string.Format("ContractRisks[{0}].RiskProgramId", idx), (SelectList)ViewBag.RiskProgramId)

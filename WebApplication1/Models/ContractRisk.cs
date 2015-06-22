@@ -26,8 +26,10 @@ namespace gTravel.Models
         public string FactorsDescr { get; set; }
         public bool isMandatory { get; set; }
         public bool ischecked { get; set; }
+        public Nullable<System.Guid> RiskProgramId { get; set; }
     
         public virtual Risk Risk { get; set; }
         public virtual Contract Contract { get; set; }
+        public virtual RiskProgram RiskProgram { get; set; }
     }
 }

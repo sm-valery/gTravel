@@ -25,7 +25,6 @@
         <AssociationConnector Association="goDbModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="goDbModel.AspNetUserRoles" />
         <EntityTypeShape EntityType="goDbModel.Territory" Width="1.5" PointX="0.5" PointY="4" />
-        <EntityTypeShape EntityType="goDbModel.v_contract" Width="1.75" PointX="10.75" PointY="0.75" />
         <AssociationConnector Association="goDbModel.FK_Contract_territory_ToTerritory" />
         <EntityTypeShape EntityType="goDbModel.CurRate" Width="1.5" PointX="14.75" PointY="18.625" />
         <EntityTypeShape EntityType="goDbModel.Currency" Width="1.5" PointX="12.5" PointY="12.375" />
@@ -90,6 +89,8 @@
         <AssociationConnector Association="goDbModel.FK_Tarif_ToTarifPlan" />
         <AssociationConnector Association="goDbModel.FK_Tarif_ToTerritory" />
         <EntityTypeShape EntityType="goDbModel.v_Tarifs" Width="1.5" PointX="20.375" PointY="17.75" />
+        <AssociationConnector Association="goDbModel.FK_ContractRisk_ToTable" />
+        <EntityTypeShape EntityType="goDbModel.v_contract" Width="1.5" PointX="12.375" PointY="21.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
