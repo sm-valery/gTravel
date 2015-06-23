@@ -28,7 +28,9 @@
             @Html.DisplayNameFor(model => model.sort)
         </th>
 
-
+        <th>
+            @Html.DisplayNameFor(model => model.TypeTarif)
+        </th>
         <th></th>
     </tr>
 
@@ -48,6 +50,9 @@
             @Html.DisplayFor(modelItem => item.sort)
         </td>
 
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeTarif)
+        </td>
 
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.RiskSeriaId }) |

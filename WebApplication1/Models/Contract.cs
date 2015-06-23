@@ -17,11 +17,11 @@ namespace gTravel.Models
         public Contract()
         {
             this.Contract_territory = new HashSet<Contract_territory>();
+            this.ContractAgents = new HashSet<ContractAgent>();
+            this.ContractFactors = new HashSet<ContractFactor>();
             this.ContractRisks = new HashSet<ContractRisk>();
             this.Subjects = new HashSet<Subject>();
             this.ContractConditions = new HashSet<ContractCondition>();
-            this.ContractFactors = new HashSet<ContractFactor>();
-            this.ContractAgents = new HashSet<ContractAgent>();
         }
     
         public System.Guid ContractId { get; set; }
@@ -33,7 +33,6 @@ namespace gTravel.Models
         public Nullable<int> date_diff { get; set; }
         public Nullable<System.Guid> Holder_SubjectId { get; set; }
         public Nullable<System.Guid> ContractStatusId { get; set; }
-        public Nullable<decimal> period_multi { get; set; }
         public string period_multi_type { get; set; }
         public string UserId { get; set; }
         public Nullable<System.DateTime> date_out { get; set; }
@@ -45,11 +44,11 @@ namespace gTravel.Models
         public virtual ContractStatu ContractStatu { get; set; }
         public virtual Subject Subject { get; set; }
         public virtual Currency Currency { get; set; }
+        public virtual seria seria { get; set; }
+        public virtual ICollection<ContractAgent> ContractAgents { get; set; }
+        public virtual ICollection<ContractFactor> ContractFactors { get; set; }
         public virtual ICollection<ContractRisk> ContractRisks { get; set; }
         public virtual ICollection<Subject> Subjects { get; set; }
         public virtual ICollection<ContractCondition> ContractConditions { get; set; }
-        public virtual seria seria { get; set; }
-        public virtual ICollection<ContractFactor> ContractFactors { get; set; }
-        public virtual ICollection<ContractAgent> ContractAgents { get; set; }
     }
 }

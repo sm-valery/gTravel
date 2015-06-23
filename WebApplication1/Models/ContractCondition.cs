@@ -23,7 +23,7 @@ namespace gTravel.Models
         public Nullable<System.DateTime> Val_d { get; set; }
         public Nullable<int> num { get; set; }
     
-        public virtual Contract Contract { get; set; }
         public virtual Condition Condition { get; set; }
+        public virtual Contract Contract { get; set; }
     }
 }

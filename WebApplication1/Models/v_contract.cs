@@ -23,7 +23,6 @@ namespace gTravel.Models
         public Nullable<int> date_diff { get; set; }
         public Nullable<System.Guid> Holder_SubjectId { get; set; }
         public Nullable<System.Guid> ContractStatusId { get; set; }
-        public Nullable<decimal> period_multi { get; set; }
         public string period_multi_type { get; set; }
         public string UserId { get; set; }
         public Nullable<System.DateTime> date_out { get; set; }

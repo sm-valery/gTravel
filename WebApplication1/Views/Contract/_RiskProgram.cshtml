@@ -1,7 +1,18 @@
 ﻿@{
     
     int idx = (int)ViewBag.idx;
+
+    var RiskProgramId = (SelectList)ViewBag.RiskProgramId;
 }
 
+@if (RiskProgramId.Count() > 1)
+{
 
-@Html.DropDownList(string.Format("ContractRisks[{0}].RiskProgramId", idx), (SelectList)ViewBag.RiskProgramId)
+    @Html.DropDownList(string.Format("ContractRisks[{0}].RiskProgramId", idx), RiskProgramId, new { @class = "form-control input-sm input-value"  })
+
+}
+else
+{
+    @Html.DropDownList(string.Format("ContractRisks[{0}].RiskProgramId", idx), RiskProgramId, new {style="display:none;" })
+
+}

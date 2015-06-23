@@ -81,6 +81,14 @@ namespace gTravel.Controllers
             }
             ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code", riskSeria.SeriaId);
             ViewBag.RiskId = new SelectList(db.Risks, "RiskId", "Code", riskSeria.RiskId);
+
+            ViewBag.TypeTarif = new SelectList(new[]
+            {
+                new SelectListItem {Text = "Тариф указывается на каждый день", Value = "0"},
+                new SelectListItem {Text = "Тариф указывается на всю поездку", Value = "1"}
+            }, "Value", "Text");
+
+
             return View(riskSeria);
         }
 
@@ -89,7 +97,7 @@ namespace gTravel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "RiskSeriaId,RiskId,SeriaId,isMandatory,sort")] RiskSeria riskSeria)
+        public ActionResult Edit([Bind(Include = "RiskSeriaId,RiskId,SeriaId,isMandatory,sort,TypeTarif")] RiskSeria riskSeria)
         {
             if (ModelState.IsValid)
             {

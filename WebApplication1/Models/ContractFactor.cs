@@ -20,7 +20,7 @@ namespace gTravel.Models
         public Nullable<decimal> Val_n { get; set; }
         public Nullable<int> Position { get; set; }
     
-        public virtual Contract Contract { get; set; }
         public virtual Factor Factor { get; set; }
+        public virtual Contract Contract { get; set; }
     }
 }

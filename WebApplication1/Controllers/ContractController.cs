@@ -59,9 +59,8 @@ namespace gTravel.Controllers
 
             if (clist != null)
             {
-              //  return View((PagedList<v_contract>) clist.ToList().ToPagedList(pageNumber, 25));
+                return View((PagedList<v_contract>) clist.ToList().ToPagedList(pageNumber, 25));
 
-                return View(clist);
             }
 
 
@@ -138,16 +137,21 @@ namespace gTravel.Controllers
         }
 
         [ChildActionOnly]
-        [OutputCache (Duration=60, VaryByParam="none")]
-        public PartialViewResult _RiskProgram(Guid riskid, Guid seriaid,  int idx)
+        [OutputCache(Duration = 60, VaryByParam = "*")]
+        public PartialViewResult _RiskProgram(Guid riskid, Guid seriaid, Guid? progid, int idx)
         {
             var riskprog = from rs in db.RiskSerias
                            join rp in db.RiskPrograms on rs.RiskSeriaId equals rp.RiskSeriaId
                            where rs.RiskId == riskid
                            && rs.SeriaId == seriaid
+                           orderby rp.ProgramCode
                            select rp;
 
-            ViewBag.RiskProgramId = new SelectList(riskprog, "RiskProgramId", "ProgramCode");
+            if(progid.HasValue)
+                ViewBag.RiskProgramId = new SelectList(riskprog, "RiskProgramId", "ProgramCode", (Guid)progid);
+            else
+             ViewBag.RiskProgramId = new SelectList(riskprog, "RiskProgramId", "ProgramCode");
+               
             ViewBag.idx = idx;
 
             return PartialView();
@@ -833,7 +837,7 @@ namespace gTravel.Controllers
 
             c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
 
-            c.tripduration = (c.tripduration != 0) ? c.tripduration : c.date_diff;
+            c.tripduration = (c.tripduration.HasValue) ? c.tripduration : c.date_diff;
 
             var seria = db.serias.SingleOrDefault(x => x.SeriaId == c.seriaid);
             if (!string.IsNullOrEmpty(seria.numberformat))

@@ -224,9 +224,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2"><label>Срок поездки:</label> </div>
+                <div class="col-md-2"><label><b>Срок поездки:</b></label> </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => Model.period_multi, new { @class = "form-control input-sm input-value" }) 
+                    @Html.TextBoxFor(m => Model.tripduration, new { @class = "form-control input-sm input-value" }) 
 
                     @Html.DropDownListFor(m => Model.period_multi_type, (SelectList)ViewBag.PeriodMultiType, new { @class = "form-control input-sm input-value" })
                     <label> дней</label>
@@ -365,6 +365,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                 @{
                     var risk_num = 0;
                     decimal contract_fee = 0;
+                    decimal contract_fee_rur = 0;
                     decimal contract_prem = 0;
                     decimal contract_prem_rur = 0;
                 }
@@ -373,86 +374,116 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                         <td>Риск</td>
                         <th>Страховая сумма</th>
                         <th>
-                            Базовый тариф
+                            Базовый тариф (Тариф СК)
                         </th>
                         <th>Доп. условия</th>
                         <th>Премия</th>
                     </tr>
                     @foreach (var risk in Model.ContractRisks.OrderBy(o => o.sort))
                     {
-                    <tr>
-                        <td class="active">
-                            <label>
-                                @(risk.isMandatory ? Html.Hidden(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked) : Html.CheckBox(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked))
-                                @risk.Risk.Name
-                            </label>
-                        </td>
-                        <td>
-                            @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
-                            @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
-                            @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
-                            @*@Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)*@
-                            @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
-                            @Html.Hidden(string.Format("ContractRisks[{0}].isMandatory", risk_num), risk.isMandatory)
+                        <tr>
+                            <td class="active">
+                                <label>
+                                    @(risk.isMandatory ? Html.Hidden(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked) : Html.CheckBox(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked))
+                                    @risk.Risk.Name
+                                </label>
+                            </td>
+                            <td>
+                                @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
+                                @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
+                                @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
+                                @*@Html.Hidden(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum)*@
+                                @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
+                                @Html.Hidden(string.Format("ContractRisks[{0}].isMandatory", risk_num), risk.isMandatory)
 
 
-                            @*@{
-             Html.RenderAction("_ContractRiskInsSum", new
-             {
-                 seriaid = Model.seriaid,
-                 riskid = risk.RiskId,
-                 risk_num = risk_num,
-                 riskinssum = risk.InsSum
-             });
-            }*@
-                            @{
+                                @*@{
+                             Html.RenderAction("_ContractRiskInsSum", new
+                             {
+                                 seriaid = Model.seriaid,
+                                 riskid = risk.RiskId,
+                                 risk_num = risk_num,
+                                 riskinssum = risk.InsSum
+                             });
+                            }*@
+                                @{
 
                         //выбор программы
-                        Html.RenderAction("_RiskProgram", new { riskid = risk.RiskId, seriaid = Model.seriaid, idx = risk_num });
-                        
-                            }
+                        Html.RenderAction("_RiskProgram", new { riskid = risk.RiskId, seriaid = Model.seriaid, idx = risk_num, progid = risk.RiskProgramId });
 
-                            @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
-                        </td>
+                                }
 
-                        <td>
-                            @risk.BaseTarif
-                        </td>
-                        @HelperRiskFactors(risk_num, Model.ContractRisks.Count, (Guid)risk.RiskId, Model.ContractId,viewonly)
-                        @*<td>
+                                @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value" })
+                            </td>
 
-                                <img id="bonus_wait" src="~/Content/loading_white_small.gif"
-                                     style="position:absolute; z-index:1000;display:none;" />
-                                @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = risk.RiskId, contractid = Model.ContractId })
+                            <td>
+                                @Html.TextBox(string.Format("ContractRisks[{0}].AgentTarif", risk_num), risk.AgentTarif, new { @class = "form-control input-sm input-value", style = "width: 100px; !important" })
+                                (@risk.BaseTarif)
 
 
+                            </td>
+                            @HelperRiskFactors(risk_num, Model.ContractRisks.Count, (Guid)risk.RiskId, Model.ContractId, viewonly)
+                            @*<td>
 
-                            </td>*@
-                        <td>
-                            @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })
-                            @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
-                            @{
+                            <img id="bonus_wait" src="~/Content/loading_white_small.gif"
+                                 style="position:absolute; z-index:1000;display:none;" />
+                            @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = risk.RiskId, contractid = Model.ContractId })
+
+
+
+                        </td>*@
+                            <td>
+                                @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })
+                                @*@Html.TextBox(string.Format("ContractRisks[{0}].InsFee", risk_num), risk.InsFee, new { @class = "form-control input-sm input-value" })*@
+                                @{
                         contract_fee += (decimal)(risk.InsFee ?? 0);
+                        contract_fee_rur += (decimal)(risk.InsFeeRur ?? 0);
                         contract_prem += (decimal)(risk.InsPrem ?? 0);
                         contract_prem_rur += (decimal)(risk.InsPremRur ?? 0);
-                            }
-                            <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top"
-                                  title="@string.Format("базовый тариф: {0}, дней {1}, кол-во застрахованных {2}", risk.BaseTarif, Model.date_diff,Model.Subjects.Count())">?</span>
-                        </td>
-                    </tr>
+                                }
+                                <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top"
+                                      title="@string.Format("базовый тариф: {0}, дней {1}, кол-во застрахованных {2}", risk.BaseTarif, Model.date_diff,Model.Subjects.Count())">?</span>
+                            </td>
+                        </tr>
 
                         risk_num++;
                     }
                 </table>
                 <div class="blockquote-warning" id="block-total">
                     <h4>Итого</h4>
-                    <div>Премия, @Model.Currency.code: <span class="input-value">@contract_prem </span></div>
-                    <div>Премия, руб: <span class="input-value">@contract_prem_rur </span></div>
-                    @if (User.IsInRole("Admin"))
-                    {
 
-                    <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
-                    }
+                    <div class="row">
+                        <div class="col-xs-3">
+                            Премия, @Model.Currency.code
+                        </div>
+                        <div class="col-lg-3 input-value">@contract_prem </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            Премия, руб:
+                        </div>
+                        <div class="col-lg-3 input-value">@contract_prem_rur </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            Вознаграждение СК по договору:
+                        </div>
+                        <div class="col-lg-3 input-value">@contract_fee</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            Вознаграждение СК по договору, руб:
+                        </div>
+                        <div class="col-lg-3 input-value">@contract_fee_rur</div>
+                    </div>
+
+     
+
+                    @*@if (User.IsInRole("Admin"))
+                {
+
+                <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
+                }*@
                 </div>
             </fieldset>
 
