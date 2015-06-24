@@ -72,7 +72,7 @@ namespace gTravel.Servises
         {
             var c = db.Contracts.Include("Contract_territory")
               .Include("ContractConditions")
-              .Include("Subjects")
+             // .Include("Subjects")
               .Include("ContractStatu")
               .SingleOrDefault(x => x.ContractId == contractid);
 
@@ -425,13 +425,7 @@ namespace gTravel.Servises
 
             }
 
-            
 
-            //var seriaagentid = (from ags in db.AgentUsers
-            //                    join au in db.AgentSerias on ags.AgentId equals au.AgentId
-            //                    where ags.UserId == c.UserId
-            //                    && au.SeriaId == c.seriaid
-            //                    select au).FirstOrDefault().AgentSeriaId;
 
             var seriaagentid = db.getAgentSeriaId(c.UserId, c.seriaid).SingleOrDefault().Value;
 
@@ -467,11 +461,7 @@ namespace gTravel.Servises
                         continue;
                     }
 
-                    //var riskprog = (from rs in db.RiskSerias
-                    //               join rp in db.RiskPrograms on rs.RiskSeriaId equals rp.RiskSeriaId
-                    //               where rs.RiskId == crisk.RiskId
-                    //               && rs.SeriaId == c.seriaid select rp).SingleOrDefault();
-
+     
                     //найдем тариф
                     var tt = db.Tarifs.Where(
                         x => x.AgentSeriaId == seriaagentid
@@ -506,22 +496,7 @@ namespace gTravel.Servises
 
                         crisk.BaseTarif = (decimal)t.PremSum;
 
-                        crisk.AgentTarif = (crisk.AgentTarif.HasValue) ? (decimal)crisk.AgentTarif : crisk.BaseTarif;
-
-                        //decimal riskprem = 0;
-                        //decimal riskpremdatediff = (decimal)crisk.BaseTarif * (decimal)c.date_diff;
-                     
-                        //int agefactorscount = c.ContractFactors.Count(x => x.Factor.FactorType.Trim() == "age");
-
-                        ////застрахованные без скидок
-                        //riskprem = riskpremdatediff * (c.Subjects.Count() - agefactorscount);
-                        
-                        //foreach(var f in c.ContractFactors)
-                        //{
-                        //    riskprem += riskpremdatediff * (decimal)f.Val_n;
-                        //    crisk.InsFee += icFeeDatediff * (decimal)f.Val_n;
-                        //}
-
+                        crisk.AgentTarif = (crisk.AgentTarif.HasValue && crisk.AgentTarif !=0) ? (decimal)crisk.AgentTarif : crisk.BaseTarif;
 
                         crisk.InsPrem = calcprem((decimal)crisk.AgentTarif, vContractF, c.Subjects.Count(), (decimal)c.date_diff, ismulty, (int)risk_seria_type_tarif);
                         crisk.InsFee = calcprem((decimal)t.InsFee, vContractF, c.Subjects.Count(), (decimal)c.date_diff, ismulty, (int)risk_seria_type_tarif);
@@ -530,36 +505,7 @@ namespace gTravel.Servises
                         crisk.InsPremRur = crisk.InsPrem * currate;
                         crisk.InsFeeRur = crisk.InsFee * currate;
    
-                        //var factor_descr = new List<factorgrp>();
-
-                        //riskprem = riskprem * getXtrimFactor(c.ContractConditions, c.seriaid, factor_descr);
-
-                        //crisk.InsPrem = CalcSubjectsPremium(c.Subjects, c.seriaid, riskprem, c.date_out.Value,
-                        //    factor_descr);
-                        //crisk.InsFee = CalcSubjectsPremium(c.Subjects, c.seriaid,
-                        //    (decimal)t.InsFee * (decimal)c.date_diff, c.date_out.Value);
-                        //crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
-
-                        ////TODO 27042015 добавить поле FactorsDescr в таблицу [ContractRisk]
-                        //var fgrp = from n in factor_descr
-                        //           group n by new { t = n.ftype, v = n.fvalue }
-                        //               into g
-                        //               select new factorgrp { ftype = g.Key.t, fvalue = g.Key.v, qnt = g.Count() };
-
-                        //var fdescr = new StringBuilder();
-
-                        //foreach (var f in fgrp)
-                        //{
-                        //    fdescr.AppendFormat("{0}: {1}({2}); ", f.ftype, f.fvalue, f.qnt);
-                        //    //crisk.FactorsDescr += string.Format("{0}: {1}({2}); ",f.ftype,f.fvalue,f.qnt);
-                        //}
-                        //crisk.FactorsDescr = fdescr.ToString();
-
-                        ////crisk.BaseTarif = (decimal)t.PremSum;
-                        ////dcount = (decimal)(c.date_diff * c.Subjects.Count());
-                        ////crisk.InsPrem = crisk.BaseTarif * dcount;
-                        ////crisk.InsFee = (decimal)t.InsFee * dcount;
-                        ////crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
+      
                     }
                     else
                     {

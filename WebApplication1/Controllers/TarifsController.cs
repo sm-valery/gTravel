@@ -287,6 +287,8 @@ namespace gTravel.Controllers
 
         public PartialViewResult _RiskProgList(Guid riskid, Guid seriaid, Guid? RiskProgramId)
         {
+            mLib.NoAjaxCache();
+
             var rs = db.RiskSerias.SingleOrDefault(x=>x.SeriaId==seriaid && x.RiskId==riskid);
 
             if(RiskProgramId.HasValue)

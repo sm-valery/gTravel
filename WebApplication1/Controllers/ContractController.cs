@@ -235,6 +235,9 @@ namespace gTravel.Controllers
 
         public PartialViewResult _addContractTerritory(Guid contractid, string territorylist)
         {
+            Response.CacheControl = "no-cache";
+            Response.Cache.SetETag((Guid.NewGuid()).ToString());
+
             var list_comma = territorylist.Split(',');
 
             List<Contract_territory> tlist = new List<Contract_territory>();

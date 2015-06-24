@@ -381,6 +381,15 @@ namespace gTravel
     static class mLib
     {
 
+        public static void NoAjaxCache()
+        {
+            HttpContext.Current.Response.CacheControl = "no-cache";
+            //HttpContext.Current.Response.Cache.SetETag((Guid.NewGuid()).ToString());
+            // HttpContext.Current.Response.AddHeader("Cache-Control", "no-cache");
+            HttpContext.Current.Response.AddHeader("Pragma", "no-cache");
+            HttpContext.Current.Response.Expires = -1;
+          
+        }
 
         public static int GetAge(DateTime birthDate, DateTime date)
         {
