@@ -52,7 +52,7 @@ namespace gTravel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "RiskSeriaId,RiskId,SeriaId,isMandatory,sort")] RiskSeria riskSeria)
+        public ActionResult Create([Bind(Include = "RiskSeriaId,RiskId,SeriaId,isMandatory,sort,hasFranchise")] RiskSeria riskSeria)
         {
             if (ModelState.IsValid)
             {
@@ -85,8 +85,9 @@ namespace gTravel.Controllers
             ViewBag.TypeTarif = new SelectList(new[]
             {
                 new SelectListItem {Text = "Тариф указывается на каждый день", Value = "0"},
-                new SelectListItem {Text = "Тариф указывается на всю поездку", Value = "1"}
-            }, "Value", "Text");
+                new SelectListItem {Text = "Тариф указывается на всю поездку", Value = "1"},
+                new SelectListItem {Text = "Процент на всю поездку", Value = "2"}
+            }, "Value", "Text", riskSeria.TypeTarif);
 
 
             return View(riskSeria);
@@ -97,7 +98,7 @@ namespace gTravel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "RiskSeriaId,RiskId,SeriaId,isMandatory,sort,TypeTarif")] RiskSeria riskSeria)
+        public ActionResult Edit([Bind(Include = "RiskSeriaId,RiskId,SeriaId,isMandatory,sort,TypeTarif,hasFranchise")] RiskSeria riskSeria)
         {
             if (ModelState.IsValid)
             {

@@ -361,15 +361,22 @@ namespace gTravel.Servises
         }
 
 
-        private decimal calcprem(decimal basetarif, IEnumerable<v_contract_factors> vContractFactors, int subj_count, decimal daycount = 0, bool ismulty = false, int risk_seria_type_tarif=0)
+        private decimal calcprem(decimal basetarif, IEnumerable<v_contract_factors> vContractFactors, int subj_count, decimal daycount = 0, bool ismulty = false, int risk_seria_type_tarif=0, decimal inssum=0)
         {
             decimal riskprem = 0;
             decimal riskpremdatediff =0;
 
             riskpremdatediff = basetarif;
 
+            //премия это сумма за день умноженная на кол-во дней
             if (!ismulty && risk_seria_type_tarif==0)
                 riskpremdatediff = basetarif * daycount;
+
+            //премия это процент от страх суммы
+            if(risk_seria_type_tarif==2)
+            {
+                riskpremdatediff = basetarif * inssum;
+            }
 
             int agefactorscount = vContractFactors.Count(x=>x.FactorType.Trim()=="age");
 
@@ -385,6 +392,12 @@ namespace gTravel.Servises
 
 
             return riskprem;
+        }
+
+        public bool riskhasfranchise(Guid seriaid, Guid riskid)
+        {
+
+            return db.RiskSerias.Any(x => x.SeriaId == seriaid && x.RiskId == riskid && x.hasFranchise > 0);
         }
 
         public bool ContractRecalc(Contract c, List<string> ErrMess)
@@ -473,21 +486,31 @@ namespace gTravel.Servises
 
                     var risk_seria_type_tarif = db.RiskSerias.Where(x => x.RiskId == crisk.RiskId && x.SeriaId == c.seriaid).SingleOrDefault().TypeTarif;
 
-                    var t = new Tarif();
+                   // var t = new Tarif();
 
                     
 
                     //многократное
                     if (ismulty)
                     {
-                        t = tt.FirstOrDefault(x => x.RepeatedType == c.period_multi_type
+                        tt = tt.Where(x => x.RepeatedType == c.period_multi_type
                             && x.RepeatedDays == c.tripduration);
 
                     }
-                    else
+
+
+                    //else
+                    //{
+                    //    t = tt.FirstOrDefault();
+                    //}
+
+                    //франшиза
+                    if(riskhasfranchise(c.seriaid,(Guid)crisk.RiskId))
                     {
-                        t = tt.FirstOrDefault();
+                        tt = tt.Where(x => x.FranshPerc == ((crisk.FranshPerc.HasValue)?crisk.FranshPerc:0));
                     }
+
+                    var t = tt.FirstOrDefault();
 
                     if (t != null && ret)
                     {
@@ -498,8 +521,8 @@ namespace gTravel.Servises
 
                         crisk.AgentTarif = (crisk.AgentTarif.HasValue && crisk.AgentTarif !=0) ? (decimal)crisk.AgentTarif : crisk.BaseTarif;
 
-                        crisk.InsPrem = calcprem((decimal)crisk.AgentTarif, vContractF, c.Subjects.Count(), (decimal)c.date_diff, ismulty, (int)risk_seria_type_tarif);
-                        crisk.InsFee = calcprem((decimal)t.InsFee, vContractF, c.Subjects.Count(), (decimal)c.date_diff, ismulty, (int)risk_seria_type_tarif);
+                        crisk.InsPrem = calcprem((decimal)crisk.AgentTarif, vContractF, c.Subjects.Count(), (decimal)c.date_diff, ismulty, (int)risk_seria_type_tarif,(decimal)crisk.InsSum);
+                        crisk.InsFee = calcprem((decimal)t.InsFee, vContractF, c.Subjects.Count(), (decimal)c.date_diff, ismulty, (int)risk_seria_type_tarif, (decimal)crisk.InsSum);
 
 
                         crisk.InsPremRur = crisk.InsPrem * currate;

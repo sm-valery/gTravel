@@ -1,0 +1,5 @@
+﻿<div style="white-space:nowrap;">
+    <label class="small risk-label1">Франшиза</label>
+    @Html.TextBox(string.Format("ContractRisks[{0}].FranshPerc", (int)ViewBag.idx), (decimal)ViewBag.FranshPerc, new { @class = "form-control input-sm input-value", placeholder = "процент" })
+
+</div>

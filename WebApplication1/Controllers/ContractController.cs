@@ -157,6 +157,22 @@ namespace gTravel.Controllers
             return PartialView();
         }
 
+
+
+
+        [ChildActionOnly]
+        public PartialViewResult _RiskFranchise(Guid seriaid, Guid riskid, decimal? FranshPerc, int idx)
+        {
+          if(!new ContractService().riskhasfranchise(seriaid,riskid))
+                return null;
+
+            ViewBag.idx = idx;
+            ViewBag.FranshPerc = (FranshPerc.HasValue)?FranshPerc:0;
+
+            return PartialView();
+
+        }
+
         [HttpPost]
         public PartialViewResult _addAgentRow(Guid contractid)
         {
@@ -1349,7 +1365,7 @@ namespace gTravel.Controllers
         }
 
         [UserIdFilter]
-        public ActionResult _addInsuredRow(string contractid, int indx, string fieldlist, string ins_name, string dayob, string userid)
+        public ActionResult _addInsuredRow(string contractid, int indx, string fieldlist, string ins_name, string dayob, string pasport, string userid)
         {
             //это чтоб работало в ie, иначе ajax запросы будут кешироваться
             Response.CacheControl = "no-cache";
@@ -1385,6 +1401,7 @@ namespace gTravel.Controllers
                 }
             }
 
+            s.Pasport = pasport;
 
             ViewBag.viewonly = false;
 

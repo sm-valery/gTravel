@@ -21,6 +21,7 @@ namespace gTravel.Models
         public Nullable<int> sort { get; set; }
         public Nullable<decimal> InsSumDefauld { get; set; }
         public Nullable<int> TypeTarif { get; set; }
+        public Nullable<int> hasFranchise { get; set; }
     
         public virtual Risk Risk { get; set; }
         public virtual seria seria { get; set; }

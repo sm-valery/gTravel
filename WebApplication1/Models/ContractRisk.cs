@@ -29,6 +29,7 @@ namespace gTravel.Models
         public Nullable<System.Guid> RiskProgramId { get; set; }
         public Nullable<decimal> AgentTarif { get; set; }
         public Nullable<decimal> InsFeeRur { get; set; }
+        public Nullable<double> FranshPerc { get; set; }
     
         public virtual Risk Risk { get; set; }
         public virtual RiskProgram RiskProgram { get; set; }

@@ -214,8 +214,9 @@
           <Property Name="isMandatory" Type="bit" Nullable="false" />
           <Property Name="ischecked" Type="bit" Nullable="false" />
           <Property Name="RiskProgramId" Type="uniqueidentifier" />
-          <Property Name="AgentTarif" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="AgentTarif" Type="decimal" Precision="12" Scale="4" />
           <Property Name="InsFeeRur" Type="money" />
+          <Property Name="FranshPerc" Type="float" />
         </EntityType>
         <EntityType Name="ContractStatus">
           <Key>
@@ -319,6 +320,7 @@
           <Property Name="sort" Type="int" />
           <Property Name="InsSumDefauld" Type="numeric" Precision="18" Scale="0" />
           <Property Name="TypeTarif" Type="int" />
+          <Property Name="hasFranchise" Type="int" />
         </EntityType>
         <EntityType Name="seria">
           <Key>
@@ -1691,6 +1693,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="InsSumDefauld" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="seria" Relationship="goDbModel.FK_RiskSeria_ToSeria" FromRole="RiskSeria" ToRole="seria" />
           <Property Name="TypeTarif" Type="Int32" />
+          <Property Name="hasFranchise" Type="Int32" />
         </EntityType>
         <EntityType Name="Contract_territory">
           <Key>
@@ -1745,8 +1748,9 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="RiskProgramId" Type="Guid" />
           <NavigationProperty Name="RiskProgram" Relationship="goDbModel.FK_ContractRisk_ToTable" FromRole="ContractRisk" ToRole="RiskProgram" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_ContractRisk_ToContract" FromRole="ContractRisk" ToRole="Contract" />
-          <Property Name="AgentTarif" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="AgentTarif" Type="Decimal" Precision="12" Scale="4" />
           <Property Name="InsFeeRur" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="FranshPerc" Type="Double" />
         </EntityType>
         <Association Name="FK_ContractRisk_ToRisk">
           <End Type="goDbModel.Risk" Role="Risk" Multiplicity="0..1" />
@@ -2926,6 +2930,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="RiskSerias">
             <EntityTypeMapping TypeName="goDbModel.RiskSeria">
               <MappingFragment StoreEntitySet="RiskSeria">
+                <ScalarProperty Name="hasFranchise" ColumnName="hasFranchise" />
                 <ScalarProperty Name="TypeTarif" ColumnName="TypeTarif" />
                 <ScalarProperty Name="InsSumDefauld" ColumnName="InsSumDefauld" />
                 <ScalarProperty Name="sort" ColumnName="sort" />
@@ -2957,6 +2962,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="ContractRisks">
             <EntityTypeMapping TypeName="goDbModel.ContractRisk">
               <MappingFragment StoreEntitySet="ContractRisk">
+                <ScalarProperty Name="FranshPerc" ColumnName="FranshPerc" />
                 <ScalarProperty Name="InsFeeRur" ColumnName="InsFeeRur" />
                 <ScalarProperty Name="AgentTarif" ColumnName="AgentTarif" />
                 <ScalarProperty Name="RiskProgramId" ColumnName="RiskProgramId" />

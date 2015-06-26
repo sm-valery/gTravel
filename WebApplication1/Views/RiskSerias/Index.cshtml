@@ -31,6 +31,9 @@
         <th>
             @Html.DisplayNameFor(model => model.TypeTarif)
         </th>
+        <th>
+            Франшиза
+        </th>
         <th></th>
     </tr>
 
@@ -53,6 +56,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.TypeTarif)
         </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.hasFranchise)
+        </td>
+
 
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.RiskSeriaId }) |
