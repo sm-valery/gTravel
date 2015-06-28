@@ -157,10 +157,10 @@ namespace gTravel.Servises
             var converter = new HtmlToPdf();
 
             converter.Options.PdfPageSize = PdfPageSize.A4;
-            converter.Options.MarginBottom = 10;
-            converter.Options.MarginLeft = 10;
-            converter.Options.MarginRight = 10;
-            converter.Options.MarginTop = 10;
+            converter.Options.MarginBottom = 20;
+            converter.Options.MarginLeft = 20;
+            converter.Options.MarginRight = 20;
+            converter.Options.MarginTop = 20;
 
             var doc = converter.ConvertHtmlString(htmlContent);
 

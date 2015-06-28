@@ -1586,6 +1586,32 @@ namespace gTravel.Controllers
 //            doc.Close();
 //        }
 
+        public void print01(Guid contractid)
+        {
+            var c = db.Contracts.Include("Contract_territory")
+               .Include("ContractConditions")
+               .Include("Subjects")
+               .Include("ContractRisks")
+               .Include("ContractStatu")
+               .SingleOrDefault(x => x.ContractId == contractid);
+
+            new ContractService().OutputPdf(
+                RenderRazorViewToString("printcrm", c),
+                string.Format("polis01_{0}.pdf", c.contractnumber));
+
+        }
+
+
+        public void print02(Guid contractid)
+        {
+            var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
+
+            new ContractService().OutputPdf(
+                RenderRazorViewToString("print02", c),
+                string.Format("polis02_{0}.pdf", c.contractnumber));
+        }
+
+
         public void printcrm(Guid contractid)
         {
             var c = db.Contracts.Include("Contract_territory")

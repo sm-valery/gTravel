@@ -33,7 +33,7 @@
         <EntityTypeShape EntityType="goDbModel.ImportLog" Width="1.5" PointX="3.125" PointY="20" />
         <EntityTypeShape EntityType="goDbModel.ImportLogContract" Width="2.625" PointX="5.125" PointY="20" />
         <EntityTypeShape EntityType="goDbModel.v_importlog" Width="1.5" PointX="8.375" PointY="20" />
-        <EntityTypeShape EntityType="goDbModel.Agent" Width="1.5" PointX="11.125" PointY="16.375" />
+        <EntityTypeShape EntityType="goDbModel.Agent" Width="1.5" PointX="11.125" PointY="15.875" />
         <EntityTypeShape EntityType="goDbModel.AgentUser" Width="1.5" PointX="8.25" PointY="17.25" />
         <AssociationConnector Association="goDbModel.FK_AgentUser_ToTable" />
         <AssociationConnector Association="goDbModel.FK_AgentUser_ToTable_1" />
@@ -44,7 +44,7 @@
         <EntityTypeShape EntityType="goDbModel.BorderoContract" Width="2.125" PointX="7.75" PointY="0.75" />
         <EntityTypeShape EntityType="goDbModel.Bordero" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="goDbModel.v_bordero" Width="1.5" PointX="7.375" PointY="12.75" />
-        <EntityTypeShape EntityType="goDbModel.v_contract_history" Width="1.5" PointX="10.375" PointY="18.75" />
+        <EntityTypeShape EntityType="goDbModel.v_contract_history" Width="1.5" PointX="10.75" PointY="19.75" />
         <EntityTypeShape EntityType="goDbModel.v_bordero_new" Width="1.5" PointX="26.125" PointY="8.75" />
         <EntityTypeShape EntityType="goDbModel.v_contract_ag" Width="1.5" PointX="26.375" PointY="14.75" />
         <EntityTypeShape EntityType="goDbModel.seria" Width="1.5" PointX="14.75" PointY="11.75" />
@@ -91,6 +91,7 @@
         <AssociationConnector Association="goDbModel.FK_Subject_ToContract" />
         <AssociationConnector Association="goDbModel.FK_Table_ToContract" />
         <EntityTypeShape EntityType="goDbModel.v_contract" Width="1.5" PointX="12.375" PointY="21.75" />
+        <AssociationConnector Association="goDbModel.FK_Agent_ToAgent" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

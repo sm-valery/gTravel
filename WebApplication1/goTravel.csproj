@@ -658,6 +658,8 @@
     <Content Include="Views\Tarifs\_RiskProgList.cshtml" />
     <Content Include="Views\Contract\_RiskProgram.cshtml" />
     <Content Include="Views\Contract\_RiskFranchise.cshtml" />
+    <Content Include="Views\Contract\print01.cshtml" />
+    <Content Include="Views\Contract\print02.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

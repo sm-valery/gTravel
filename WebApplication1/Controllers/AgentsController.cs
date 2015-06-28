@@ -81,7 +81,11 @@ namespace gTravel.Controllers
             if (agent == null)
             {
                 return HttpNotFound();
+            
             }
+
+            ViewBag.ParentId = new SelectList(db.Agents, "AgentId", "Name");
+
             return View(agent);
         }
 

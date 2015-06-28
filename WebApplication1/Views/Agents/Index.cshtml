@@ -16,6 +16,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
+        <th>Родитель</th>
         <th></th>
     </tr>
 
@@ -24,6 +25,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
+        <td>@Html.DisplayFor(modelItem => item.Agent2.Name)</td>
         <td>
             @Html.ActionLink("Агентский договор", "index", "AgentSerias", new { agentid = item.AgentId }, null) |
             @Html.ActionLink("Пользователи", "index", "AgentUsers", new { agentid = item.AgentId }, null) |
