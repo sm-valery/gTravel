@@ -32,21 +32,16 @@
             margin-left: 0;
             margin-right: 0;
             padding: 0;
-            font-family: 'Arial Unicode MS';
-            /*font-family: 'Times New Roman';*/
-            /*font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;*/
-            /*font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', 'sans-serif';*/
-            font-size: 12px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size:12px;
         }
 
         .polis-separator {
             background-color: darkslateblue;
-            height: 10px;
+            height: 20px;
         }
 
-        .polis-caption {
-            font-size: large;
-        }
+
 
         .img-polis-forwhom {
             width: 25px;
@@ -59,9 +54,9 @@
             white-space: nowrap;
         }
 
-        .td-small {
-            font-size: 8px;
-        }
+        /*.td-small {
+            font-size: 10px;
+        }*/
 
         .td-left-fat {
             border-left: solid 3px dimgray;
@@ -81,12 +76,12 @@
 
         .td-top-thin {
             border-top: solid thin dimgray;
-            ;
+            
         }
 
         .td-bottom-thin {
             border-bottom: solid thin dimgray;
-            ;
+            
         }
 
         .td-right-thin {
@@ -96,7 +91,7 @@
 
         .td-left-thin {
             border-left: solid thin dimgray;
-            ;
+            
         }
 
         .td-exampl {
@@ -124,6 +119,9 @@
             padding-top: 5px;
             padding-bottom: 5px;
             white-space: nowrap;
+        }
+        .polis-flabel{
+            font-weight:bold;
         }
     </style>
 </head>
@@ -172,12 +170,13 @@
                     <td>
                         <img width="200" src="data:image/png;base64,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" />
                     </td>
-                    <td style="padding:10px; text-align:center">Полис страхования лиц, занимающихся подводным плаванием (дайвингом)</td>
-                    <td>серия<br>series</td>
+                    <td style="padding:10px; text-align:center; font-size:36px;">Полис страхования лиц, занимающихся подводным плаванием (дайвингом)</td>
+                    <td >серия<br>series</td>
                     <td class="td-number">
-                        @Model.seria.Code&nbsp;
-                        № @Model.contractnumber
-
+                        <span class="polis-number">
+                            @Model.seria.Code&nbsp;
+                            № @Model.contractnumberformat
+                        </span>
                     </td>
 
 
@@ -185,13 +184,13 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td class="td-small" colspan="3">
+                    <td  colspan="3" >
                         Настоящий полис выдан на основании "ПРАВИЛ СТРАХОВАНИЯ ГРАЖДАН , ЗАНИМАЮЩИХСЯ ПОДВОДНЫМ ПЛАВАНИЕМ (ДАЙВИНГОМ)", утвержденных ООО «СК «ТИТ» от 12 .10.2010г.
 
                     </td>
                 </tr>
             </table>
-            <table class="table-polis">
+            <table class="table-polis" style="font-size: 14px;">
                 <tr>
                     <td rowspan="10" class="td-left-fat td-top-fat td-right-fat td-bottom-fat">
 
@@ -211,44 +210,52 @@
                     </td>
                     <td style="width:1px;"></td>
                     <td class="td-left-fat td-top-fat">
-                        Страхователь
+                        <span class="polis-flabel">Страхователь</span>
                         <br />
                         Insured
                     </td>
                     <td class="td-left-thin td-top-fat td-right-fat">
-                        Дата рождения
-                        <br>
-                        Date of birth
-                    </td>
+                        <span class="polis-flabel">
+                            Дата рождения</span>
+                            <br>
+                            Date of birth
+</td>
 
                     <td class="td-top-fat">
-                        Программа страхования
-                    </td>
-                    <td class="td-top-fat td-left-thin td-right-fat">GT</td>
+                        <span class="polis-flabel">Программа страхования</span>
+</td>
+                    <td class="td-top-fat  td-right-fat">GT</td>
                 </tr>
                 <tr>
                     <td></td>
                     <td class="td-left-fat">aaaaaaa</td>
                     <td class="td-left-thin">0101001</td>
                     <td class="td-left-fat td-top-fat">
-                        Паспорт
-                        <br>
-                        Passport
-                    </td>
-                    <td class="td-top-fat td-right-fat td-left-thin">Адрес/телефон</td>
+                        <span class="polis-flabel">
+                            Паспорт</span>
+                            <br>
+                            Passport
+</td>
+                    <td class="td-top-fat td-right-fat td-left-thin">
+                        <span class="polis-flabel">Адрес/телефон:</span> edjfvsdk jhsdfkj  kwjsdfh  jwdehfkjhkw  kwjhdfksdjf
+</td>
                 </tr>
                 <tr>
                     <td></td>
                     <td class="td-left-fat td-top-thin">
-                        Застрахованный
-                        <br>  Policy holder
-                    </td>
+                        <span class="polis-flabel">
+                            Застрахованный</span>
+                            <br>  Policy holder
+</td>
                     <td class="td-left-thin td-top-thin">
-                        Дата рождения
-                        <br />
-                        Date of birth
+                        <span class="polis-flabel">
+                            Дата рождения</span>
+                            <br />
+                            Date of birth
+</td>
+                    <td class="td-left-fat td-top-fat">
+                        <span class="polis-flabel">Повышающий коэффициент</span>
                     </td>
-                    <td class="td-left-fat td-top-fat">Повышающий коэффициент</td>
                     <td class="td-right-fat td-top-fat td-left-thin">0</td>
 
                 </tr>
@@ -257,23 +264,28 @@
                     <td class="td-left-fat">aaaaa</td>
                     <td class="td-left-thin">11111</td>
                     <td class="td-left-fat td-top-fat">
-                        Территория действия
-                        <br>
-                        Valid in
-                    </td>
-                    <td class="td-left-thin td-top-fat td-right-fat">Egipt</td>
+                        <span class="polis-flabel">
+                            Территория действия</span>
+                            <br>
+                            Valid in
+</td>
+                    <td class="td-left-thin td-top-fat td-right-fat">sjkdfh wjedfhkjsd kjsdhfksjdhf  kjsdhkfj</td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td class="td-left-fat td-top-fat">Виды покрытия</td>
-                    <td class="td-left-thin td-top-fat">
-                        Страховая сумма (USD/EUR)
-                        <br />Sum insured per person
-                    </td>
                     <td class="td-left-fat td-top-fat">
-                        Срок действия полиса
-                        <br />Policy validity period
+                        <span class="polis-flabel">Виды покрытия</span>
                     </td>
+                    <td class="td-left-thin td-top-fat">
+                        <span class="polis-flabel">
+                            Страховая сумма (USD/EUR)</span>
+                            <br />Sum insured per person
+</td>
+                    <td class="td-left-fat td-top-fat">
+                        <span class="polis-flabel">
+                            Срок действия полиса</span>
+                            <br />Policy validity period
+</td>
                     <td class="td-left-thin td-top-fat td-right-fat">32</td>
                 </tr>
                 <tr>
@@ -304,7 +316,7 @@
 
                 <tr>
                     <td></td>
-                    <td class="td-small" colspan="2" style="width:40%;">
+                    <td  colspan="2" style="width:40%;">
                         В соответствии с Федеральным законом «О персональных данных» от 27.07.2006 г. № 152-ФЗ предоставляю согласие на обработку Страховщиком персональных данных
                         <br>на срок действия договора и в течении 5(пяти) лет с даты его прекращения. С Правилами страхования ознакомлен, согласен и экземпляр Правил страхования получил.
                         <br>С использованием Страховщиком факсимильной печати и факсимильной подписи его представителя согласен
@@ -528,6 +540,70 @@
             </div>
             <p></p>*@
     }
+
+
+    <hr />
+
+    qqqqq
+    <b>qqqq</b>
+    <table>
+        <tr>
+            <td colspan="2">
+                <div class="polis-caption" style="text-align:center">ПАМЯТКА ПУТЕШЕСТВЕННИКУ</div>
+                Благодарим Вас за то, что Вы воспользовались нашими услугами. <strong>
+    Внимательно прочтите информацию, изложенную ниже,
+    это позволит Вам избежать лишних расходов.
+</strong> Услуги по данному полису оказывает компания по урегулированию
+                страховых событий EXPRESS ASSIST.
+                Приехав на предполагаемое место погружения, не забудьте информировать инструктора и сотрудников дайв-центра о том, что Вы
+                застрахованы и предъявите Вашу страховую карточку, данную памятку и номер круглосуточной службы:
+                <span class="big-caption">+ 7 (495) 775-20-93.</span>
+                А также дополнительный телефон +7(495)775-20-90.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                При необходимости экстренной госпитализации или помещения в
+                барокамеру Вы, Ваш представитель или лечащий врач (лечебное учреждение)
+                должны в течение 24 часов обратиться в EXPRESS ASSIST.
+                Набрав указанный номер телефона, кратко информируйте диспетчера о
+                страховом случае и попросите его перезвонить на Ваш номер для
+                выяснения дальнейших вопросов. При обращении обязательно
+                укажите:
+                — серию и номер Вашего страхового полиса
+                — свою фамилию и имя
+                — срок действия полиса страхования.
+                Эти действия помогут Вам избежать расходов наличных денег, так как
+                по Вашему звонку компания EXPRESS ASSIST организует Вам оказание
+                бесплатной помощи, госпитализацию, транспортировку, лечение
+                в
+                барокамере. В случае, если Вам выписали рецепт на приобретение
+                медикаментов и Вам пришлось его оплатить, по возвращению из
+                поездки эти расходы будут компенсированы в Страховой компании «Тит»
+                в соответствии с Правилами страхования.
+            </td>
+            <td>
+                Если Вы обратились к врачу самостоятельно, обязательно требуйте от
+                лечащего учреждения (лечащих врачей) следующие документы:
+                1. оригинал справки-счета из медицинского учреждения (на
+                фирменном бланке) с указанием фамилии пациента, диагноза, даты
+                обращения за мед. помощью, продолжительности лечения, перечня
+                оказанных услуг с разбивкой по датам и стоимости, итоговой суммы к
+                оплате;
+                2. оригиналы выписанных лечащим врачом рецептов на
+                приобретение медикаментов со штампом аптеки и указанием
+                стоимости каждого препарата;
+                3. оригинал направления-счета от лечащего врача в связи с
+                данным заболеванием на прохождение лабораторных исследований с
+                разбивкой по датам, наименованием и стоимостью оказанных услуг;
+                4. оригиналы документов, подтверждающих факт оплаты за
+                лечение, медикаменты и прочие услуги (штамп об оплате, кассовый
+                ордер, банковская квитанция с указанием суммы на перевод)
+            </td>
+        </tr>
+    </table>
+
+
 </body>
 
 </html>

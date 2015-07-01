@@ -1607,7 +1607,7 @@ namespace gTravel.Controllers
             var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
 
             new ContractService().OutputPdf(
-                RenderRazorViewToString("print02", c),
+                RenderRazorViewToString("ViewPdf", c),
                 string.Format("polis02_{0}.pdf", c.contractnumber));
         }
 

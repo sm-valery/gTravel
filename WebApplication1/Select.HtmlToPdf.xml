@@ -88,6 +88,22 @@
             Gets or sets the full path of the html rendering engine helper file. 
             </summary>
         </member>
+        <member name="P:SelectPdf.GlobalProperties.CacheFonts">
+            <summary>
+            Enable or disable web fonts caching on disk.
+            </summary>
+            <remarks>
+            The default value for this property is False and web fonts are cached into memory.
+            </remarks>
+        </member>
+        <member name="P:SelectPdf.GlobalProperties.FontsFolder">
+            <summary>
+            Folder used to cache web fonts. If not specified, the system temporary folder is used.
+            </summary>
+            <remarks>
+            This property is taken into account only if <see cref="P:SelectPdf.GlobalProperties.CacheFonts"/> is set to True.
+            </remarks>
+        </member>
         <member name="P:SelectPdf.GlobalProperties.LFN">
             <summary>
             Internal use only.
