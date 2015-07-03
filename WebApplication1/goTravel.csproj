@@ -353,6 +353,7 @@
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RiskToPrint.cs" />
     <Compile Include="Servises\ContractService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="UserIdFilter.cs" />

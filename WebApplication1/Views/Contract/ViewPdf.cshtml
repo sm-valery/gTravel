@@ -1,95 +1,4 @@
-﻿@functions{
-
-string get_diver_risksum(int risknum, int? day, string prog, string curcode)
-{
-    string ret = "-";
-
-    if (risknum == 1)
-    {
-        if (prog.Trim() == "G" && day >= 365)
-        {
-            return "1000 " + curcode;
-        }
-        if (prog.Trim() == "G+" && day >= 365)
-        {
-            return "1000 " +curcode;
-        }
-        if (prog.Trim() == "P" && day >= 365)
-        {
-            return "1800 " + curcode;
-        }
-        if (prog.Trim() == "P+" && day >= 365)
-        {
-            return "1800 " + curcode;
-        }
-        if (prog.Trim() == "I")
-        {
-            return "1800 " +curcode;
-        }
-    }
-
-    if (risknum == 2)
-    {
-        if (prog.Trim() == "G" && day >= 365)
-        {
-            return "6000 " +curcode;
-        }
-        if (prog.Trim() == "G+" && day >= 365)
-        {
-            return "6000 " + curcode;
-        }
-        if (prog.Trim() == "S" && day >= 365)
-        {
-            return "5000 " + curcode;
-        }
-        if (prog.Trim() == "P" && day >= 365)
-        {
-            return "6500 " + curcode;
-        }
-        if (prog.Trim() == "P+" && day >= 365)
-        {
-            return "6500 " + curcode;
-        }
-
-        if (prog.Trim() == "I")
-        {
-            return "10000 " + curcode;
-        }
-    }
-    if (risknum == 3)
-    {
-        if (prog.Trim() == "G" && day >= 365)
-        {
-            return "2000 " + curcode;
-        }
-        if (prog.Trim() == "G+" && day >= 365)
-        {
-            return "2000 " + curcode;
-        }
-        if (prog.Trim() == "S" && day >= 365)
-        {
-            return "1500 " + curcode;
-        }
-        if (prog.Trim() == "P" && day >= 365)
-        {
-            return "3000 " + curcode;
-        }
-        if (prog.Trim() == "P+" && day >= 365)
-        {
-            return "3000 " + curcode;
-        }
-
-        if (prog.Trim() == "I")
-        {
-            return "5000 " + curcode;
-        }
-    }
-
-    return ret;
-}
-
-
-}
+﻿
 
 @model gTravel.Models.Contract
 
@@ -280,6 +189,20 @@ string get_diver_risksum(int risknum, int? day, string prog, string curcode)
 
     @{
         var risk = Model.ContractRisks.FirstOrDefault();
+        var printedrisk = (RiskToPrint[])ViewBag.RisksPrintList;
+
+        decimal factor_all = 1;
+        foreach (var f in Model.ContractFactors)
+        {
+            factor_all *= f.Val_n.Value;
+        }
+
+        if (factor_all == 1)
+        {
+            factor_all = 0;
+        }
+
+
 
     }
 
@@ -364,158 +287,159 @@ string get_diver_risksum(int risknum, int? day, string prog, string curcode)
                             <div class="elabel">ADDRESS/TEL</div>
                             <div class="ftext">
                                 @Model.Subject.Address
-                        </div>
-                    </td>
-                </tr>
+                            </div>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td class="td-left-fat td-top-thin">
-                        <div class="rlabel">
-                            ЗАСТРАХОВАННЫЙ
-                        </div>
-                        <div class="elabel">
-                            POLICY HOLDER
-                        </div>
-                        <div class="ftext">@Model.Subject.Name1</div>
-                    </td>
-                    <td class="td-left-thin td-top-thin td-right-fat">
-                        <div class="rlabel">
-                            ДАТА РОЖДЕНИЯ
-                        </div>
-                        <div class="elabel">
-                            DATE OF BIRTH
-                        </div>
-                        <div class="ftext">@Model.Subject.DateOfBirth</div>
-                    </td>
-                </tr>
+                    <tr>
+                        <td class="td-left-fat td-top-thin">
+                            <div class="rlabel">
+                                ЗАСТРАХОВАННЫЙ
+                            </div>
+                            <div class="elabel">
+                                POLICY HOLDER
+                            </div>
+                            <div class="ftext">@Model.Subject.Name1</div>
+                        </td>
+                        <td class="td-left-thin td-top-thin td-right-fat">
+                            <div class="rlabel">
+                                ДАТА РОЖДЕНИЯ
+                            </div>
+                            <div class="elabel">
+                                DATE OF BIRTH
+                            </div>
+                            <div class="ftext">@Model.Subject.DateOfBirth</div>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td class="td-left-fat td-top-fat">
-                        <div class="rlabel">ВИДЫ ПОКРЫТИЯ</div>
-                    </td>
-                    <td class="td-left-thin td-top-fat td-right-fat">
-                        <div class="rlabel" style="white-space:nowrap;">СТРАХОВАЯ СУММА (USD/EUR)</div>
-                        <div class="elabel">SUM INSURED PER PERSON</div>
+                    <tr>
+                        <td class="td-left-fat td-top-fat">
+                            <div class="rlabel">ВИДЫ ПОКРЫТИЯ</div>
+                        </td>
+                        <td class="td-left-thin td-top-fat td-right-fat">
+                            <div class="rlabel" style="white-space:nowrap;">СТРАХОВАЯ СУММА (USD/EUR)</div>
+                            <div class="elabel">SUM INSURED PER PERSON</div>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td-left-fat td-top-thin text-m">Медицинские и транспортные расходы</td>
-                    <td class="td-left-thin td-top-thin td-right-fat">@risk.InsSum.Value.ToString("######") @Model.Currency.code</td>
-                </tr>
-                <tr>
-                    <td class="td-left-fat td-top-thin text-m">Утрата снаряжения в результате несчастного случая, произошедшего под водой</td>
-                    <td class="td-left-thin td-top-thin td-right-fat">@get_diver_risksum(1, Model.date_diff, risk.RiskProgram.ProgramCode, Model.Currency.code)</td>
-                </tr>
-                <tr>
-                    <td class="td-left-fat td-top-thin text-m">Инвалидность I группы/Смерть</td>
-                    <td class="td-left-thin td-top-thin td-right-fat">@get_diver_risksum(2, Model.date_diff, risk.RiskProgram.ProgramCode, Model.Currency.code)</td>
-                </tr>
-                <tr>
-                    <td class="td-left-fat td-top-thin td-bottom-fat text-m">Инвалидность II, III группы</td>
-                    <td class="td-left-thin td-top-thin td-right-fat td-bottom-fat">@get_diver_risksum(3, Model.date_diff, risk.RiskProgram.ProgramCode, Model.Currency.code)</td>
-                </tr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-left-fat td-top-thin text-m">Медицинские и транспортные расходы</td>
+                        <td class="td-left-thin td-top-thin td-right-fat">@risk.InsSum.Value.ToString("######") @Model.Currency.code</td>
+                    </tr>
+                    <tr>
+                        <td class="td-left-fat td-top-thin text-m">@printedrisk[0].risk_name</td>
+                        <td class="td-left-thin td-top-thin td-right-fat">@printedrisk[0].inssum  @*get_diver_risksum(1, Model.date_diff, risk.RiskProgram.ProgramCode, Model.Currency.code)*@</td>
+                    </tr>
+                    <tr>
+                        <td class="td-left-fat td-top-thin text-m">@printedrisk[1].risk_name @*Инвалидность I группы/Смерть*@</td>
+                        <td class="td-left-thin td-top-thin td-right-fat">@printedrisk[1].inssum @*@get_diver_risksum(2, Model.date_diff, risk.RiskProgram.ProgramCode, Model.Currency.code)*@</td>
+                    </tr>
+                    <tr>
+                        <td class="td-left-fat td-top-thin td-bottom-fat text-m">@printedrisk[2].risk_name  @*Инвалидность II, III группы*@</td>
+                        <td class="td-left-thin td-top-thin td-right-fat td-bottom-fat">@printedrisk[2].inssum  @*@get_diver_risksum(3, Model.date_diff, risk.RiskProgram.ProgramCode, Model.Currency.code)*@</td>
+                    </tr>
 
-            </table>
+                </table>
+            </div>
+
+            <div class="col_right">
+                <table class="table-polis">
+                    <tr>
+                        <td class="td-left-fat td-top-fat">
+                            <div class="rlabel">ПРОГРАММА СТРАХОВАНИЯ</div>
+
+                        </td>
+                        <td class="td-top-fat td-right-fat">@risk.RiskProgram.ProgramCode</td>
+                    </tr>
+                    <tr>
+                        <td class="td-left-fat td-top-thin">
+                            <div class="rlabel">ПОВЫШАЮЩИЙ КОЭФФИЦИЕНТ</div>
+                        </td>
+                        <td class="td-left-thin td-top-thin td-right-fat">@factor_all</td>
+                    </tr>
+                    <tr>
+                        <td class="td-left-fat td-top-thin td-big">
+                            <div class="rlabel">ТЕРРИТОРИЯ ДЕЙСТВИЯ</div>
+                            <div class="elabel">VALID IN</div>
+
+                        </td>
+                        <td class="td-left-thin td-top-thin td-right-fat">
+                            @ViewBag.territory_string
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="td-left-fat td-top-thin td-big">
+                            <div class="rlabel">СРОК ДЕЙСТВИЯ ПОЛИСА</div>
+                            <div class="elabel">POLICY VALIDITY PERIOD</div>
+                        </td>
+                        <td class="td-left-thin td-top-thin td-right-fat">
+                            <div class="rlabel">@Model.tripduration</div>
+
+                            с @Model.date_begin.Value.ToShortDateString() по @Model.date_end.Value.ToShortDateString()
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="td-left-fat td-top-thin ">
+                            <div class="rlabel">
+                                СТРАХОВАЯ ПРЕМИЯ
+                            </div>
+                            <div class="elabel">
+                                INSURED PREMIUM PER PERSON (USD/EUR)
+                            </div>
+                        </td>
+                        <td class="td-left-thin td-top-thin td-right-fat">
+                            <strong> @risk.InsPrem</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-left-fat td-top-thin td-bottom-fat">
+                            <div class="rlabel">
+                                Дата выдачи
+                            </div>
+                        </td>
+                        <td class="td-left-thin td-top-thin td-right-fat td-bottom-fat">
+                            @Model.date_out.Value.ToShortDateString()
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="rlabel">Особые условия:</div>
+                        </td>
+
+                    </tr>
+                </table>
+
+            </div>
+            <div class="clear polis-small">
+                <table class="table-polis">
+                    <tr>
+                        <td class="polis-small" style="width:55%">
+                            В соответствии с Федеральным законом «О персональных данных» от 27.07.2006 г. № 152-ФЗ предоставляю согласие на обработку Страховщиком персональных данных
+                            на срок действия договора и в течении 5(пяти) лет с даты его прекращения. С Правилами страхования ознакомлен, согласен и экземпляр Правил страхования получил.
+                            С использованием Страховщиком факсимильной печати и факсимильной подписи его представителя согласен
+                        </td>
+                        <td class="polis-small" style="white-space:nowrap;">
+                            __________________________
+                            <br />(Подпись страхователя)
+                        </td>
+
+                        <td>
+                            Полис выдан
+                            <div><u>@ViewBag.agentname</u></div>
+                        </td>
+                        <td>
+                            <img style="width:70px;" src="data:image/png;base64,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" />
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <span class="polis-caption">СТРАХОВАЯ КОМПАНИЯ "ТИТ"</span>&nbsp;
+            <span class="text-footer"> 115088, Россия, г.Москва, 2 Южнопортовый проезд 18 стр 8, тел/факс: (495) 967-8612, e-mail: vzr@titins.ru</span>
         </div>
-
-        <div class="col_right">
-            <table class="table-polis">
-                <tr>
-                    <td class="td-left-fat td-top-fat">
-                        <div class="rlabel">ПРОГРАММА СТРАХОВАНИЯ</div>
-
-                    </td>
-                    <td class="td-top-fat td-right-fat">GT</td>
-                </tr>
-                <tr>
-                    <td class="td-left-fat td-top-thin">
-                        <div class="rlabel">ПОВЫШАЮЩИЙ КОЭФФИЦИЕНТ</div>
-                    </td>
-                    <td class="td-left-thin td-top-thin td-right-fat">0</td>
-                </tr>
-                <tr>
-                    <td class="td-left-fat td-top-thin td-big">
-                        <div class="rlabel">ТЕРРИТОРИЯ ДЕЙСТВИЯ</div>
-                        <div class="elabel">VALID IN</div>
-
-                    </td>
-                    <td class="td-left-thin td-top-thin td-right-fat">
-                        @*SCHENGEN*@
-                        WorldWide exc. USA,Australia,Japan,Canada,New Zeland,Russia,CIS
-                    </td>
-
-                </tr>
-                <tr>
-                    <td class="td-left-fat td-top-thin td-big">
-                        <div class="rlabel">СРОК ДЕЙСТВИЯ ПОЛИСА</div>
-                        <div class="elabel">POLICY VALIDITY PERIOD</div>
-                    </td>
-                    <td class="td-left-thin td-top-thin td-right-fat">
-                        <div class="rlabel">365</div>
-
-                        с 06.06.2015 по 04.06.2016
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="td-left-fat td-top-thin ">
-                        <div class="rlabel">
-                            СТРАХОВАЯ ПРЕМИЯ
-                        </div>
-                        <div class="elabel">
-                            INSURED PREMIUM PER PERSON (USD/EUR)
-                        </div>
-                    </td>
-                    <td class="td-left-thin td-top-thin td-right-fat"></td>
-                </tr>
-                <tr>
-                    <td class="td-left-fat td-top-thin td-bottom-fat">
-                        <div class="rlabel">
-                            Дата выдачи
-                        </div>
-                    </td>
-                    <td class="td-left-thin td-top-thin td-right-fat td-bottom-fat">
-                        @Model.date_out.Value.ToShortDateString()
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <div class="rlabel">Особые условия:</div>
-                    </td>
-
-                </tr>
-            </table>
-
-        </div>
-        <div class="clear polis-small">
-            <table class="table-polis">
-                <tr>
-                    <td class="polis-small" style="width:55%">
-                        В соответствии с Федеральным законом «О персональных данных» от 27.07.2006 г. № 152-ФЗ предоставляю согласие на обработку Страховщиком персональных данных
-                        на срок действия договора и в течении 5(пяти) лет с даты его прекращения. С Правилами страхования ознакомлен, согласен и экземпляр Правил страхования получил.
-                        С использованием Страховщиком факсимильной печати и факсимильной подписи его представителя согласен
-                    </td>
-                    <td class="polis-small" style="white-space:nowrap;">
-                        __________________________
-                        <br />(Подпись страхователя)
-                    </td>
-
-                    <td>
-                        Полис выдан
-                        <div><u>Какая то компания fldfbgj elrkg;l ;l </u></div>
-                    </td>
-                    <td>
-                        <img style="width:70px;" src="data:image/png;base64,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" />
-                    </td>
-                </tr>
-            </table>
-
-        </div>
-
-        <span class="polis-caption">СТРАХОВАЯ КОМПАНИЯ "ТИТ"</span>&nbsp;
-        <span class="text-footer"> 115088, Россия, г.Москва, 2 Южнопортовый проезд 18 стр 8, тел/факс: (495) 967-8612, e-mail: vzr@titins.ru</span>
-    </div>
         <br />
     }
 
@@ -1042,4 +966,11 @@ string get_diver_risksum(int risknum, int? day, string prog, string curcode)
 
 
 </body>
+
+
+
+
+
+
+
 </html>

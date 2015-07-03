@@ -1601,14 +1601,35 @@ namespace gTravel.Controllers
 
         }
 
-
-        public void print02(Guid contractid)
+         [UserIdFilter]
+        public void print02(Guid contractid, string userid)
         {
+            
+
             var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
 
-            new ContractService().OutputPdf(
-                RenderRazorViewToString("ViewPdf", c),
-                string.Format("polis02_{0}.pdf", c.contractnumber));
+            var risk = c.ContractRisks.FirstOrDefault();
+
+
+            using(ContractService cs= new ContractService())
+            {
+                ViewBag.RisksPrintList = cs.get_diver_risksum(c.tripduration, risk.RiskProgram.ProgramCode.Trim(), c.Currency.code);
+
+                StringBuilder territory_string = new StringBuilder();
+                foreach (var t in c.Contract_territory)
+                {
+                    territory_string.Append(t.Territory.Name + " ");
+                }
+                ViewBag.territory_string = territory_string.ToString();
+
+              ViewBag.agentname  = mLib.GetCurrentUserAgent(userid).Name;
+                //
+                cs.OutputPdf(
+                    RenderRazorViewToString("ViewPdf", c),
+                    string.Format("polis02_{0}.pdf", c.contractnumber));
+            }
+
+
         }
 
 

@@ -424,7 +424,6 @@ namespace gTravel
         }
 
 
-        [UserIdFilter]
         public static Agent GetCurrentUserAgent(string userid)
         {
             if (IsSetCurrentUserAgent(userid))

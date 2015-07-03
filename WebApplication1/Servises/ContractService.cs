@@ -11,9 +11,10 @@ using System.Data.Entity;
 
 namespace gTravel.Servises
 {
-    public class ContractService 
+    public class ContractService : IDisposable
     {
         private goDbEntities db = new goDbEntities();
+
 
         public ContractService()
         {
@@ -72,7 +73,7 @@ namespace gTravel.Servises
         {
             var c = db.Contracts.Include("Contract_territory")
               .Include("ContractConditions")
-             // .Include("Subjects")
+                // .Include("Subjects")
               .Include("ContractStatu")
               .SingleOrDefault(x => x.ContractId == contractid);
 
@@ -91,7 +92,7 @@ namespace gTravel.Servises
                     rr.Risk = db.Risks.SingleOrDefault(x => x.RiskId == rr.RiskId);
                 }
 
-              //  c.ContractStatu = db.ContractStatus.SingleOrDefault(x => x.ContractStatusId == c.ContractStatusId);
+                //  c.ContractStatu = db.ContractStatus.SingleOrDefault(x => x.ContractStatusId == c.ContractStatusId);
 
                 return c;
             }
@@ -150,6 +151,97 @@ namespace gTravel.Servises
                     && ags.SeriaId == seriaid
                     && !f.auto
                     select f).OrderBy(o => o.Position).ToList();
+        }
+
+        public RiskToPrint[] get_diver_risksum(int? day, string prog, string curcode)
+        {
+            RiskToPrint[] r = new RiskToPrint[3];
+
+            r[0] = new RiskToPrint()
+            {
+                risk_name = "Утрата снаряжения в результате несчастного случая, произошедшего под водой",
+                inssum = "-"
+            };
+
+            if (prog.Trim() == "G" && day >= 365)
+            {
+                r[0].inssum = "1000 " + curcode;
+            }
+            if (prog.Trim() == "G+" && day >= 365)
+            {
+                r[0].inssum = "1000 " + curcode;
+            }
+            if (prog.Trim() == "P" && day >= 365)
+            {
+                r[0].inssum = "1800 " + curcode;
+            }
+            if (prog.Trim() == "P+" && day >= 365)
+            {
+                r[0].inssum = "1800 " + curcode;
+            }
+            if (prog.Trim() == "I")
+            {
+                r[0].inssum = "1800 " + curcode;
+            }
+
+            r[1] = new RiskToPrint() { risk_name = "Инвалидность I группы/Смерть", inssum = "-" };
+
+            if (prog.Trim() == "G" && day >= 365)
+            {
+                r[1].inssum = "6000 " + curcode;
+            }
+            if (prog.Trim() == "G+" && day >= 365)
+            {
+                r[1].inssum = "6000 " + curcode;
+            }
+            if (prog.Trim() == "S" && day >= 365)
+            {
+                r[1].inssum = "5000 " + curcode;
+            }
+            if (prog.Trim() == "P" && day >= 365)
+            {
+                r[1].inssum = "6500 " + curcode;
+            }
+            if (prog.Trim() == "P+" && day >= 365)
+            {
+                r[1].inssum = "6500 " + curcode;
+            }
+
+            if (prog.Trim() == "I")
+            {
+                r[1].inssum = "10000 " + curcode;
+            }
+
+
+            r[2] = new RiskToPrint() {risk_name = "Инвалидность II, III группы", inssum = "-"};
+
+            if (prog.Trim() == "G" && day >= 365)
+            {
+                r[2].inssum = "2000 " + curcode;
+            }
+            if (prog.Trim() == "G+" && day >= 365)
+            {
+                r[2].inssum = "2000 " + curcode;
+            }
+            if (prog.Trim() == "S" && day >= 365)
+            {
+                r[2].inssum = "1500 " + curcode;
+            }
+            if (prog.Trim() == "P" && day >= 365)
+            {
+                r[2].inssum = "3000 " + curcode;
+            }
+            if (prog.Trim() == "P+" && day >= 365)
+            {
+                r[2].inssum = "3000 " + curcode;
+            }
+
+            if (prog.Trim() == "I")
+            {
+                r[2].inssum = "5000 " + curcode;
+            }
+
+            return r;
         }
 
         public virtual void OutputPdf(string htmlContent, string filename)
@@ -310,7 +402,7 @@ namespace gTravel.Servises
                 }
             }
 
-           db.SaveChanges();
+            db.SaveChanges();
         }
 
         private void ContractFactorsFillAge(Contract c, Factor f)
@@ -327,14 +419,14 @@ namespace gTravel.Servises
             }
 
             //if (issave)
-               
+
         }
 
         private void ContractFactorFillTerrit(Contract c, Factor f)
         {
-            foreach(var t in c.Contract_territory)
+            foreach (var t in c.Contract_territory)
             {
-                if(t.TerritoryId == f.TerritoryId)
+                if (t.TerritoryId == f.TerritoryId)
                 {
                     ContractFactorsAdd(c, f);
                 }
@@ -360,37 +452,37 @@ namespace gTravel.Servises
             //         && fct.auto
             //         select cf;
 
-            db.ContractFactors.RemoveRange(db.ContractFactors.Where(x=>x.ContractId == c.ContractId && x.Factor.auto));
+            db.ContractFactors.RemoveRange(db.ContractFactors.Where(x => x.ContractId == c.ContractId && x.Factor.auto));
             db.SaveChanges();
         }
 
 
-        private decimal calcprem(decimal basetarif, IEnumerable<v_contract_factors> vContractFactors, int subj_count, decimal daycount = 0, bool ismulty = false, int risk_seria_type_tarif=0, decimal inssum=0)
+        private decimal calcprem(decimal basetarif, IEnumerable<v_contract_factors> vContractFactors, int subj_count, decimal daycount = 0, bool ismulty = false, int risk_seria_type_tarif = 0, decimal inssum = 0)
         {
             decimal riskprem = 0;
-            decimal riskpremdatediff =0;
+            decimal riskpremdatediff = 0;
 
             riskpremdatediff = basetarif;
 
             //премия это сумма за день умноженная на кол-во дней
-            if (!ismulty && risk_seria_type_tarif==0)
+            if (!ismulty && risk_seria_type_tarif == 0)
                 riskpremdatediff = basetarif * daycount;
 
             //премия это процент от страх суммы
-            if(risk_seria_type_tarif==2)
+            if (risk_seria_type_tarif == 2)
             {
                 riskpremdatediff = basetarif * inssum;
             }
 
-            int agefactorscount = vContractFactors.Count(x=>x.FactorType.Trim()=="age");
+            int agefactorscount = vContractFactors.Count(x => x.FactorType.Trim() == "age");
 
             decimal zfactor = vContractFactors.Where(x => x.FactorType.Trim() != "age").Aggregate((decimal)1.0, (sa, b) => sa * b.Val_n.Value);
 
             riskprem += zfactor * (subj_count - agefactorscount) * riskpremdatediff;
 
-            foreach(var f in vContractFactors.Where(x=>x.FactorType.Trim()=="age"))
+            foreach (var f in vContractFactors.Where(x => x.FactorType.Trim() == "age"))
             {
-                 riskprem += zfactor * (decimal)f.Val_n * riskpremdatediff;
+                riskprem += zfactor * (decimal)f.Val_n * riskpremdatediff;
             }
 
 
@@ -408,9 +500,9 @@ namespace gTravel.Servises
         {
             var ret = true;
 
-            bool ismulty =int.Parse(c.period_multi_type) > 0;
+            bool ismulty = int.Parse(c.period_multi_type) > 0;
 
-            var date_diff = (ismulty)?(decimal)c.date_diff:(decimal)c.tripduration;
+            var date_diff = (ismulty) ? (decimal)c.date_diff : (decimal)c.tripduration;
 
             if (date_diff == 0)
             {
@@ -418,7 +510,7 @@ namespace gTravel.Servises
 
                 return false;
             }
-                
+
 
             var cter = c.Contract_territory.FirstOrDefault();
 
@@ -450,7 +542,7 @@ namespace gTravel.Servises
             //Удалить автоскидки
             ContractFactorsDeleteAutoFactors(c, seriaagentid);
             //db.ContractFactors.RemoveRange(c.ContractFactors.Where(x => x.Factor.auto));
- 
+
 
             //Заполним автоскидки
             ContractFactorsFillAutoFactors(c, seriaagentid);
@@ -465,34 +557,34 @@ namespace gTravel.Servises
 
                 foreach (var crisk in c.ContractRisks)
                 {
-  
+
                     crisk.BaseTarif = 0;
                     crisk.InsPrem = 0;
                     crisk.InsFee = 0;
                     crisk.InsPremRur = 0;
                     crisk.FactorsDescr = "";
 
-                    if(!crisk.isMandatory && !crisk.ischecked)
+                    if (!crisk.isMandatory && !crisk.ischecked)
                     {
-                       
+
                         continue;
                     }
 
-     
+
                     //найдем тариф
                     var tt = db.Tarifs.Where(
                         x => x.AgentSeriaId == seriaagentid
                             && x.RiskProgramId == crisk.RiskProgramId
-                            && date_diff >=x.PeriodFrom
+                            && date_diff >= x.PeriodFrom
                             && date_diff <= x.PeriodTo
-                            && crisk.InsSum >=x.InsSumFrom
-                            && crisk.InsSum <=x.InsSumTo);
+                            && crisk.InsSum >= x.InsSumFrom
+                            && crisk.InsSum <= x.InsSumTo);
 
                     var risk_seria_type_tarif = db.RiskSerias.Where(x => x.RiskId == crisk.RiskId && x.SeriaId == c.seriaid).SingleOrDefault().TypeTarif;
 
-                   // var t = new Tarif();
+                    // var t = new Tarif();
 
-                    
+
 
                     //многократное
                     if (ismulty)
@@ -509,9 +601,9 @@ namespace gTravel.Servises
                     //}
 
                     //франшиза
-                    if(riskhasfranchise(c.seriaid,(Guid)crisk.RiskId))
+                    if (riskhasfranchise(c.seriaid, (Guid)crisk.RiskId))
                     {
-                        tt = tt.Where(x => x.FranshPerc == ((crisk.FranshPerc.HasValue)?crisk.FranshPerc:0));
+                        tt = tt.Where(x => x.FranshPerc == ((crisk.FranshPerc.HasValue) ? crisk.FranshPerc : 0));
                     }
 
                     var t = tt.FirstOrDefault();
@@ -519,20 +611,20 @@ namespace gTravel.Servises
                     if (t != null && ret)
                     {
 
-                       
+
 
                         crisk.BaseTarif = (decimal)t.PremSum;
 
-                        crisk.AgentTarif = (crisk.AgentTarif.HasValue && crisk.AgentTarif !=0) ? (decimal)crisk.AgentTarif : crisk.BaseTarif;
+                        crisk.AgentTarif = (crisk.AgentTarif.HasValue && crisk.AgentTarif != 0) ? (decimal)crisk.AgentTarif : crisk.BaseTarif;
 
-                        crisk.InsPrem = calcprem((decimal)crisk.AgentTarif, vContractF, c.Subjects.Count(), (decimal)c.date_diff, ismulty, (int)risk_seria_type_tarif,(decimal)crisk.InsSum);
+                        crisk.InsPrem = calcprem((decimal)crisk.AgentTarif, vContractF, c.Subjects.Count(), (decimal)c.date_diff, ismulty, (int)risk_seria_type_tarif, (decimal)crisk.InsSum);
                         crisk.InsFee = calcprem((decimal)t.InsFee, vContractF, c.Subjects.Count(), (decimal)c.date_diff, ismulty, (int)risk_seria_type_tarif, (decimal)crisk.InsSum);
 
 
                         crisk.InsPremRur = crisk.InsPrem * currate;
                         crisk.InsFeeRur = crisk.InsFee * currate;
-   
-      
+
+
                     }
                     else
                     {
@@ -549,7 +641,7 @@ namespace gTravel.Servises
                 ret = false;
             }
 
-            if(ret)
+            if (ret)
                 db.SaveChanges();
 
             return ret;
@@ -574,6 +666,14 @@ namespace gTravel.Servises
         {
             return db.ContractAgents.Count(x => x.ContractId == contractid);
         }
-   
+
+
+        void IDisposable.Dispose()
+        {
+
+            db.Dispose();
+
+            //throw new NotImplementedException();
+        }
     }
 }
