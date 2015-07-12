@@ -1588,12 +1588,7 @@ namespace gTravel.Controllers
 
         public void print01(Guid contractid)
         {
-            var c = db.Contracts.Include("Contract_territory")
-               .Include("ContractConditions")
-               .Include("Subjects")
-               .Include("ContractRisks")
-               .Include("ContractStatu")
-               .SingleOrDefault(x => x.ContractId == contractid);
+            var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
 
             new ContractService().OutputPdf(
                 RenderRazorViewToString("print01", c),
@@ -1625,13 +1620,23 @@ namespace gTravel.Controllers
               ViewBag.agentname  = mLib.GetCurrentUserAgent(userid).Name;
                 //
                 cs.OutputPdf(
-                    RenderRazorViewToString("ViewPdf", c),
+                    RenderRazorViewToString("print02", c),
                     string.Format("polis02_{0}.pdf", c.contractnumber));
             }
 
 
         }
 
+        [UserIdFilter]
+        public void print03(Guid contractid, string userid)
+         {
+
+             var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
+
+             new ContractService().OutputPdf(
+                 RenderRazorViewToString("print03", c),
+                 string.Format("polis03_{0}.pdf", c.contractnumber));
+         }
 
         public void printcrm(Guid contractid)
         {
