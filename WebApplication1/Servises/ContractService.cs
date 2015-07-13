@@ -73,6 +73,7 @@ namespace gTravel.Servises
         {
             var c = db.Contracts.Include("Contract_territory")
               .Include("ContractConditions")
+              .Include("ContractConditions.Condition")
                 // .Include("Subjects")
               .Include("ContractStatu")
               .SingleOrDefault(x => x.ContractId == contractid);

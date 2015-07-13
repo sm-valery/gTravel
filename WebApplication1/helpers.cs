@@ -50,14 +50,14 @@ namespace gTravel
                         cond.Condition.Name);
                     break;
 
-                //case "C":
+                case "C":
 
-                //    sbody += string.Format("<div class=\"row\">  <div class=\"col-md-2\">  <label>{2}:</label> </div> <div class=\"col-md-10\">" +
-                //        "<input type=\"text\" name=\"ContractConditions[{0}].Val_c\" value=\"{1}\" class=\"form-control input-sm input-value\" ></div> </div>",
-                //        idx,
-                //        cond.Val_c,
-                //        cond.Condition.Name);
-
+                    sbody += string.Format("<div class=\"row\">  <div class=\"col-md-2\">  <label>{2}:</label> </div> <div class=\"col-md-10\">" +
+                        "<input type=\"text\" name=\"ContractConditions[{0}].Val_c\" value=\"{1}\" class=\"form-control input-sm input-value\" ></div> </div>",
+                        idx,
+                        cond.Val_c,
+                        cond.Condition.Name);
+                    break;
 
                 case "S":
                     sbody += string.Format("<div class=\"row\"><div class=\"col-md-2\"><label>{2}:</label></div><div class=\"col-md-10\">" +

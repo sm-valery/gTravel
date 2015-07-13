@@ -856,7 +856,7 @@ namespace gTravel.Controllers
 
             c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
 
-            c.tripduration = (c.tripduration.HasValue) ? c.tripduration : c.date_diff;
+            c.tripduration = (c.tripduration.HasValue && c.tripduration!=0) ? c.tripduration : c.date_diff;
 
             var seria = db.serias.SingleOrDefault(x => x.SeriaId == c.seriaid);
             if (!string.IsNullOrEmpty(seria.numberformat))
@@ -1632,6 +1632,15 @@ namespace gTravel.Controllers
          {
 
              var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
+
+             ViewBag.vzrnumber = c.ContractConditions.SingleOrDefault(x => x.Condition.Code.Trim() == "vzrnum").Val_c;
+
+             StringBuilder territory_string = new StringBuilder();
+             foreach (var t in c.Contract_territory)
+             {
+                 territory_string.Append(t.Territory.Name + " ");
+             }
+             ViewBag.territory_string = territory_string.ToString();
 
              new ContractService().OutputPdf(
                  RenderRazorViewToString("print03", c),
