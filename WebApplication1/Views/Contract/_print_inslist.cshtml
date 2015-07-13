@@ -1,0 +1,29 @@
+﻿@model gTravel.Models.Contract
+
+@{
+    int idx = 0;
+}
+<div style="page-break-before: always">
+    Приложение к полису @Model.seria.Code @Model.contractnumberformat
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Фамилия, Имя</th>
+                <th>Дата рождения</th>
+                <th>Паспорт</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model.Subjects)
+            {
+                <tr>
+                    <td>@idx</td>
+                    <td>@item.Name1 @item.Name2</td>
+                    <td>@item.DateOfBirth.Value.ToShortDateString()</td>
+                    <td>@item.Pasport</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

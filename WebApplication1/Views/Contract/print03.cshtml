@@ -140,7 +140,7 @@
             .container .col_left {
                 float: left;
                 width: 40px;
-                height: 285px;
+                height: 265px;
                 padding-top: 20px;
                 padding-left: 5px;
                 border-bottom: solid 3px dimgray;
@@ -183,6 +183,10 @@ article {
     </style>
 </head>
 
+@{
+    int isb = 0;
+    int maxrows = 6;
+}
 
 <body>
     <img style="top:220px;left:450px;"
@@ -311,17 +315,16 @@ article {
                             <div class="elabel">DEDUCTIBLE</div>
                         </td>
                     </tr>
-                    @{
-                int isb = 0;
-                int maxrows = 6;
-                    }
+ 
                     @if (Model.Subjects.Count() > maxrows)
                     {
                         <tr>
-                            <td colspan="5">см. список</td>
+                            <td colspan="5">список в количестве @Model.Subjects.Count() прилагается</td>
                         </tr>
                     }
-                    @foreach (var subj in Model.Subjects)
+                    else
+                    { 
+                    foreach (var subj in Model.Subjects)
                     {
                         isb++;
                         <tr>
@@ -342,6 +345,7 @@ article {
                             </td>
                             @*<td></td>*@
                         </tr>
+                    }
                     }
                     @*пустые строки*@
                     @for (int ibx = isb; ibx <= maxrows; ibx++)
@@ -491,8 +495,14 @@ article {
 
 
         </div>
+@if (Model.Subjects.Count() > maxrows)
+{
+    @Html.Partial("_print_inslist",Model)
+}
 
-    @Html.Partial("_rules_tnp")
+        @{
+        Html.RenderPartial("_rules_tnp");
+        }
 
 </body>
 
