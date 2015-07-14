@@ -4,26 +4,39 @@
     int idx = 0;
 }
 <div style="page-break-before: always">
-    Приложение к полису @Model.seria.Code @Model.contractnumberformat
-    <table>
+    <strong>Приложение к полису @Model.seria.Code @Model.contractnumberformat</strong>
+    <p>
+        Данное приложение подтверждает факт заключения договора страхования
+    </p>
+    <p>
+        Страхователь: @Model.Subject.Name1
+    </p>
+    <table class="table-polis">
         <thead>
             <tr>
-                <th>#</th>
-                <th>Фамилия, Имя</th>
-                <th>Дата рождения</th>
-                <th>Паспорт</th>
+                <th class="td-left-fat td-top-fat">#</th>
+                <th class="td-top-fat td-left-thin">Фамилия, Имя</th>
+                <th class="td-left-thin td-top-fat">Дата рождения</th>
+                <th class="td-left-thin td-top-fat td-right-fat">Паспорт</th>
             </tr>
         </thead>
         <tbody>
-            @foreach(var item in Model.Subjects)
+            @foreach (var item in Model.Subjects)
             {
+                idx++;
                 <tr>
-                    <td>@idx</td>
-                    <td>@item.Name1 @item.Name2</td>
-                    <td>@item.DateOfBirth.Value.ToShortDateString()</td>
-                    <td>@item.Pasport</td>
+                    <td class="td-left-fat td-top-thin">@idx</td>
+                    <td class="td-left-thin td-top-thin">@item.Name1 @item.Name2</td>
+                    <td class="td-left-thin td-top-thin">@item.DateOfBirth.Value.ToShortDateString()</td>
+                    <td class="td-left-thin td-top-thin td-right-fat">@item.Pasport</td>
                 </tr>
             }
         </tbody>
+        <tfoot class="td-top-fat">
+            <tr>
+                <td colspan="2">С условиями страхования ознакомлен(а), условия страхования получил(а)_________________________</td>
+                <td colspan="2">Представитель страховщика _______________________</td>
+            </tr>
+        </tfoot>
     </table>
 </div>
