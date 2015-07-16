@@ -8,48 +8,50 @@
 }
 
     <!-- Single button -->
-  
+  <div>
 
-@if (Model.Any())
-{
-    <div id="risk_bonus_@risk.RiskId">
-        <div class="btn-group frm-discounts">
+    @if (Model.Any())
+    {
+        <div id="risk_bonus_@risk.RiskId">
+            <div class="btn-group frm-discounts">
 
-            @if (!viewonly)
-            {
-                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    Добавить <span class="caret"></span>
-                </button>
-            }
-
-            <ul class="dropdown-menu" role="menu">
-                @foreach (var item in Model)
+                @if (!viewonly)
                 {
-                    if (item.FactorType == "separator ")
-                    {
-                        <li class="divider"></li>
-                    }
-                    else
-                    {
-                        <li><a id="@item.IdFactor" href="#">@item.Name</a></li>
-                    }
-
-
-                    @*<li><a href="#">Программа A</a></li>
-                        <li><a href="#">Программа B</a></li>
-                        <li><a href="#">Программа C</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#" title="Авто/мотогонки, хоккей, зимние виды спорта (кроме горных лыж)">Авто/мотогонки...</a></li>
-                        <li><a href="#" title="Горнолыжный и другие виды спорта">Горнолыжный и другие виды спорта</a></li>*@
-
+                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        Добавить доп условия<span class="caret"></span>
+                    </button>
                 }
-            </ul>
+
+                <ul class="dropdown-menu" role="menu">
+                    @foreach (var item in Model)
+                    {
+                        if (item.FactorType == "separator ")
+                        {
+                            <li class="divider"></li>
+                        }
+                        else
+                        {
+                            <li><a id="@item.IdFactor" href="#">@item.Name</a></li>
+                        }
+
+
+                        @*<li><a href="#">Программа A</a></li>
+                            <li><a href="#">Программа B</a></li>
+                            <li><a href="#">Программа C</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" title="Авто/мотогонки, хоккей, зимние виды спорта (кроме горных лыж)">Авто/мотогонки...</a></li>
+                            <li><a href="#" title="Горнолыжный и другие виды спорта">Горнолыжный и другие виды спорта</a></li>*@
+
+                    }
+                </ul>
+            </div>
         </div>
+
+    }
+    <div class="risk_bonus_content">
+
+        @Html.Action("_bonus_list", "Contract", new { contractid = (Guid)ViewBag.contractid })
+
     </div>
 
-}
-        <div class="risk_bonus_content">
-
-            @Html.Action("_bonus_list", "Contract", new { contractid = (Guid)ViewBag.contractid })
-
-        </div>
+</div>

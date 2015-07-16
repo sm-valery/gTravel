@@ -74,7 +74,7 @@
             @*Скидки по договору*@
             <img id="bonus_wait" src="~/Content/loading_white_small.gif"
                  style="position:absolute; z-index:1000;display:none;" />
-            <span class="label label-default">Доп. условия</span>
+            @*<span class="label label-default">Доп. условия</span>*@
 
             @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = riskid, contractid = contractid, viewonly = viewonly })
 
@@ -743,7 +743,8 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
             var factor_id = $(this).attr("id");
 
             var riskobj = $(this).parent().parent().parent().parent();
-
+            var discounts = riskobj.parent();
+           
             var risk_id = riskobj.attr("id").toString().replace('risk_bonus_', '');
 
             $.ajax({
@@ -754,8 +755,8 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     $("#bonus_wait").show();
                 },
                 success: function (data) {
-
-                    riskobj.children(".risk_bonus_content").html(data);
+       
+                    discounts.children(".risk_bonus_content").html(data);
                     bind_bonus();
                 }
             }).done(function () {

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<gTravel.Models.TarifPlan>
+
+@{
+    ViewBag.Title = "Шаблоны тарифов";
+}
+
+<h3>@ViewBag.Title</h3>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Code)
+        </td>
+        <td>
+            @Html.ActionLink( item.Name, "TarifPlanList", "Tarifs", new {tarifplanid=item.TarifPlanId },null)
+       
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TarifPlanId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TarifPlanId })
+        </td>
+    </tr>
+}
+
+</table>

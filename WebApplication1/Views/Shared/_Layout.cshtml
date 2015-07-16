@@ -46,10 +46,15 @@
                 using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                 {
                     @Html.AntiForgeryToken()
+
+                    @Html.Action(actionName: @"_MenuAgentList", controllerName: "Agents", routeValues: new { sessionid = Session.SessionID, userid = User.Identity.GetUserId() })
+
+                    @:&nbsp;
+
                     @Html.Label("Пользователь:")
                     <span>
                         &nbsp;
-                        
+
                     </span>
 
 
@@ -116,7 +121,7 @@
                             <li>@Html.ActionLink("Территории", "Index", "Territories")</li>
                             <li>@Html.ActionLink("Доп параметры полиса", "ConditionSeria", "Settings")</li>
                             <li>@Html.ActionLink("Риски полиса", "Index", "RiskSerias")</li>
-                            <li>@Html.ActionLink("Тариф план", "tplan", "Tarifs")</li>
+                            <li>@Html.ActionLink("Тариф план", "tarifplan", "Tarifs")</li>
                             <li>@Html.ActionLink("Тариф", "Index", "Tarifs")</li>
                             <li>@Html.ActionLink("Дополнительные справочники", "addrefs", "Settings")</li>
                         </ul>

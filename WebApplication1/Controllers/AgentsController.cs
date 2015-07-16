@@ -28,7 +28,7 @@ namespace gTravel.Controllers
 
                
 
-            return View(ag.OrderBy(o=>o.Name).ToList());
+            return View(ag.Include("Agent2").OrderBy(o=>o.Name).ToList());
         }
 
         // GET: Agents/Details/5
@@ -49,6 +49,8 @@ namespace gTravel.Controllers
         // GET: Agents/Create
         public ActionResult Create()
         {
+            ViewBag.ParentId = new SelectList(db.Agents, "AgentId", "Name");
+
             return View();
         }
 
@@ -57,7 +59,7 @@ namespace gTravel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AgentId,Name")] Agent agent)
+        public ActionResult Create([Bind(Include = "AgentId,Name, ParentId")] Agent agent)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +68,8 @@ namespace gTravel.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            ViewBag.ParentId = new SelectList(db.Agents, "AgentId", "Name");
 
             return View(agent);
         }
@@ -129,6 +133,16 @@ namespace gTravel.Controllers
             db.Agents.Remove(agent);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [OutputCache(Duration = 60, VaryByParam = "*")]
+        public PartialViewResult _MenuAgentList(string sessionid , string userid)
+        {
+            var ag = mLib.GetCurrentUserAgent(userid);
+
+            ViewBag.AgentId = new SelectList(db.Agents, "AgentId", "Name",ag.AgentId);
+
+            return PartialView(ag);
         }
 
         protected override void Dispose(bool disposing)

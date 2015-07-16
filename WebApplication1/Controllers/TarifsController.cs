@@ -159,32 +159,6 @@ namespace gTravel.Controllers
             }
 
             tarifini((Guid)tarif.AgentSeriaId, editaction, tarif.RiskProgramId);
-            //var ags = db.AgentSerias.SingleOrDefault(x => x.AgentSeriaId == tarif.AgentSeriaId);
-
-            //ViewBag.agentseria = ags;
-
-            //var rser = from rs in db.RiskSerias
-            //           join r in db.Risks on rs.RiskId equals r.RiskId
-            //           where rs.SeriaId == ags.SeriaId
-            //           select r;
-
-            //var riskid = (from r in db.RiskPrograms
-            //              join rs in db.RiskSerias on r.RiskSeriaId equals rs.RiskSeriaId
-            //              where r.RiskProgramId == tarif.RiskProgramId
-            //              select rs).SingleOrDefault().RiskId;
-
-            //ViewBag.RiskId = new SelectList(rser, "RiskId", "Code", riskid);
-
-            //ViewBag.TerritoryId = new SelectList(db.Territories, "TerritoryId", "Name");
-
-            //ViewBag.action = editaction;
-
-            //ViewBag.PeriodMultiType = new SelectList(new[]
-            //{
-            //    new SelectListItem {Text = "Нет", Value = "0"},
-            //    new SelectListItem {Text = "За весь период", Value = "1"},
-            //    new SelectListItem {Text = "за одну поездку", Value = "2"}
-            //}, "Value", "Text",tarif.RepeatedType); 
 
             return View("Create", tarif);
         }
@@ -297,6 +271,13 @@ namespace gTravel.Controllers
                 ViewBag.RiskProgramId = new SelectList(db.RiskPrograms.Where(x => x.RiskSeriaId == rs.RiskSeriaId), "RiskProgramId", "Name"); 
 
             return PartialView();
+        }
+
+
+        public ActionResult TarifPlan()
+        {
+
+            return View(db.TarifPlans);
         }
 
         protected override void Dispose(bool disposing)

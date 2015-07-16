@@ -287,6 +287,7 @@ namespace gTravel.Controllers
         public ActionResult LogOff()
         {
             Session.Abandon();
+            Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", ""));
 
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
