@@ -1,2 +1,10 @@
 ﻿--16.07.2015
 --create view vAgents
+CREATE TABLE [dbo].[TarifPlan] (
+    [TarifPlanId] UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [Code]        NCHAR (10)       NULL,
+    [Name]        NVARCHAR (50)    NULL,
+  +  [SeriaId]     UNIQUEIDENTIFIER NULL,
+    PRIMARY KEY CLUSTERED ([TarifPlanId] ASC), 
+  +  CONSTRAINT [FK_TarifPlan_ToTable] FOREIGN KEY ([SeriaId]) REFERENCES [seria]([seriaid])
+);

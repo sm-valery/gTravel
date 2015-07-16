@@ -23,8 +23,10 @@ namespace gTravel.Models
         public System.Guid TarifPlanId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
+        public Nullable<System.Guid> SeriaId { get; set; }
     
         public virtual ICollection<TarifPlanAgent> TarifPlanAgents { get; set; }
         public virtual ICollection<Tarif> Tarifs { get; set; }
+        public virtual seria seria { get; set; }
     }
 }

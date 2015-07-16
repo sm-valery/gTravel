@@ -280,6 +280,51 @@ namespace gTravel.Controllers
             return View(db.TarifPlans);
         }
 
+        public ActionResult TarifPlanList(Guid tarifplanid)
+        {
+
+            return View();
+        }
+        
+        public ActionResult TarifPlanCreate()
+        {
+            ViewBag.seriaid = new SelectList(db.serias, "SeriaId", "Code");
+
+            return View();
+        }
+
+
+
+        public ActionResult TarifPlanEdit(Guid id)
+        {
+            var tp = db.TarifPlans.SingleOrDefault(x => x.TarifPlanId == id);
+            if (tp == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.seriaid = new SelectList(db.serias, "SeriaId", "Code",tp.SeriaId);
+
+            return View(tp);
+        }
+
+        [HttpPost]
+        public ActionResult TarifPlanEdit(TarifPlan tp)
+        {
+
+            if(ModelState.IsValid)
+            {
+                db.Entry(tp).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("TarifPlan");
+            }
+
+            ViewBag.seriaid = new SelectList(db.serias, "SeriaId", "Code", tp.SeriaId);
+
+            return View(tp);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

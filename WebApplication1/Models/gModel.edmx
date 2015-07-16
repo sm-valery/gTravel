@@ -392,6 +392,7 @@
           <Property Name="TarifPlanId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Code" Type="nchar" MaxLength="10" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="SeriaId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="TarifPlanAgent">
           <Key>
@@ -1031,6 +1032,18 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TarifPlan_ToTable">
+          <End Role="seria" Type="Self.seria" Multiplicity="0..1" />
+          <End Role="TarifPlan" Type="Self.TarifPlan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seria">
+              <PropertyRef Name="SeriaId" />
+            </Principal>
+            <Dependent Role="TarifPlan">
+              <PropertyRef Name="SeriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TarifPlanAgent_Agent">
           <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
           <End Role="TarifPlanAgent" Type="Self.TarifPlanAgent" Multiplicity="*" />
@@ -1407,6 +1420,10 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
             <End Role="Contract" EntitySet="Contract" />
             <End Role="ContractCondition" EntitySet="ContractCondition" />
           </AssociationSet>
+          <AssociationSet Name="FK_TarifPlan_ToTable" Association="Self.FK_TarifPlan_ToTable">
+            <End Role="seria" EntitySet="seria" />
+            <End Role="TarifPlan" EntitySet="TarifPlan" />
+          </AssociationSet>
           <AssociationSet Name="FK_TarifPlanAgent_Agent" Association="Self.FK_TarifPlanAgent_Agent">
             <End Role="Agent" EntitySet="Agent" />
             <End Role="TarifPlanAgent" EntitySet="TarifPlanAgent" />
@@ -1643,6 +1660,10 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <AssociationSet Name="FK_Agent_ToAgent" Association="goDbModel.FK_Agent_ToAgent">
             <End Role="Agent" EntitySet="Agents" />
             <End Role="Agent1" EntitySet="Agents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TarifPlan_ToTable" Association="goDbModel.FK_TarifPlan_ToTable">
+            <End Role="seria" EntitySet="serias" />
+            <End Role="TarifPlan" EntitySet="TarifPlans" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="ConditionSeria">
@@ -2278,6 +2299,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="PrintFunction" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AgentSerias" Relationship="goDbModel.FK_AgentSeria_Toseria" FromRole="seria" ToRole="AgentSeria" />
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_ToTable_1" FromRole="seria" ToRole="Contract" />
+          <NavigationProperty Name="TarifPlans" Relationship="goDbModel.FK_TarifPlan_ToTable" FromRole="seria" ToRole="TarifPlan" />
         </EntityType>
         <Association Name="FK_ConditionSeria_ToSeria">
           <End Type="goDbModel.seria" Role="seria" Multiplicity="0..1" />
@@ -2361,6 +2383,8 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TarifPlanAgents" Relationship="goDbModel.FK_TarifPlanAgent_TarifPlan" FromRole="TarifPlan" ToRole="TarifPlanAgent" />
           <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToTarifPlan" FromRole="TarifPlan" ToRole="Tarif" />
+          <Property Name="SeriaId" Type="Guid" />
+          <NavigationProperty Name="seria" Relationship="goDbModel.FK_TarifPlan_ToTable" FromRole="TarifPlan" ToRole="seria" />
         </EntityType>
         <EntityType Name="TarifPlanAgent">
           <Key>
@@ -2904,6 +2928,18 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TarifPlan_ToTable">
+          <End Type="goDbModel.seria" Role="seria" Multiplicity="0..1" />
+          <End Type="goDbModel.TarifPlan" Role="TarifPlan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seria">
+              <PropertyRef Name="SeriaId" />
+            </Principal>
+            <Dependent Role="TarifPlan">
+              <PropertyRef Name="SeriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3350,6 +3386,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <EntitySetMapping Name="TarifPlans">
             <EntityTypeMapping TypeName="goDbModel.TarifPlan">
               <MappingFragment StoreEntitySet="TarifPlan">
+                <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="TarifPlanId" ColumnName="TarifPlanId" />

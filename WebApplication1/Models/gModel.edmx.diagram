@@ -92,6 +92,7 @@
         <AssociationConnector Association="goDbModel.FK_Table_ToContract" />
         <EntityTypeShape EntityType="goDbModel.v_contract" Width="1.5" PointX="12.375" PointY="21.75" />
         <AssociationConnector Association="goDbModel.FK_Agent_ToAgent" />
+        <AssociationConnector Association="goDbModel.FK_TarifPlan_ToTable" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

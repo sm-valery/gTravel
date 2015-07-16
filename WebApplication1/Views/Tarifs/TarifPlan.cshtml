@@ -7,7 +7,7 @@
 <h3>@ViewBag.Title</h3>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "TarifPlanCreate")
 </p>
 <table class="table">
     <tr>
@@ -17,6 +17,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
+        <td>Серия</td>
         <th></th>
     </tr>
 
@@ -29,8 +30,11 @@
             @Html.ActionLink( item.Name, "TarifPlanList", "Tarifs", new {tarifplanid=item.TarifPlanId },null)
        
         </td>
+       <td>
+           @Html.DisplayFor(m=>item.seria.Code)
+       </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TarifPlanId }) |
+            @Html.ActionLink("Edit", "TarifPlanEdit", new { id = item.TarifPlanId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.TarifPlanId })
         </td>
     </tr>
