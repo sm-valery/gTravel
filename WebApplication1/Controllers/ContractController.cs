@@ -1590,6 +1590,20 @@ namespace gTravel.Controllers
         {
             var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
 
+            bool extrim = db.ContractFactors.Any(x => x.ContractId == contractid && x.Factor.FactorType.Trim()=="extrim");
+
+            ViewBag.PrintMess = "";
+            if (extrim)
+                ViewBag.PrintMess = "Включены риски, связанные с занятием спортом, за исключением скалолазание, каньониг, катание на немаркированных трассах(в т числе фрирайд),heliski.";
+
+
+            StringBuilder territory_string = new StringBuilder();
+            foreach (var t in c.Contract_territory)
+            {
+                territory_string.Append(t.Territory.Name + " ");
+            }
+            ViewBag.territory_string = territory_string.ToString();
+
             new ContractService().OutputPdf(
                 RenderRazorViewToString("print01", c),
                 string.Format("polis01_{0}.pdf", c.contractnumber));
