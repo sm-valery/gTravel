@@ -173,6 +173,13 @@ namespace gTravel.Controllers
 
         }
 
+        public string _print_currate(DateTime cdate, Guid curid)
+        {
+
+
+            return CurrManage.getCurRate(db, curid, cdate).ToString();
+        }
+
         [HttpPost]
         public PartialViewResult _addAgentRow(Guid contractid)
         {
@@ -486,10 +493,22 @@ namespace gTravel.Controllers
                     ModelState.AddModelError(string.Empty, "ФИО страхователя не заполнено!");
 
                 if (!c.Subject.DateOfBirth.HasValue)
+                {
                     ModelState.AddModelError(string.Empty, "Дата рождения страхователя не заполнена!");
-
+                }
+                else
+                {
+                    if (mLib.get_age(c.Subject.DateOfBirth.Value, DateTime.Now) < 18)
+                        ModelState.AddModelError(string.Empty, "Страхователь не может быть моложе 18 лет");
+                }
+                   
                 if (c.date_begin < c.date_out)
                     ModelState.AddModelError(string.Empty, "Дата начала договора не может быть меньше даты выдачи!");
+
+                if (c.tripduration > c.date_diff)
+                    ModelState.AddModelError(string.Empty, "Срок поездки не может быть больше периода страхования!");
+
+
 
                 if (ModelState.IsValid)
                 {
@@ -922,6 +941,14 @@ namespace gTravel.Controllers
             #endregion
 
             #region территория
+            var first_terr = c.Contract_territory.FirstOrDefault();
+            decimal? terr_recsum =0;
+
+            if(first_terr!=null)
+            {
+                terr_recsum = db.Territories.SingleOrDefault(x => x.TerritoryId == first_terr.TerritoryId).RecomInsSum;
+            }
+         
 
             //foreach (var t in c.Contract_territory)
             //{
@@ -964,7 +991,12 @@ namespace gTravel.Controllers
                 foreach (var r in c.ContractRisks)
                 {
                     if (r.isMandatory)
+                    { 
                         r.ischecked = true;
+
+                        r.InsSum = ((!r.InsSum.HasValue || r.InsSum == 0) 
+                            && terr_recsum.HasValue) ? terr_recsum : r.InsSum;
+                   }
 
                     db.Entry(r).State = EntityState.Modified;
                 }
@@ -1596,6 +1628,19 @@ namespace gTravel.Controllers
             if (extrim)
                 ViewBag.PrintMess = "Включены риски, связанные с занятием спортом, за исключением скалолазание, каньониг, катание на немаркированных трассах(в т числе фрирайд),heliski.";
 
+            var contractagent = db.AgentUsers.SingleOrDefault(x => x.UserId == c.UserId);
+
+            ViewBag.HidePremium = false;
+
+            if(contractagent!=null)
+            {
+                var agser = db.AgentSerias.SingleOrDefault(x => x.AgentId == contractagent.AgentId
+                    && x.SeriaId == c.seriaid);
+
+                if (agser != null)
+                    ViewBag.HidePremium = agser.HidePremium;
+            }
+               
 
             StringBuilder territory_string = new StringBuilder();
             foreach (var t in c.Contract_territory)

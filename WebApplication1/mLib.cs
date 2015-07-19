@@ -487,8 +487,16 @@ namespace gTravel
 
             return (diff > 0) ? diff : 0;
         }
-        
 
+        public static int get_age(DateTime dateBirthDay, DateTime dateNow)
+        {
+
+            int year = dateNow.Year - dateBirthDay.Year;
+            if (dateNow.Month < dateBirthDay.Month ||
+                (dateNow.Month == dateBirthDay.Month && dateNow.Day < dateBirthDay.Day)) year--;
+
+            return year;
+        }
 
         
         public static string gender_parse(string gender_code)

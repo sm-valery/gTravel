@@ -220,6 +220,8 @@
         var risk = Model.ContractRisks.FirstOrDefault();
 
         string ins_sum_str = string.Format("{0:N} {1}", risk.InsSum, Model.Currency.code);
+        
+        
     }
 
 
@@ -436,8 +438,17 @@
                     </tr>
                     <tr>
                         <td class="td-left-fat td-right-fat td-bottom-fat rdata">
-                            <span class="rlabel">20,90</span>
-                            EUR
+                            <span class="rlabel">
+                                @if((bool)ViewBag.HidePremium)
+                                {
+                                    @:as agreed
+                                }else{
+                                    @risk.InsPrem @Model.seria.Code
+                                }
+                   
+
+                            </span>
+                        
                         </td>
                     </tr>
                     <tr>

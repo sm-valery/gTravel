@@ -25,6 +25,7 @@ namespace gTravel.Models
         public string Name { get; set; }
         public Nullable<System.Guid> TerritoryGrpId { get; set; }
         public Nullable<System.Guid> ParentId { get; set; }
+        public Nullable<decimal> RecomInsSum { get; set; }
     
         public virtual ICollection<Contract_territory> Contract_territory { get; set; }
         public virtual ICollection<Factor> Factors { get; set; }

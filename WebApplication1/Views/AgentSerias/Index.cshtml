@@ -26,6 +26,7 @@
             <th>
                 Пакет территорий
             </th>
+            <th>Скрывать премию</th>
             <th></th>
         </tr>
 
@@ -42,6 +43,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TerritoryGrp.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HidePremium)
                 </td>
                 <td>
                     @Html.ActionLink("Тариф", "index", "Tarifs", new { agentseriaid = item.AgentSeriaId }, null) |

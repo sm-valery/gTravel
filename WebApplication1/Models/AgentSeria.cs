@@ -25,6 +25,7 @@ namespace gTravel.Models
         public Nullable<System.Guid> SeriaId { get; set; }
         public Nullable<System.Guid> TerritoryGrpId { get; set; }
         public Nullable<decimal> AgentFee { get; set; }
+        public bool HidePremium { get; set; }
     
         public virtual seria seria { get; set; }
         public virtual TerritoryGrp TerritoryGrp { get; set; }

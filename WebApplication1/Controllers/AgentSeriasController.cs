@@ -146,6 +146,9 @@ namespace gTravel.Controllers
             }
             ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code", agentSeria.SeriaId);
             ViewBag.TerritoryGrpId = new SelectList(db.TerritoryGrps, "TerritoryGrpId", "Code", agentSeria.TerritoryGrpId);
+
+           
+
             return View(agentSeria);
         }
 
@@ -164,6 +167,8 @@ namespace gTravel.Controllers
             }
             ViewBag.SeriaId = new SelectList(db.serias, "SeriaId", "Code", agentSeria.SeriaId);
             ViewBag.TerritoryGrpId = new SelectList(db.TerritoryGrps, "TerritoryGrpId", "Code", agentSeria.TerritoryGrpId);
+
+            agentSeria.seria = db.serias.Find(agentSeria.SeriaId);
 
             return View(agentSeria);
 

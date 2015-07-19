@@ -8,3 +8,26 @@ CREATE TABLE [dbo].[TarifPlan] (
     PRIMARY KEY CLUSTERED ([TarifPlanId] ASC), 
   +  CONSTRAINT [FK_TarifPlan_ToTable] FOREIGN KEY ([SeriaId]) REFERENCES [seria]([seriaid])
 );
+
+CREATE TABLE [dbo].[Territory] (
+    [TerritoryId]    UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [Name]           VARCHAR (512)    NULL,
+    [TerritoryGrpId] UNIQUEIDENTIFIER NULL,
+    [ParentId]       UNIQUEIDENTIFIER NULL,
+    +[RecomInsSum]    DECIMAL (18)     NULL,
+    PRIMARY KEY CLUSTERED ([TerritoryId] ASC)
+);
+
+
+CREATE TABLE [dbo].[AgentSeria] (
+    [AgentSeriaId]   UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [AgentId]        UNIQUEIDENTIFIER NULL,
+    [SeriaId]        UNIQUEIDENTIFIER NULL,
+    [TerritoryGrpId] UNIQUEIDENTIFIER NULL,
+    [AgentFee]       NUMERIC (18)     NULL,
+    +[HidePremium] BIT NULL DEFAULT 0 NOT NULL, 
+    PRIMARY KEY CLUSTERED ([AgentSeriaId] ASC),
+    CONSTRAINT [FK_AgentSeria_ToAgent] FOREIGN KEY ([AgentId]) REFERENCES [dbo].[Agent] ([AgentId]),
+    CONSTRAINT [FK_AgentSeria_ToTerritoryGrp] FOREIGN KEY ([TerritoryGrpId]) REFERENCES [dbo].[TerritoryGrp] ([TerritoryGrpId]),
+    CONSTRAINT [FK_AgentSeria_Toseria] FOREIGN KEY ([SeriaId]) REFERENCES [dbo].[seria] ([SeriaId])
+);

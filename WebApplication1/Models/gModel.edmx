@@ -41,6 +41,7 @@
           <Property Name="SeriaId" Type="uniqueidentifier" />
           <Property Name="TerritoryGrpId" Type="uniqueidentifier" />
           <Property Name="AgentFee" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="HidePremium" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="AgentUser">
           <Key>
@@ -419,6 +420,7 @@
           <Property Name="Name" Type="varchar" MaxLength="512" />
           <Property Name="TerritoryGrpId" Type="uniqueidentifier" />
           <Property Name="ParentId" Type="uniqueidentifier" />
+          <Property Name="RecomInsSum" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="TerritoryGrp">
           <Key>
@@ -1924,6 +1926,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <Property Name="ParentId" Type="Guid" />
           <NavigationProperty Name="Factors" Relationship="goDbModel.FK_Factors_ToTerritory" FromRole="Territory" ToRole="Factor" />
           <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToTerritory" FromRole="Territory" ToRole="Tarif" />
+          <Property Name="RecomInsSum" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         <Association Name="FK_Contract_territory_ToTerritory">
           <End Type="goDbModel.Territory" Role="Territory" Multiplicity="0..1" />
@@ -2434,6 +2437,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <NavigationProperty Name="Factors" Relationship="goDbModel.FK_Factors_ToAgentSeria" FromRole="AgentSeria" ToRole="Factor" />
           <Property Name="AgentFee" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToAgentSeria" FromRole="AgentSeria" ToRole="Tarif" />
+          <Property Name="HidePremium" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_AgentSeria_Toseria">
           <End Type="goDbModel.seria" Role="seria" Multiplicity="0..1" />
@@ -3120,6 +3124,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <EntitySetMapping Name="Territories">
             <EntityTypeMapping TypeName="goDbModel.Territory">
               <MappingFragment StoreEntitySet="Territory">
+                <ScalarProperty Name="RecomInsSum" ColumnName="RecomInsSum" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="TerritoryGrpId" ColumnName="TerritoryGrpId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3405,6 +3410,7 @@ warning 6002: The table/view 'C:\USERS\VALERY\SOURCE\REPOS\GTRAVEL\WEBAPPLICATIO
           <EntitySetMapping Name="AgentSerias">
             <EntityTypeMapping TypeName="goDbModel.AgentSeria">
               <MappingFragment StoreEntitySet="AgentSeria">
+                <ScalarProperty Name="HidePremium" ColumnName="HidePremium" />
                 <ScalarProperty Name="AgentFee" ColumnName="AgentFee" />
                 <ScalarProperty Name="TerritoryGrpId" ColumnName="TerritoryGrpId" />
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />

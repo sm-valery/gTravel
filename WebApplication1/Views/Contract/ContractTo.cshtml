@@ -400,10 +400,29 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                         Html.RenderAction("_RiskProgram", new { riskid = risk.RiskId, seriaid = Model.seriaid, idx = risk_num, progid = risk.RiskProgramId });
 
                                 }
-                                <div style="white-space:nowrap;">
+                                <div id="div-ins-sum" style="white-space:nowrap;">
                                     <label class="small risk-label1">Страховая сумма</label>
-                                    @Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum, new { @class = "form-control input-sm input-value", placeholder = "Страх. сумма" })
-                                </div>
+                        
+                                    <input class="form-control input-sm input-value"
+                                           id="@string.Format("ContractRisks_{0}__InsSum", risk_num)"
+                                           name="@string.Format("ContractRisks[{0}].InsSum",risk_num)"
+                                           placeholder="Страх. сумма" type="text" value="@risk.InsSum"
+                                           data-toggle="popover"
+                                           data-content="Если не заполнено, используется рекомендуемая для выбранной территории сумма"
+                                           data-placement="top"
+                                           title="">
+                                    
+                                    @*@Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum,
+               new { htmlAttributes = new { @class = "form-control input-sm input-value" ,
+                   data-toggle="tooltip",
+                   placeholder = "Страх. сумма"},
+              }
+                                    )*@
+                                    
+                                  
+                                 </div>
+                      
+                                
                                 @{
                         //франшиза
                         Html.RenderAction("_RiskFranchise", new {seriaid = Model.seriaid, riskid = risk.RiskId, FranshPerc = risk.FranshPerc, idx = risk_num });
@@ -536,14 +555,31 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 Премия, @Model.Currency.code
                             </div>
                             <div class="col-lg-3 input-value">@contract_prem </div>
+                            <div class="col-xs-3">
+                                Вознаграждение СК по договору, @Model.Currency.code:
+                            </div>
+                            <div class="col-lg-3 input-value">@contract_fee</div>
                         </div>
                         <div class="row">
                             <div class="col-xs-3">
                                 Премия, руб:
                             </div>
                             <div class="col-lg-3 input-value">@contract_prem_rur </div>
+                            <div class="col-xs-3">
+                                Вознаграждение СК по договору, руб:
+                            </div>
+                            <div class="col-lg-3 input-value">@contract_fee_rur</div>
                         </div>
                         <div class="row">
+                            <div class="col-xs-3">
+                                Курс на дату выдачи:
+                                <span class="input-value">@{
+    Html.RenderAction("_print_currate", new { cdate = Model.date_out, curid = Model.currencyid});
+                                        }</span>
+                            </div>
+                            
+                        </div>
+                        @*<div class="row">
                             <div class="col-xs-3">
                                 Вознаграждение СК по договору:
                             </div>
@@ -554,7 +590,10 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 Вознаграждение СК по договору, руб:
                             </div>
                             <div class="col-lg-3 input-value">@contract_fee_rur</div>
-                        </div>
+                            <div>
+                                Курс на дату выдачи:
+                            </div>
+                        </div>*@
 
 
 
@@ -670,7 +709,17 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
     $(function () {
 
 
-
+        $("#div-ins-sum").children("input").on("focus", function () {
+            //if (this.value == "")
+           // {
+                $(this).popover();
+            //}
+            
+        });
+        $("#div-ins-sum").children("input").on("focusout", function () {
+            $(this).popover("hide");
+        });
+      
         $("#Contract_territory_chosen").chosen().change(function () {
             
             var territorylist = "";
