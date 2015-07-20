@@ -326,41 +326,11 @@ namespace gTravel.Controllers
             ViewBag.TerritoryId = new MultiSelectList(db.Territories.ToList(),
                 "TerritoryId", "name", selectedterritory);
 
+            ViewBag.isic = mLib.AgentInRole(currentuserid, "IC");
 
-            ViewBag.isic = mLib.AgentInRole(currentuserid, "IC");      
-            /*
-             * 
-              string userid = User.Identity.GetUserId();
-                userserias = db.v_agentseria.Where(x => x.UserId == userid).ToList();
-*/
-
-            //var aa = from ags in db.AgentSerias 
-            //         where ags.SeriaId ==
-
-            //ViewBag.hasFactorContrat = db.Factors
+            ViewBag.RiskSeria = db.RiskSerias.Where(x => x.SeriaId == c.seriaid).ToList();
         }
 
-        //public PartialViewResult build_contract_territory(Guid? ContractTerritoryId, Guid? contractid)
-        //{
-        //    var t = db.Contract_territory.FirstOrDefault(x => x.ContractTerritoryId == ContractTerritoryId);
-
-
-        //    if (t == null)
-        //    {
-        //        t = new Contract_territory();
-        //        t.ContractId = contractid.Value;
-        //        t.ContractTerritoryId = Guid.NewGuid();
-        //        ViewBag.TerritoryId = new MultiSelectList(db.Territories.ToList(), "TerritoryId", "name");
-
-        //    }
-        //    else
-        //    {
-        //        ViewBag.TerritoryId = new MultiSelectList(db.Territories.ToList(), "TerritoryId", "name", db.Contract_territory.Where(x=>x.ContractId == contractid));
-
-        //    }
-
-        //    return PartialView(t);
-        //}
 
         [UserIdFilter]
         public ActionResult Contract_create(string userid, Guid seriaid)

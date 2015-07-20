@@ -10,6 +10,21 @@ CREATE TABLE [dbo].[RiskProgram] (
     PRIMARY KEY CLUSTERED ([RiskProgramId] ASC)
 );
 
+CREATE TABLE [dbo].[RiskSeria] (
+    [RiskSeriaId]   UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [RiskId]        UNIQUEIDENTIFIER NULL,
+    [SeriaId]       UNIQUEIDENTIFIER NULL,
+    [isMandatory]   BIT              DEFAULT ((0)) NOT NULL,
+    [sort]          INT              DEFAULT ((0)) NULL,
+    [InsSumDefauld] NUMERIC (18)     DEFAULT ((0)) NULL,
+    [TypeTarif]     INT              DEFAULT ((0)) NULL,
+    [hasFranchise]  INT              DEFAULT ((0)) NULL,
++    [InsSumReadOnly] BIT NULL DEFAULT 1, 
+    PRIMARY KEY CLUSTERED ([RiskSeriaId] ASC)
+);
+
+
+
 
 --16.07.2015 done
 --create view vAgents
