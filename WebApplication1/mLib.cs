@@ -187,6 +187,8 @@ namespace gTravel.Models
 
         }
 
+
+
         public bool add_contract(string userid)
         {
             var seria = db.serias.FirstOrDefault(x => x.SeriaId == seriaid);
@@ -240,6 +242,9 @@ namespace gTravel.Models
 
             foreach (var item in cr)
             {
+                //
+                var rp = db.RiskPrograms.OrderBy(o=>o.Num).FirstOrDefault(x => x.RiskSeriaId == item.RiskSeriaId);
+
                 ContractRisk item_rs = new ContractRisk();
 
                 item_rs.ContractRiskId = Guid.NewGuid();
@@ -252,6 +257,15 @@ namespace gTravel.Models
                 item_rs.sort = item.sort;
                 item_rs.isMandatory = item.isMandatory;
                 item_rs.ischecked = item.isMandatory;
+
+                if(rp!=null)
+                {
+                    item_rs.RiskProgramId = rp.RiskProgramId;
+                    item_rs.InsSum = rp.DefaultInsSum;
+                }
+                    
+
+              
 
                 db.ContractRisks.Add(item_rs);
             }

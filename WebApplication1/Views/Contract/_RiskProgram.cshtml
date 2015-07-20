@@ -5,7 +5,7 @@
     var RiskProgramId = (SelectList)ViewBag.RiskProgramId;
 }
 
-<div style="white-space:nowrap;">
+<div id="div-program" style="white-space:nowrap;">
     @if (RiskProgramId.Count() > 1)
     {
         <label class="small risk-label1">Программа</label>
@@ -19,3 +19,4 @@
     }
 
 </div>
+

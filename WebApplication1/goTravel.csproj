@@ -671,6 +671,7 @@
     <Content Include="Views\Tarifs\TarifPlan.cshtml" />
     <Content Include="Views\Tarifs\TarifPlanEdit.cshtml" />
     <Content Include="Views\Tarifs\TarifPlanCreate.cshtml" />
+    <Content Include="Views\Contract\print01blank.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -25,6 +25,7 @@ namespace gTravel.Models
         public string Name { get; set; }
         public Nullable<decimal> DefaultInsSum { get; set; }
         public bool InsSumInList { get; set; }
+        public Nullable<int> Num { get; set; }
     
         public virtual ICollection<ContractRisk> ContractRisks { get; set; }
     }

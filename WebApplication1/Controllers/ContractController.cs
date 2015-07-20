@@ -144,7 +144,7 @@ namespace gTravel.Controllers
                            join rp in db.RiskPrograms on rs.RiskSeriaId equals rp.RiskSeriaId
                            where rs.RiskId == riskid
                            && rs.SeriaId == seriaid
-                           orderby rp.ProgramCode
+                           orderby rp.Num
                            select rp;
 
             if(progid.HasValue)
@@ -179,6 +179,19 @@ namespace gTravel.Controllers
 
             return CurrManage.getCurRate(db, curid, cdate).ToString();
         }
+
+        public string _program_changed(Guid programid)
+        {
+            string ss = "";
+
+            var prg = db.RiskPrograms.FirstOrDefault(x => x.RiskProgramId==programid);
+
+            if (prg != null && prg.DefaultInsSum > 0)
+                ss = prg.DefaultInsSum.ToString();
+
+            return ss;
+        }
+
 
         [HttpPost]
         public PartialViewResult _addAgentRow(Guid contractid)
@@ -1618,7 +1631,7 @@ namespace gTravel.Controllers
 //            doc.Close();
 //        }
 
-        public void print01(Guid contractid)
+        public void print01(Guid contractid, decimal blanktype=1)
         {
             var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
 
@@ -1649,9 +1662,14 @@ namespace gTravel.Controllers
             }
             ViewBag.territory_string = territory_string.ToString();
 
+            string viewname = (blanktype == 0) ? "print01blank" : "print01";
+            string filename = string.Format("{1}01_{0}.pdf", c.contractnumber,
+                (blanktype == 0)?"polis":"blank");
+
             new ContractService().OutputPdf(
-                RenderRazorViewToString("print01", c),
-                string.Format("polis01_{0}.pdf", c.contractnumber));
+                RenderRazorViewToString(viewname, c),
+                filename
+               );
 
         }
 
@@ -1675,6 +1693,13 @@ namespace gTravel.Controllers
                     territory_string.Append(t.Territory.Name + " ");
                 }
                 ViewBag.territory_string = territory_string.ToString();
+
+                bool extrim = db.ContractFactors.Any(x => x.ContractId == contractid && x.Factor.FactorType.Trim() == "extrim");
+
+                ViewBag.PrintMess = "";
+                if (extrim)
+                    ViewBag.PrintMess = "спорт за исключением скалолазание, каньонинг, катание на немаркированных трассах (в т.ч. фрирайд), бейсджампинг, heliski . Включены риски, связанные с ездой на мототранспортных средствах";
+
 
               ViewBag.agentname  = mLib.GetCurrentUserAgent(userid).Name;
                 //

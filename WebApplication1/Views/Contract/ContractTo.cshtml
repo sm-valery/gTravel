@@ -404,11 +404,12 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                     <label class="small risk-label1">Страховая сумма</label>
                         
                                     <input class="form-control input-sm input-value"
+                                           disabled
                                            id="@string.Format("ContractRisks_{0}__InsSum", risk_num)"
                                            name="@string.Format("ContractRisks[{0}].InsSum",risk_num)"
                                            placeholder="Страх. сумма" type="text" value="@risk.InsSum"
                                            data-toggle="popover"
-                                           data-content="Если не заполнено, используется рекомендуемая для выбранной территории сумма"
+                                           data-content="Если не заполнено, используется рекомендуемая страховая сумма"
                                            data-placement="top"
                                            title="">
                                     
@@ -556,7 +557,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             </div>
                             <div class="col-lg-3 input-value">@contract_prem </div>
                             <div class="col-xs-3">
-                                Вознаграждение СК по договору, @Model.Currency.code:
+                                Премия СК по договору, @Model.Currency.code:
                             </div>
                             <div class="col-lg-3 input-value">@contract_fee</div>
                         </div>
@@ -566,7 +567,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             </div>
                             <div class="col-lg-3 input-value">@contract_prem_rur </div>
                             <div class="col-xs-3">
-                                Вознаграждение СК по договору, руб:
+                                Премия СК по договору, руб:
                             </div>
                             <div class="col-lg-3 input-value">@contract_fee_rur</div>
                         </div>
@@ -623,7 +624,8 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
             }
             @if (Model.ContractStatu.Status.Code == "confirmed")
             {
-                @Html.ActionLink("Печать", Model.seria.PrintFunction, new { contractid = Model.ContractId }, new { @class = "btn btn-info" })
+                @Html.ActionLink("Электронный полис", Model.seria.PrintFunction, new { contractid = Model.ContractId, blanktype = 1 }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Бланк", Model.seria.PrintFunction, new { contractid = Model.ContractId, blanktype = 0 }, new { @class = "btn btn-info" })
             }
             @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
             @if (User.IsInRole("Admin"))
@@ -708,20 +710,32 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
     $(function () {
 
+        $("#div-program").children("select").change(function (e) {
+            $.ajax({
+                url: '@Url.Action("_program_changed", "Contract")',
+                type: 'GET',
+                data: { programid: $(this).val() },
+                success: function(data)
+                {
+                    $("#ContractRisks_0__InsSum").val(data);
+                }
+            });
+        })
+
 
         $("#div-ins-sum").children("input").on("focus", function () {
             //if (this.value == "")
            // {
                 $(this).popover();
             //}
-            
+
         });
         $("#div-ins-sum").children("input").on("focusout", function () {
             $(this).popover("hide");
         });
-      
+
         $("#Contract_territory_chosen").chosen().change(function () {
-            
+        
             var territorylist = "";
 
             if ($(this).val() != null)
@@ -735,6 +749,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     //$("#bonus_wait").show();
                 },
                 success: function (data) {
+
                     $("#Contract_territory_content").html(data);
 
                     // riskobj.children(".risk_bonus_content").html(data);
@@ -754,7 +769,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
             var dob = $("#Subject_DateOfBirth").val();
             var pas = $("#Subject_Pasport").val();
 
-            add_insrow(fam, dob,pas);
+            add_insrow(fam, dob, pas);
             e.preventDefault();
         });
 
@@ -793,7 +808,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
             var riskobj = $(this).parent().parent().parent().parent();
             var discounts = riskobj.parent();
-           
+
             var risk_id = riskobj.attr("id").toString().replace('risk_bonus_', '');
 
             $.ajax({
@@ -804,7 +819,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     $("#bonus_wait").show();
                 },
                 success: function (data) {
-       
+
                     discounts.children(".risk_bonus_content").html(data);
                     bind_bonus();
                 }

@@ -1,4 +1,17 @@
-﻿--16.07.2015
+﻿20.07.2015
+CREATE TABLE [dbo].[RiskProgram] (
+    [RiskProgramId] UNIQUEIDENTIFIER NOT NULL,
+    [ProgramCode]   NCHAR (20)       NULL,
+    [RiskSeriaId]   UNIQUEIDENTIFIER NULL,
+    [Name]          VARCHAR (50)     NULL,
+    [DefaultInsSum] MONEY            NULL,
+    [InsSumInList]  BIT              DEFAULT ((0)) NOT NULL,
+   + [Num] INT NULL DEFAULT 0, 
+    PRIMARY KEY CLUSTERED ([RiskProgramId] ASC)
+);
+
+
+--16.07.2015 done
 --create view vAgents
 CREATE TABLE [dbo].[TarifPlan] (
     [TarifPlanId] UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
