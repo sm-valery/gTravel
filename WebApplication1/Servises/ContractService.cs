@@ -257,7 +257,7 @@ namespace gTravel.Servises
             converter.Options.MarginBottom = 20;
             converter.Options.MarginLeft = 20;
             converter.Options.MarginRight = 20;
-            converter.Options.MarginTop = 20;
+            converter.Options.MarginTop = 10;
 
             var doc = converter.ConvertHtmlString(htmlContent);
 

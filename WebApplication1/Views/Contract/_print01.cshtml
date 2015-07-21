@@ -1,0 +1,210 @@
+﻿@functions{
+
+    string get_instableclass(bool lastrecord)
+    {
+        return (lastrecord) ? "td-bottom-fat" : "";
+    }
+}
+
+@model gTravel.Models.Contract
+
+@{
+    int isb = 0;
+    int maxrows = 9;
+
+}
+
+@{
+    var risk = Model.ContractRisks.FirstOrDefault();
+
+    string ins_sum_str = string.Format("{0:N} {1}", risk.InsSum, Model.Currency.code);
+
+
+}
+
+<div class="col_center">
+    <table class="table-polis">
+        <tr>
+            <td class="td-left-fat td-top-fat td-bottom-fat">
+                <span class="rlabel">
+                    СТРАХОВАТЕЛЬ
+                </span>
+                <div class="elabel">INSURED</div>
+                <span class="ftext">@Model.Subject.Name1                           </span>
+            </td>
+            <td class="td-left-thin td-top-fat td-bottom-fat">
+                <div class="rlabel">
+                    ДАТА РОЖДЕНИЯ
+                </div>
+                <div class="elabel">DATE OF BIRTH</div>
+                <div class="etext">@Model.Subject.DateOfBirth.Value.ToShortDateString()</div>
+            </td>
+            <td class="td-left-thin td-top-fat td-bottom-fat">
+                <div class="rlabel">
+                    ПАСПОРТ
+                </div>
+                <div class="elabel">PASSPORT</div>
+                <div class="ftext">@Model.Subject.Pasport</div>
+            </td>
+            <td class="td-left-thin td-top-fat td-bottom-fat td-right-fat">
+                <div class="rlabel">
+                    АДРЕС/ТЕЛ
+                </div>
+                <div class="elabel">ADDRESS/TEL</div>
+                <div class="ftext">
+                    @Model.Subject.Address
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table class="table-polis" style="margin-top:5px;">
+        <tr>
+            <th class="td-left-fat td-top-fat">
+                <div class="rlabel">Застрахованные</div>
+                <div class="elabel">Insured</div>
+            </th>
+            <th class="td-left-thin td-top-fat">
+                <div class="rlabel">
+                    ДАТА РОЖДЕНИЯ
+                </div>
+                <div class="elabel">DATE OF BIRTH</div>
+            </th>
+            <th class="td-left-thin td-top-fat">
+                <div class="rlabel">
+                    ПАСПОРТ
+                </div>
+                <div class="elabel">PASSPORT</div>
+            </th>
+            <th class="td-left-thin td-top-fat">
+                <div class="rlabel">
+                    Страховая сумма*
+                </div>
+                <div class="elabel">
+                    SUM INSURED
+                </div>
+            </th>
+            @*<td class="td-left-thin td-top-fat">
+                    <div class="rlabel">Франшиза</div>
+                    <div class="elabel">DEDUCTIBLE</div>
+
+
+                </td>*@
+            <th class="td-left-thin td-top-fat">
+                <div class="rlabel">Скидки/Надбавки</div>
+            </th>
+            <th class="td-left-thin td-right-fat td-top-fat">
+                <div class="rlabel">
+                    Франшиза
+                </div>
+            </th>
+        </tr>
+        @if (Model.Subjects.Count() > maxrows)
+        {
+            isb++;
+            <tr>
+                <td colspan="6" class="td-left-fat td-top-thin td-right-fat">список в количестве @Model.Subjects.Count() прилагается</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var subj in Model.Subjects)
+            {
+                isb++;
+                <tr>
+                    <td class="data td-left-fat td-top-thin @get_instableclass(isb == maxrows)">
+                        @subj.Name1
+                    </td>
+                    <td class="td-left-thin td-top-thin @get_instableclass(isb == maxrows)">
+                        @subj.DateOfBirth.Value.ToShortDateString()
+                    </td>
+                    <td class="data td-left-thin td-top-thin @get_instableclass(isb == maxrows)">
+                        @subj.Pasport
+                    </td>
+                    <td class="td-left-thin td-top-thin @get_instableclass(isb == maxrows)">
+                        @*@risk.InsSum @Model.Currency.code*@
+                        @ins_sum_str
+                    </td>
+                    <td class="td-left-thin td-top-thin  @get_instableclass(isb == maxrows)">-</td>
+                    <td class="td-left-thin td-top-thin td-right-fat @get_instableclass(isb == maxrows)">0</td>
+                </tr>
+            }
+        }
+        @*пустые строки*@
+        @for (int ibx = isb; ibx <= maxrows; ibx++)
+        {
+            <tr>
+                <td class="td-left-fat td-top-thin @get_instableclass(ibx==maxrows)"></td>
+                <td class="td-left-thin td-top-thin @get_instableclass(ibx == maxrows)"></td>
+                <td class="td-left-thin td-top-thin @get_instableclass(ibx == maxrows)"></td>
+                <td class="td-left-thin td-top-thin @get_instableclass(ibx == maxrows)"></td>
+                <td class="td-left-thin td-top-thin @get_instableclass(ibx == maxrows)">-</td>
+                <td class="td-left-thin td-top-thin td-right-fat @get_instableclass(ibx == maxrows)"></td>
+            </tr>
+        }
+    </table>
+    <div class="polis-small">* Медицинские,транспортные и иные расходы за исключением риска утраты багажа и рисков с юридической помощью</div>
+</div>
+<div class="col_right">
+    <table class="table-polis">
+        <tr>
+            <td class="td-left-fat td-top-fat td-right-fat">
+                <div class="rlabel">
+                    Территория действия
+                </div>
+                VALID IN
+            </td>
+        </tr>
+        <tr>
+            <td class="td-left-fat td-right-fat td-bottom-thin rdata">
+
+                @ViewBag.territory_string
+            </td>
+        </tr>
+        <tr>
+            <td class="td-left-fat td-right-fat">
+                <div class="rlabel"> Период действия</div>
+                POLICY VALIDITY PERIOD
+            </td>
+        </tr>
+        <tr>
+            <td class="td-left-fat td-right-fat td-bottom-thin rdata">
+                <div class="rlabel">@Model.date_begin.Value.ToShortDateString() >> @Model.date_end.Value.ToShortDateString() (@Model.tripduration)</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="td-left-fat td-right-fat">
+                <div class="rlabel">Страховая премия</div>
+                INSURANCE PREMIUM
+            </td>
+        </tr>
+        <tr>
+            <td class="td-left-fat td-right-fat  rdata">
+                <span class="rlabel">
+                    @if ((bool)ViewBag.HidePremium)
+                    {
+                        @:as agreed
+                                }
+                    else
+                    {
+                        @risk.InsPrem @Model.seria.Code
+                    }
+
+                </span>
+
+            </td>
+        </tr>
+        <tr>
+            <td class="td-left-fat td-top-thin td-right-fat td-bottom-fat">
+                <span class="rlabel">Дата выдачи: </span>
+                @Model.date_out.Value.ToShortDateString()
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="rlabel">Особые условия:</span>
+                <span>@ViewBag.PrintMess</span>
+            </td>
+        </tr>
+    </table>
+</div>
+

@@ -1600,8 +1600,8 @@ namespace gTravel.Controllers
 //            // close pdf document
 //            doc.Close();
 //        }
-
-        public void print01(Guid contractid, decimal blanktype=1)
+        [UserIdFilter]
+        public void print01(Guid contractid,string userid, decimal blanktype=1)
         {
             var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
 
@@ -1634,7 +1634,9 @@ namespace gTravel.Controllers
 
             string viewname = (blanktype == 0) ? "print01blank" : "print01";
             string filename = string.Format("{1}01_{0}.pdf", c.contractnumber,
-                (blanktype == 0)?"polis":"blank");
+                (blanktype == 0) ? "blank" : "polis");
+
+            ViewBag.agentname = mLib.GetCurrentUserAgent(userid).Name;
 
             new ContractService().OutputPdf(
                 RenderRazorViewToString(viewname, c),
@@ -1655,6 +1657,8 @@ namespace gTravel.Controllers
 
             using(ContractService cs= new ContractService())
             {
+                
+
                 ViewBag.RisksPrintList = cs.get_diver_risksum(c.tripduration, risk.RiskProgram.ProgramCode.Trim(), c.Currency.code);
 
                 StringBuilder territory_string = new StringBuilder();
@@ -1666,10 +1670,17 @@ namespace gTravel.Controllers
 
                 bool extrim = db.ContractFactors.Any(x => x.ContractId == contractid && x.Factor.FactorType.Trim() == "extrim");
 
-                ViewBag.PrintMess = "";
-                if (extrim)
-                    ViewBag.PrintMess = "спорт за исключением скалолазание, каньонинг, катание на немаркированных трассах (в т.ч. фрирайд), бейсджампинг, heliski . Включены риски, связанные с ездой на мототранспортных средствах";
+                bool techno = db.ContractFactors.Any(x => x.ContractId == contractid && x.Factor.FactorType.Trim() == "technodive");
 
+                string printmess = "в страховое покрытие не включены никакие дополнительные условия";
+
+                if (extrim)
+                    printmess = "спорт за исключением скалолазание, каньонинг, катание на немаркированных трассах (в т.ч. фрирайд), бейсджампинг, heliski . Включены риски, связанные с ездой на мототранспортных средствах";
+
+                if (techno)
+                    printmess = "в страховое покрытие включены риски, связанные с занятием техно-дайвингом.";
+
+                ViewBag.PrintMess = printmess;
 
               ViewBag.agentname  = mLib.GetCurrentUserAgent(userid).Name;
                 //

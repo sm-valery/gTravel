@@ -131,7 +131,25 @@
                 @Html.ActionLink("Открыть", "Contract_edit", new { contractid = item.ContractId }, new { @class = "btn btn-default btn-sm" })
                 @if(item.status_code=="confirmed")
                 {
-                    @Html.ActionLink("Печать", item.PrintFunction, new { contractid = item.ContractId }, new { @class = "btn btn-default btn-sm" })
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                            Печать<span class="caret"></span>
+                        </button>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                @Html.ActionLink("На бланке", item.PrintFunction, new { contractid = item.ContractId, blanktype = 0})
+
+
+                            </li>
+                            <li>
+                                @Html.ActionLink("Электронный полис", item.PrintFunction, new { contractid = item.ContractId, blanktype = 1 })
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    
+                    @*@Html.ActionLink("Печать", item.PrintFunction, new { contractid = item.ContractId }, new { @class = "btn btn-default btn-sm" })*@
                 }
                 @Html.ActionLink("История", "history", new { id = item.ContractId }, new { @class = "btn btn-default btn-sm" })
             </td>

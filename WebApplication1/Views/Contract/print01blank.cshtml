@@ -18,13 +18,15 @@
         body {
             font-family: Arial;
             width: 1000px;
-            padding-top:50px;
+            padding-top:10px;
+
         }
+
 
         .blank-separator
         {
             display:block;
-            height:50px;
+            height:70px;
         }
 
 
@@ -226,12 +228,21 @@
         isb = 0;
 
 
+        <div style="padding-left:680px; margin-bottom:10px;" class="polis-num">
+                @Model.seria.Code
+        </div>
+
+                <div style="padding-left:300px;" class="polis-small">
+                    Настоящий полис  выдан на основании Правил страхования непредвиденных расходов граждан на время путешествий, утвержденных   ООО «СК «ТИТ» от 01.07.2014г.
+                </div>
+
 
         <div class="container">
             <div class="col_left">
 &nbsp;
             </div>
             <div class="col_center">
+            
                 <table class="table-polis">
                     <tr>
                         <td class="td-left-fat td-top-fat td-bottom-fat">
@@ -402,6 +413,13 @@
 
                         </td>
                     </tr>
+
+                    <tr>
+                        <td class="td-left-fat td-top-fat td-right-fat td-bottom-fat">
+                            <span class="rlabel">Дата выдачи: </span>
+                            @Model.date_out.Value.ToShortDateString()
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <span class="rlabel">Особые условия:</span>
@@ -412,11 +430,25 @@
             </div>
         </div>
 
-        <div class="clear polis-small">
+        <div style="padding-left:50px;" class="clear polis-small">
             <table class="table-polis">
                 <tr>
                     <td class="polis-small" style="width:55%">
-                        Настоящий полис  выдан на основании Правил страхования непредвиденных расходов граждан на время путешествий, утвержденных   ООО «СК «ТИТ» от 01.07.2014г.
+                        В соответствии с Федеральным законом «О персональных данных» от
+
+                        27.07.2006 г. № 152-ФЗ предоставляю согласие на обработку
+
+                        Страховщиком персональных данных на срок действия договора и в
+
+                        течении 5(пяти) лет с даты его прекращения.  С Правилами страхования
+
+                        ознакомлен, согласен и экземпляр  Правил страхования получил. С
+
+                        использованием Страховщиком факсимильной печати  и
+
+                        факсимильной подписи его представителя
+
+                        согласен__________(подпись
                     </td>
                     <td class="polis-small" style="white-space:nowrap;">
                         __________________________
@@ -433,9 +465,12 @@
             </table>
         </div>
 
+        if(i<2)
+        { 
     <div class="blank-separator">
         &nbsp;
     </div>
+        }
     }
     
 </body>
