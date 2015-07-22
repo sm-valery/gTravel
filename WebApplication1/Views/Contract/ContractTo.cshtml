@@ -301,7 +301,7 @@
 
                     <span class="form-field">
                         <label >Адрес/тел:</label>
-                        @Html.TextAreaFor(m => Model.Subject.Address, new { @class = "form-control input-sm input-value" })
+                        @Html.TextAreaFor(m => Model.Subject.Address, new { @class = "form-control input-sm input-value ", rows = "3" , cols ="30"})
                     </span>
                 </div>
             </fieldset>
@@ -410,7 +410,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                            @{
                                                if((bool)crisk_settings.InsSumReadOnly)
                                                {
-                                                   @:disabled
+                                                   @:readonly
                                                }
                                            }
                                            id="@string.Format("ContractRisks_{0}__InsSum", risk_num)"

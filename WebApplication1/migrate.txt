@@ -1,4 +1,4 @@
-﻿20.07.2015
+﻿--20.07.2015 done
 CREATE TABLE [dbo].[RiskProgram] (
     [RiskProgramId] UNIQUEIDENTIFIER NOT NULL,
     [ProgramCode]   NCHAR (20)       NULL,

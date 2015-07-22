@@ -1,0 +1,249 @@
+﻿@model gTravel.Models.Contract
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ViewPdf</title>
+    <style>
+        body {
+            font-family: Arial;
+            width: 1000px;
+            padding-top:28px;
+        }
+
+        .blank-separator
+        {
+            display:block;
+            height:90px;
+        }
+
+        .img-tit {
+            width: 150px;
+        }
+
+        .stamp {
+            width: 20%;
+            position: absolute;
+            z-index: -1000;
+        }
+
+        .polis-separator {
+            background-color: darkslateblue;
+            height: 10px;
+            font-size: 10px;
+            text-align: center;
+            color: white;
+        }
+
+        .polis-caption {
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .polis-small {
+            font-size: 8px;
+        }
+
+        .polis-num {
+            font-size: 24px;
+            white-space: nowrap;
+        }
+
+        .table-polis {
+            font-size: 12px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            .table-polis td {
+                padding-left: 10px;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+
+
+        .td-left-fat {
+            border-left: solid 3px dimgray;
+        }
+
+        .td-top-fat {
+            border-top: solid 3px dimgray;
+        }
+
+        .td-bottom-fat {
+            border-bottom: solid 3px dimgray;
+        }
+
+        .td-right-fat {
+            border-right: solid 3px dimgray;
+        }
+
+        .td-top-thin {
+            border-top: solid thin dimgray;
+        }
+
+        .td-bottom-thin {
+            border-bottom: solid thin dimgray;
+        }
+
+        .td-right-thin {
+            border-right: solid thin dimgray;
+        }
+
+        .td-left-thin {
+            border-left: solid thin dimgray;
+        }
+
+        .td-big {
+            height: 40px;
+        }
+
+        .img-polis-forwhom {
+            /* width: 25px;
+           padding-left: 5px;*/
+        }
+
+
+        .text-m {
+            font-size: 10px;
+        }
+
+        .text-footer {
+            font-size: 12px;
+        }
+
+        .container {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+            .container .rlabel {
+                font-weight: bold;
+            }
+
+            .container .elabel {
+                font-weight: normal;
+                font-size: 8px;
+            }
+
+            .container .etext {
+                margin-top: 3px;
+            }
+
+
+
+            .container .col_left {
+                float: left;
+                width: 40px;
+                height: 285px;
+                padding-top: 20px;
+                padding-left: 5px;
+               
+            }
+
+            .container .col_center {
+                float: left;
+                margin-left: 10px;
+                width: 500px;
+            }
+
+            .container .col_right {
+                float: left;
+                width: 420px;
+                margin-left: 3px;
+            }
+
+        .clear {
+            clear: both;
+        }
+
+        .memo {
+            font-size: 14px;
+        }
+
+            .memo .cap {
+                font-size: 20px;
+                text-align: center;
+            }
+
+            .memo table {
+                font-size: 12px;
+            }
+
+                .memo table td {
+                    width: 50%;
+                    vertical-align: top;
+                }
+
+        article {
+            -webkit-column-count: 2;
+            -moz-column-count: 2;
+            column-count: 2;
+            font-size: 10px;
+        }
+    </style>
+</head>
+
+
+<body>
+    @{
+        var risk = Model.ContractRisks.FirstOrDefault();
+        var printedrisk = (RiskToPrint[])ViewBag.RisksPrintList;
+
+        decimal factor_all = 1;
+        foreach (var f in Model.ContractFactors)
+        {
+            factor_all *= f.Val_n.Value;
+        }
+
+        if (factor_all == 1)
+        {
+            factor_all = 0;
+        }
+
+
+
+    }
+
+    @for (int i = 0; i < 3; i++)
+    {
+
+
+        <div style="padding-left:680px; margin-bottom:10px;" class="polis-num">
+            @Model.seria.Code
+        </div>
+
+        <div style="padding-left:300px;" class="polis-small">
+            Настоящий полис выдан на основании "ПРАВИЛ СТРАХОВАНИЯ ГРАЖДАН , ЗАНИМАЮЩИХСЯ ПОДВОДНЫМ ПЛАВАНИЕМ (ДАЙВИНГОМ)", утвержденных ООО «СК «ТИТ» от 12 .10.2010г.
+        </div>
+
+
+
+
+        <div class="container">
+            <div class="col_left">
+
+                &nbsp;
+            </div>
+
+            @{
+        Html.RenderPartial("_print02", Model);
+            }
+
+        </div>
+
+        if (i < 2)
+        {
+            <div class="blank-separator">
+                &nbsp;
+            </div>
+        }
+    }
+    
+</body>
+
+</html>

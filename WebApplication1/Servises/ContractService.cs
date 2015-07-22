@@ -529,6 +529,13 @@ namespace gTravel.Servises
                 ret = false;
             }
 
+            if (c.Subjects.Count() == 0)
+            {
+                ErrMess.Add("Отсутствуют застрахованные!");
+                ret=false;
+            }
+
+
             if (!ret)
             {
                 return false;

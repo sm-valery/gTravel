@@ -522,25 +522,6 @@ namespace gTravel.Controllers
             ContractForm_ini(c,userid);
 
 
-            //var retc = db.Contracts.Include("Contract_territory")
-            //    .Include("ContractConditions")
-            //    .Include("Subjects")
-            //    .Include("ContractRisks")
-            //    .Include("ContractStatu")
-            //    .SingleOrDefault(x => x.ContractId == c.ContractId);
-
-            //retc.ContractConditions = retc.ContractConditions.OrderBy(o => o.num).ToList();
-            
-            //foreach (var cc in retc.ContractConditions)
-            //{
-            //    cc.Condition = db.Conditions.SingleOrDefault(x => x.ConditionId == cc.ConditionId);
-            //}
-
-            //foreach (var rr in retc.ContractRisks)
-            //{
-            //    rr.Risk = db.Risks.SingleOrDefault(x => x.RiskId == rr.RiskId);
-            //}
-            //ViewBag.terr_count = retc.Contract_territory.Count();
 
             return View(new ContractService(db).GetContractForEdit(c.ContractId,userid));
         }
@@ -606,78 +587,7 @@ namespace gTravel.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult ContractCh(Contract c, string caction = "save")
-        //{
-
-        //    string errmess = "";
-        //    c.db = db;
-        //    c.date_diff = mLib.get_period_diff(c.date_begin, c.date_end);
-
-        //    //пересчет
-        //    bool isCalculated = ContractRecalc(c, out errmess);
-
-        //    if (caction == "recalc" || caction == "confirm")
-        //    {
-        //        if (!isCalculated)
-        //            ModelState.AddModelError(string.Empty, errmess);
-
-        //        if (caction == "confirm" && isCalculated)
-        //        {
-        //            //валидация пеперд утверждением 
-        //            if (!c.date_begin.HasValue)
-        //                ModelState.AddModelError(string.Empty, "Нужно указать дату начала");
-
-        //            if (!c.date_end.HasValue)
-        //                ModelState.AddModelError(string.Empty, "Нужно указать дату окончания");
-
-        //            if (c.ContractRisks.Sum(x => x.InsPremRur) == 0)
-        //                ModelState.AddModelError(string.Empty, "Премия не должна быть равной 0");
-
-        //            if (ModelState.IsValid)
-        //                c.ContractStatusId = c.change_status(User.Identity.GetUserId(), "confirmed");
-
-        //        }
-        //    }
-
-
-        //    ContractSave(c);
-
-        //    if (ModelState.IsValid)
-        //    {
-
-        //        if (caction == "recalc")
-        //        {
-
-        //            return Redirect(Url.RouteUrl(new { Controller = "Contract", Action = "Contract_edit", id = c.ContractId }) + "#block-total");
-        //            //return RedirectToAction("Contract_edit", new { id = c.ContractId,block-total });
-        //        }
-
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    Contract_ini(c.ContractId);
-
-        //    var retc = db.Contracts.Include("Contract_territory")
-        //        .Include("ContractConditions")
-        //        .Include("Subjects")
-        //        .Include("ContractRisks")
-        //        .Include("ContractStatu")
-        //        .SingleOrDefault(x => x.ContractId == c.ContractId);
-        //    retc.ContractConditions = retc.ContractConditions.OrderBy(o => o.num).ToList();
-        //    foreach (var cc in retc.ContractConditions)
-        //    {
-        //        cc.Condition = db.Conditions.SingleOrDefault(x => x.ConditionId == cc.ConditionId);
-        //    }
-        //    foreach (var rr in retc.ContractRisks)
-        //    {
-        //        rr.Risk = db.Risks.SingleOrDefault(x => x.RiskId == rr.RiskId);
-        //    }
-        //    ViewBag.terr_count = retc.Contract_territory.Count();
-
-        //    return View(retc);
-        //}
+       
         public static int GetAge(DateTime birthDate, DateTime date)
         {
             var years = date.Year - birthDate.Year;
@@ -824,11 +734,6 @@ namespace gTravel.Controllers
                         }
                         crisk.FactorsDescr = fdescr.ToString();
 
-                        //crisk.BaseTarif = (decimal)t.PremSum;
-                        //dcount = (decimal)(c.date_diff * c.Subjects.Count());
-                        //crisk.InsPrem = crisk.BaseTarif * dcount;
-                        //crisk.InsFee = (decimal)t.InsFee * dcount;
-                        //crisk.InsPremRur = crisk.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
                     }
                     else
                     {
@@ -994,65 +899,13 @@ namespace gTravel.Controllers
             return ret;
         }
 
-        //[HttpPost]
-        //public ActionResult Contract_create(Contract contract, FormCollection oform)
-        //{
-        //    if(ModelState.IsValid)
-        //    {
-        //        contract_before_save(ref contract);
-
-        //        #region дополнительные параметры
-        //        foreach(var item in contract.ContractConditions)
-        //        {
-        //            db.Entry(item).State = EntityState.Modified;
-        //        }
-
-
-        //        #endregion
-
-        //        db.Entry(contract).State = EntityState.Modified;
-
-        //        db.SaveChanges();
-
-        //        return RedirectToAction("List");
-        //    }
-
-        //    var seria = db.serias.SingleOrDefault(x => x.SeriaId == contract.seriaid);
-
-        //    Contract_ini(contract.ContractId);
-
-        //    return View(seria.formname,contract);
-        //    //return View("contract",contract);
-        //}
+      
 
         [UserIdFilter]
         [ContractUserFilter]
         public ActionResult Contract_edit(Guid contractid, string userid)
         {
-           // //if (!findcontract(id))
-           //  //   return HttpNotFound();
 
-           // var c = db.Contracts.Include("Contract_territory")
-           //     .Include("ContractConditions")
-           //     .Include("Subjects")
-           //     .Include("ContractStatu")
-           //     .SingleOrDefault(x => x.ContractId == contractid);
-            
-           // if (c == null)
-           //     return HttpNotFound();
-
-           // c.db = db;          
-           // c.CheckFactors(userid);
-           // //var access = c.checkaccess(userid: userid);
-
-           // //if (access == 0)
-           // //    return HttpNotFound();
-
-
-           // c.Subjects = c.Subjects.OrderBy(x => x.num).ToList();
-           // c.ContractConditions = c.ContractConditions.OrderBy(o => o.num).ToList();
-
-           //// ViewBag.terr_count = c.Contract_territory.Count();
 
             Contract c = new ContractService(db).GetContractForEdit(contractid,userid);
 
@@ -1091,25 +944,7 @@ namespace gTravel.Controllers
                 ViewBag.Message = x.import(file.InputStream) ? string.Format("Импорт #{0} завершен!", x.lognum) : x.error_message;
 
 
-                ////  var workbook = new XLWorkbook(@"c:\temp\Книга1.xlsx");
-
-                //try
-                //{
-                //    var workbook = new XLWorkbook(file.InputStream);
-
-                //    var ws = workbook.Worksheet(1);
-
-                //    import_data(ws.RowsUsed(), userid);
-
-
-                //}
-                //catch (Exception e)
-                //{
-                //    ModelState.AddModelError(string.Empty, "Файл импорта должен иметь формат *.xlsx."
-                //        + "(" + e.Message + ")");
-                //}
-
-                //  return RedirectToAction("index");
+             
             }
 
 
@@ -1125,227 +960,15 @@ namespace gTravel.Controllers
          new ContractService(db).GetImportExampleFile();
         }
 
-        //private void import_data(IXLRows rows, string userid)
-        //{
-        //    Guid log_contract_id;
-
-        //    ImportLog l = new ImportLog(db, userid);
-
-        //    int iusedrow=0;
-
-        //    Guid? newcontractnumber = null;
-
-        //    Contract newcontract = new Contract();
-
-        //    foreach (var row in rows)
-        //    {
-        //        iusedrow++;
-
-        //        //пропустим шапку
-        //        if (iusedrow == 1)
-        //            continue;
-
-        //        var crow = readimportrow(row);
-
-        //        //новый договор
-        //        if (!newcontract.contractnumber.HasValue || !string.IsNullOrEmpty(crow.contract_number_str) )
-        //        {
-        //            newcontract = import_data_create_contract(crow);
-        //            l.add_log(db, newcontract.ContractId);
-
-        //            continue;      
-        //        }
-
-        //        //застрахованный
-        //        var s = new Subject();
-        //        s.Name1 = crow.SubjName;
-        //        s.Gender = mLib.gender_parse(crow.gender);
-        //        s.DateOfBirth = crow.dateofbirth;
-        //        s.Pasport = crow.pasport;
-        //        s.PasportValidDate = crow.passportvaliddate;
-        //        s.PlaceOfBirth = crow.placeofbirth;
-
-        //        newcontract.add_insured(db, s);
-
-
-        //        //разделитель
-        //        //if (crow.contract_number == 0
-        //        //    && string.IsNullOrEmpty(crow.SubjName))
-        //        //    newcontractnumber = 0;
-
-        //        //if(crow.contract_number==0)
-        //        //{
-        //        //    ModelState.AddModelError(string.Empty, string.Format("Строка {0}: номер не является числом."));
-        //        //    continue;
-        //        //}
-
-        //        //var contract_one = db.Contracts.FirstOrDefault(x => x.contractnumber == crow.contract_number
-        //        //    && x.UserId == userid);
-
-        //        ////застрахованный
-        //        //var s = new Subject();
-        //        //s.Name1 = crow.SubjName;
-        //        //s.Gender = mLib.gender_parse(crow.gender);
-        //        //s.DateOfBirth = crow.dateofbirth;
-        //        //s.Pasport = crow.pasport;
-        //        //s.PasportValidDate = crow.passportvaliddate;
-        //        //s.PlaceOfBirth = crow.placeofbirth;
-
-        //        //if(contract_one==null)
-        //        //{
-        //        //    //создаем новый 
-        //        //    Contract contract_new = new Contract();
-
-        //        //    contract_new.seriaid = this.MainSeria;
-        //        //    contract_new.contractnumber = crow.contract_number;
-        //        //    contract_new.date_out = crow.date_out;
-        //        //    contract_new.date_begin = crow.date_begin;
-        //        //    contract_new.date_end = crow.date_end;
-
-        //        //    p_contract_add(contract_new);
-
-        //        //    contract_new.add_insured(db, s);
-
-        //        //    log_contract_id =contract_new.ContractId;
-        //        //}
-        //        //else
-        //        //{
-        //        //    contract_one.add_insured(db, s);
-        //        //    log_contract_id = contract_one.ContractId;
-        //        //}
-
-
-        //        //l.add_log(db, log_contract_id);
-
-        //    }//foreach
-        //}
-
-
-        //private void import
+      
 
 
         private void importOledb()
         {
-            //string fileLocation = Server.MapPath("~/Content/") + System.IO.Path.GetFileName(file.FileName);
-
-            //              string excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-            //                    fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-
-            //              if (System.IO.File.Exists(fileLocation))
-            //              {
-
-            //                  System.IO.File.Delete(fileLocation);
-            //              }
-
-            //              file.SaveAs(fileLocation);
-
-            //              OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
-            //              excelConnection.Open();
-
-            //              DataTable dt = new DataTable();
-            //              dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-
-            //              if (dt == null)
-            //              {
-            //                  return;
-            //              }
-            //              String[] excelSheets = new String[dt.Rows.Count];
-            //              int t = 0;
-            //              foreach (DataRow row in dt.Rows)
-            //              {
-            //                  excelSheets[t] = row["TABLE_NAME"].ToString();
-            //                  t++;
-            //              }
-
-            //              string query = string.Format("Select * from [{0}]", excelSheets[0]);
-            //              OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
-
-            //              using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(query, excelConnection1))
-            //              {
-            //                  DataSet ds = new DataSet();
-
-            //                  dataAdapter.Fill(ds);
-
-            //                  for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-            //                  {
-            //                      string aa = ds.Tables[0].Rows[i][0].ToString();
-            //                  }
-
-            //              }
-
-
-            //              excelConnection.Close();
-            //          }
+           
         }
 
-        //private void contract_update_territory(Guid contractid, string[] territory)
-        //{
-        //    if (territory == null)
-        //        return;
-
-        //    var t_old = db.Contract_territory.Where(x => x.ContractId == contractid).ToList();
-        //    foreach (var item in t_old)
-        //    {
-        //        //удалить
-        //    }
-
-        //    foreach (var id in territory)
-        //    {
-        //        var tid = Guid.Parse(id);
-        //        //добавить
-        //        if (t_old.Where(x => x.TerritoryId == tid).Count() == 0)
-        //        {
-        //            var tnew = new Contract_territory();
-
-        //            tnew.ContractTerritoryId = Guid.NewGuid();
-        //            tnew.TerritoryId = tid;
-        //            tnew.ContractId = contractid;
-
-        //            db.Contract_territory.Add(tnew);
-        //        }
-        //    }
-        //}
-
-        //private ActionResult contract_terr_insert_row(Guid id, string name, Guid contractid)
-        //{
-        //    if (db.Contract_territory.Any(x => x.ContractId == contractid && x.TerritoryId == id))
-        //        return null;
-
-        //    var t = new Contract_territory();
-        //    t.ContractId = contractid;
-        //    t.ContractTerritoryId = Guid.NewGuid();
-        //    t.TerritoryId = id;
-
-        //    db.Contract_territory.Add(t);
-        //    db.SaveChanges();
-
-        //    var terr_count = db.Contract_territory.Where(x => x.ContractId == contractid).Count();
-
-        //    ViewData["indx"] = terr_count - 1;
-
-        //    return
-        //        PartialView(
-        //            db.Contract_territory.Include("Territory")
-        //                .SingleOrDefault(x => x.ContractTerritoryId == t.ContractTerritoryId));
-        //    //Contract_territory[" + iterrnum + "]
-        //    //return string.Format("<tr><td  class='input-value'> "
-        //    //    + "<input type='hidden' name='Contract_territory[{3}].ContractTerritoryId' value='{4}' >" +
-        //    //    "<input id='{2}' type='hidden' name='territory' value='{0}' /> {1}</td><td><button class='btn btn-default btn-sm'>x</button></td></tr>",
-        //    //    id//0
-        //    //    , name//1
-        //    //    , "terr_" + id//2
-        //    //    , tcount//3
-        //    //    , t.ContractTerritoryId//4
-        //    //    );
-        //}
-
-        //private int get_period_diff(DateTime? d1, DateTime? d2)
-        //{
-        //    if (d1.HasValue && d2.HasValue)
-        //        return (d2.Value - d1.Value).Days + 1;
-
-        //    return 0;
-        //}
+        
 
         public ActionResult get_strperiodday(string date_from, string date_to)
         {
@@ -1375,7 +998,6 @@ namespace gTravel.Controllers
             }
 
 
-            // string retval = date_from.AddDays(addday).ToShortDateString();
             return Content(ret);
         }
 
@@ -1388,8 +1010,6 @@ namespace gTravel.Controllers
 
             var gContractId = Guid.Parse(contractid);
 
-            //if (!findcontract(gContractId))
-            //            return HttpNotFound();
 
         
             var contr = db.Contracts.Where(x => x.ContractId == gContractId);
@@ -1420,12 +1040,7 @@ namespace gTravel.Controllers
 
             ViewBag.viewonly = false;
 
-            //s.SubjectId = Guid.NewGuid();
-            //s.ContractId = gContractId;
-            //s.num = db.Subjects.Where(x => x.ContractId == gContractId).Count() + 1;
 
-            //db.Subjects.Add(s);
-            //db.SaveChanges();
 
 
             ViewBag.Gender = mLib.GenderList();
@@ -1476,27 +1091,13 @@ namespace gTravel.Controllers
             content.Append("</datalist>");
 
             return Content(content.ToString());
-            //string content = string.Format("<datalist id='{0}'>", condcode.Trim() + addcode.Trim());
-
-            //var addr = db.AddRefs.Where(x => x.Code == addcode).OrderBy(o => o.OrderNum);
-            //foreach (var itm in addr)
-            //{
-            //    content += "<option>" + itm.Value + "</option>";
-            //}
-
-            //content += "</datalist>";
-
-            //return Content(content);
+      
         }
 
         public PartialViewResult _ContractRiskInsSum(Guid seriaid, Guid riskid, int risk_num, decimal riskinssum)
         {
             var agentid = mLib.GetCurrentUserAgent(User.Identity.GetUserId());
 
-            //var trf = from rs in db.RiskSerias 
-            //          join rp in db.RiskPrograms on rs.RiskSeriaId
-            //          where rs.SeriaId == seriaid
-            //          && rs.RiskId==riskid
 
 
             return PartialView();
@@ -1539,67 +1140,10 @@ namespace gTravel.Controllers
 
         public void printpdfch(Guid contractid)
         {
-            //var htmlContent = String.Format("<body>Hello world: {0}</body>", DateTime.Now);
-            //var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
-
-
-            //cl_printmodel pmodel = new cl_printmodel();
-            //pmodel.contract = c;
-
-            //pmodel.entryport = c.ContractConditions.Where(x => x.Condition.Code.Trim() == "entryport").FirstOrDefault().Val_c;
-
-            //pmodel.exitport = c.ContractConditions.Where(x => x.Condition.Code.Trim() == "exitport").FirstOrDefault().Val_c;
-
-            //pmodel.route = c.ContractConditions.Where(x => x.Condition.Code.Trim() == "route").FirstOrDefault().Val_c;
-
-            //var htmlContent = RenderRazorViewToString("generatepdf_ch", pmodel);
-
-            //var pdfgen = new NReco.PdfGenerator.HtmlToPdfConverter();
-
-
-            ////pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Landscape;
-            //pdfgen.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
-            //pdfgen.Size = NReco.PdfGenerator.PageSize.A4;
-
-            //var pdfBytes = pdfgen.GeneratePdf(htmlContent);
-
-            //Response.Clear();
-            //Response.ContentType = "application/pdf";
-            //Response.AddHeader("content-disposition", string.Format("attachment;filename=\"polis{0}.pdf\"", c.contractnumber));
-
-            //Response.OutputStream.Write(pdfBytes, 0, pdfBytes.Count());
-
-            //Response.End();
+       
         }
 
-//        public void test()
-//        {
-//            var TxtHtmlCode = @"<html>
-// <body>
-//  Hello World from selectpdf.com.
-// </body>
-//</html>
-//";
 
-//            var converter = new HtmlToPdf();
-
-//            var doc = converter.ConvertHtmlString(TxtHtmlCode);
-
-//            // save pdf document
-//            var pdfBuf = doc.Save();
-
-
-//            Response.Clear();
-//            Response.ContentType = "application/pdf";
-//            Response.AddHeader("content-disposition", "attachment;filename=\"poliscrm.pdf\"");
-
-//            Response.OutputStream.Write(pdfBuf, 0, pdfBuf.Count());
-
-//            Response.End();
-
-//            // close pdf document
-//            doc.Close();
-//        }
         [UserIdFilter]
         public void print01(Guid contractid,string userid, decimal blanktype=1)
         {
@@ -1646,7 +1190,7 @@ namespace gTravel.Controllers
         }
 
          [UserIdFilter]
-        public void print02(Guid contractid, string userid)
+        public void print02(Guid contractid, string userid, decimal blanktype = 1)
         {
             
 
@@ -1683,17 +1227,22 @@ namespace gTravel.Controllers
                 ViewBag.PrintMess = printmess;
 
               ViewBag.agentname  = mLib.GetCurrentUserAgent(userid).Name;
-                //
+
+              string viewname = (blanktype == 0) ? "print02blank" : "print02";
+              string filename = string.Format("{1}02_{0}.pdf", c.contractnumber,
+                  (blanktype == 0) ? "blank" : "polis");
+
+
                 cs.OutputPdf(
-                    RenderRazorViewToString("print02", c),
-                    string.Format("polis02_{0}.pdf", c.contractnumber));
+                    RenderRazorViewToString(viewname, c),
+                    string.Format(filename, c.contractnumber));
             }
 
 
         }
 
         [UserIdFilter]
-        public void print03(Guid contractid, string userid)
+         public void print03(Guid contractid, string userid, decimal blanktype = 1)
          {
 
              var c = db.Contracts.SingleOrDefault(x => x.ContractId == contractid);
@@ -1707,77 +1256,70 @@ namespace gTravel.Controllers
              }
              ViewBag.territory_string = territory_string.ToString();
 
+             string viewname = (blanktype == 0) ? "print03blank" : "print03";
+             string filename = string.Format("{1}03_{0}.pdf", c.contractnumber,
+                 (blanktype == 0) ? "blank" : "polis");
+
+
              new ContractService().OutputPdf(
-                 RenderRazorViewToString("print03", c),
-                 string.Format("polis03_{0}.pdf", c.contractnumber));
+                 RenderRazorViewToString(viewname, c),
+                 string.Format(filename, c.contractnumber));
          }
 
-        public void printcrm(Guid contractid)
-        {
-            var c = db.Contracts.Include("Contract_territory")
-                .Include("ContractConditions")
-                .Include("Subjects")
-                .Include("ContractRisks")
-                .Include("ContractStatu")
-                .SingleOrDefault(x => x.ContractId == contractid);
+        //public void printcrm(Guid contractid)
+        //{
+        //    var c = db.Contracts.Include("Contract_territory")
+        //        .Include("ContractConditions")
+        //        .Include("Subjects")
+        //        .Include("ContractRisks")
+        //        .Include("ContractStatu")
+        //        .SingleOrDefault(x => x.ContractId == contractid);
            
-            new ContractService().OutputPdf(
-                RenderRazorViewToString("printcrm", c),
-                string.Format("polis_crm{0}", c.contractnumber));
+        //    new ContractService().OutputPdf(
+        //        RenderRazorViewToString("printcrm", c),
+        //        string.Format("polis_crm{0}", c.contractnumber));
 
-            //var htmlContent = RenderRazorViewToString("printcrm", c);
+        //    //var htmlContent = RenderRazorViewToString("printcrm", c);
 
-            //var converter = new HtmlToPdf();
+        //    //var converter = new HtmlToPdf();
 
-            //converter.Options.PdfPageSize = PdfPageSize.A4;
-            //converter.Options.MarginBottom = 10;
-            //converter.Options.MarginLeft = 10;
-            //converter.Options.MarginRight = 10;
-            //converter.Options.MarginTop = 10;
+        //    //converter.Options.PdfPageSize = PdfPageSize.A4;
+        //    //converter.Options.MarginBottom = 10;
+        //    //converter.Options.MarginLeft = 10;
+        //    //converter.Options.MarginRight = 10;
+        //    //converter.Options.MarginTop = 10;
 
-            //var doc = converter.ConvertHtmlString(htmlContent);
+        //    //var doc = converter.ConvertHtmlString(htmlContent);
 
-            //// save pdf document
-            //var pdfBuf = doc.Save();
+        //    //// save pdf document
+        //    //var pdfBuf = doc.Save();
 
 
-            //Response.Clear();
-            //Response.ContentType = "application/pdf";
-            //Response.AddHeader("content-disposition", "attachment;filename=\"poliscrm.pdf\"");
+        //    //Response.Clear();
+        //    //Response.ContentType = "application/pdf";
+        //    //Response.AddHeader("content-disposition", "attachment;filename=\"poliscrm.pdf\"");
 
-            //Response.OutputStream.Write(pdfBuf, 0, pdfBuf.Count());
+        //    //Response.OutputStream.Write(pdfBuf, 0, pdfBuf.Count());
 
-            //Response.End();
+        //    //Response.End();
 
-            //// close pdf document
-            //doc.Close();
-        }
+        //    //// close pdf document
+        //    //doc.Close();
+        //}
 
-        public void printag(Guid contractid)
-        {
-            var model = db.v_contract_ag.SingleOrDefault(x => x.ContractId == contractid);
+        //public void printag(Guid contractid)
+        //{
+        //    var model = db.v_contract_ag.SingleOrDefault(x => x.ContractId == contractid);
 
-            new ContractService().OutputPdf(
-                RenderRazorViewToString("printag", model),
-                string.Format("polisag{0}",model.contractnumber));
+        //    new ContractService().OutputPdf(
+        //        RenderRazorViewToString("printag", model),
+        //        string.Format("polisag{0}",model.contractnumber));
 
 
             
-        }
-
-        //private bool findcontract(Guid contract_id)
-        //{
-        //    bool ret = false;
-
-        //    if (User.IsInRole("Admin"))
-        //        return true;
-
-        //    string userid = User.Identity.GetUserId();
-
-        //    ret = db.Contracts.Any(x => x.ContractId == contract_id && x.UserId == userid);
-
-        //    return ret;
         //}
+
+
 
         protected override void Dispose(bool disposing)
         {

@@ -238,7 +238,9 @@ namespace gTravel.Models
 
             #region риски
 
-            var cr = db.RiskSerias.Where(x => x.SeriaId == seriaid).OrderBy(o => o.sort);
+            var cr = db.RiskSerias.Where(x => x.SeriaId == seriaid).OrderBy(o => o.sort).ToList();
+            
+            //RiskProgram firstprog = new RiskProgram();
 
             foreach (var item in cr)
             {
@@ -258,13 +260,14 @@ namespace gTravel.Models
                 item_rs.isMandatory = item.isMandatory;
                 item_rs.ischecked = item.isMandatory;
 
-                if(rp!=null)
+
+                if (rp != null)
                 {
                     item_rs.RiskProgramId = rp.RiskProgramId;
                     item_rs.InsSum = rp.DefaultInsSum;
                 }
-                    
 
+                rp = null;
               
 
                 db.ContractRisks.Add(item_rs);
@@ -318,6 +321,7 @@ namespace gTravel.Models
 
             return true;
         }
+
 
         public Subject add_insured(goDbEntities DbEntities = null)
         {
