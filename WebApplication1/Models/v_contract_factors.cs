@@ -19,6 +19,9 @@ namespace gTravel.Models
         public Nullable<System.Guid> ContractId { get; set; }
         public Nullable<decimal> Val_n { get; set; }
         public Nullable<int> Position { get; set; }
+        public string Factorname { get; set; }
         public string FactorType { get; set; }
+        public Nullable<System.Guid> RiskProgramId { get; set; }
+        public int FactorAccess { get; set; }
     }
 }

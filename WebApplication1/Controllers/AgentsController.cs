@@ -9,8 +9,7 @@ using System.Web.Mvc;
 using gTravel.Models;
 
 namespace gTravel.Controllers
-{
-     [Authorize(Roles = @"Admin")]
+{     [Authorize(Roles = @"Admin")]
     public class AgentsController : Controller
     {
         private goDbEntities db = new goDbEntities();
@@ -135,7 +134,8 @@ namespace gTravel.Controllers
             return RedirectToAction("Index");
         }
 
-        [OutputCache(Duration = 60, VaryByParam = "*")]
+    [AllowAnonymous]
+        [OutputCache(Duration = 86400, VaryByParam = "*")]
         public PartialViewResult _MenuAgentList(string sessionid , string userid)
         {
             var ag = mLib.GetCurrentUserAgent(userid);

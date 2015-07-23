@@ -32,6 +32,8 @@ namespace gTravel.Models
         public bool auto { get; set; }
         public Nullable<System.Guid> AgentSeriaId { get; set; }
         public Nullable<System.Guid> TerritoryId { get; set; }
+        public Nullable<System.Guid> RiskProgramId { get; set; }
+        public Nullable<int> FactorAccess { get; set; }
     
         public virtual AgentSeria AgentSeria { get; set; }
         public virtual ICollection<ContractFactor> ContractFactors { get; set; }

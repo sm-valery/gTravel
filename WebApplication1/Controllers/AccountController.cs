@@ -60,7 +60,7 @@ namespace gTravel.Controllers
 
         //
         // GET: /Account/Register
-     //   [Authorize(Roles = @"Admin")]
+        [Authorize(Roles = @"Admin")]
         public ActionResult Register()
         {
             return View();
@@ -68,7 +68,7 @@ namespace gTravel.Controllers
 
         //
         // POST: /Account/Register
-        //[Authorize(Roles = @"Admin")]
+        [Authorize(Roles = @"Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)

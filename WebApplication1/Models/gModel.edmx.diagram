@@ -67,7 +67,6 @@
         <AssociationConnector Association="goDbModel.FK_ContractFactor_To" />
         <AssociationConnector Association="goDbModel.FK_Factors_ToRisk" />
         <AssociationConnector Association="goDbModel.FK_Factors_ToTerritory" />
-        <EntityTypeShape EntityType="goDbModel.v_contract_factors" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="goDbModel.ContractAgent" Width="1.5" PointX="26.25" PointY="20.75" />
         <EntityTypeShape EntityType="goDbModel.AgentRole" Width="1.5" PointX="0.75" PointY="7.75" />
         <EntityTypeShape EntityType="goDbModel.RiskProgram" Width="1.5" PointX="3.375" PointY="8.75" />
@@ -93,6 +92,7 @@
         <EntityTypeShape EntityType="goDbModel.v_contract" Width="1.5" PointX="12.375" PointY="21.75" />
         <AssociationConnector Association="goDbModel.FK_Agent_ToAgent" />
         <AssociationConnector Association="goDbModel.FK_TarifPlan_ToTable" />
+        <EntityTypeShape EntityType="goDbModel.v_contract_factors" Width="1.5" PointX="10.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

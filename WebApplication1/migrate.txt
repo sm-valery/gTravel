@@ -1,4 +1,48 @@
-﻿--20.07.2015 done
+﻿23.07.2015
+1. CREATE TABLE [dbo].[Factors] (
+    [IdFactor]          UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [FactorType]        NCHAR (10)       NULL,
+    [Factor]            NUMERIC (10, 4)  NULL,
+    [ValueFrom]         NUMERIC (18)     NULL,
+    [ValueTo]           NUMERIC (18)     NULL,
+    [SeriaId]           UNIQUEIDENTIFIER NULL,
+    [RiskId]            UNIQUEIDENTIFIER NULL,
+    [Name]              NVARCHAR (50)    NULL,
+    [SingleItemInGroup] BIT              DEFAULT ((1)) NOT NULL,
+    [Position]          INT              DEFAULT ((0)) NULL,
+    [auto]              BIT              DEFAULT ((0)) NOT NULL,
+    [AgentSeriaId]      UNIQUEIDENTIFIER NULL,
+    [TerritoryId]       UNIQUEIDENTIFIER NULL,
+    +[RiskProgramId] UNIQUEIDENTIFIER NULL, 
+	+[FactorAccess]      INT              DEFAULT ((0)) NULL,
+    PRIMARY KEY CLUSTERED ([IdFactor] ASC),
+    CONSTRAINT [FK_Factors_ToTerritory] FOREIGN KEY ([TerritoryId]) REFERENCES [dbo].[Territory] ([TerritoryId]),
+    CONSTRAINT [FK_Factors_ToAgentSeria] FOREIGN KEY ([AgentSeriaId]) REFERENCES [dbo].[AgentSeria] ([AgentSeriaId]),
+    CONSTRAINT [FK_Factors_ToRisk] FOREIGN KEY ([RiskId]) REFERENCES [dbo].[Risk] ([RiskId])
+);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Factors_AgentSeriaId]
+    ON [dbo].[Factors]([AgentSeriaId] ASC);
+
+
+GO
+
+CREATE INDEX [IX_Factors_RiskProgramId] ON [dbo].[Factors] ([RiskProgramId])
+---------------
+2.CREATE VIEW [dbo].[v_contract_factors]
+	AS 
+	SELECT cf.* , 
+	f.Name Factorname,
+	f.FactorType, fa.RiskProgramId,
+ISNULL(fa.FactorAccess,0) FactorAccess
+ FROM ContractFactor cf
+	join Factors f on f.IdFactor = cf.IdFactor
+	left join Factors fa on fa.AgentSeriaId=f.AgentSeriaId and fa.FactorType = f.FactorType and fa.FactorAccess=1
+============================================
+
+--20.07.2015 done
 CREATE TABLE [dbo].[RiskProgram] (
     [RiskProgramId] UNIQUEIDENTIFIER NOT NULL,
     [ProgramCode]   NCHAR (20)       NULL,

@@ -39,7 +39,7 @@ namespace gTravel.Controllers
             return View(factor);
         }
 
-        private void factor_ini(Guid agentseriaid, Guid? riskid, Guid? territoryid)
+        private void factor_ini(Guid agentseriaid, Guid? riskid, Guid? territoryid, Guid? programid)
         {
             var ags = db.AgentSerias.SingleOrDefault(x => x.AgentSeriaId == agentseriaid);
             ViewBag.agent = ags;
@@ -59,15 +59,19 @@ namespace gTravel.Controllers
                 territoryid = Guid.Empty;
 
             ViewBag.TerritoryId = new SelectList(db.Territories.OrderBy(o => o.Name), "TerritoryId", "Name", territoryid);
+
+           // var rs = db.RiskSerias.Where(x=>x.SeriaId == ags.SeriaId && x.RiskId == riskid.Value);
+
+            ViewBag.RiskProgramId = new SelectList(db.RiskPrograms, "RiskProgramId", "Name", programid);
         }
 
         private void factor_ini(Factor f)
         {
-            factor_ini(f.AgentSeriaId.Value, f.RiskId, f.TerritoryId);
+            factor_ini(f.AgentSeriaId.Value, f.RiskId, f.TerritoryId,f.RiskProgramId);
         }
          private void factor_ini(Guid agentseriaid)
         {
-             factor_ini(agentseriaid, null,null);
+             factor_ini(agentseriaid, null,null,null);
         }
 
         // GET: Factors/Create

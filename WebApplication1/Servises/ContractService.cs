@@ -150,7 +150,7 @@ namespace gTravel.Servises
                     join f in db.Factors on ags.AgentSeriaId equals f.AgentSeriaId
                     where au.UserId == userid
                     && ags.SeriaId == seriaid
-                    && !f.auto
+                    && !f.auto && f.FactorAccess !=1
                     select f).OrderBy(o => o.Position).ToList();
         }
 
@@ -389,7 +389,7 @@ namespace gTravel.Servises
 
         private void ContractFactorsFillAutoFactors(Contract c, Guid agentseriaid)
         {
-            var fs = db.Factors.Where(x => x.AgentSeriaId == agentseriaid && x.auto);
+            var fs = db.Factors.Where(x => x.AgentSeriaId == agentseriaid && x.auto && x.FactorAccess!=1);
             foreach (var x in fs)
             {
                 switch (x.FactorType.Trim().ToLower())
@@ -497,6 +497,23 @@ namespace gTravel.Servises
             return db.RiskSerias.Any(x => x.SeriaId == seriaid && x.RiskId == riskid && x.hasFranchise > 0);
         }
 
+        private bool factor_vaildate(IEnumerable<v_contract_factors> ContractFactors, Guid programid, List<string> ErrMess)
+        {
+            bool r = true;
+
+            foreach(var cf in ContractFactors)
+            {
+                if(cf.RiskProgramId == programid && cf.FactorAccess==1)
+                {
+                    r = false;
+                    ErrMess.Add(string.Format("Фактор '{0}' для данных параметров не используется!", cf.Factorname));
+                }
+            }
+
+
+            return r;
+        }
+
         public bool ContractRecalc(Contract c, List<string> ErrMess)
         {
             var ret = true;
@@ -565,7 +582,7 @@ namespace gTravel.Servises
 
                 foreach (var crisk in c.ContractRisks)
                 {
-
+              
                     crisk.BaseTarif = 0;
                     crisk.InsPrem = 0;
                     crisk.InsFee = 0;
@@ -577,6 +594,9 @@ namespace gTravel.Servises
 
                         continue;
                     }
+
+                    if (!factor_vaildate(vContractF, crisk.RiskProgramId.Value, ErrMess))
+                        return false;
 
 
                     //найдем тариф

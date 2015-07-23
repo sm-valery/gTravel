@@ -385,14 +385,11 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                             <td class="active">
                                 @(risk.isMandatory ? Html.Hidden(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked) : Html.CheckBox(string.Format("ContractRisks[{0}].ischecked", risk_num), risk.ischecked))
                                 @risk.Risk.Name
-
                                 @Html.Hidden(string.Format("ContractRisks[{0}].ContractRiskId", risk_num), risk.ContractRiskId)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].ContractId", risk_num), risk.ContractId)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].RiskId", risk_num), risk.RiskId)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].sort", risk_num), risk.sort)
                                 @Html.Hidden(string.Format("ContractRisks[{0}].isMandatory", risk_num), risk.isMandatory)
-
-
 
                             </td>
                             <td>
@@ -404,15 +401,10 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 }
                                 <div id="div-ins-sum" style="white-space:nowrap;">
                                     <label class="small risk-label1">Страховая сумма</label>
-                        
 
                                     <input class="form-control input-sm input-value"
-                                           @{
-                                               if((bool)crisk_settings.InsSumReadOnly)
-                                               {
-                                                   @:readonly
-                                               }
-                                           }
+                                           @{ if ((bool)crisk_settings.InsSumReadOnly) { @: readonly
+                                                                                                                                     } }
                                            id="@string.Format("ContractRisks_{0}__InsSum", risk_num)"
                                            name="@string.Format("ContractRisks[{0}].InsSum",risk_num)"
                                            placeholder="Страх. сумма" type="text" value="@risk.InsSum"
@@ -420,24 +412,22 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                            data-content="Если не заполнено, используется рекомендуемая страховая сумма"
                                            data-placement="top"
                                            title="">
-                                    
+
                                     @*@Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum,
-               new { htmlAttributes = new { @class = "form-control input-sm input-value" ,
-                   data-toggle="tooltip",
-                   placeholder = "Страх. сумма"},
-              }
-                                    )*@
-                                    
-                                  
-                                 </div>
-                      
-                                
-                                @{
-                        //франшиза
-                        Html.RenderAction("_RiskFranchise", new {seriaid = Model.seriaid, riskid = risk.RiskId, FranshPerc = risk.FranshPerc, idx = risk_num });
+                                 new { htmlAttributes = new { @class = "form-control input-sm input-value" ,
+                                     data-toggle="tooltip",
+                                     placeholder = "Страх. сумма"},
                                 }
+                                                      )*@
 
 
+                                </div>
+
+
+                                @{
+ //франшиза
+ Html.RenderAction("_RiskFranchise", new { seriaid = Model.seriaid, riskid = risk.RiskId, FranshPerc = risk.FranshPerc, idx = risk_num });
+                                }
 
                             </td>
                             <td>
@@ -448,99 +438,100 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                 <div style="white-space:nowrap;">
                                     <label class="small risk-label1">Тариф СК</label>
                                     @Html.TextBox("sss", risk.BaseTarif, new { @class = "form-control input-sm input-value", @readonly = true, style = "width: 100px; !important" })
-                               
+
                                 </div>
 
-
-
                             </td>
-               
-                               
-                                @HelperRiskFactors(risk_num, Model.ContractRisks.Count, (Guid)risk.RiskId, Model.ContractId, viewonly)
-         
-                            <td>
-             
-                                <span class="label label-primary">Премия</span>
 
+
+                            @HelperRiskFactors(risk_num, Model.ContractRisks.Count, (Guid)risk.RiskId, Model.ContractId, viewonly)
+
+                            <td>
+
+                                <span class="label label-primary">Премия</span>
                                 @Html.TextBox(string.Format("ContractRisks[{0}].InsPrem", risk_num), risk.InsPrem, new { @class = "form-control input-sm input-value", @readonly = true })
-  
+
                                 @{
-                            contract_fee += (decimal)(risk.InsFee ?? 0);
-                            contract_fee_rur += (decimal)(risk.InsFeeRur ?? 0);
-                            contract_prem += (decimal)(risk.InsPrem ?? 0);
-                            contract_prem_rur += (decimal)(risk.InsPremRur ?? 0);
+ contract_fee += (decimal)(risk.InsFee ?? 0);
+ contract_fee_rur += (decimal)(risk.InsFeeRur ?? 0);
+ contract_prem += (decimal)(risk.InsPrem ?? 0);
+ contract_prem_rur += (decimal)(risk.InsPremRur ?? 0);
                                 }
                                 <span class="label label-default tooltip-m" data-toggle="tooltip" data-placement="top"
                                       title="@string.Format("базовый тариф: {0}, дней {1}, кол-во застрахованных {2}", risk.BaseTarif, Model.date_diff,Model.Subjects.Count())">?</span>
 
-
                             </td>
                         </tr>
 
-                        risk_num++;
+ risk_num++;
                     }
                 </table>
 
 
-
-                
-                    <div class="blockquote-warning" id="block-total">
-                        <h4>Итого</h4>
-
-                        <div class="row">
-                            <div class="col-xs-3">
-                                Премия, @Model.Currency.code
-                            </div>
-                            <div class="col-lg-3 input-value">@contract_prem </div>
+                <div class="blockquote-warning" id="block-total">
+                    <h4>Итого</h4>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            Премия, @Model.Currency.code
+                        </div>
+                        <div class="col-lg-3 input-value">@contract_prem </div>
+                        @if (isAgentIc)
+                        {
                             <div class="col-xs-3">
                                 Премия СК, @Model.Currency.code:
                             </div>
                             <div class="col-lg-3 input-value">@contract_fee</div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            Премия, руб:
                         </div>
-                        <div class="row">
-                            <div class="col-xs-3">
-                                Премия, руб:
-                            </div>
-                            <div class="col-lg-3 input-value">@contract_prem_rur </div>
-                            <div class="col-xs-3">
-                                Премия СК, руб:
-                            </div>
-                            <div class="col-lg-3 input-value">@contract_fee_rur</div>
+                        <div class="col-lg-3 input-value">@contract_prem_rur </div>
+                        @if (isAgentIc)
+                        {
+                        <div class="col-xs-3">
+                            Премия СК, руб:
                         </div>
-                        <div class="row">
-                            <div class="col-xs-3">
-                                Курс на дату выдачи:
-                                <span class="input-value">@{
-    Html.RenderAction("_print_currate", new { cdate = Model.date_out, curid = Model.currencyid});
-                                        }</span>
-                            </div>
-                            
+                        <div class="col-lg-3 input-value">@contract_fee_rur</div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            Курс на дату выдачи:
+                            <span class="input-value">
+                                @{
+    Html.RenderAction("_print_currate", new { cdate = Model.date_out, curid = Model.currencyid });
+                                }
+                            </span>
                         </div>
-                        @*<div class="row">
-                            <div class="col-xs-3">
-                                Вознаграждение СК по договору:
-                            </div>
-                            <div class="col-lg-3 input-value">@contract_fee</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-3">
-                                Вознаграждение СК по договору, руб:
-                            </div>
-                            <div class="col-lg-3 input-value">@contract_fee_rur</div>
-                            <div>
-                                Курс на дату выдачи:
-                            </div>
-                        </div>*@
 
+                    </div>
+                    @*<div class="row">
+                    <div class="col-xs-3">
+                        Вознаграждение СК по договору:
+                    </div>
+                    <div class="col-lg-3 input-value">@contract_fee</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        Вознаграждение СК по договору, руб:
+                    </div>
+                    <div class="col-lg-3 input-value">@contract_fee_rur</div>
+                    <div>
+                        Курс на дату выдачи:
+                    </div>
+                </div>*@
 
-
-                        @*@if (User.IsInRole("Admin"))
+                    @*@if (User.IsInRole("Admin"))
                 {
 
                 <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
                 }*@
-                    </div>
-</fieldset>
+                </div>
+            </fieldset>
+
+
 
     
            @HelperAgents(isAgentIc)
@@ -739,7 +730,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
         @*Скидки*@
         $(".frm-discounts a").click(function (e) {
-
+         
             var factor_id = $(this).attr("id");
 
             var riskobj = $(this).parent().parent().parent().parent();

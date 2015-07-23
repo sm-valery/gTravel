@@ -109,7 +109,23 @@
             </div>
         </div>
 
-    
+        <div class="form-group form-group-sm">
+            @Html.Label("Программа", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RiskProgramId", null,"Пусто", htmlAttributes: new { @class = "form-control chosen-select" })
+            </div>
+        </div>
+
+
+        <div class="form-group form-group-sm">
+            @Html.Label("Доступ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FactorAccess, new { htmlAttributes = new { @class = "form-control" } })
+
+                @Html.ValidationMessageFor(model => model.Factor1, "", new { @class = "text-danger" })
+            </div>
+            <div class="help-block">1-использование фактора запрещено</div>
+        </div>
 
         <div class="form-group form-group-sm">
             <div class="col-md-offset-2 col-md-10">
