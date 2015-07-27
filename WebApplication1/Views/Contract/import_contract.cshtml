@@ -89,7 +89,7 @@
         <div class="col-md-4">
 
             <div class="alert alert-info">
-                <b>Формат файла импорта</b>
+                <b>Формат файла импорта</b> @Html.ActionLink("Скачать образец", "importexapmle")
                 <ul>
                     @foreach (var item in (List<gTravel.Models.import_settings>)ViewBag.settings)
                     {

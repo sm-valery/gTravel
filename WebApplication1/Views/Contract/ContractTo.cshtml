@@ -39,7 +39,6 @@
     }
 
 }
-
 @helper HelperAgents(bool isic)
 {
 
@@ -47,7 +46,6 @@
     {
         <fieldset>
             <legend>Агенты</legend>
-
             <a id="agents_add" href="#">
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 <span style="font-weight:normal;">
@@ -57,13 +55,11 @@
             <div id="agentcontent">
                 <img id="agent_wait" src="~/Content/loading_white_small.gif"
                      style="position:absolute; z-index:1000;display:none;" />
-
                 @Html.Action("_AgentList", new { contractid = Model.ContractId })
             </div>
         </fieldset>
     }
 }
-
 
 @helper HelperRiskFactors(int numrow, int riskcount, Guid riskid, Guid contractid, bool viewonly = false)
 {
@@ -75,9 +71,7 @@
             <img id="bonus_wait" src="~/Content/loading_white_small.gif"
                  style="position:absolute; z-index:1000;display:none;" />
             @*<span class="label label-default">Доп. условия</span>*@
-
             @Html.Action("_bonus_btn", new { seriaid = Model.seriaid, riskid = riskid, contractid = contractid, viewonly = viewonly })
-
 
         </td>
 
@@ -108,7 +102,6 @@
         </fieldset>
     }
 }
-
 @model gTravel.Models.Contract
 @{
     ViewBag.Title = "Договор";
@@ -117,7 +110,6 @@
 
     bool isAgentIc = (bool)ViewBag.isic;
 }
-
 
 @using (Html.BeginForm("ContractTo", null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
@@ -170,12 +162,10 @@
                 <div class="col-md-10">
                     @Html.HiddenFor(model => Model.date_out)
                     @Html.TextBoxFor(m => Model.date_out, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value", disabled = "disabled" })
-
                     <span class="alert">
                         Валюта:
                         @Html.DropDownListFor(model => Model.currencyid, (SelectList)ViewBag.currency, getcontrolattr(viewonly, "currencyid"))
                     </span>
-
 
                 </div>
             </div>
@@ -185,7 +175,6 @@
                 </div>
                 <div class="col-md-10">
                     @Html.HiddenFor(model => Model.contractnumber)
-
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">@Model.seria.Code.Trim()</div>
@@ -194,9 +183,7 @@
                         </div>
                     </div>
 
-
                     @*@Html.TextBoxFor(model => Model.contractnumber, new { @class = "form-control input-sm input-value", disabled = "disabled" })*@
-
                 </div>
             </div>
             @*<div class="row">
@@ -212,22 +199,20 @@
                     @Html.TextBoxFor(model => Model.date_begin, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
                     <span>/</span>
                     @Html.TextBoxFor(m => Model.date_end, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
-   
+
                     <span class="label label-primary">
                         <span id="period_day_count">
                             @Html.DisplayFor(m => Model.date_diff)
-
                         </span>
                         дня(ей)
                     </span>
-  
+
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-2"><label><b>Срок поездки:</b></label> </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => Model.tripduration, new { @class = "form-control input-sm input-value" }) 
-
+                    @Html.TextBoxFor(m => Model.tripduration, new { @class = "form-control input-sm input-value" })
                     @Html.DropDownListFor(m => Model.period_multi_type, (SelectList)ViewBag.PeriodMultiType, new { @class = "form-control input-sm input-value" })
                     <label> дней</label>
                 </div>
@@ -236,25 +221,18 @@
             <div class="row">
                 <div class="col-md-2"><label><b>Территория:</b></label> </div>
                 <div class="col-md-10">
-
                     @Html.DropDownList("Contract_territory_chosen", (MultiSelectList)ViewBag.TerritoryId, getcontrolattr(viewonly, "Contract_territory_chosen"))
-
                     <span id="Contract_territory_content">
                         @Html.Partial("_addContractTerritory", Model.Contract_territory)
                     </span>
-
                     @*@Html.Action("build_contract_territory", new { ContractTerritoryId = ContractTerritoryId, contractid = Model.ContractId })*@
-
                 </div>
             </div>
-
             @*Доп параметры*@
             @HelperAddition()
             @*//страхователь*@
 
-
             <p>&nbsp;</p>
-
             <fieldset>
                 @{
     bool subj_f = Model.Subject.Type.Trim() == "fiz";
@@ -264,25 +242,23 @@
 
 
                 </legend>
-
                 <div style="margin-bottom:5px; margin-top:-5px;">
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           }
                                value="fiz" />
                         физ-лицо
                     </label>
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (!subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       }
                                value="jur">
                         юр-лицо
                     </label>
                 </div>
                 <div class="alert alert-success">
-
 
                     @Html.HiddenFor(model => Model.Holder_SubjectId)
                     @Html.HiddenFor(model => Model.Subject.SubjectId)
@@ -298,14 +274,12 @@
                         <label id="subj_lab_id">@( (subj_f) ? "Паспорт" : "ИНН"):</label>
                         @Html.TextBoxFor(m => Model.Subject.Pasport, new { @class = "form-control input-sm input-value" })
                     </span>
-
                     <span class="form-field">
-                        <label >Адрес/тел:</label>
-                        @Html.TextAreaFor(m => Model.Subject.Address, new { @class = "form-control input-sm input-value ", rows = "3" , cols ="30"})
+                        <label>Адрес/тел:</label>
+                        @Html.TextAreaFor(m => Model.Subject.Address, new { @class = "form-control input-sm input-value ", rows = "3", cols = "30" })
                     </span>
                 </div>
             </fieldset>
-
 
             <fieldset>
                 <legend>
@@ -331,9 +305,9 @@ int indx = 0;
 
 foreach (var item in Model.Subjects.OrderBy(x => x.num))
 {
-                            @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
+    @*@Html.Partial("_addInsuredRow", item, new ViewDataDictionary { { "indx", indx } });*@
 
-                            @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId, indx = indx, fieldlist = "DateOfBirth, Pasport" })
+                                @Html.Action("_edtInsuredRow", new { SubjectId = item.SubjectId, indx = indx, fieldlist = "DateOfBirth, Pasport" })
 
     indx++;
 }
@@ -343,27 +317,25 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     </table>
                     @if (!viewonly)
                     {
-                    <img id="insured_add_wait" src="~/Content/loading_white_small.gif"
-                         style="position:absolute; z-index:1000;display:none;" />
+                        <img id="insured_add_wait" src="~/Content/loading_white_small.gif"
+                             style="position:absolute; z-index:1000;display:none;" />
 
-                    <span class="glyphicon glyphicon-plus-sign"></span>
-                    <a id="insured_add" href="#">
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                        <a id="insured_add" href="#">
+                            <span style="font-weight:normal;">
+                                &nbsp;Добавить застрахованного
+                            </span>
+                        </a>
 
-                        <span style="font-weight:normal;">
-                            &nbsp;Добавить застрахованного
-                        </span>
-                    </a>
-
-                    <span class="glyphicon glyphicon-plus-sign"></span>
-                    <a id="insurer_add" href="#">
-                        <span style="font-weight:normal;">
-                            &nbsp;Добавить страхователя
-                        </span>
-                    </a>
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                        <a id="insurer_add" href="#">
+                            <span style="font-weight:normal;">
+                                &nbsp;Добавить страхователя
+                            </span>
+                        </a>
 
                     }
                 </div>
-
             </fieldset>
             <fieldset>
                 <legend>Риски</legend>
@@ -404,7 +376,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
                                     <input class="form-control input-sm input-value"
                                            @{ if ((bool)crisk_settings.InsSumReadOnly) { @: readonly
-                                                                                                                                     } }
+                                                                                                                                                                                                                                                                      } }
                                            id="@string.Format("ContractRisks_{0}__InsSum", risk_num)"
                                            name="@string.Format("ContractRisks[{0}].InsSum",risk_num)"
                                            placeholder="Страх. сумма" type="text" value="@risk.InsSum"
@@ -414,11 +386,11 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                                            title="">
 
                                     @*@Html.TextBox(string.Format("ContractRisks[{0}].InsSum", risk_num), risk.InsSum,
-                                 new { htmlAttributes = new { @class = "form-control input-sm input-value" ,
-                                     data-toggle="tooltip",
-                                     placeholder = "Страх. сумма"},
-                                }
-                                                      )*@
+                                         new { htmlAttributes = new { @class = "form-control input-sm input-value" ,
+                                             data-toggle="tooltip",
+                                             placeholder = "Страх. сумма"},
+                                        }
+                                                              )*@
 
 
                                 </div>
@@ -490,10 +462,10 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                         <div class="col-lg-3 input-value">@contract_prem_rur </div>
                         @if (isAgentIc)
                         {
-                        <div class="col-xs-3">
-                            Премия СК, руб:
-                        </div>
-                        <div class="col-lg-3 input-value">@contract_fee_rur</div>
+                            <div class="col-xs-3">
+                                Премия СК, руб:
+                            </div>
+                            <div class="col-lg-3 input-value">@contract_fee_rur</div>
                         }
                     </div>
                     <div class="row">
@@ -508,63 +480,88 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
                     </div>
                     @*<div class="row">
-                    <div class="col-xs-3">
-                        Вознаграждение СК по договору:
-                    </div>
-                    <div class="col-lg-3 input-value">@contract_fee</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-3">
-                        Вознаграждение СК по договору, руб:
-                    </div>
-                    <div class="col-lg-3 input-value">@contract_fee_rur</div>
-                    <div>
-                        Курс на дату выдачи:
-                    </div>
-                </div>*@
+                            <div class="col-xs-3">
+                                Вознаграждение СК по договору:
+                            </div>
+                            <div class="col-lg-3 input-value">@contract_fee</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                Вознаграждение СК по договору, руб:
+                            </div>
+                            <div class="col-lg-3 input-value">@contract_fee_rur</div>
+                            <div>
+                                Курс на дату выдачи:
+                            </div>
+                        </div>*@
 
                     @*@if (User.IsInRole("Admin"))
-                {
+                        {
 
-                <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
-                }*@
+                        <span>Вознаграждение по договору: <span class="input-value">@contract_fee</span></span>
+                        }*@
                 </div>
             </fieldset>
 
 
 
-    
-           @HelperAgents(isAgentIc)
+            @HelperAgents(isAgentIc)
 
-
-     <p>&nbsp;</p>
+            <p>&nbsp;</p>
             @*Кнопки*@
-        <div class="panel-footer">
-            @if (!viewonly)
-            {
-                <button name="caction" value="save" class="btn btn-primary">Сохранить&Закрыть</button>
-                <button name="caction" value="recalc" class="btn btn-info">Расчитать</button>
-                if (contract_prem > 0)
+            <div class="panel-footer">
+                @if (!viewonly)
                 {
-                    <button name="caction" value="confirm" class="btn btn-success">Утвердить</button>
+                    <button name="caction" value="save" class="btn btn-primary">Сохранить&Закрыть</button>
+                    <button name="caction" value="recalc" class="btn btn-info">Расчитать</button>
+                    if (contract_prem > 0)
+                    {
+                        <button name="caction" value="confirm" class="btn btn-success">Утвердить</button>
+                    }
                 }
-            }
-            @if (Model.ContractStatu.Status.Code == "confirmed")
-            {
-                @Html.ActionLink("Электронный полис", Model.seria.PrintFunction, new { contractid = Model.ContractId, blanktype = 1 }, new { @class = "btn btn-info" })
-                        @Html.ActionLink("Бланк", Model.seria.PrintFunction, new { contractid = Model.ContractId, blanktype = 0 }, new { @class = "btn btn-info" })
-            }
-            @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
-            @if (User.IsInRole("Admin"))
-            {
-                @:&nbsp;&nbsp;
-                @Html.ActionLink("Аннулировать", "contract_annul", new { contractid = Model.ContractId }, new { onclick = "return confirm('Аннулировать договор?');" })
+                @if (Model.ContractStatu.Status.Code == "confirmed")
+                {
+                    @Html.ActionLink("Электронный полис", Model.seria.PrintFunction, new { contractid = Model.ContractId, blanktype = 1 }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Бланк", Model.seria.PrintFunction, new { contractid = Model.ContractId, blanktype = 0 }, new { @class = "btn btn-info" })
+                }
+                @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
 
-            }
+                @if (!viewonly)
+                {
+                    <button id="btn-load-inslist" class="btn btn-default">Загрузить список застрахованных</button>
+                }
+
+
+                @if (User.IsInRole("Admin"))
+                {
+                    @:&nbsp;&nbsp;
+                    @Html.ActionLink("Аннулировать", "contract_annul", new { contractid = Model.ContractId }, new { onclick = "return confirm('Аннулировать договор?');" })
+
+                }
+            </div>
         </div>
     </div>
-        </div>
 }
+
+
+<div id="winInsList" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Загрузка списка застрахованных</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary">Загрузить</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
 
@@ -637,13 +634,19 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
     $(function () {
 
+        //загрузка списка застрахованных
+        $("#btn-load-inslist").click(function (e) {
+
+            e.preventDefault();
+        });
+
+
         $("#div-program").children("select").change(function (e) {
             $.ajax({
                 url: '@Url.Action("_program_changed", "Contract")',
                 type: 'GET',
                 data: { programid: $(this).val() },
-                success: function(data)
-                {
+                success: function (data) {
                     $("#ContractRisks_0__InsSum").val(data);
                 }
             });
@@ -652,8 +655,8 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
         $("#div-ins-sum").children("input").on("focus", function () {
             //if (this.value == "")
-           // {
-                $(this).popover();
+            // {
+            $(this).popover();
             //}
 
         });
@@ -662,7 +665,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
         });
 
         $("#Contract_territory_chosen").chosen().change(function () {
-        
+
             var territorylist = "";
 
             if ($(this).val() != null)
@@ -730,7 +733,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
         @*Скидки*@
         $(".frm-discounts a").click(function (e) {
-         
+
             var factor_id = $(this).attr("id");
 
             var riskobj = $(this).parent().parent().parent().parent();
