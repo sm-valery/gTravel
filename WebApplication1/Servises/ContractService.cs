@@ -722,6 +722,16 @@ namespace gTravel.Servises
 
            }
 
+           foreach (var err in db.GetValidationErrors())
+           {
+               foreach (var e in err.ValidationErrors)
+               {
+                   //ModelState.AddModelError(string.Empty, e.PropertyName + ": " + e.ErrorMessage);
+               }
+
+    
+           }
+
            db.SaveChanges();
         }
 
