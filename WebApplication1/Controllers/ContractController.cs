@@ -439,18 +439,22 @@ namespace gTravel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserIdFilter]
-        public ActionResult ContractTo(Contract c, string userid, string caction = "save")
+        public ActionResult ContractTo(Contract c, string userid, string caction = "save", string import_assured="")
         {
             var errMess = new List<string>();
-
+            var cs = new ContractService(db);
 
             //очистить застрахованных от удаленных
             c.SubjectClearDeleted();
 
             c.db = db;
-          
+
             ContractSave(c);
 
+            if (caction == "import" && !string.IsNullOrEmpty(import_assured))
+                cs.import_assured(c, import_assured);
+
+          
             //пересчет
             //var isCalculated = ContractRecalc(c, errMess);
             var isCalculated = new ContractService(db).ContractRecalc(c, errMess);
@@ -523,7 +527,7 @@ namespace gTravel.Controllers
 
 
 
-            return View(new ContractService(db).GetContractForEdit(c.ContractId,userid));
+            return View(cs.GetContractForEdit(c.ContractId,userid));
         }
 
         [HttpPost]

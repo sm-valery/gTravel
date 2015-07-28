@@ -111,7 +111,7 @@
     bool isAgentIc = (bool)ViewBag.isic;
 }
 
-@using (Html.BeginForm("ContractTo", null, FormMethod.Post, new { @class = "form-inline", role = "form" }))
+@using (Html.BeginForm("ContractTo", null, FormMethod.Post, new { @class = "form-inline", role = "form", id = "form01" }))
 {
     @Html.AntiForgeryToken()
 
@@ -246,14 +246,14 @@
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          }
                                value="fiz" />
                         физ-лицо
                     </label>
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (!subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      }
                                value="jur">
                         юр-лицо
                     </label>
@@ -376,7 +376,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
                                     <input class="form-control input-sm input-value"
                                            @{ if ((bool)crisk_settings.InsSumReadOnly) { @: readonly
-                                                                                                                                                                                                                                                                      } }
+                                                                                                                                                                                                                                                                                                                 } }
                                            id="@string.Format("ContractRisks_{0}__InsSum", risk_num)"
                                            name="@string.Format("ContractRisks[{0}].InsSum",risk_num)"
                                            placeholder="Страх. сумма" type="text" value="@risk.InsSum"
@@ -541,27 +541,34 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
             </div>
         </div>
     </div>
-}
 
 
-<div id="winInsList" class="modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Загрузка списка застрахованных</h4>
-            </div>
-            <div class="modal-body">
-                <p>One fine body&hellip;</p>
-            </div>
 
-            <div class="modal-footer">
+    <div id="winInsList" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Загрузка списка застрахованных</h4>
+                </div>
+                <div class="modal-body">
 
-                <button type="button" class="btn btn-primary">Загрузить</button>
+                    <textarea name="import_assured" style="width:100%; max-width:100%;" class="form-control" rows="30"></textarea>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <input type="hidden" name="caction" value="import" />
+
+                    <button id="winInsListSubmit" type="button" class="btn btn-primary">Загрузить</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+
+
 
 <script type="text/javascript">
 
@@ -637,7 +644,13 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
         //загрузка списка застрахованных
         $("#btn-load-inslist").click(function (e) {
 
+            $("#winInsList").modal('show');
+
             e.preventDefault();
+        });
+
+        $("#winInsListSubmit").click(function (e) {
+            $("#form01").submit();
         });
 
 

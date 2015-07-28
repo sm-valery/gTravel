@@ -696,6 +696,36 @@ namespace gTravel.Servises
         }
 
 
+        public void import_assured(Contract c, string assured)
+        {
+           var alist = assured.Split('\n');
+
+           foreach(var a in alist)
+           {
+               if (string.IsNullOrEmpty(a))
+                   continue;
+
+               var person = a.Split('\t');
+               DateTime dob;
+
+               DateTime.TryParse(person[1], out dob);
+
+               c.Subjects.Add(new Subject()
+               {
+                   SubjectId = Guid.NewGuid(), 
+                   ContractId = c.ContractId,
+                   Name1 = person[0],
+                   DateOfBirth = dob,
+                   Pasport = person[2],
+                   Type = "fiz" 
+               });
+
+           }
+
+           db.SaveChanges();
+        }
+
+
         void IDisposable.Dispose()
         {
 
