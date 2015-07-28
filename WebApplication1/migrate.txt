@@ -1,4 +1,28 @@
-﻿23.07.2015
+﻿CREATE TABLE [dbo].[Subject] (
+    [SubjectId]        UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [Name1]            NCHAR (255)      NULL,
+    [Type]             NCHAR (10)       NULL,
+    [ContractId]       UNIQUEIDENTIFIER NULL,
+    [DateOfBirth]      DATE             NULL,
+    +[Pasport]          NCHAR (50)       NULL,
+    [Address]          NCHAR (255)      NULL,
+    [Phone]            NCHAR (255)      NULL,
+    [Gender]           NCHAR (1)        DEFAULT ('N') NULL,
+    [PlaceOfBirth]     NCHAR (256)      NULL,
+    [PasportValidDate] DATE             NULL,
+    [num]              INT              DEFAULT ((0)) NULL,
+    [Name2]            NCHAR (255)      NULL,
+    PRIMARY KEY CLUSTERED ([SubjectId] ASC),
+    CONSTRAINT [FK_Subject_ToContract] FOREIGN KEY ([ContractId]) REFERENCES [dbo].[Contract] ([ContractId])
+);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Subject_ContractId]
+    ON [dbo].[Subject]([ContractId] ASC);
+
+
+23.07.2015
 1. CREATE TABLE [dbo].[Factors] (
     [IdFactor]          UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
     [FactorType]        NCHAR (10)       NULL,

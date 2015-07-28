@@ -452,7 +452,14 @@ namespace gTravel.Controllers
             ContractSave(c);
 
             if (caction == "import" && !string.IsNullOrEmpty(import_assured))
+            {
+
                 cs.import_assured(c, import_assured);
+
+                ContractForm_ini(c, userid);
+
+                return View(cs.GetContractForEdit(c.ContractId, userid));
+            }
 
           
             //пересчет
@@ -523,6 +530,7 @@ namespace gTravel.Controllers
                 if (caction != "confirm")
                     return RedirectToAction("Index");
             }
+           
             ContractForm_ini(c,userid);
 
 
