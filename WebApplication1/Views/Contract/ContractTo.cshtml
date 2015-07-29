@@ -246,14 +246,14 @@
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
                                value="fiz" />
                         физ-лицо
                     </label>
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (!subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
                                value="jur">
                         юр-лицо
                     </label>
@@ -293,7 +293,7 @@
                     <table id="insdtable" class="table-condensed scrolling-table">
                         <thead>
                             <tr>
-                                <th>ФИО по паспорту</th>
+                                <th style="width:260px;">ФИО по паспорту</th>
                                 <th>Дата рождения</th>
                                 <th>Паспорт</th>
                                 <th></th>
@@ -376,7 +376,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
                                     <input class="form-control input-sm input-value"
                                            @{ if ((bool)crisk_settings.InsSumReadOnly) { @: readonly
-                                                                                                                                                                                                                                                                                                                 } }
+                                                                                                                                                                                                                                                                                                                                                                                                       } }
                                            id="@string.Format("ContractRisks_{0}__InsSum", risk_num)"
                                            name="@string.Format("ContractRisks[{0}].InsSum",risk_num)"
                                            placeholder="Страх. сумма" type="text" value="@risk.InsSum"
@@ -550,17 +550,21 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Загрузка списка застрахованных</h4>
+
                 </div>
                 <div class="modal-body">
-
+                    <div class="small">Скопируйте данные из Excel. Последовательность данных: ФИО, дата рождения, номер паспорта. Данные по одному застрахованному разделены TAB или ;</div>
                     <textarea name="import_assured" style="width:100%; max-width:100%;" class="form-control" rows="30"></textarea>
 
+                    @Html.CheckBox("clearassuredlist")
+
+                    <label for="clearassuredlist">очистить список застрахованных в полисе</label>
                 </div>
 
                 <div class="modal-footer">
 
                     <input type="hidden" name="caction" value="import" />
-
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                     <button id="winInsListSubmit" type="button" class="btn btn-primary">Загрузить</button>
                 </div>
             </div>

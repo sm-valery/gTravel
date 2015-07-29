@@ -436,10 +436,10 @@ namespace gTravel.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]        
+        [ValidateAntiForgeryToken]       
         [UserIdFilter]
-        public ActionResult ContractTo(Contract c, string userid, string caction = "save", string import_assured="")
+        public ActionResult ContractTo(Contract c, string userid, string caction = "save", string import_assured = "", bool clearassuredlist = false)
         {
             var errMess = new List<string>();
             var cs = new ContractService(db);
@@ -451,10 +451,10 @@ namespace gTravel.Controllers
 
             ContractSave(c);
 
-            if (caction == "import" && !string.IsNullOrEmpty(import_assured))
+            if (caction == "import" )
             {
-
-                cs.import_assured(c, import_assured);
+                if(!string.IsNullOrEmpty(import_assured))
+                    cs.import_assured(c, import_assured,clearassuredlist);
 
                 ContractForm_ini(c, userid);
 
@@ -502,6 +502,8 @@ namespace gTravel.Controllers
                 if (c.tripduration > c.date_diff)
                     ModelState.AddModelError(string.Empty, "Срок поездки не может быть больше периода страхования!");
 
+                if (c.seria.AssuredMax.HasValue && (c.seria.AssuredMax > c.Subjects.Count()))
+                    ModelState.AddModelError(string.Empty, string.Format("В полисе может быть не больше {0} застрахованного!", c.seria.AssuredMax));
 
 
                 if (ModelState.IsValid)

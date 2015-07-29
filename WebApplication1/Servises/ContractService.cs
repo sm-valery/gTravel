@@ -696,16 +696,20 @@ namespace gTravel.Servises
         }
 
 
-        public void import_assured(Contract c, string assured)
+        public void import_assured(Contract c, string assured, bool clear=false)
         {
            var alist = assured.Split('\n');
+
+            if(clear)
+                db.Subjects.RemoveRange(c.Subjects);
+            
 
            foreach(var a in alist)
            {
                if (string.IsNullOrEmpty(a))
                    continue;
 
-               var person = a.Split('\t');
+               var person = a.Split(new[] {'\t',';'});
                DateTime dob;
 
                DateTime.TryParse(person[1], out dob);

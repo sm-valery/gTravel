@@ -44,11 +44,11 @@ namespace gTravel.Models
         public virtual ContractStatu ContractStatu { get; set; }
         public virtual Subject Subject { get; set; }
         public virtual Currency Currency { get; set; }
-        public virtual seria seria { get; set; }
         public virtual ICollection<ContractAgent> ContractAgents { get; set; }
         public virtual ICollection<ContractFactor> ContractFactors { get; set; }
         public virtual ICollection<ContractRisk> ContractRisks { get; set; }
         public virtual ICollection<Subject> Subjects { get; set; }
         public virtual ICollection<ContractCondition> ContractConditions { get; set; }
+        public virtual seria seria { get; set; }
     }
 }

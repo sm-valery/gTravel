@@ -1,4 +1,35 @@
-﻿CREATE TABLE [dbo].[Subject] (
+﻿CREATE TABLE [dbo].[RiskSeria] (
+    [RiskSeriaId]    UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [RiskId]         UNIQUEIDENTIFIER NULL,
+    [SeriaId]        UNIQUEIDENTIFIER NULL,
+    [isMandatory]    BIT              DEFAULT ((0)) NOT NULL,
+    [sort]           INT              DEFAULT ((0)) NULL,
+    [InsSumDefauld]  NUMERIC (18)     DEFAULT ((0)) NULL,
+    [TypeTarif]      INT              DEFAULT ((0)) NULL,
+    [hasFranchise]   INT              DEFAULT ((0)) NULL,
+    [InsSumReadOnly] BIT              DEFAULT ((1)) NULL,
+    PRIMARY KEY CLUSTERED ([RiskSeriaId] ASC), 
++    CONSTRAINT [FK_RiskSeria_ToSeria] FOREIGN KEY ([SeriaId]) REFERENCES [seria]([SeriaId]), 
++    CONSTRAINT [FK_RiskSeria_ToRisk] FOREIGN KEY ([RiskId]) REFERENCES [Risk]([RiskId])
+);
+
+CREATE TABLE [dbo].[seria] (
+    [SeriaId]            UNIQUEIDENTIFIER NOT NULL,
+    [Code]               NCHAR (10)       NULL,
+    [Name]               NCHAR (512)      NULL,
+    [IsMulti]            INT              DEFAULT ((1)) NULL,
+    [formname]           NVARCHAR (50)    NULL,
+    [DefaultCurrencyId]  UNIQUEIDENTIFIER NULL,
+    [AutoNumber]         INT              DEFAULT ((0)) NULL,
+    [numberformat]       VARCHAR (50)     NULL,
+    [DefaultTerritoryId] UNIQUEIDENTIFIER NULL,
+    [PrintFunction]      VARCHAR (128)    NULL,
+   + [AssuredMax] INT NULL DEFAULT 1, 
+    PRIMARY KEY CLUSTERED ([SeriaId] ASC),
+    CONSTRAINT [FK_seria_ToTable] FOREIGN KEY ([DefaultCurrencyId]) REFERENCES [dbo].[Currency] ([CurrencyId])
+);
+
+CREATE TABLE [dbo].[Subject] (
     [SubjectId]        UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
     [Name1]            NCHAR (255)      NULL,
     [Type]             NCHAR (10)       NULL,

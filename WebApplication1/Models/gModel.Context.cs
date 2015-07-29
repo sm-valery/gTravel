@@ -31,7 +31,6 @@ namespace gTravel.Models
         public virtual DbSet<ContractCondition> ContractConditions { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<Status> Status { get; set; }
-        public virtual DbSet<RiskSeria> RiskSerias { get; set; }
         public virtual DbSet<Contract_territory> Contract_territory { get; set; }
         public virtual DbSet<Risk> Risks { get; set; }
         public virtual DbSet<ContractRisk> ContractRisks { get; set; }
@@ -57,7 +56,6 @@ namespace gTravel.Models
         public virtual DbSet<v_contract_history> v_contract_history { get; set; }
         public virtual DbSet<v_bordero_new> v_bordero_new { get; set; }
         public virtual DbSet<v_contract_ag> v_contract_ag { get; set; }
-        public virtual DbSet<seria> serias { get; set; }
         public virtual DbSet<v_agentseria> v_agentseria { get; set; }
         public virtual DbSet<ContractFactor> ContractFactors { get; set; }
         public virtual DbSet<TerritoryGrp> TerritoryGrps { get; set; }
@@ -74,6 +72,8 @@ namespace gTravel.Models
         public virtual DbSet<Contract> Contracts { get; set; }
         public virtual DbSet<v_contract> v_contract { get; set; }
         public virtual DbSet<v_contract_factors> v_contract_factors { get; set; }
+        public virtual DbSet<seria> serias { get; set; }
+        public virtual DbSet<RiskSeria> RiskSerias { get; set; }
     
         public virtual int BorderoCreate()
         {

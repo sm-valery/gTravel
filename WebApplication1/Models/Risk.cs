@@ -16,17 +16,17 @@ namespace gTravel.Models
     {
         public Risk()
         {
-            this.RiskSerias = new HashSet<RiskSeria>();
             this.ContractRisks = new HashSet<ContractRisk>();
             this.Factors = new HashSet<Factor>();
+            this.RiskSerias = new HashSet<RiskSeria>();
         }
     
         public System.Guid RiskId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
     
-        public virtual ICollection<RiskSeria> RiskSerias { get; set; }
         public virtual ICollection<ContractRisk> ContractRisks { get; set; }
         public virtual ICollection<Factor> Factors { get; set; }
+        public virtual ICollection<RiskSeria> RiskSerias { get; set; }
     }
 }

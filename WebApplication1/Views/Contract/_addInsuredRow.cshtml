@@ -20,7 +20,7 @@
         @Html.Hidden(string.Format("Subjects[{0}].SubjectId", indx), Model.SubjectId)
         @Html.Hidden(string.Format("Subjects[{0}].ContractId", indx), Model.ContractId)
 
-        @Html.TextBox(string.Format("Subjects[{0}].Name1", indx), Model.Name1, new { @class = "form-control input-sm input-value" })
+        @Html.TextBox(string.Format("Subjects[{0}].Name1", indx), Model.Name1, new { @class = "form-control input-sm input-value", style="width:250px;" })
 
     </td>
 
