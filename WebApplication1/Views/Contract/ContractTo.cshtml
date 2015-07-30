@@ -293,10 +293,11 @@
                     <table id="insdtable" class="table-condensed scrolling-table">
                         <thead>
                             <tr>
-                                <th style="width:260px;">ФИО по паспорту</th>
+                                <th style="width:260px;"><span id="label_assured_count" class="label label-default">0</span> ФИО по паспорту</th>
                                 <th>Дата рождения</th>
                                 <th>Паспорт</th>
                                 <th></th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -553,7 +554,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
                 </div>
                 <div class="modal-body">
-                    <div class="small">Скопируйте данные из Excel. Последовательность данных: ФИО, дата рождения, номер паспорта. Данные по одному застрахованному разделены TAB или ;</div>
+                    <label class="small">Скопируйте данные из Excel. Последовательность данных: ФИО, дата рождения, номер паспорта. Данные по одному застрахованному разделены TAB или ;</label>
                     <textarea name="import_assured" style="width:100%; max-width:100%;" class="form-control" rows="30"></textarea>
 
                     @Html.CheckBox("clearassuredlist")
@@ -635,6 +636,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     e.preventDefault();
                 })
 
+                update_assuredlabelcount();
 
             }
         }).done(function () {
@@ -643,7 +645,10 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
     }
 
 
+
     $(function () {
+
+        update_assuredlabelcount();
 
         //загрузка списка застрахованных
         $("#btn-load-inslist").click(function (e) {

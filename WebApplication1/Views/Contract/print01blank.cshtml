@@ -212,7 +212,7 @@
     int isb = 0;
     int maxrows = 9;
 
-
+    ViewData["maxrows"] = maxrows;
 }
 <body>
     @{
@@ -292,5 +292,9 @@
         }
     }
 
+    @if (Model.Subjects.Count() > maxrows)
+    {
+        @Html.Partial("_print_inslist", Model)
+    }
 </body>
 </html>

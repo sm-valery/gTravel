@@ -1,4 +1,19 @@
-﻿
+﻿function update_assuredlabelcount() {
+
+    var acount = 0;
+
+    $("#insdtable>tbody>tr").each(function (index) {
+
+        if ($(this).css("display") != "none")
+            acount++;
+
+    });
+
+
+
+    $("#label_assured_count").html(acount);
+
+}
 
 function ins_delete(rownum, id) {
     if (confirm("Удалить строку?")) {
@@ -13,6 +28,9 @@ function ins_delete(rownum, id) {
                 $("#insdtable tr:eq(" + (rownum+1).toString() + ")").hide();//.remove();
 
                 $("#Subjects_" + subj_num + "__num").val(-1);
+
+                update_assuredlabelcount();
+
             },
             error: function (request, status, error) {
                 alert(error);
