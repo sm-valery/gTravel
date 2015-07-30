@@ -506,7 +506,7 @@ namespace gTravel.Servises
                 if(cf.RiskProgramId == programid && cf.FactorAccess==1)
                 {
                     r = false;
-                    ErrMess.Add(string.Format("Фактор '{0}' для данных параметров не используется!", cf.Factorname));
+                    ErrMess.Add(string.Format("Параметр '{0}' для данных параметров не используется!", cf.Factorname));
                 }
             }
 

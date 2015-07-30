@@ -502,8 +502,8 @@ namespace gTravel.Controllers
                 if (c.tripduration > c.date_diff)
                     ModelState.AddModelError(string.Empty, "Срок поездки не может быть больше периода страхования!");
 
-                if (c.seria.AssuredMax.HasValue && (c.seria.AssuredMax > c.Subjects.Count()))
-                    ModelState.AddModelError(string.Empty, string.Format("В полисе может быть не больше {0} застрахованного!", c.seria.AssuredMax));
+                if (c.seria.AssuredMax.HasValue && (c.seria.AssuredMax < c.Subjects.Count()))
+                    ModelState.AddModelError(string.Empty, string.Format("В полисе не может быть больше {0} застрахованного(ных)!", c.seria.AssuredMax));
 
 
                 if (ModelState.IsValid)

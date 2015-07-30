@@ -1,4 +1,10 @@
-﻿CREATE TABLE [dbo].[RiskSeria] (
+﻿30.07.2015 done
+CREATE VIEW [dbo].[v_agentseria]
+	AS SELECT ass.AgentId, s.*, au.UserId FROM AgentSeria ass
+	join seria s on s.SeriaId = ass.SeriaId
+	join AgentUser au on au.AgentId = ass.AgentId
+
++CREATE TABLE [dbo].[RiskSeria] (
     [RiskSeriaId]    UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
     [RiskId]         UNIQUEIDENTIFIER NULL,
     [SeriaId]        UNIQUEIDENTIFIER NULL,
@@ -13,7 +19,7 @@
 +    CONSTRAINT [FK_RiskSeria_ToRisk] FOREIGN KEY ([RiskId]) REFERENCES [Risk]([RiskId])
 );
 
-CREATE TABLE [dbo].[seria] (
++CREATE TABLE [dbo].[seria] (
     [SeriaId]            UNIQUEIDENTIFIER NOT NULL,
     [Code]               NCHAR (10)       NULL,
     [Name]               NCHAR (512)      NULL,
@@ -24,7 +30,7 @@ CREATE TABLE [dbo].[seria] (
     [numberformat]       VARCHAR (50)     NULL,
     [DefaultTerritoryId] UNIQUEIDENTIFIER NULL,
     [PrintFunction]      VARCHAR (128)    NULL,
-   + [AssuredMax] INT NULL DEFAULT 1, 
+   + [AssuredMax] INT NULL , 
     PRIMARY KEY CLUSTERED ([SeriaId] ASC),
     CONSTRAINT [FK_seria_ToTable] FOREIGN KEY ([DefaultCurrencyId]) REFERENCES [dbo].[Currency] ([CurrencyId])
 );
@@ -54,7 +60,7 @@ CREATE NONCLUSTERED INDEX [IX_Subject_ContractId]
 
 
 23.07.2015
-1. CREATE TABLE [dbo].[Factors] (
++1. CREATE TABLE [dbo].[Factors] (
     [IdFactor]          UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
     [FactorType]        NCHAR (10)       NULL,
     [Factor]            NUMERIC (10, 4)  NULL,
@@ -86,7 +92,7 @@ GO
 
 CREATE INDEX [IX_Factors_RiskProgramId] ON [dbo].[Factors] ([RiskProgramId])
 ---------------
-2.CREATE VIEW [dbo].[v_contract_factors]
++2.CREATE VIEW [dbo].[v_contract_factors]
 	AS 
 	SELECT cf.* , 
 	f.Name Factorname,
