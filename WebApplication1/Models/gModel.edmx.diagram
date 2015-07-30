@@ -45,7 +45,6 @@
         <EntityTypeShape EntityType="goDbModel.v_contract_history" Width="1.5" PointX="10.75" PointY="19.75" />
         <EntityTypeShape EntityType="goDbModel.v_bordero_new" Width="1.5" PointX="26.125" PointY="8.75" />
         <EntityTypeShape EntityType="goDbModel.v_contract_ag" Width="1.5" PointX="26.375" PointY="14.75" />
-        <EntityTypeShape EntityType="goDbModel.v_agentseria" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="goDbModel.ContractFactor" Width="1.5" PointX="17.375" PointY="13.375" />
         <EntityTypeShape EntityType="goDbModel.TerritoryGrp" Width="1.5" PointX="20" PointY="10.125" />
         <EntityTypeShape EntityType="goDbModel.TarifPlan" Width="1.5" PointX="20.375" PointY="5.875" />
@@ -93,6 +92,7 @@
         <EntityTypeShape EntityType="goDbModel.RiskSeria" Width="1.5" PointX="17.25" PointY="8.5" />
         <AssociationConnector Association="goDbModel.FK_RiskSeria_ToRisk" />
         <AssociationConnector Association="goDbModel.FK_RiskSeria_ToSeria" />
+        <EntityTypeShape EntityType="goDbModel.v_agentseria" Width="1.5" PointX="12.375" PointY="3.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

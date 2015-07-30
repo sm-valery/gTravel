@@ -56,7 +56,6 @@ namespace gTravel.Models
         public virtual DbSet<v_contract_history> v_contract_history { get; set; }
         public virtual DbSet<v_bordero_new> v_bordero_new { get; set; }
         public virtual DbSet<v_contract_ag> v_contract_ag { get; set; }
-        public virtual DbSet<v_agentseria> v_agentseria { get; set; }
         public virtual DbSet<ContractFactor> ContractFactors { get; set; }
         public virtual DbSet<TerritoryGrp> TerritoryGrps { get; set; }
         public virtual DbSet<TarifPlan> TarifPlans { get; set; }
@@ -74,6 +73,7 @@ namespace gTravel.Models
         public virtual DbSet<v_contract_factors> v_contract_factors { get; set; }
         public virtual DbSet<seria> serias { get; set; }
         public virtual DbSet<RiskSeria> RiskSerias { get; set; }
+        public virtual DbSet<v_agentseria> v_agentseria { get; set; }
     
         public virtual int BorderoCreate()
         {

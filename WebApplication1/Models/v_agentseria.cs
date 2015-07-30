@@ -25,6 +25,7 @@ namespace gTravel.Models
         public string numberformat { get; set; }
         public Nullable<System.Guid> DefaultTerritoryId { get; set; }
         public string PrintFunction { get; set; }
+        public Nullable<int> AssuredMax { get; set; }
         public string UserId { get; set; }
     }
 }
