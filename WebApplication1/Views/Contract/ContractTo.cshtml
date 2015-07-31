@@ -511,6 +511,12 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
             <p>&nbsp;</p>
             @*Кнопки*@
             <div class="panel-footer">
+
+                <a href="@Url.Action("Index")" class="btn btn-default tooltip-m"
+                   data-toggle="tooltip" data-placement="top" title="Закрыть">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+
                 @if (!viewonly)
                 {
                     <button name="caction" value="save" class="btn btn-primary">Сохранить&Закрыть</button>
@@ -525,16 +531,29 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     @Html.ActionLink("Электронный полис", Model.seria.PrintFunction, new { contractid = Model.ContractId, blanktype = 1 }, new { @class = "btn btn-info",style="margin-right:2px;" })
                     @Html.ActionLink("Бланк", Model.seria.PrintFunction, new { contractid = Model.ContractId, blanktype = 0 }, new { @class = "btn btn-info" })
                 }
-                @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
+                
+             
+                @*@Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })*@
 
                 @if (!viewonly)
                 {
-                    <button id="btn-load-inslist" class="btn btn-default">Загрузить список застрахованных</button>
+                    <button id="btn-load-inslist" class="btn btn-default tooltip-m"
+                            data-toggle="tooltip" data-placement="top" title="Загрузить список застрахованных">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+
+                    </button>
                 }
 
                 &nbsp;
-                <button name="caction" value="copy" class="btn btn-default">Копировать</button>
-
+                <button name="caction" value="copy" class="btn btn-default">
+                    <span class="glyphicon glyphicon-duplicate"></span>&nbsp;Копировать</button>
+              
+                @if(Model.seria.Code.Trim()!="03")
+                { 
+                  @:&nbsp;
+                <button name="caction" value="copy003" class="btn btn-default">
+                    <span class="glyphicon glyphicon-duplicate"></span>&nbsp;Невыезд</button>
+                }
 
                 @if (User.IsInRole("Admin"))
                 {
