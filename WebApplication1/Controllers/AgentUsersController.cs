@@ -186,11 +186,19 @@ namespace gTravel.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && UserManager != null)
+            if (disposing)
             {
-                UserManager.Dispose();
-                UserManager = null;
+                db.Dispose();
+
+                if (UserManager != null)
+                {
+                    UserManager.Dispose();
+                    UserManager = null;
+                }
             }
+                
+
+
             base.Dispose(disposing);
         }
     }

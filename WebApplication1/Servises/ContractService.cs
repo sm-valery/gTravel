@@ -371,7 +371,7 @@ namespace gTravel.Servises
             {
                 w.SaveAs(memoryStream);
                 memoryStream.WriteTo(HttpContext.Current.Response.OutputStream);
-                memoryStream.Close();
+               
             }
 
             HttpContext.Current.Response.End();

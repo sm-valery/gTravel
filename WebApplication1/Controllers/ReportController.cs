@@ -148,7 +148,7 @@ namespace gTravel.Controllers
             {
                 w.SaveAs(memoryStream);
                 memoryStream.WriteTo(Response.OutputStream);
-                memoryStream.Close();
+               
             }
 
             Response.End();
@@ -247,7 +247,7 @@ namespace gTravel.Controllers
             {
                 w.SaveAs(memoryStream);
                 memoryStream.WriteTo(Response.OutputStream);
-                memoryStream.Close();
+               
             }
 
             Response.End();
