@@ -246,14 +246,14 @@
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      }
                                value="fiz" />
                         физ-лицо
                     </label>
                     <label class="radio">
                         <input type="radio" name="Subject.Type"
                                @if (!subj_f) {  @: checked
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  }
                                value="jur">
                         юр-лицо
                     </label>
@@ -377,7 +377,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
                                     <input class="form-control input-sm input-value"
                                            @{ if ((bool)crisk_settings.InsSumReadOnly) { @: readonly
-                                                                                                                                                                                                                                                                                                                                                                                                       } }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             } }
                                            id="@string.Format("ContractRisks_{0}__InsSum", risk_num)"
                                            name="@string.Format("ContractRisks[{0}].InsSum",risk_num)"
                                            placeholder="Страх. сумма" type="text" value="@risk.InsSum"
@@ -522,7 +522,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                 }
                 @if (Model.ContractStatu.Status.Code == "confirmed")
                 {
-                    @Html.ActionLink("Электронный полис", Model.seria.PrintFunction, new { contractid = Model.ContractId, blanktype = 1 }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Электронный полис", Model.seria.PrintFunction, new { contractid = Model.ContractId, blanktype = 1 }, new { @class = "btn btn-info",style="margin-right:2px;" })
                     @Html.ActionLink("Бланк", Model.seria.PrintFunction, new { contractid = Model.ContractId, blanktype = 0 }, new { @class = "btn btn-info" })
                 }
                 @Html.ActionLink("В список", "Index", null, new { @class = "btn btn-default" })
@@ -531,6 +531,9 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                 {
                     <button id="btn-load-inslist" class="btn btn-default">Загрузить список застрахованных</button>
                 }
+
+                &nbsp;
+                <button name="caction" value="copy" class="btn btn-default">Копировать</button>
 
 
                 @if (User.IsInRole("Admin"))

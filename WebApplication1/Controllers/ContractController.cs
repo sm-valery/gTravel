@@ -441,8 +441,17 @@ namespace gTravel.Controllers
         [UserIdFilter]
         public ActionResult ContractTo(Contract c, string userid, string caction = "save", string import_assured = "", bool clearassuredlist = false)
         {
+
+
             var errMess = new List<string>();
             var cs = new ContractService(db);
+
+
+            if (caction == "copy")
+            {
+              return  RedirectToAction("Contract_edit", new { contractid = cs.contract_copy(c, userid)});
+            }
+
 
             //очистить застрахованных от удаленных
             c.SubjectClearDeleted();

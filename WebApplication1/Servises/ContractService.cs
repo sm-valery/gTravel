@@ -56,6 +56,47 @@ namespace gTravel.Servises
             return c.add_contract(userid) ? c : null;
         }
 
+        public Guid contract_copy(Contract c,string userid)
+        {
+            var newcontract = create_contract(c.seriaid, userid);
+
+            //contract
+            newcontract.date_begin = c.date_begin;
+            newcontract.date_end = c.date_end;
+            newcontract.currencyid = c.currencyid;
+            newcontract.date_diff = c.date_diff;
+            newcontract.period_multi_type = c.period_multi_type;
+            newcontract.tripduration = c.tripduration;
+            
+            //территория
+            foreach(var t in c.Contract_territory)
+            {
+                db.Contract_territory.Add(new Contract_territory()
+                {
+                    ContractTerritoryId = Guid.NewGuid(),
+                    ContractId = newcontract.ContractId,
+                    TerritoryId = t.TerritoryId
+                });
+            }
+
+            //агенты
+            foreach(var ag in c.ContractAgents)
+            {
+                db.ContractAgents.Add(new ContractAgent()
+                {
+                    ContractAgentId = Guid.NewGuid(),
+                    ContractId = newcontract.ContractId,
+                    AgentId = ag.AgentId,
+                    Percent = ag.Percent,
+                    num = ag.num
+                });
+            }
+
+            db.SaveChanges();
+
+            return newcontract.ContractId;
+        }
+
         public bool contract_access(Guid contractid, string userid)
         {
             return spContract(userid, contractid);
