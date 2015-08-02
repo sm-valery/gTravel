@@ -243,6 +243,9 @@
     <Compile Include="Models\Currency.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DocRel.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Factor.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
@@ -282,6 +285,9 @@
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\seria.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SeriaCurrency.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\spContract_Result.cs">

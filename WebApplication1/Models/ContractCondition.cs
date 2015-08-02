@@ -22,6 +22,8 @@ namespace gTravel.Models
         public Nullable<bool> Val_l { get; set; }
         public Nullable<System.DateTime> Val_d { get; set; }
         public Nullable<int> num { get; set; }
+        public Nullable<System.Guid> Val_id { get; set; }
+        public string link_text { get; set; }
     
         public virtual Condition Condition { get; set; }
         public virtual Contract Contract { get; set; }

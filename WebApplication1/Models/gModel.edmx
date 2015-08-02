@@ -154,7 +154,7 @@
           <Property Name="ContractStatusId" Type="uniqueidentifier" />
           <Property Name="period_multi_type" Type="nchar" MaxLength="1" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
-          <Property Name="date_out" Type="date" />
+          <Property Name="date_out" Type="datetime" />
           <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
           <Property Name="tripduration" Type="int" />
         </EntityType>
@@ -188,6 +188,8 @@
           <Property Name="Val_l" Type="bit" />
           <Property Name="Val_d" Type="date" />
           <Property Name="num" Type="int" />
+          <Property Name="Val_id" Type="uniqueidentifier" />
+          <Property Name="link_text" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="ContractFactor">
           <Key>
@@ -247,6 +249,15 @@
           <Property Name="name" Type="nchar" MaxLength="255" />
           <Property Name="code" Type="nchar" MaxLength="10" />
           <Property Name="cbrId" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="DocRel">
+          <Key>
+            <PropertyRef Name="DocRelId" />
+          </Key>
+          <Property Name="DocRelId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DocId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ParentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RelType" Type="nchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="Factors">
           <Key>
@@ -343,6 +354,14 @@
           <Property Name="DefaultTerritoryId" Type="uniqueidentifier" />
           <Property Name="PrintFunction" Type="varchar" MaxLength="128" />
           <Property Name="AssuredMax" Type="int" />
+        </EntityType>
+        <EntityType Name="SeriaCurrency">
+          <Key>
+            <PropertyRef Name="SeriaCurrencyId" />
+          </Key>
+          <Property Name="SeriaCurrencyId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SeriaId" Type="uniqueidentifier" />
+          <Property Name="CurrencyId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -1151,6 +1170,7 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <EntitySet Name="ContractStatus" EntityType="Self.ContractStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurRate" EntityType="Self.CurRate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocRel" EntityType="Self.DocRel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Factors" EntityType="Self.Factors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="import_settings" EntityType="Self.import_settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImportLog" EntityType="Self.ImportLog" Schema="dbo" store:Type="Tables" />
@@ -1159,6 +1179,7 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <EntitySet Name="RiskProgram" EntityType="Self.RiskProgram" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RiskSeria" EntityType="Self.RiskSeria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="seria" EntityType="Self.seria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SeriaCurrency" EntityType="Self.SeriaCurrency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tarif" EntityType="Self.Tarif" Schema="dbo" store:Type="Tables" />
@@ -1713,6 +1734,8 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
             <End Role="RiskSeria" EntitySet="RiskSerias" />
           </AssociationSet>
           <EntitySet Name="v_agentseria" EntityType="goDbModel.v_agentseria" />
+          <EntitySet Name="DocRels" EntityType="goDbModel.DocRel" />
+          <EntitySet Name="SeriaCurrencies" EntityType="goDbModel.SeriaCurrency" />
           </EntityContainer>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -1739,6 +1762,8 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="num" Type="Int32" />
           <NavigationProperty Name="Condition" Relationship="goDbModel.FK_Table_ToCondition" FromRole="ContractCondition" ToRole="Condition" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_Table_ToContract" FromRole="ContractCondition" ToRole="Contract" />
+          <Property Name="Val_id" Type="Guid" />
+          <Property Name="link_text" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Subject">
           <Key>
@@ -2665,7 +2690,7 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="ContractStatusId" Type="Guid" />
           <Property Name="period_multi_type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="date_out" Type="DateTime" Precision="0" />
+          <Property Name="date_out" Type="DateTime" Precision="3" />
           <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="tripduration" Type="Int32" />
           <NavigationProperty Name="AspNetUser" Relationship="goDbModel.FK_Contract_AspNetUsers" FromRole="Contract" ToRole="AspNetUser" />
@@ -3000,6 +3025,23 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="AssuredMax" Type="Int32" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="DocRel">
+          <Key>
+            <PropertyRef Name="DocRelId" />
+          </Key>
+          <Property Name="DocRelId" Type="Guid" Nullable="false" />
+          <Property Name="DocId" Type="Guid" Nullable="false" />
+          <Property Name="ParentId" Type="Guid" Nullable="false" />
+          <Property Name="RelType" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SeriaCurrency">
+          <Key>
+            <PropertyRef Name="SeriaCurrencyId" />
+          </Key>
+          <Property Name="SeriaCurrencyId" Type="Guid" Nullable="false" />
+          <Property Name="SeriaId" Type="Guid" />
+          <Property Name="CurrencyId" Type="Guid" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3019,6 +3061,8 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <EntitySetMapping Name="ContractConditions">
             <EntityTypeMapping TypeName="goDbModel.ContractCondition">
               <MappingFragment StoreEntitySet="ContractCondition">
+                <ScalarProperty Name="link_text" ColumnName="link_text" />
+                <ScalarProperty Name="Val_id" ColumnName="Val_id" />
                 <ScalarProperty Name="num" ColumnName="num" />
                 <ScalarProperty Name="Val_d" ColumnName="Val_d" />
                 <ScalarProperty Name="Val_l" ColumnName="Val_l" />
@@ -3658,6 +3702,25 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocRels">
+            <EntityTypeMapping TypeName="goDbModel.DocRel">
+              <MappingFragment StoreEntitySet="DocRel">
+                <ScalarProperty Name="RelType" ColumnName="RelType" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="DocId" ColumnName="DocId" />
+                <ScalarProperty Name="DocRelId" ColumnName="DocRelId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SeriaCurrencies">
+            <EntityTypeMapping TypeName="goDbModel.SeriaCurrency">
+              <MappingFragment StoreEntitySet="SeriaCurrency">
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+                <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
+                <ScalarProperty Name="SeriaCurrencyId" ColumnName="SeriaCurrencyId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

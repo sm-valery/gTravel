@@ -51,14 +51,23 @@ namespace gTravel.Servises
                 currencyid = (Guid)seria.DefaultCurrencyId,
                 date_out = DateTime.Now
             };
-
+            c.seria = seria;
 
             return c.add_contract(userid) ? c : null;
         }
 
         public Guid contract_copy(Contract c,string userid)
         {
-            var newcontract = create_contract(c.seriaid, userid);
+            return  contract_copy( c, userid,  "");
+        }
+        public Guid contract_copy(Contract c,string userid, string toseria)
+        {
+
+
+            Guid copyseria = (string.IsNullOrEmpty(toseria))?c.seriaid:
+                (db.serias.SingleOrDefault(x => x.Code.Trim() == toseria).SeriaId);
+
+            var newcontract = create_contract(copyseria, userid);
 
             //contract
             newcontract.date_begin = c.date_begin;
@@ -92,9 +101,84 @@ namespace gTravel.Servises
                 });
             }
 
+            //невыезд (лучше переделать на механизм связанных документов)
+            if (toseria=="03")
+            {
+                foreach(var cc in newcontract.ContractConditions)
+                {
+                    if(getContitionCode(cc.ConditionId.Value)=="vzrnum")
+                    {
+                        cc.Val_c = getSeriaCode(c.seriaid) + "-" + c.contractnumber.ToString();
+                        cc.Val_id = c.ContractId;
+                        cc.link_text = string.Format("Contract_edit?contractid={0}", c.ContractId.ToString());
+                    }
+                }
+
+                //страхователь
+                var insSubjectId = Guid.NewGuid();
+                newcontract.Holder_SubjectId = insSubjectId;
+
+                db.Subjects.Add(new Subject()
+                {
+                    SubjectId = insSubjectId,
+                    Name1 = c.Subject.Name1,
+                    Type = c.Subject.Type,
+                    DateOfBirth = c.Subject.DateOfBirth,
+                    Pasport = c.Subject.Pasport,
+                    Address = c.Subject.Address
+                });
+
+                //застрахованные
+                foreach(var s in c.Subjects)
+                {
+                    db.Subjects.Add(new Subject() { 
+                        SubjectId = Guid.NewGuid(),
+                        ContractId = newcontract.ContractId,
+                        Name1 = s.Name1,
+                        DateOfBirth = s.DateOfBirth,
+                        Pasport = s.Pasport
+                    });
+                }
+            }
+
             db.SaveChanges();
 
             return newcontract.ContractId;
+        }
+
+        public void DocRellAdd(Guid docid, Guid parentid, string reltype)
+        {
+            db.DocRels.Add(new DocRel()
+            {
+                DocRelId = Guid.NewGuid(),
+                DocId = docid,
+                ParentId = parentid,
+                RelType = reltype
+            });
+
+            db.SaveChanges();
+        }
+
+        private string getContitionCode(Guid conditionid)
+        {
+            string ret ="";
+
+            var cc = db.Conditions.SingleOrDefault(x => x.ConditionId == conditionid);
+            if (cc != null)
+                ret = cc.Code.Trim();
+
+            return ret;
+        }
+
+        private string getSeriaCode(Guid seriaid)
+        {
+            string ret = "";
+
+            var s = db.serias.SingleOrDefault(x => x.SeriaId == seriaid);
+            if (s != null)
+                ret = s.Code.Trim();
+
+            return ret;
         }
 
         public bool contract_access(Guid contractid, string userid)

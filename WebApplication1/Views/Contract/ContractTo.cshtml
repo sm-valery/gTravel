@@ -161,7 +161,7 @@
                 <div class="col-md-2"><label>Дата выдачи полиса:</label></div>
                 <div class="col-md-10">
                     @Html.HiddenFor(model => Model.date_out)
-                    @Html.TextBoxFor(m => Model.date_out, "{0:d}", new { @class = "form-control input-sm date3 date_period input-value", disabled = "disabled" })
+                    @Html.TextBoxFor(m => Model.date_out, new { @class = "form-control input-sm date_period input-value", disabled = "disabled" })
                     <span class="alert">
                         Валюта:
                         @Html.DropDownListFor(model => Model.currencyid, (SelectList)ViewBag.currency, getcontrolattr(viewonly, "currencyid"))
@@ -268,7 +268,7 @@
                     </span>
                     <span class="form-field">
                         <label>Дата рождения:</label>
-                        @Html.TextBoxFor(m => Model.Subject.DateOfBirth, new { @class = "form-control input-sm date3 date_period input-value" })
+                        @Html.TextBoxFor(m => Model.Subject.DateOfBirth,"{0:d}", new { @class = "form-control input-sm date3 date_period input-value" })
                     </span>
                     <span class="form-field">
                         <label id="subj_lab_id">@( (subj_f) ? "Паспорт" : "ИНН"):</label>
@@ -550,9 +550,17 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
               
                 @if(Model.seria.Code.Trim()!="03")
                 { 
+                    var c03 = ((IEnumerable<gTravel.Models.DocRel>)ViewBag.DocRel).SingleOrDefault(x=>x.RelType.Trim()=="03");
+                   
+                    string title03 = (c03==null)?"Оформить полис по невыезду":"Перейти к полису по невыезду";
+                    string icon03 = (c03 == null) ? "glyphicon-duplicate" : "glyphicon-share";
+                        
+                    
                   @:&nbsp;
-                <button name="caction" value="copy003" class="btn btn-default">
-                    <span class="glyphicon glyphicon-duplicate"></span>&nbsp;Невыезд</button>
+    <button name="caction" value="copy003" class="btn btn-default tooltip-m"
+            data-toggle="tooltip" data-placement="top" title="@title03">
+        <span class="glyphicon @icon03"></span>&nbsp;Невыезд
+    </button>
                 }
 
                 @if (User.IsInRole("Admin"))

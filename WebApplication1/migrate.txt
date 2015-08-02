@@ -1,4 +1,78 @@
-﻿30.07.2015 done
+﻿CREATE TABLE [dbo].[Contract] (
+    [ContractId]           UNIQUEIDENTIFIER NOT NULL,
+    [currencyid]           UNIQUEIDENTIFIER NOT NULL,
+    [contractnumber]       DECIMAL (18)     NULL,
+    [seriaid]              UNIQUEIDENTIFIER NOT NULL,
+    [date_begin]           DATE             NULL,
+    [date_end]             DATE             NULL,
+    [date_diff]            INT              NULL,
+    [Holder_SubjectId]     UNIQUEIDENTIFIER NULL,
+    [ContractStatusId]     UNIQUEIDENTIFIER NULL,
+    [period_multi_type]    NCHAR (1)        NULL,
+    [UserId]               NVARCHAR (128)   NULL,
+    =[date_out]             DATETIME             DEFAULT (getdate()) NULL,
+    [contractnumberformat] VARCHAR (50)     NULL,
+    [tripduration]         INT              DEFAULT ((0)) NULL,
+    PRIMARY KEY CLUSTERED ([ContractId] ASC),
+    CONSTRAINT [FK_Contract_AspNetUsers] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]),
+    CONSTRAINT [FK_Contract_ToSubject] FOREIGN KEY ([Holder_SubjectId]) REFERENCES [dbo].[Subject] ([SubjectId]),
+    CONSTRAINT [FK_Contract_ToTable] FOREIGN KEY ([currencyid]) REFERENCES [dbo].[Currency] ([CurrencyId]),
+    CONSTRAINT [FK_Contract_ToContractStatus] FOREIGN KEY ([ContractStatusId]) REFERENCES [dbo].[ContractStatus] ([ContractStatusId]),
+    CONSTRAINT [FK_Contract_ToTable_1] FOREIGN KEY ([seriaid]) REFERENCES [dbo].[seria] ([SeriaId])
+);
+
+
+CREATE TABLE [dbo].[SeriaCurrency] (
+    [SeriaCurrencyId] UNIQUEIDENTIFIER NOT NULL DEFAULT NewId(),
+    [SeriaId]         UNIQUEIDENTIFIER NULL,
+    [CurrencyId]      UNIQUEIDENTIFIER NULL,
+    PRIMARY KEY CLUSTERED ([SeriaCurrencyId] ASC)
+);
+
+GO
+CREATE NONCLUSTERED INDEX [IX_SeriaCurrency_SeriaId]
+    ON [dbo].[SeriaCurrency]([SeriaId] ASC);
+
+
+
+CREATE TABLE [dbo].[DocRel] (
+    [DocRelId] UNIQUEIDENTIFIER NOT NULL,
+    [DocId]    UNIQUEIDENTIFIER NOT NULL,
+    [ParentId] UNIQUEIDENTIFIER NOT NULL,
+    [RelType]  NCHAR (10)       NOT NULL,
+    PRIMARY KEY CLUSTERED ([DocRelId] ASC)
+);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_DocRel_DocId]
+    ON [dbo].[DocRel]([DocId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_DocRel_ParentId]
+    ON [dbo].[DocRel]([ParentId] ASC);
+
+================
+CREATE TABLE [dbo].[ContractCondition] (
+    [ContractCondId] UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [ConditionId]    UNIQUEIDENTIFIER NULL,
+    [Contractid]     UNIQUEIDENTIFIER NULL,
+    [Val_c]          NVARCHAR (255)   NULL,
+    [Val_n]          DECIMAL (18, 4)  NULL,
+    [Val_l]          BIT              NULL,
+    [Val_d]          DATE             NULL,
+    [num]            INT              NULL,
+    [Val_id]         UNIQUEIDENTIFIER NULL,
+    [link_text]      NVARCHAR (255)   NULL,
+    PRIMARY KEY CLUSTERED ([ContractCondId] ASC),
+    CONSTRAINT [FK_Table_ToCondition] FOREIGN KEY ([ConditionId]) REFERENCES [dbo].[Condition] ([ConditionId]),
+    CONSTRAINT [FK_Table_ToContract] FOREIGN KEY ([Contractid]) REFERENCES [dbo].[Contract] ([ContractId])
+);
+
+==============
+
+30.07.2015 done
 CREATE VIEW [dbo].[v_agentseria]
 	AS SELECT ass.AgentId, s.*, au.UserId FROM AgentSeria ass
 	join seria s on s.SeriaId = ass.SeriaId

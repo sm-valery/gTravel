@@ -78,6 +78,7 @@
             </th>*@
         <th>Статус</th>
         <th>Пользователь</th>
+
         <th></th>
     </tr>
     @foreach (var item in Model)
@@ -127,6 +128,7 @@
             <td>
                 @Html.DisplayFor(m => item.UserName)
             </td>
+         
             <td>
                 @Html.ActionLink("Открыть", "Contract_edit", new { contractid = item.ContractId }, new { @class = "btn btn-default btn-sm" })
                 @if(item.status_code=="confirmed")

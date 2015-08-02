@@ -74,6 +74,8 @@ namespace gTravel.Models
         public virtual DbSet<seria> serias { get; set; }
         public virtual DbSet<RiskSeria> RiskSerias { get; set; }
         public virtual DbSet<v_agentseria> v_agentseria { get; set; }
+        public virtual DbSet<DocRel> DocRels { get; set; }
+        public virtual DbSet<SeriaCurrency> SeriaCurrencies { get; set; }
     
         public virtual int BorderoCreate()
         {

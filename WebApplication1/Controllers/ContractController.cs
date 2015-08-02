@@ -303,7 +303,12 @@ namespace gTravel.Controllers
 
         private void ContractForm_ini(Contract c,string currentuserid)
         {
-            ViewBag.currency = new SelectList(db.Currencies.ToList(), "currencyid", "code",c.currencyid);
+            
+            ViewBag.currency = new SelectList((from sr in db.SeriaCurrencies
+             join cr in db.Currencies on sr.CurrencyId equals cr.CurrencyId
+             where sr.SeriaId == c.seriaid
+             select cr).ToList(), "currencyid", "code", c.currencyid);
+            //ViewBag.currency = new SelectList(db.Currencies.ToList(), "currencyid", "code",c.currencyid);
 
             //ViewBag.risklist = db.v_contract_risk.Where(x => x.ContractId == contract_id).OrderBy(o => o.sort);
 
@@ -329,6 +334,8 @@ namespace gTravel.Controllers
             ViewBag.isic = mLib.AgentInRole(currentuserid, "IC");
 
             ViewBag.RiskSeria = db.RiskSerias.Where(x => x.SeriaId == c.seriaid).ToList();
+
+            ViewBag.DocRel = db.DocRels.Where(x => x.ParentId == c.ContractId).ToList();
         }
 
 
@@ -446,12 +453,30 @@ namespace gTravel.Controllers
             var errMess = new List<string>();
             var cs = new ContractService(db);
 
+            if(caction == "copy003")
+            {
+                Guid docrelid = Guid.Empty;
+
+                var docrel= db.DocRels.SingleOrDefault(x => x.ParentId == c.ContractId && x.RelType == "03");
+                if (docrel != null)
+                {
+                    docrelid = docrel.DocId;
+                }
+                else
+                {
+                    docrelid = cs.contract_copy(c, userid, "03");
+                    cs.DocRellAdd(docrelid, c.ContractId, "03");
+                }
+ 
+               return RedirectToAction("Contract_edit", new { contractid = docrelid });
+            }
 
             if (caction == "copy")
             {
               return  RedirectToAction("Contract_edit", new { contractid = cs.contract_copy(c, userid)});
             }
 
+       
 
             //очистить застрахованных от удаленных
             c.SubjectClearDeleted();
