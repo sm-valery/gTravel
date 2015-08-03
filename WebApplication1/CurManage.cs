@@ -20,8 +20,10 @@ namespace gTravel
 
             if (curid == Guid.Parse("{00000000-0000-0000-0000-000000000000}"))
                 return 1;
+            
+            dt = dt.Value.Date;
 
-            var retv = db.CurRates.FirstOrDefault(x => x.CurrencyId == curid && x.RateDate == dt.Value);
+            var retv = db.CurRates.FirstOrDefault(x => x.CurrencyId == curid && x.RateDate ==  dt);
             if (retv != null)
                 return retv.Rate;
 

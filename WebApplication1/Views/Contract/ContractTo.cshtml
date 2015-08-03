@@ -228,11 +228,12 @@
                     @*@Html.Action("build_contract_territory", new { ContractTerritoryId = ContractTerritoryId, contractid = Model.ContractId })*@
                 </div>
             </div>
+            <p>&nbsp;</p>
             @*Доп параметры*@
             @HelperAddition()
             @*//страхователь*@
 
-            <p>&nbsp;</p>
+            
             <fieldset>
                 @{
     bool subj_f = Model.Subject.Type.Trim() == "fiz";
@@ -318,23 +319,23 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     </table>
                     @if (!viewonly)
                     {
-                        <img id="insured_add_wait" src="~/Content/loading_white_small.gif"
-                             style="position:absolute; z-index:1000;display:none;" />
-
-                        <span class="glyphicon glyphicon-plus-sign"></span>
-                        <a id="insured_add" href="#">
-                            <span style="font-weight:normal;">
-                                &nbsp;Добавить застрахованного
-                            </span>
-                        </a>
-
-                        <span class="glyphicon glyphicon-plus-sign"></span>
-                        <a id="insurer_add" href="#">
-                            <span style="font-weight:normal;">
-                                &nbsp;Добавить страхователя
-                            </span>
-                        </a>
-
+         
+                        <div style="margin-top:5px; padding-top:5px; border-top:solid thin;">
+                            <img id="insured_add_wait" src="~/Content/loading_white_small.gif"
+                                 style="position:absolute; z-index:1000;display:none;" />
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            <a id="insured_add" href="#">
+                                <span style="font-weight:normal;">
+                                    &nbsp;Добавить застрахованного
+                                </span>
+                            </a>
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            <a id="insurer_add" href="#">
+                                <span style="font-weight:normal;">
+                                    &nbsp;Добавить страхователя
+                                </span>
+                            </a>
+                        </div>
                     }
                 </div>
             </fieldset>
@@ -557,10 +558,10 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                         
                     
                   @:&nbsp;
-    <button name="caction" value="copy003" class="btn btn-default tooltip-m"
-            data-toggle="tooltip" data-placement="top" title="@title03">
-        <span class="glyphicon @icon03"></span>&nbsp;Невыезд
-    </button>
+                <button name="caction" value="copy003" class="btn btn-default tooltip-m"
+                        data-toggle="tooltip" data-placement="top" title="@title03">
+                    <span class="glyphicon @icon03"></span>&nbsp;Невыезд
+                </button>
                 }
 
                 @if (User.IsInRole("Admin"))

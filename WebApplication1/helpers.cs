@@ -40,7 +40,8 @@ namespace gTravel
             sbody.AppendFormat("<input type=\"hidden\" name=\"ContractConditions[{0}].ConditionId\" value=\"{1}\">", idx, cond.ConditionId.Value);
             sbody.AppendFormat("<input type=\"hidden\" name=\"ContractConditions[{0}].Contractid\" value=\"{1}\">", idx, cond.Contractid);
             sbody.AppendFormat("<input type=\"hidden\" name=\"ContractConditions[{0}].num\" value=\"{1}\">", idx, cond.num);
-
+            sbody.AppendFormat("<input type=\"hidden\" name=\"ContractConditions[{0}].link_text\" value=\"{1}\">", idx, cond.link_text);
+            sbody.AppendFormat("<input type=\"hidden\" name=\"ContractConditions[{0}].Val_id\" value=\"{1}\">", idx, cond.Val_id);
 
             switch (cond.Condition.Type)
             {
