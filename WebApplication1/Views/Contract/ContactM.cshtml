@@ -1,0 +1,50 @@
+﻿@model gTravel.Models.Contract
+
+@{
+    ViewBag.Title = "ContactM";
+}
+
+
+<table>
+
+    <tr>
+        <th>ФИО</th>
+        <th>ДР</th>
+        <th>Франш</th>
+        <th>Пасп</th>
+        
+    </tr>
+
+    <tr>
+        <td>
+            <input type="text" class="form-control input-sm grid-input"/>
+        </td>
+        <td>
+            <input type="text" class="form-control input-sm grid-input" />
+        </td>
+        <td>
+            <input type="text" class="form-control input-sm grid-input" />
+        </td>
+        <td><input type="text" class="form-control input-sm" id="grid-lastcol" /></td>
+        
+    </tr>
+</table>
+
+
+<script type="text/javascript">
+    $(function () {
+
+        $(".grid-input").keypress(function (event) {
+
+        })
+
+        $("#grid-lastcol").keypress(function (event) {
+        
+            if (event.which == 13) {
+                alert("add new row" + event.which);
+                event.preventDefault();
+            }
+        });
+
+    })
+</script>

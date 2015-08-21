@@ -577,6 +577,16 @@ namespace gTravel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserIdFilter]
+        public ActionResult ContactM()
+        {
+
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [UserIdFilter]
         public ActionResult ContractAg(Contract c, string userid, string caction = "save")
         {
             c.db = db;
