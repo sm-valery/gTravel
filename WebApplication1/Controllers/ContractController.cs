@@ -584,6 +584,12 @@ namespace gTravel.Controllers
         }
 
 
+        public PartialViewResult _ContractMNewAssured()
+        {
+            return PartialView();
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserIdFilter]

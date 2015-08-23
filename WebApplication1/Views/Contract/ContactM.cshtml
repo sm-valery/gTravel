@@ -1,50 +1,237 @@
-﻿@model gTravel.Models.Contract
+﻿@helper droplist(string name, SelectList list, string selval)
+{
+
+    selval = (string.IsNullOrEmpty(selval)) ? Guid.Empty.ToString() : selval;
+
+    <select name="@name" class="form-control input-sm input-value" data-val="true">
+        @foreach (var item in list)
+        {
+            if (selval == item.Value)
+            {
+                <option value="@item.Value" selected="selected">@item.Text</option>
+            }
+            else
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+
+        }
+    </select>
+
+}
+
+
+@functions{
+
+    object getcontrolattr(string control)
+    {
+        object o;
+
+        if (control == "Contract_territory_chosen")
+        {
+            o = new
+            {
+                @class = "form-control chosen-select input-100p",
+                Multiple = "Multiple",
+                data_placeholder = "Выберите территорию..."
+            };
+
+
+            return o;
+        }
+
+        o = new { @class = "form-control input-sm input-value" };
+
+        return o;
+    }
+
+}
+
+@model gTravel.Models.Contract
 
 @{
     ViewBag.Title = "ContactM";
 }
 
+<style>
+    body {
+        font-size: small;
+    }
 
-<table>
+    table {
+        font-size: small;
+    }
+</style>
 
-    <tr>
-        <th>ФИО</th>
-        <th>ДР</th>
-        <th>Франш</th>
-        <th>Пасп</th>
-        
-    </tr>
+<div class="well well-sm">@Model.seria.Code . @Model.seria.Name</div>
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-2">
+            Номер:
+            @Html.TextBoxFor(m => Model.contractnumber, new { autofocus = true, @class = "form-control input-sm" })
+        </div>
+        <div class="col-md-2">
 
-    <tr>
-        <td>
-            <input type="text" class="form-control input-sm grid-input"/>
-        </td>
-        <td>
-            <input type="text" class="form-control input-sm grid-input" />
-        </td>
-        <td>
-            <input type="text" class="form-control input-sm grid-input" />
-        </td>
-        <td><input type="text" class="form-control input-sm" id="grid-lastcol" /></td>
-        
-    </tr>
-</table>
+            Валюта:
+            @Html.DropDownListFor(model => Model.currencyid, (SelectList)ViewBag.currency,
+              new { @class = "form-control input-sm input-value" })
 
+        </div>
+        <div class="col-sm-2">
+            Дата выдачи:
+            @Html.TextBoxFor(m => Model.date_begin, new { @class = "form-control input-sm", placeholder = "дд.мм.гггг" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            Период страхования c:
+            @Html.TextBoxFor(m => Model.date_begin, new { @class = "form-control input-sm", placeholder = "дд.мм.гггг" })
+        </div>
+        <div class="col-sm-2">
+            по:
+            @Html.TextBoxFor(m => Model.date_end, new { @class = "form-control input-sm", placeholder = "дд.мм.гггг" })
+        </div>
+        <div class="col-sm-1">
+            дней:
+            @Html.TextBoxFor(m => Model.date_diff, new { @class = "form-control input-sm" })
+        </div>
+        <div class="col-sm-1">
+            срок:
+            @Html.TextBoxFor(m => Model.tripduration, new { @class = "form-control input-sm" })
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            Территория:
+            @Html.DropDownList("Contract_territory_chosen",
+                (MultiSelectList)ViewBag.TerritoryId,
+                getcontrolattr("Contract_territory_chosen"))
+        </div>
+
+        <div class="col-sm-3">
+            Страхователь:
+            <div class="input-group">
+
+                @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control" })
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">в спис</button>
+                </span>
+            </div><!-- /input-group -->
+        </div>
+    </div>
+
+
+
+
+    <div class="well well-sm">
+        <table>
+
+            <tr>
+                <td>ФИО</td>
+                <td>ДР</td>
+                <td>Франш</td>
+                <td>Пасп</td>
+
+            </tr>
+            @Html.Action("_ContractMNewAssured")
+
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2">
+            Страх. сумма
+            @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
+        </div>
+        <div class="col-lg-2">
+            Страх. премия
+            @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
+        </div>
+    </div>
+    
+    
+    <div class="row">
+        <div class="col-lg-3">
+            Агент 1
+            @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
+        </div>
+        <div class="col-lg-1">
+           %
+            @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
+        </div>
+        <div class="col-lg-3">
+            Агент 2
+            @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
+        </div>
+        <div class="col-lg-1">
+            %
+            @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
+        </div>
+        <div class="col-lg-4">  </div>
+    </div>
+
+
+}
 
 <script type="text/javascript">
+    function addnewassured(event) {
+        if (event.which == 13) {
+
+            $.ajax({
+                url: '@Url.Action("_ContractMNewAssured")',
+
+                error: function (request, status, error) {
+                    alert(error);
+                },
+                success: function (data) {
+                    $("table").append(data);
+
+                    $("table tr:last input:first").focus();
+                }
+            });
+
+
+            //  $("table").append("<tr><td>1</td><td>2</td><td>3</td><td>4</td></tr>");
+
+
+
+            event.preventDefault();
+        }
+    }
+
     $(function () {
 
-        $(".grid-input").keypress(function (event) {
+        @*$(".grid-input").keypress(function (event) {
 
         })
 
         $("#grid-lastcol").keypress(function (event) {
-        
+
             if (event.which == 13) {
-                alert("add new row" + event.which);
+
+                $.ajax({
+                    url: '@Url.Action("_ContractMNewAssured")',
+
+                    error: function (request, status, error) {
+                        alert(error);
+                    },
+                    success: function (data) {
+
+                        $("table").append(data);
+                    }
+                });
+
+
+                  //  $("table").append("<tr><td>1</td><td>2</td><td>3</td><td>4</td></tr>");
+
+
+
                 event.preventDefault();
             }
-        });
+        });*@
 
     })
 </script>

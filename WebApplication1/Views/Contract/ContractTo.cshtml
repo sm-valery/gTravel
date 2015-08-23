@@ -39,7 +39,7 @@
     }
 
 }
-@helper HelperAgents(bool isic)
+@*@helper HelperAgents(bool isic)
 {
 
     if (isic)
@@ -59,7 +59,7 @@
             </div>
         </fieldset>
     }
-}
+}*@
 
 @helper HelperRiskFactors(int numrow, int riskcount, Guid riskid, Guid contractid, bool viewonly = false)
 {
@@ -507,7 +507,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
 
 
-            @HelperAgents(isAgentIc)
+            @*@HelperAgents(isAgentIc)*@
 
             <p>&nbsp;</p>
             @*Кнопки*@
@@ -815,7 +815,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
 
 
         @*//агенты*@
-        $("#agents_add").click(function (e) {
+        @*$("#agents_add").click(function (e) {
 
             $.ajax({
                 url: '@Url.Action("_addAgentRow", "Contract")',
@@ -846,7 +846,7 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
             });
 
             e.preventDefault();
-        });
+        });*@
 
 
         bind_bonus();
