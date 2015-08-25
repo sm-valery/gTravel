@@ -336,6 +336,17 @@ namespace gTravel.Controllers
             ViewBag.RiskSeria = db.RiskSerias.Where(x => x.SeriaId == c.seriaid).ToList();
 
             ViewBag.DocRel = db.DocRels.Where(x => x.ParentId == c.ContractId).ToList();
+
+            //агенты для ручного полиса
+            if(c.seria.Code.Trim()=="04")
+            {
+                var vagents = db.Agents.OrderBy(x => x.Name).ToList();
+
+                vagents.Add(new Agent() { AgentId = Guid.Empty, Name = "Не заполнено" });
+
+                ViewBag.agentlist = new SelectList(vagents, "AgentId", "Name",Guid.Empty);
+            }
+
         }
 
 

@@ -156,7 +156,8 @@
     <div class="row">
         <div class="col-lg-3">
             Агент 1
-            @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
+            @Html.DropDownList("agentlist", null, new { @class = "form-control input-sm chosen-select" })
+
         </div>
         <div class="col-lg-1">
            %
@@ -164,7 +165,7 @@
         </div>
         <div class="col-lg-3">
             Агент 2
-            @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
+            @Html.DropDownList("agentlist", null, new { @class = "form-control input-sm chosen-select" })
         </div>
         <div class="col-lg-1">
             %
@@ -173,9 +174,15 @@
         <div class="col-lg-4">  </div>
     </div>
 
-
+    <hr />
+    <button class="btn btn-primary btn-sm">Сохранить</button>
+    <button class="btn btn-default">По образцу</button>
 }
 
+
+<div class="alert alert-info">
+    переход от поля к полю: <b>TAB</b>, открыть список значений, нажатия на кнопки: <b>SPACE</b>, добавить нового застрахованного: <b>ENTER</b> в последней колонке
+</div>
 <script type="text/javascript">
     function addnewassured(event) {
         if (event.which == 13) {
