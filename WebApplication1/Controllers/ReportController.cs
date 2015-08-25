@@ -26,6 +26,13 @@ namespace gTravel.Controllers
             return View();
         }
 
+        public ActionResult RepAgents()
+        {
+
+            ViewBag.Agents = new SelectList(db.Agents, "AgentId", "Name");
+
+            return View();
+        }
 
         public class CollectedPremData
         {

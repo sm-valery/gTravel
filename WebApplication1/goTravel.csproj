@@ -689,6 +689,7 @@
     <Content Include="Views\Contract\print03blank.cshtml" />
     <Content Include="Views\Contract\ContactM.cshtml" />
     <Content Include="Views\Contract\_ContractMNewAssured.cshtml" />
+    <Content Include="Views\Report\RepAgents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
