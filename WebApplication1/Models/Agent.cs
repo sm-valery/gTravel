@@ -27,6 +27,7 @@ namespace gTravel.Models
         public string AgentContractNum { get; set; }
         public Nullable<System.DateTime> AgentContractDate { get; set; }
         public Nullable<System.Guid> ParentId { get; set; }
+        public Nullable<int> AgentType { get; set; }
     
         public virtual ICollection<AgentUser> AgentUsers { get; set; }
         public virtual ICollection<TarifPlanAgent> TarifPlanAgents { get; set; }

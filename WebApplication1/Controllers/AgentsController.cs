@@ -89,6 +89,8 @@ namespace gTravel.Controllers
 
             ViewBag.ParentId = new SelectList(db.Agents, "AgentId", "Name");
 
+            ViewBag.AgentType = new SelectList(db.AddRefs.Where(x=>x.Code.Trim()=="subjtype"),"Value","AddRefsId")
+
             return View(agent);
         }
 

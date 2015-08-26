@@ -1,4 +1,30 @@
-﻿CREATE TABLE [dbo].[Contract] (
+﻿INSERT INTO [dbo].[AddRefs] ([AddRefsId], [Code], [Value], [OrderNum]) VALUES (N'9c791649-711a-480f-9b13-0bebcb7df102', N'subjtype                      ', N'Физ-лицо', CAST(1 AS Decimal(18, 0)))
+INSERT INTO [dbo].[AddRefs] ([AddRefsId], [Code], [Value], [OrderNum]) VALUES (N'a9b967e7-25bb-4b10-bade-f4ee3b6a57c9', N'subjtype                      ', N'Юр-лицо', CAST(0 AS Decimal(18, 0)))
+
+
+CREATE TABLE [dbo].[AddRefs] (
+  =  [AddRefsId] UNIQUEIDENTIFIER NOT NULL DEFAULT newid(),
+    [Code]      NCHAR (30)       NULL,
+    [Value]     NCHAR (100)      NULL,
+    [OrderNum]  DECIMAL (18)     NULL,
+    PRIMARY KEY CLUSTERED ([AddRefsId] ASC)
+);
+
+26.08.2015
+CREATE TABLE [dbo].[Agent] (
+    [AgentId]           UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [Name]              NVARCHAR (50)    NULL,
+    [AgentContractNum]  NVARCHAR (50)    NULL,
+    [AgentContractDate] DATE             NULL,
+    [ParentId]          UNIQUEIDENTIFIER NULL,
+ +   [AgentType]         UNIQUEIDENTIFIER NULL,
+    PRIMARY KEY CLUSTERED ([AgentId] ASC),
+    CONSTRAINT [FK_Agent_ToAgent] FOREIGN KEY ([ParentId]) REFERENCES [dbo].[Agent] ([AgentId])
+);
+
+
+========= done
+CREATE TABLE [dbo].[Contract] (
     [ContractId]           UNIQUEIDENTIFIER NOT NULL,
     [currencyid]           UNIQUEIDENTIFIER NOT NULL,
     [contractnumber]       DECIMAL (18)     NULL,
