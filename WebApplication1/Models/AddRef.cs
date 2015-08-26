@@ -14,9 +14,16 @@ namespace gTravel.Models
     
     public partial class AddRef
     {
+        public AddRef()
+        {
+            this.Agents = new HashSet<Agent>();
+        }
+    
         public System.Guid AddRefsId { get; set; }
         public string Code { get; set; }
         public string Value { get; set; }
         public Nullable<decimal> OrderNum { get; set; }
+    
+        public virtual ICollection<Agent> Agents { get; set; }
     }
 }

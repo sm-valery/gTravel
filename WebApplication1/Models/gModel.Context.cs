@@ -46,8 +46,6 @@ namespace gTravel.Models
         public virtual DbSet<ImportLog> ImportLogs { get; set; }
         public virtual DbSet<ImportLogContract> ImportLogContracts { get; set; }
         public virtual DbSet<v_importlog> v_importlog { get; set; }
-        public virtual DbSet<Agent> Agents { get; set; }
-        public virtual DbSet<AgentUser> AgentUsers { get; set; }
         public virtual DbSet<AddRef> AddRefs { get; set; }
         public virtual DbSet<Condition> Conditions { get; set; }
         public virtual DbSet<BorderoContract> BorderoContracts { get; set; }
@@ -76,6 +74,8 @@ namespace gTravel.Models
         public virtual DbSet<v_agentseria> v_agentseria { get; set; }
         public virtual DbSet<DocRel> DocRels { get; set; }
         public virtual DbSet<SeriaCurrency> SeriaCurrencies { get; set; }
+        public virtual DbSet<Agent> Agents { get; set; }
+        public virtual DbSet<AgentUser> AgentUsers { get; set; }
     
         public virtual int BorderoCreate()
         {

@@ -16,10 +16,8 @@ namespace gTravel.Models
     {
         public Agent()
         {
-            this.AgentUsers = new HashSet<AgentUser>();
-            this.TarifPlanAgents = new HashSet<TarifPlanAgent>();
-            this.AgentSerias = new HashSet<AgentSeria>();
             this.Agent1 = new HashSet<Agent>();
+            this.AgentUsers = new HashSet<AgentUser>();
         }
     
         public System.Guid AgentId { get; set; }
@@ -27,12 +25,11 @@ namespace gTravel.Models
         public string AgentContractNum { get; set; }
         public Nullable<System.DateTime> AgentContractDate { get; set; }
         public Nullable<System.Guid> ParentId { get; set; }
-        public Nullable<int> AgentType { get; set; }
+        public Nullable<System.Guid> AgentType { get; set; }
     
-        public virtual ICollection<AgentUser> AgentUsers { get; set; }
-        public virtual ICollection<TarifPlanAgent> TarifPlanAgents { get; set; }
-        public virtual ICollection<AgentSeria> AgentSerias { get; set; }
+        public virtual AddRef AddRef { get; set; }
         public virtual ICollection<Agent> Agent1 { get; set; }
         public virtual Agent Agent2 { get; set; }
+        public virtual ICollection<AgentUser> AgentUsers { get; set; }
     }
 }

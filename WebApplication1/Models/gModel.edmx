@@ -23,7 +23,7 @@
           <Property Name="AgentContractNum" Type="nvarchar" MaxLength="50" />
           <Property Name="AgentContractDate" Type="date" />
           <Property Name="ParentId" Type="uniqueidentifier" />
-          <Property Name="AgentType" Type="int" />
+          <Property Name="AgentType" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="AgentRole">
           <Key>
@@ -660,15 +660,15 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AgentSeria_ToAgent">
-          <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
-          <End Role="AgentSeria" Type="Self.AgentSeria" Multiplicity="*" />
+        <Association Name="FK_Agent_ToAgentType">
+          <End Role="AddRefs" Type="Self.AddRefs" Multiplicity="0..1" />
+          <End Role="Agent" Type="Self.Agent" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Agent">
-              <PropertyRef Name="AgentId" />
+            <Principal Role="AddRefs">
+              <PropertyRef Name="AddRefsId" />
             </Principal>
-            <Dependent Role="AgentSeria">
-              <PropertyRef Name="AgentId" />
+            <Dependent Role="Agent">
+              <PropertyRef Name="AgentType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -696,7 +696,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AgentUser_ToTable">
+        <Association Name="FK_AgentUser_ToAgent">
           <End Role="Agent" Type="Self.Agent" Multiplicity="0..1" />
           <End Role="AgentUser" Type="Self.AgentUser" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1100,18 +1100,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TarifPlanAgent_Agent">
-          <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
-          <End Role="TarifPlanAgent" Type="Self.TarifPlanAgent" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Agent">
-              <PropertyRef Name="AgentId" />
-            </Principal>
-            <Dependent Role="TarifPlanAgent">
-              <PropertyRef Name="AgentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TarifPlanAgent_TarifPlan">
           <End Role="TarifPlan" Type="Self.TarifPlan" Multiplicity="1" />
           <End Role="TarifPlanAgent" Type="Self.TarifPlanAgent" Multiplicity="*" />
@@ -1350,9 +1338,9 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="Agent" EntitySet="Agent" />
             <End Role="Agent1" EntitySet="Agent" />
           </AssociationSet>
-          <AssociationSet Name="FK_AgentSeria_ToAgent" Association="Self.FK_AgentSeria_ToAgent">
+          <AssociationSet Name="FK_Agent_ToAgentType" Association="Self.FK_Agent_ToAgentType">
+            <End Role="AddRefs" EntitySet="AddRefs" />
             <End Role="Agent" EntitySet="Agent" />
-            <End Role="AgentSeria" EntitySet="AgentSeria" />
           </AssociationSet>
           <AssociationSet Name="FK_AgentSeria_Toseria" Association="Self.FK_AgentSeria_Toseria">
             <End Role="seria" EntitySet="seria" />
@@ -1362,7 +1350,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="TerritoryGrp" EntitySet="TerritoryGrp" />
             <End Role="AgentSeria" EntitySet="AgentSeria" />
           </AssociationSet>
-          <AssociationSet Name="FK_AgentUser_ToTable" Association="Self.FK_AgentUser_ToTable">
+          <AssociationSet Name="FK_AgentUser_ToAgent" Association="Self.FK_AgentUser_ToAgent">
             <End Role="Agent" EntitySet="Agent" />
             <End Role="AgentUser" EntitySet="AgentUser" />
           </AssociationSet>
@@ -1494,10 +1482,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="seria" EntitySet="seria" />
             <End Role="TarifPlan" EntitySet="TarifPlan" />
           </AssociationSet>
-          <AssociationSet Name="FK_TarifPlanAgent_Agent" Association="Self.FK_TarifPlanAgent_Agent">
-            <End Role="Agent" EntitySet="Agent" />
-            <End Role="TarifPlanAgent" EntitySet="TarifPlanAgent" />
-          </AssociationSet>
           <AssociationSet Name="FK_TarifPlanAgent_TarifPlan" Association="Self.FK_TarifPlanAgent_TarifPlan">
             <End Role="TarifPlan" EntitySet="TarifPlan" />
             <End Role="TarifPlanAgent" EntitySet="TarifPlanAgent" />
@@ -1555,16 +1539,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySet Name="ImportLogs" EntityType="goDbModel.ImportLog" />
           <EntitySet Name="ImportLogContracts" EntityType="goDbModel.ImportLogContract" />
           <EntitySet Name="v_importlog" EntityType="goDbModel.v_importlog" />
-          <EntitySet Name="Agents" EntityType="goDbModel.Agent" />
-          <EntitySet Name="AgentUsers" EntityType="goDbModel.AgentUser" />
-          <AssociationSet Name="FK_AgentUser_ToTable" Association="goDbModel.FK_AgentUser_ToTable">
-            <End Role="Agent" EntitySet="Agents" />
-            <End Role="AgentUser" EntitySet="AgentUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AgentUser_ToTable_1" Association="goDbModel.FK_AgentUser_ToTable_1">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="AgentUser" EntitySet="AgentUsers" />
-          </AssociationSet>
           <EntitySet Name="AddRefs" EntityType="goDbModel.AddRef" />
           <EntitySet Name="Conditions" EntityType="goDbModel.Condition" />
           <AssociationSet Name="FK_ConditionSeria_ToCondition" Association="goDbModel.FK_ConditionSeria_ToCondition">
@@ -1590,10 +1564,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySet Name="TerritoryGrps" EntityType="goDbModel.TerritoryGrp" />
           <EntitySet Name="TarifPlans" EntityType="goDbModel.TarifPlan" />
           <EntitySet Name="TarifPlanAgents" EntityType="goDbModel.TarifPlanAgent" />
-          <AssociationSet Name="FK_TarifPlanAgent_Agent" Association="goDbModel.FK_TarifPlanAgent_Agent">
-            <End Role="Agent" EntitySet="Agents" />
-            <End Role="TarifPlanAgent" EntitySet="TarifPlanAgents" />
-          </AssociationSet>
           <AssociationSet Name="FK_TarifPlanAgent_TarifPlan" Association="goDbModel.FK_TarifPlanAgent_TarifPlan">
             <End Role="TarifPlan" EntitySet="TarifPlans" />
             <End Role="TarifPlanAgent" EntitySet="TarifPlanAgents" />
@@ -1601,10 +1571,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySet Name="AgentSerias" EntityType="goDbModel.AgentSeria" />
           <AssociationSet Name="FK_AgentSeria_ToTerritoryGrp" Association="goDbModel.FK_AgentSeria_ToTerritoryGrp">
             <End Role="TerritoryGrp" EntitySet="TerritoryGrps" />
-            <End Role="AgentSeria" EntitySet="AgentSerias" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AgentSeria_ToAgent" Association="goDbModel.FK_AgentSeria_ToAgent">
-            <End Role="Agent" EntitySet="Agents" />
             <End Role="AgentSeria" EntitySet="AgentSerias" />
           </AssociationSet>
           <EntitySet Name="Factors" EntityType="goDbModel.Factor" />
@@ -1699,10 +1665,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="ContractCondition" EntitySet="ContractConditions" />
           </AssociationSet>
           <EntitySet Name="v_contract" EntityType="goDbModel.v_contract" />
-          <AssociationSet Name="FK_Agent_ToAgent" Association="goDbModel.FK_Agent_ToAgent">
-            <End Role="Agent" EntitySet="Agents" />
-            <End Role="Agent1" EntitySet="Agents" />
-          </AssociationSet>
           <EntitySet Name="v_contract_factors" EntityType="goDbModel.v_contract_factors" />
           <EntitySet Name="serias" EntityType="goDbModel.seria" />
           <AssociationSet Name="FK_AgentSeria_Toseria" Association="goDbModel.FK_AgentSeria_Toseria">
@@ -1737,6 +1699,24 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySet Name="v_agentseria" EntityType="goDbModel.v_agentseria" />
           <EntitySet Name="DocRels" EntityType="goDbModel.DocRel" />
           <EntitySet Name="SeriaCurrencies" EntityType="goDbModel.SeriaCurrency" />
+          <EntitySet Name="Agents" EntityType="goDbModel.Agent" />
+          <EntitySet Name="AgentUsers" EntityType="goDbModel.AgentUser" />
+          <AssociationSet Name="FK_Agent_ToAgentType" Association="goDbModel.FK_Agent_ToAgentType">
+            <End Role="AddRef" EntitySet="AddRefs" />
+            <End Role="Agent" EntitySet="Agents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agent_ToAgent" Association="goDbModel.FK_Agent_ToAgent">
+            <End Role="Agent" EntitySet="Agents" />
+            <End Role="Agent1" EntitySet="Agents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentUser_ToAgent" Association="goDbModel.FK_AgentUser_ToAgent">
+            <End Role="Agent" EntitySet="Agents" />
+            <End Role="AgentUser" EntitySet="AgentUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AgentUser_ToTable_1" Association="goDbModel.FK_AgentUser_ToTable_1">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AgentUser" EntitySet="AgentUsers" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -1925,8 +1905,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <NavigationProperty Name="AspNetUserClaims" Relationship="goDbModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="goDbModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
           <NavigationProperty Name="AspNetRoles" Relationship="goDbModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
-          <NavigationProperty Name="AgentUsers" Relationship="goDbModel.FK_AgentUser_ToTable_1" FromRole="AspNetUser" ToRole="AgentUser" />
           <NavigationProperty Name="Contracts" Relationship="goDbModel.FK_Contract_AspNetUsers" FromRole="AspNetUser" ToRole="Contract" />
+          <NavigationProperty Name="AgentUsers" Relationship="goDbModel.FK_AgentUser_ToTable_1" FromRole="AspNetUser" ToRole="AgentUser" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="goDbModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -2057,57 +2037,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractcount" Type="Int32" />
           <Property Name="docnum" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
-        <EntityType Name="Agent">
-          <Key>
-            <PropertyRef Name="AgentId" />
-          </Key>
-          <Property Name="AgentId" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AgentUsers" Relationship="goDbModel.FK_AgentUser_ToTable" FromRole="Agent" ToRole="AgentUser" />
-          <NavigationProperty Name="TarifPlanAgents" Relationship="goDbModel.FK_TarifPlanAgent_Agent" FromRole="Agent" ToRole="TarifPlanAgent" />
-          <NavigationProperty Name="AgentSerias" Relationship="goDbModel.FK_AgentSeria_ToAgent" FromRole="Agent" ToRole="AgentSeria" />
-          <Property Name="AgentContractNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AgentContractDate" Type="DateTime" Precision="0" />
-          <Property Name="ParentId" Type="Guid" />
-          <NavigationProperty Name="Agent1" Relationship="goDbModel.FK_Agent_ToAgent" FromRole="Agent" ToRole="Agent1" />
-          <NavigationProperty Name="Agent2" Relationship="goDbModel.FK_Agent_ToAgent" FromRole="Agent1" ToRole="Agent" />
-          <Property Name="AgentType" Type="Int32" />
-        </EntityType>
-        <EntityType Name="AgentUser">
-          <Key>
-            <PropertyRef Name="AgentUserId" />
-          </Key>
-          <Property Name="AgentUserId" Type="Guid" Nullable="false" />
-          <Property Name="AgentId" Type="Guid" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Agent" Relationship="goDbModel.FK_AgentUser_ToTable" FromRole="AgentUser" ToRole="Agent" />
-          <NavigationProperty Name="AspNetUser" Relationship="goDbModel.FK_AgentUser_ToTable_1" FromRole="AgentUser" ToRole="AspNetUser" />
-          <Property Name="IsGlobalUser" Type="Int32" />
-        </EntityType>
-        <Association Name="FK_AgentUser_ToTable">
-          <End Type="goDbModel.Agent" Role="Agent" Multiplicity="0..1" />
-          <End Type="goDbModel.AgentUser" Role="AgentUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Agent">
-              <PropertyRef Name="AgentId" />
-            </Principal>
-            <Dependent Role="AgentUser">
-              <PropertyRef Name="AgentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AgentUser_ToTable_1">
-          <End Type="goDbModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="goDbModel.AgentUser" Role="AgentUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AgentUser">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="spContract_Result">
           <Property Type="Guid" Name="ContractId" Nullable="false" />
           <Property Type="Guid" Name="currencyid" Nullable="false" />
@@ -2194,6 +2123,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="Code" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
           <Property Name="Value" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <Property Name="OrderNum" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Agents" Relationship="goDbModel.FK_Agent_ToAgentType" FromRole="AddRef" ToRole="Agent" />
         </EntityType>
         <EntityType Name="Condition">
           <Key>
@@ -2368,21 +2298,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="TarifPlanAgentId" Type="Guid" Nullable="false" />
           <Property Name="AgentId" Type="Guid" Nullable="false" />
           <Property Name="TarifPlanId" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="Agent" Relationship="goDbModel.FK_TarifPlanAgent_Agent" FromRole="TarifPlanAgent" ToRole="Agent" />
           <NavigationProperty Name="TarifPlan" Relationship="goDbModel.FK_TarifPlanAgent_TarifPlan" FromRole="TarifPlanAgent" ToRole="TarifPlan" />
         </EntityType>
-        <Association Name="FK_TarifPlanAgent_Agent">
-          <End Type="goDbModel.Agent" Role="Agent" Multiplicity="1" />
-          <End Type="goDbModel.TarifPlanAgent" Role="TarifPlanAgent" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Agent">
-              <PropertyRef Name="AgentId" />
-            </Principal>
-            <Dependent Role="TarifPlanAgent">
-              <PropertyRef Name="AgentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TarifPlanAgent_TarifPlan">
           <End Type="goDbModel.TarifPlan" Role="TarifPlan" Multiplicity="1" />
           <End Type="goDbModel.TarifPlanAgent" Role="TarifPlanAgent" Multiplicity="*" />
@@ -2404,7 +2321,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="SeriaId" Type="Guid" />
           <Property Name="TerritoryGrpId" Type="Guid" />
           <NavigationProperty Name="TerritoryGrp" Relationship="goDbModel.FK_AgentSeria_ToTerritoryGrp" FromRole="AgentSeria" ToRole="TerritoryGrp" />
-          <NavigationProperty Name="Agent" Relationship="goDbModel.FK_AgentSeria_ToAgent" FromRole="AgentSeria" ToRole="Agent" />
           <NavigationProperty Name="Factors" Relationship="goDbModel.FK_Factors_ToAgentSeria" FromRole="AgentSeria" ToRole="Factor" />
           <Property Name="AgentFee" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="Tarifs" Relationship="goDbModel.FK_Tarif_ToAgentSeria" FromRole="AgentSeria" ToRole="Tarif" />
@@ -2420,18 +2336,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Principal>
             <Dependent Role="AgentSeria">
               <PropertyRef Name="TerritoryGrpId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AgentSeria_ToAgent">
-          <End Type="goDbModel.Agent" Role="Agent" Multiplicity="0..1" />
-          <End Type="goDbModel.AgentSeria" Role="AgentSeria" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Agent">
-              <PropertyRef Name="AgentId" />
-            </Principal>
-            <Dependent Role="AgentSeria">
-              <PropertyRef Name="AgentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2860,18 +2764,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="serianame" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="PrintFunction" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
         </EntityType>
-        <Association Name="FK_Agent_ToAgent">
-          <End Type="goDbModel.Agent" Role="Agent" Multiplicity="0..1" />
-          <End Type="goDbModel.Agent" Role="Agent1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Agent">
-              <PropertyRef Name="AgentId" />
-            </Principal>
-            <Dependent Role="Agent1">
-              <PropertyRef Name="ParentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="v_contract_factors">
           <Key>
             <PropertyRef Name="ContractFactorId" />
@@ -3044,6 +2936,80 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="SeriaId" Type="Guid" />
           <Property Name="CurrencyId" Type="Guid" />
         </EntityType>
+        <EntityType Name="Agent">
+          <Key>
+            <PropertyRef Name="AgentId" />
+          </Key>
+          <Property Name="AgentId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentContractNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentContractDate" Type="DateTime" Precision="0" />
+          <Property Name="ParentId" Type="Guid" />
+          <Property Name="AgentType" Type="Guid" />
+          <NavigationProperty Name="AddRef" Relationship="goDbModel.FK_Agent_ToAgentType" FromRole="Agent" ToRole="AddRef" />
+          <NavigationProperty Name="Agent1" Relationship="goDbModel.FK_Agent_ToAgent" FromRole="Agent" ToRole="Agent1" />
+          <NavigationProperty Name="Agent2" Relationship="goDbModel.FK_Agent_ToAgent" FromRole="Agent1" ToRole="Agent" />
+          <NavigationProperty Name="AgentUsers" Relationship="goDbModel.FK_AgentUser_ToAgent" FromRole="Agent" ToRole="AgentUser" />
+        </EntityType>
+        <EntityType Name="AgentUser">
+          <Key>
+            <PropertyRef Name="AgentUserId" />
+          </Key>
+          <Property Name="AgentUserId" Type="Guid" Nullable="false" />
+          <Property Name="AgentId" Type="Guid" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsGlobalUser" Type="Int32" />
+          <NavigationProperty Name="Agent" Relationship="goDbModel.FK_AgentUser_ToAgent" FromRole="AgentUser" ToRole="Agent" />
+          <NavigationProperty Name="AspNetUser" Relationship="goDbModel.FK_AgentUser_ToTable_1" FromRole="AgentUser" ToRole="AspNetUser" />
+        </EntityType>
+        <Association Name="FK_Agent_ToAgentType">
+          <End Type="goDbModel.AddRef" Role="AddRef" Multiplicity="0..1" />
+          <End Type="goDbModel.Agent" Role="Agent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AddRef">
+              <PropertyRef Name="AddRefsId" />
+            </Principal>
+            <Dependent Role="Agent">
+              <PropertyRef Name="AgentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agent_ToAgent">
+          <End Type="goDbModel.Agent" Role="Agent" Multiplicity="0..1" />
+          <End Type="goDbModel.Agent" Role="Agent1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="AgentId" />
+            </Principal>
+            <Dependent Role="Agent1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentUser_ToAgent">
+          <End Type="goDbModel.Agent" Role="Agent" Multiplicity="0..1" />
+          <End Type="goDbModel.AgentUser" Role="AgentUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agent">
+              <PropertyRef Name="AgentId" />
+            </Principal>
+            <Dependent Role="AgentUser">
+              <PropertyRef Name="AgentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AgentUser_ToTable_1">
+          <End Type="goDbModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="goDbModel.AgentUser" Role="AgentUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AgentUser">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3278,28 +3244,6 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="userid" ColumnName="userid" />
                 <ScalarProperty Name="ImportLogId" ColumnName="ImportLogId" />
                 <ScalarProperty Name="dateinsert" ColumnName="dateinsert" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Agents">
-            <EntityTypeMapping TypeName="goDbModel.Agent">
-              <MappingFragment StoreEntitySet="Agent">
-                <ScalarProperty Name="AgentType" ColumnName="AgentType" />
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-                <ScalarProperty Name="AgentContractDate" ColumnName="AgentContractDate" />
-                <ScalarProperty Name="AgentContractNum" ColumnName="AgentContractNum" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AgentUsers">
-            <EntityTypeMapping TypeName="goDbModel.AgentUser">
-              <MappingFragment StoreEntitySet="AgentUser">
-                <ScalarProperty Name="IsGlobalUser" ColumnName="IsGlobalUser" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
-                <ScalarProperty Name="AgentUserId" ColumnName="AgentUserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3724,6 +3668,28 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
                 <ScalarProperty Name="SeriaId" ColumnName="SeriaId" />
                 <ScalarProperty Name="SeriaCurrencyId" ColumnName="SeriaCurrencyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Agents">
+            <EntityTypeMapping TypeName="goDbModel.Agent">
+              <MappingFragment StoreEntitySet="Agent">
+                <ScalarProperty Name="AgentType" ColumnName="AgentType" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="AgentContractDate" ColumnName="AgentContractDate" />
+                <ScalarProperty Name="AgentContractNum" ColumnName="AgentContractNum" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AgentUsers">
+            <EntityTypeMapping TypeName="goDbModel.AgentUser">
+              <MappingFragment StoreEntitySet="AgentUser">
+                <ScalarProperty Name="IsGlobalUser" ColumnName="IsGlobalUser" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="AgentUserId" ColumnName="AgentUserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

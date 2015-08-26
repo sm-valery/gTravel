@@ -28,7 +28,6 @@ namespace gTravel.Models
         public bool HidePremium { get; set; }
     
         public virtual TerritoryGrp TerritoryGrp { get; set; }
-        public virtual Agent Agent { get; set; }
         public virtual ICollection<Factor> Factors { get; set; }
         public virtual ICollection<Tarif> Tarifs { get; set; }
         public virtual seria seria { get; set; }

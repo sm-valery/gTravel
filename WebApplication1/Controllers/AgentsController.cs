@@ -48,7 +48,10 @@ namespace gTravel.Controllers
         // GET: Agents/Create
         public ActionResult Create()
         {
-            ViewBag.ParentId = new SelectList(db.Agents, "AgentId", "Name");
+            ViewBag.ParentId = new SelectList(db.Agents, "AgentId", "Name,AgentType");
+
+            ViewBag.AgentType = new SelectList(db.AddRefs.Where(x => x.Code.Trim() == "subjtype"), "Value", "AddRefsId");
+
 
             return View();
         }
@@ -58,7 +61,7 @@ namespace gTravel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AgentId,Name, ParentId")] Agent agent)
+        public ActionResult Create([Bind(Include = "AgentId,Name, ParentId,AgentType")] Agent agent)
         {
             if (ModelState.IsValid)
             {
@@ -69,6 +72,7 @@ namespace gTravel.Controllers
             }
 
             ViewBag.ParentId = new SelectList(db.Agents, "AgentId", "Name");
+            ViewBag.AgentType = new SelectList(db.AddRefs.Where(x => x.Code.Trim() == "subjtype"), "AddRefsId", "Value", agent.AgentType);
 
             return View(agent);
         }
@@ -89,7 +93,7 @@ namespace gTravel.Controllers
 
             ViewBag.ParentId = new SelectList(db.Agents, "AgentId", "Name");
 
-            ViewBag.AgentType = new SelectList(db.AddRefs.Where(x=>x.Code.Trim()=="subjtype"),"Value","AddRefsId")
+            ViewBag.AgentType = new SelectList(db.AddRefs.Where(x => x.Code.Trim() == "subjtype").ToList(), "AddRefsId", "Value", agent.AgentType);
 
             return View(agent);
         }
@@ -99,7 +103,7 @@ namespace gTravel.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AgentId,Name")] Agent agent)
+        public ActionResult Edit([Bind(Include = "AgentId,Name,AgentType")] Agent agent)
         {
             if (ModelState.IsValid)
             {
@@ -107,6 +111,9 @@ namespace gTravel.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            ViewBag.AgentType = new SelectList(db.AddRefs.Where(x => x.Code.Trim() == "subjtype").ToList(), "AddRefsId", "Value", agent.AgentType);
+
             return View(agent);
         }
 

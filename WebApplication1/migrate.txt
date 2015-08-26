@@ -1,6 +1,17 @@
-﻿INSERT INTO [dbo].[AddRefs] ([AddRefsId], [Code], [Value], [OrderNum]) VALUES (N'9c791649-711a-480f-9b13-0bebcb7df102', N'subjtype                      ', N'Физ-лицо', CAST(1 AS Decimal(18, 0)))
-INSERT INTO [dbo].[AddRefs] ([AddRefsId], [Code], [Value], [OrderNum]) VALUES (N'a9b967e7-25bb-4b10-bade-f4ee3b6a57c9', N'subjtype                      ', N'Юр-лицо', CAST(0 AS Decimal(18, 0)))
+﻿CREATE TABLE [dbo].[AgentUser] (
+    [AgentUserId]  UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [AgentId]      UNIQUEIDENTIFIER NULL,
+    [UserId]       NVARCHAR (128)   NULL,
+    [IsGlobalUser] INT              DEFAULT ((1)) NULL,
+    PRIMARY KEY CLUSTERED ([AgentUserId] ASC),
+    CONSTRAINT [FK_AgentUser_ToTable_1] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]), 
+    +CONSTRAINT [FK_AgentUser_ToAgent] FOREIGN KEY ([AgentID]) REFERENCES [Agent]([AgentId])
+);
 
+
+INSERT INTO [dbo].[AddRefs] ([AddRefsId], [Code], [Value], [OrderNum]) VALUES (N'9c791649-711a-480f-9b13-0bebcb7df102', N'subjtype                      ', N'Физ-лицо', CAST(1 AS Decimal(18, 0)))
+INSERT INTO [dbo].[AddRefs] ([AddRefsId], [Code], [Value], [OrderNum]) VALUES (N'a9b967e7-25bb-4b10-bade-f4ee3b6a57c9', N'subjtype                      ', N'Юр-лицо', CAST(0 AS Decimal(18, 0)))
+INSERT INTO [dbo].[AddRefs] ([AddRefsId], [Code], [Value], [OrderNum]) VALUES (N'2f1cc5dd-98fb-46fd-bfd6-2a7f263e5c56', N'subjtype                      ', N'IC', NULL)
 
 CREATE TABLE [dbo].[AddRefs] (
   =  [AddRefsId] UNIQUEIDENTIFIER NOT NULL DEFAULT newid(),
@@ -17,10 +28,12 @@ CREATE TABLE [dbo].[Agent] (
     [AgentContractNum]  NVARCHAR (50)    NULL,
     [AgentContractDate] DATE             NULL,
     [ParentId]          UNIQUEIDENTIFIER NULL,
- +   [AgentType]         UNIQUEIDENTIFIER NULL,
+    +[AgentType]         UNIQUEIDENTIFIER NULL,
     PRIMARY KEY CLUSTERED ([AgentId] ASC),
-    CONSTRAINT [FK_Agent_ToAgent] FOREIGN KEY ([ParentId]) REFERENCES [dbo].[Agent] ([AgentId])
+    CONSTRAINT [FK_Agent_ToAgent] FOREIGN KEY ([ParentId]) REFERENCES [dbo].[Agent] ([AgentId]), 
+    +CONSTRAINT [FK_Agent_ToAgentType] FOREIGN KEY ([AgentType]) REFERENCES [AddRefs](AddRefsId)
 );
+
 
 
 ========= done

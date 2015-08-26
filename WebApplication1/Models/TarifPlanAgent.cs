@@ -18,7 +18,6 @@ namespace gTravel.Models
         public System.Guid AgentId { get; set; }
         public System.Guid TarifPlanId { get; set; }
     
-        public virtual Agent Agent { get; set; }
         public virtual TarifPlan TarifPlan { get; set; }
     }
 }
