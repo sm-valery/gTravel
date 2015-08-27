@@ -12,27 +12,77 @@ using System.IO;
 using System.Net.Mime;
 using System.Data.Entity;
 using Microsoft.AspNet.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace gTravel.Controllers
 {
+
     [Authorize]
     public class ReportController : Controller
     {
         private goDbEntities db = new goDbEntities();
 
+
         // GET: Report
         public ActionResult Index()
         {
+
             return View();
+        }
+
+
+        public class RepAgentsQuery
+        {
+            [DataType(DataType.Date)]
+            [DisplayFormat(DataFormatString = "{0:dd'.'MM'.'yyyy}", ApplyFormatInEditMode = true)]
+            [Display(Name = "Дата с")]
+            public DateTime? d1 { get; set; }
+
+            [DataType(DataType.Date)]
+            [DisplayFormat(DataFormatString = "{0:dd'.'MM'.'yyyy}", ApplyFormatInEditMode = true)]
+            [Display(Name = "Дата по")]
+            public DateTime? d2 { get; set; }
+
+            public Guid AgentId { get; set; }
         }
 
         public ActionResult RepAgents()
         {
 
-            ViewBag.Agents = new SelectList(db.Agents, "AgentId", "Name");
+            ViewBag.AgentId = new SelectList(db.Agents, "AgentId", "Name");
 
-            return View();
+            DateTime d1 = DateTime.Parse(string.Format("01.{0}.{1}",DateTime.Now.Month,DateTime.Now.Year));
+
+            return View(new RepAgentsQuery()
+            {
+                d1 = d1,
+                d2 = d1.AddMonths(1).AddDays(-1)
+            });
         }
+
+        public void RepAgentsQue(RepAgentsQuery q)
+        {
+
+            XLWorkbook workbook = new XLWorkbook();
+            var ws = workbook.Worksheets.Add("Акт выполненных работ");
+
+            var agent = db.Agents.SingleOrDefault(x => x.AgentId == q.AgentId);
+
+            ws.Cell(2, 1).SetValue("Акт выполнения работ № ______ от \"     \" __________ 200__ г.").Style.Font.FontSize = 16;
+            ws.Cell(3, 1).SetValue(string.Format("Страховой агент {0}",agent.Name)).Style.Font.FontSize = 16;
+
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("content-disposition", "attachment;filename=\"actw.xlsx\"");
+
+            workbook.SaveAs(Response.OutputStream);
+
+            Response.End();
+
+        }
+
+
+
 
         public class CollectedPremData
         {
