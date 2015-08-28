@@ -71,6 +71,12 @@ namespace gTravel.Controllers
             ws.Cell(2, 1).SetValue("Акт выполнения работ № ______ от \"     \" __________ 200__ г.").Style.Font.FontSize = 16;
             ws.Cell(3, 1).SetValue(string.Format("Страховой агент {0}",agent.Name)).Style.Font.FontSize = 16;
 
+            ws.Cell(4, 1).SetValue(string.Format("За период с {0} по {1} при содействии указанного страхового агента  согласно "+
+                "договору № AT327/0702 от 29 ноября 2007 г. получены страховые премии и начислено агентское "+
+                "вознаграждение по следующим полисам:",
+                ));
+
+
             Response.Clear();
             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             Response.AddHeader("content-disposition", "attachment;filename=\"actw.xlsx\"");
