@@ -21,10 +21,15 @@ namespace gTravel.Controllers
             //var tarifs = db.Tarifs.Include(t=>t.Territory).Where(x=>x.AgentSeriaId==agentseriaid)
             //    .OrderBy(o=>o.RiskProgramId).ThenBy(o=>o.InsSumFrom).ThenBy(o=>o.PeriodFrom);
 
-            ViewBag.agentseria = db.AgentSerias.SingleOrDefault(x => x.AgentSeriaId == agentseriaid);
+            var ags =  db.AgentSerias.SingleOrDefault(x => x.AgentSeriaId == agentseriaid);
+
+            ViewBag.agentseria =ags;
+
+            ViewBag.agentname = agentname(ags.AgentId);
 
             return View(db.v_Tarifs.Where(x=>x.AgentSeriaId==agentseriaid).OrderBy(x=>x.RiskProgramId).ThenBy(x=>x.InsSumFrom).ThenBy(x=>x.PeriodFrom).ToList());
         }
+
 
 
         public ActionResult Copy(Guid? id)
@@ -100,6 +105,8 @@ namespace gTravel.Controllers
             }, "Value", "Text");
 
             ViewBag.action = action;
+
+            ViewBag.agentname = agentname(ags.AgentId);
         }
 
         // GET: Tarifs/Create
@@ -108,9 +115,10 @@ namespace gTravel.Controllers
 
             tarifini(agentseriaid,"create");
 
+         
             return View(new Tarif {TarifId=Guid.NewGuid(), AgentSeriaId =agentseriaid });
         }
-
+        
         // POST: Tarifs/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -323,6 +331,12 @@ namespace gTravel.Controllers
             ViewBag.seriaid = new SelectList(db.serias, "SeriaId", "Code", tp.SeriaId);
 
             return View(tp);
+        }
+
+
+        private string agentname(Guid? agentid)
+        {
+            return db.Agents.SingleOrDefault(x => x.AgentId == agentid).Name;
         }
 
         protected override void Dispose(bool disposing)

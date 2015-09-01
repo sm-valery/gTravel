@@ -9,7 +9,7 @@
 
 <h3>
 
-    @Html.ActionLink(agetseria.Agent.Name, "index", "AgentSerias", new { agentid = agetseria.AgentId }, null)
+    @Html.ActionLink((string)ViewBag.agentname, "index", "AgentSerias", new { agentid = agetseria.AgentId }, null)
     (@agetseria.seria.Code)
 
 

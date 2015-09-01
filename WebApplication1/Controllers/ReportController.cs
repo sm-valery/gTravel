@@ -43,13 +43,13 @@ namespace gTravel.Controllers
             [Display(Name = "Дата по")]
             public DateTime? d2 { get; set; }
 
-            public Guid AgentId { get; set; }
+            public Guid Agents { get; set; }
         }
 
         public ActionResult RepAgents()
         {
 
-            ViewBag.AgentId = new SelectList(db.Agents, "AgentId", "Name");
+            ViewBag.Agents = new SelectList(db.Agents, "AgentId", "Name");
 
             DateTime d1 = DateTime.Parse(string.Format("01.{0}.{1}",DateTime.Now.Month,DateTime.Now.Year));
 
@@ -66,16 +66,39 @@ namespace gTravel.Controllers
             XLWorkbook workbook = new XLWorkbook();
             var ws = workbook.Worksheets.Add("Акт выполненных работ");
 
-            var agent = db.Agents.SingleOrDefault(x => x.AgentId == q.AgentId);
+            var agent = db.Agents.SingleOrDefault(x => x.AgentId == q.Agents);
+
+
+            ws.Cell(7, 1).SetValue("Полис");
+            ws.Cell(7, 2).SetValue("Страховой взнос, руб");
+            ws.Cell(7, 3).SetValue("Агентское вознагр,%");
+            ws.Cell(7, 4).SetValue("Агентское вознагр,руб");
+
+            ws.Cell(7, 5).SetValue("Полис");
+            ws.Cell(7, 6).SetValue("Страховой взнос, руб");
+            ws.Cell(7, 7).SetValue("Агентское вознагр,%");
+            ws.Cell(7, 8).SetValue("Агентское вознагр,руб");
+
+            ws.Columns(1, 8).AdjustToContents();
 
             ws.Cell(2, 1).SetValue("Акт выполнения работ № ______ от \"     \" __________ 200__ г.").Style.Font.FontSize = 16;
-            ws.Cell(3, 1).SetValue(string.Format("Страховой агент {0}",agent.Name)).Style.Font.FontSize = 16;
+            ws.Cell(3, 1).SetValue(string.Format("Страховой агент {0}", agent.Name)).Style.Font.FontSize = 16;
 
-            ws.Cell(4, 1).SetValue(string.Format("За период с {0} по {1} при содействии указанного страхового агента  согласно "+
-                "договору № AT327/0702 от 29 ноября 2007 г. получены страховые премии и начислено агентское "+
-                "вознаграждение по следующим полисам:",
-                ));
 
+            ws.Cell(5, 1).SetValue(string.Format("За период с {0} по {1} при содействии указанного страхового агента  согласно " +
+     "договору № {2} от {3}г. получены страховые премии и начислено агентское " +
+     "вознаграждение по следующим полисам:",
+     q.d1.Value.ToShortDateString(),
+     q.d2.Value.ToShortDateString(),
+     (string.IsNullOrEmpty(agent.AgentContractNum)) ? "" : agent.AgentContractNum,
+     (agent.AgentContractDate.HasValue)?agent.AgentContractDate.Value.ToShortDateString():""
+     )).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+
+
+            ws.Row(5).Height = 40;
+            ws.Range(5, 1, 5, 8).Merge();
+
+            ws.Cell(5, 1).Style.Alignment.WrapText = true;
 
             Response.Clear();
             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";

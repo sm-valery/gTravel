@@ -23,8 +23,8 @@
 
             <br />
 
-            
-            @Html.ListBox("AgentId", null, new { @class = "form-control", style = "height:400px; " })
+         
+            @Html.ListBox("Agents", null, new { @class = "form-control", style = "height:400px; ",Multiple="none"})
 
         </div>
 
@@ -118,7 +118,16 @@
 
         $("#ActClosedWork").click(function (e) {
 
-            $("form").submit();
+    
+            if ($("#Agents").val() != null)
+            {
+
+                $("form").submit();
+
+            } else
+            {
+                alert("Не выбран агент!");
+}
 
             e.preventDefault();
         });
