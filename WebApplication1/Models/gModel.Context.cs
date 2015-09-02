@@ -76,6 +76,7 @@ namespace gTravel.Models
         public virtual DbSet<SeriaCurrency> SeriaCurrencies { get; set; }
         public virtual DbSet<Agent> Agents { get; set; }
         public virtual DbSet<AgentUser> AgentUsers { get; set; }
+        public virtual DbSet<v_contract_agent> v_contract_agent { get; set; }
     
         public virtual int BorderoCreate()
         {

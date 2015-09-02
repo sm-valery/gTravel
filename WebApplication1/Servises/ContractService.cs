@@ -774,8 +774,8 @@ namespace gTravel.Servises
                         crisk.InsFee = calcprem((decimal)t.InsFee, vContractF, c.Subjects.Count(), (decimal)c.date_diff, ismulty, (int)risk_seria_type_tarif, (decimal)crisk.InsSum);
 
 
-                        crisk.InsPremRur = crisk.InsPrem * currate;
-                        crisk.InsFeeRur = crisk.InsFee * currate;
+                        crisk.InsPremRur = Math.Round((decimal)(crisk.InsPrem * currate),2);
+                        crisk.InsFeeRur = Math.Round((decimal)(crisk.InsFee * currate),2);
 
 
                     }

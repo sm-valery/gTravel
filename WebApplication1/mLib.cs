@@ -151,6 +151,22 @@ namespace gTravel.Models
             return newnum.Value + 1;
         }
 
+
+        public void add_agent()
+        {
+                var caguser = new ContractAgent();
+
+                caguser.ContractAgentId = Guid.NewGuid();
+                caguser.ContractId = this.ContractId;
+                caguser.num = 1;
+                caguser.Percent = 100;
+
+                caguser.AgentId = mLib.GetCurrentUserAgent(this.UserId).AgentId;
+
+                db.ContractAgents.Add(caguser);
+
+        }
+
         public Guid change_status(string userid, string new_status_code = "project")
         {
 

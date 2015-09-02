@@ -49,7 +49,7 @@ namespace gTravel.Controllers
         public ActionResult RepAgents()
         {
 
-            ViewBag.Agents = new SelectList(db.Agents, "AgentId", "Name");
+            ViewBag.Agents = new SelectList(db.Agents.OrderBy(o=>o.Name), "AgentId", "Name");
 
             DateTime d1 = DateTime.Parse(string.Format("01.{0}.{1}",DateTime.Now.Month,DateTime.Now.Year));
 
@@ -69,20 +69,34 @@ namespace gTravel.Controllers
             var agent = db.Agents.SingleOrDefault(x => x.AgentId == q.Agents);
 
 
-            ws.Cell(7, 1).SetValue("Полис");
-            ws.Cell(7, 2).SetValue("Страховой взнос, руб");
-            ws.Cell(7, 3).SetValue("Агентское вознагр,%");
-            ws.Cell(7, 4).SetValue("Агентское вознагр,руб");
+            ws.Cell(6, 1).SetValue("Полис");
+            ws.Cell(6, 2).SetValue("Страховой взнос, руб");
+            ws.Cell(6, 3).SetValue("Агентское вознагр,%");
+            ws.Cell(6, 4).SetValue("Агентское вознагр,руб");
 
-            ws.Cell(7, 5).SetValue("Полис");
-            ws.Cell(7, 6).SetValue("Страховой взнос, руб");
-            ws.Cell(7, 7).SetValue("Агентское вознагр,%");
-            ws.Cell(7, 8).SetValue("Агентское вознагр,руб");
+            //ws.Cell(7, 5).SetValue("Полис");
+            //ws.Cell(7, 6).SetValue("Страховой взнос, руб");
+            //ws.Cell(7, 7).SetValue("Агентское вознагр,%");
+            //ws.Cell(7, 8).SetValue("Агентское вознагр,руб");
 
-            ws.Columns(1, 8).AdjustToContents();
+            var rdata = db.v_contract_agent.Where(x => x.AgentId == q.Agents).OrderBy(o=>o.seriaid).ThenBy(o=>o.contractnumber).ToList();
 
-            ws.Cell(2, 1).SetValue("Акт выполнения работ № ______ от \"     \" __________ 200__ г.").Style.Font.FontSize = 16;
-            ws.Cell(3, 1).SetValue(string.Format("Страховой агент {0}", agent.Name)).Style.Font.FontSize = 16;
+            int irow=7;
+
+            foreach(var row in rdata)
+            {
+                ws.Cell(irow,1).SetValue(row.SeriaCode.Trim() + "-" + row.contractnumber.Value.ToString());
+                ws.Cell(irow, 2).SetValue(row.InsPremRur);
+                ws.Cell(irow, 3).SetValue(row.Percent);
+                ws.Cell(irow, 4).SetValue(row.sum_share);
+
+                    irow++;
+            }
+
+            ws.Columns(1, 4).AdjustToContents();
+
+            ws.Cell(2, 1).SetValue("Акт выполнения работ № ______ от \"     \" __________ 200__ г.").Style.Font.FontSize = 14;
+            ws.Cell(3, 1).SetValue(string.Format("Страховой агент {0}", agent.Name)).Style.Font.FontSize = 14;
 
 
             ws.Cell(5, 1).SetValue(string.Format("За период с {0} по {1} при содействии указанного страхового агента  согласно " +
@@ -95,8 +109,8 @@ namespace gTravel.Controllers
      )).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
 
 
-            ws.Row(5).Height = 40;
-            ws.Range(5, 1, 5, 8).Merge();
+            ws.Row(5).Height = 60;
+            ws.Range(5, 1, 5, 4).Merge();
 
             ws.Cell(5, 1).Style.Alignment.WrapText = true;
 

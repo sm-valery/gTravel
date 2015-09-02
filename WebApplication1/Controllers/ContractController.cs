@@ -541,7 +541,7 @@ namespace gTravel.Controllers
                         ModelState.AddModelError(string.Empty, "Страхователь не может быть моложе 18 лет");
                 }
                    
-                if (c.date_begin < c.date_out)
+                if (c.date_begin.Value.Date < c.date_out.Value.Date)
                     ModelState.AddModelError(string.Empty, "Дата начала договора не может быть меньше даты выдачи!");
 
                 if (c.tripduration > c.date_diff)
@@ -553,6 +553,10 @@ namespace gTravel.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    //привяжем агента
+                    c.add_agent();
+
+                    //изменим статус
                     c.ContractStatusId = c.change_status(userid, "confirmed");
                     c.save();
                 }
@@ -881,26 +885,26 @@ namespace gTravel.Controllers
 
             #region Агенты
 
-            foreach(var ag in c.ContractAgents)
-            {
-                if(ag.num!=-1)
-                    db.Entry(ag).State = EntityState.Modified;
-            }
+            //foreach(var ag in c.ContractAgents)
+            //{
+            //    if(ag.num!=-1)
+            //        db.Entry(ag).State = EntityState.Modified;
+            //}
 
             //если агенты не указаны, добавим агента пользователя
-            if(c.ContractAgents.Count==0)
-            {
-                var caguser = new ContractAgent();
+            //if(c.ContractAgents.Count==0)
+            //{
+            //    var caguser = new ContractAgent();
 
-                caguser.ContractAgentId = Guid.NewGuid();
-                caguser.ContractId = c.ContractId;
-                caguser.num = 1;
-                caguser.Percent = 100;
+            //    caguser.ContractAgentId = Guid.NewGuid();
+            //    caguser.ContractId = c.ContractId;
+            //    caguser.num = 1;
+            //    caguser.Percent = 100;
 
-                 caguser.AgentId = mLib.GetCurrentUserAgent(c.UserId).AgentId;
+            //     caguser.AgentId = mLib.GetCurrentUserAgent(c.UserId).AgentId;
 
-                db.ContractAgents.Add(caguser);
-            }
+            //    db.ContractAgents.Add(caguser);
+            //}
             #endregion
 
             #region территория

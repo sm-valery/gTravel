@@ -1,4 +1,23 @@
-﻿CREATE TABLE [dbo].[AgentUser] (
+﻿CREATE VIEW [dbo].[v_contract_agent]
+	AS 
+	select
+c1.*,
+InsPremRur * [Percent]/100 sum_share
+from 
+(
+select c.*,
+s.Code SeriaCode,
+ca.AgentId, ca.[Percent], 
+(select sum(InsPremRur) from ContractRisk cr where cr.ContractId = c.ContractId) InsPremRur
+from contract c
+join ContractStatus cs on cs.ContractStatusId = c.ContractStatusId
+join Status st on st.StatusId = cs.StatusId
+join seria s on s.SeriaId = c.seriaid
+left join ContractAgent ca on ca.ContractId = c.ContractId
+where st.Code = 'confirmed'
+) c1
+
+CREATE TABLE [dbo].[AgentUser] (
     [AgentUserId]  UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
     [AgentId]      UNIQUEIDENTIFIER NULL,
     [UserId]       NVARCHAR (128)   NULL,

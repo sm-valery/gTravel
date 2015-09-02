@@ -572,6 +572,34 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_agent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_contract_agent">
+          <Key>
+            <PropertyRef Name="ContractId" />
+            <PropertyRef Name="currencyid" />
+            <PropertyRef Name="seriaid" />
+          </Key>
+          <Property Name="ContractId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="currencyid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="seriaid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="date_begin" Type="date" />
+          <Property Name="date_end" Type="date" />
+          <Property Name="date_diff" Type="int" />
+          <Property Name="Holder_SubjectId" Type="uniqueidentifier" />
+          <Property Name="ContractStatusId" Type="uniqueidentifier" />
+          <Property Name="period_multi_type" Type="nchar" MaxLength="1" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="date_out" Type="datetime" />
+          <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
+          <Property Name="tripduration" Type="int" />
+          <Property Name="SeriaCode" Type="nchar" MaxLength="10" />
+          <Property Name="AgentId" Type="uniqueidentifier" />
+          <Property Name="Percent" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="InsPremRur" Type="money" />
+          <Property Name="sum_share" Type="numeric" Precision="38" Scale="6" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_factors' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_factors">
           <Key>
@@ -1273,6 +1301,29 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_contract_ag].[contractnumberformat] AS [contractnumberformat]
     FROM [dbo].[v_contract_ag] AS [v_contract_ag]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="v_contract_agent" EntityType="Self.v_contract_agent" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_contract_agent].[ContractId] AS [ContractId], 
+    [v_contract_agent].[currencyid] AS [currencyid], 
+    [v_contract_agent].[contractnumber] AS [contractnumber], 
+    [v_contract_agent].[seriaid] AS [seriaid], 
+    [v_contract_agent].[date_begin] AS [date_begin], 
+    [v_contract_agent].[date_end] AS [date_end], 
+    [v_contract_agent].[date_diff] AS [date_diff], 
+    [v_contract_agent].[Holder_SubjectId] AS [Holder_SubjectId], 
+    [v_contract_agent].[ContractStatusId] AS [ContractStatusId], 
+    [v_contract_agent].[period_multi_type] AS [period_multi_type], 
+    [v_contract_agent].[UserId] AS [UserId], 
+    [v_contract_agent].[date_out] AS [date_out], 
+    [v_contract_agent].[contractnumberformat] AS [contractnumberformat], 
+    [v_contract_agent].[tripduration] AS [tripduration], 
+    [v_contract_agent].[SeriaCode] AS [SeriaCode], 
+    [v_contract_agent].[AgentId] AS [AgentId], 
+    [v_contract_agent].[Percent] AS [Percent], 
+    [v_contract_agent].[InsPremRur] AS [InsPremRur], 
+    [v_contract_agent].[sum_share] AS [sum_share]
+    FROM [dbo].[v_contract_agent] AS [v_contract_agent]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="v_contract_factors" EntityType="Self.v_contract_factors" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [v_contract_factors].[ContractFactorId] AS [ContractFactorId], 
@@ -1717,6 +1768,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="AgentUser" EntitySet="AgentUsers" />
           </AssociationSet>
+          <EntitySet Name="v_contract_agent" EntityType="goDbModel.v_contract_agent" />
           </EntityContainer>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -3010,6 +3062,32 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="v_contract_agent">
+          <Key>
+            <PropertyRef Name="ContractId" />
+            <PropertyRef Name="currencyid" />
+            <PropertyRef Name="seriaid" />
+          </Key>
+          <Property Name="ContractId" Type="Guid" Nullable="false" />
+          <Property Name="currencyid" Type="Guid" Nullable="false" />
+          <Property Name="contractnumber" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="seriaid" Type="Guid" Nullable="false" />
+          <Property Name="date_begin" Type="DateTime" Precision="0" />
+          <Property Name="date_end" Type="DateTime" Precision="0" />
+          <Property Name="date_diff" Type="Int32" />
+          <Property Name="Holder_SubjectId" Type="Guid" />
+          <Property Name="ContractStatusId" Type="Guid" />
+          <Property Name="period_multi_type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="date_out" Type="DateTime" Precision="3" />
+          <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tripduration" Type="Int32" />
+          <Property Name="AgentId" Type="Guid" />
+          <Property Name="Percent" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="InsPremRur" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="sum_share" Type="Decimal" Precision="38" Scale="6" />
+          <Property Name="SeriaCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3690,6 +3768,31 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="AgentUserId" ColumnName="AgentUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_contract_agent">
+            <EntityTypeMapping TypeName="goDbModel.v_contract_agent">
+              <MappingFragment StoreEntitySet="v_contract_agent">
+                <ScalarProperty Name="SeriaCode" ColumnName="SeriaCode" />
+                <ScalarProperty Name="sum_share" ColumnName="sum_share" />
+                <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
+                <ScalarProperty Name="Percent" ColumnName="Percent" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="tripduration" ColumnName="tripduration" />
+                <ScalarProperty Name="contractnumberformat" ColumnName="contractnumberformat" />
+                <ScalarProperty Name="date_out" ColumnName="date_out" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="period_multi_type" ColumnName="period_multi_type" />
+                <ScalarProperty Name="ContractStatusId" ColumnName="ContractStatusId" />
+                <ScalarProperty Name="Holder_SubjectId" ColumnName="Holder_SubjectId" />
+                <ScalarProperty Name="date_diff" ColumnName="date_diff" />
+                <ScalarProperty Name="date_end" ColumnName="date_end" />
+                <ScalarProperty Name="date_begin" ColumnName="date_begin" />
+                <ScalarProperty Name="seriaid" ColumnName="seriaid" />
+                <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
+                <ScalarProperty Name="currencyid" ColumnName="currencyid" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
