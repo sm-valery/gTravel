@@ -40,5 +40,6 @@ namespace gTravel.Models
         public Nullable<decimal> InsFee { get; set; }
         public string serianame { get; set; }
         public string PrintFunction { get; set; }
+        public string agentname { get; set; }
     }
 }

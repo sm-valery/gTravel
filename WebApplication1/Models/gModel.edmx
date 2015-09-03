@@ -528,7 +528,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="ContractStatusId" Type="uniqueidentifier" />
           <Property Name="period_multi_type" Type="nchar" MaxLength="1" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
-          <Property Name="date_out" Type="date" />
+          <Property Name="date_out" Type="datetime" />
           <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
           <Property Name="tripduration" Type="int" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" />
@@ -536,6 +536,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="status_name" Type="nchar" MaxLength="25" />
           <Property Name="status_code" Type="varchar" MaxLength="10" />
           <Property Name="AgentId" Type="uniqueidentifier" />
+          <Property Name="agentname" Type="nvarchar" MaxLength="50" />
           <Property Name="subject_count" Type="int" />
           <Property Name="holder_name" Type="nchar" MaxLength="255" />
           <Property Name="InsPrem" Type="money" />
@@ -597,7 +598,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="AgentId" Type="uniqueidentifier" />
           <Property Name="Percent" Type="numeric" Precision="18" Scale="0" />
           <Property Name="InsPremRur" Type="money" />
-          <Property Name="sum_share" Type="numeric" Precision="38" Scale="6" />
+          <Property Name="stat_code" Type="varchar" MaxLength="10" />
+          <Property Name="sum_fee" Type="numeric" Precision="38" Scale="6" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_factors' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1270,6 +1272,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_contract].[status_name] AS [status_name], 
     [v_contract].[status_code] AS [status_code], 
     [v_contract].[AgentId] AS [AgentId], 
+    [v_contract].[agentname] AS [agentname], 
     [v_contract].[subject_count] AS [subject_count], 
     [v_contract].[holder_name] AS [holder_name], 
     [v_contract].[InsPrem] AS [InsPrem], 
@@ -1321,7 +1324,8 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_contract_agent].[AgentId] AS [AgentId], 
     [v_contract_agent].[Percent] AS [Percent], 
     [v_contract_agent].[InsPremRur] AS [InsPremRur], 
-    [v_contract_agent].[sum_share] AS [sum_share]
+    [v_contract_agent].[stat_code] AS [stat_code], 
+    [v_contract_agent].[sum_fee] AS [sum_fee]
     FROM [dbo].[v_contract_agent] AS [v_contract_agent]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_contract_factors" EntityType="Self.v_contract_factors" store:Type="Views" store:Schema="dbo">
@@ -2800,7 +2804,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="ContractStatusId" Type="Guid" />
           <Property Name="period_multi_type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="date_out" Type="DateTime" Precision="0" />
+          <Property Name="date_out" Type="DateTime" Precision="3" />
           <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="tripduration" Type="Int32" />
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
@@ -2815,6 +2819,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="InsFee" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="serianame" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="PrintFunction" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="agentname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="v_contract_factors">
           <Key>
@@ -3082,11 +3087,12 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="date_out" Type="DateTime" Precision="3" />
           <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="tripduration" Type="Int32" />
+          <Property Name="SeriaCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="AgentId" Type="Guid" />
           <Property Name="Percent" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="InsPremRur" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="sum_share" Type="Decimal" Precision="38" Scale="6" />
-          <Property Name="SeriaCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="stat_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="sum_fee" Type="Decimal" Precision="38" Scale="6" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3635,6 +3641,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="v_contract">
             <EntityTypeMapping TypeName="goDbModel.v_contract">
               <MappingFragment StoreEntitySet="v_contract">
+                <ScalarProperty Name="agentname" ColumnName="agentname" />
                 <ScalarProperty Name="PrintFunction" ColumnName="PrintFunction" />
                 <ScalarProperty Name="serianame" ColumnName="serianame" />
                 <ScalarProperty Name="InsFee" ColumnName="InsFee" />
@@ -3774,11 +3781,12 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <EntitySetMapping Name="v_contract_agent">
             <EntityTypeMapping TypeName="goDbModel.v_contract_agent">
               <MappingFragment StoreEntitySet="v_contract_agent">
-                <ScalarProperty Name="SeriaCode" ColumnName="SeriaCode" />
-                <ScalarProperty Name="sum_share" ColumnName="sum_share" />
+                <ScalarProperty Name="sum_fee" ColumnName="sum_fee" />
+                <ScalarProperty Name="stat_code" ColumnName="stat_code" />
                 <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
                 <ScalarProperty Name="Percent" ColumnName="Percent" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="SeriaCode" ColumnName="SeriaCode" />
                 <ScalarProperty Name="tripduration" ColumnName="tripduration" />
                 <ScalarProperty Name="contractnumberformat" ColumnName="contractnumberformat" />
                 <ScalarProperty Name="date_out" ColumnName="date_out" />

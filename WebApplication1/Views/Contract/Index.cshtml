@@ -37,6 +37,9 @@
     </div>
 }
 
+@{
+    bool isic = (bool)ViewBag.isic;
+}
 <p>
     @Html.Action("_tools_add_contract_btn")
 
@@ -78,14 +81,14 @@
             </th>*@
         <th>Статус</th>
         <th>Пользователь</th>
-
+    
         <th></th>
     </tr>
+
     @foreach (var item in Model)
     {
         <tr>
             <td>
-
                 @item.serianame.Trim()
                 -
                 @item.contractnumber
@@ -99,12 +102,11 @@
                 (@item.date_diff)
             </td>
             <td>
-                @Html.DisplayFor(m=>item.holder_name)
-                @if(item.subject_count>0)
+                @Html.DisplayFor(m => item.holder_name)
+                @if (item.subject_count > 0)
                 {
                     @:(@item.subject_count)
                 }
-
 
             </td>
             @*<td>
@@ -127,21 +129,25 @@
             </td>
             <td>
                 @Html.DisplayFor(m => item.UserName)
+                @if (isic)
+                {
+                    @:/
+                    @item.agentname
+                }
             </td>
-         
+            
+
             <td>
                 @Html.ActionLink("Открыть", "Contract_edit", new { contractid = item.ContractId }, new { @class = "btn btn-default btn-sm" })
-                @if(item.status_code=="confirmed")
+                @if (item.status_code == "confirmed")
                 {
                     <div class="btn-group">
                         <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
                             Печать<span class="caret"></span>
                         </button>
-
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                @Html.ActionLink("На бланке", item.PrintFunction, new { contractid = item.ContractId, blanktype = 0})
-
+                                @Html.ActionLink("На бланке", item.PrintFunction, new { contractid = item.ContractId, blanktype = 0 })
 
                             </li>
                             <li>
@@ -149,8 +155,8 @@
                             </li>
                         </ul>
                     </div>
-                    
-                    
+
+
                     @*@Html.ActionLink("Печать", item.PrintFunction, new { contractid = item.ContractId }, new { @class = "btn btn-default btn-sm" })*@
                 }
                 @Html.ActionLink("История", "history", new { id = item.ContractId }, new { @class = "btn btn-default btn-sm" })
@@ -158,4 +164,5 @@
         </tr>
     }
 </table>
+
 @*@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))*@

@@ -1,4 +1,4 @@
-﻿@model gTravel.Controllers.ReportController.RepAgentsQuery
+﻿@model gTravel.Servises.RepAgentsQuery
 
 
 @{
@@ -10,7 +10,8 @@
 
 @using (Html.BeginForm("RepAgentsQue", null, FormMethod.Post, new { @class = "form-inline", role = "form", id = "form01" }))
 {
-
+    @Html.Hidden("action")
+    
     <div class="row">
 
         <div class="col-lg-4">
@@ -49,9 +50,11 @@
 
                     <ul class="nav nav-pills nav-stacked">
                         <li role="presentation">
-                            <a id="ActClosedWork" href="#">Акт выполненных работ</a>
+                            <a class="runreport" id="ActClosedWork" href="#">Акт выполненных работ</a>
                         </li>
-                        <li role="presentation"><a href="#">Бордеро агента</a></li>
+                        <li role="presentation">
+                            <a class="runreport" id="bordero" href="#">Бордеро агента</a>
+                        </li>
                         <li role="presentation"><a href="#">Отчет о зарплате агентов</a></li>
                     </ul>
 
@@ -116,11 +119,15 @@
         });
 
 
-        $("#ActClosedWork").click(function (e) {
+        $(".runreport").click(function (e) {
 
     
             if ($("#Agents").val() != null)
             {
+                $("#action").val(this.id);
+
+                var sss = $("#action").val();
+
 
                 $("form").submit();
 
@@ -131,5 +138,6 @@
 
             e.preventDefault();
         });
+
     })
 </script>

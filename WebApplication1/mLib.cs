@@ -159,9 +159,14 @@ namespace gTravel.Models
                 caguser.ContractAgentId = Guid.NewGuid();
                 caguser.ContractId = this.ContractId;
                 caguser.num = 1;
-                caguser.Percent = 100;
 
+          
                 caguser.AgentId = mLib.GetCurrentUserAgent(this.UserId).AgentId;
+
+                var ags = db.AgentSerias.SingleOrDefault(x => x.AgentId == caguser.AgentId && x.SeriaId == this.seriaid);
+            if(ags!=null)
+                caguser.Percent = ags.AgentFee;
+
 
                 db.ContractAgents.Add(caguser);
 

@@ -1,22 +1,50 @@
-﻿CREATE VIEW [dbo].[v_contract_agent]
+﻿INSERT INTO [dbo].[Status] ([StatusId], [Code], [Name], [Readonly]) VALUES (N'db05820a-f4c3-42a9-bb34-7d9ad4c3022e', N'canc', N'автоаннуляция            ', 1)
+===============
+
+CREATE VIEW [dbo].[v_contract]
+	AS 
+	SELECT c.*, u.UserName,  cr.code curr_code,
+	st.Name status_name,
+	st.Code status_code,
+	au.AgentId,
++	a.name agentname,
+	(select count(*) from Subject ss where ss.ContractId = c.ContractId) subject_count,
+	si.Name1 as holder_name,
+	( select sum(crisk.InsPrem) from ContractRisk crisk where crisk.ContractId=c.ContractId) InsPrem,
+	( select sum(crisk.InsPremRur) from ContractRisk crisk where crisk.ContractId=c.ContractId) InsPremRur,
+	( select sum(crisk.InsFee) from ContractRisk crisk where crisk.ContractId=c.ContractId) InsFee,
+	sr.Code serianame,
+	sr.PrintFunction
+	 FROM [Contract] c
+	join ContractStatus cs on cs.ContractStatusId = c.ContractStatusId
+	join Status st on st.StatusId = cs.StatusId 
+	left join AspNetUsers u on u.Id = c.UserId
+	left join AgentUser au on au.UserId = c.UserId
+	left join agent a on a.AgentId = au.AgentId
+	left join Currency cr on  cr.CurrencyId = c.currencyid
+	left join Subject si on si.SubjectId = c.Holder_SubjectId
+	left join seria sr on sr.SeriaId = c.seriaid
+=================================
+CREATE VIEW [dbo].[v_contract_agent]
 	AS 
 	select
 c1.*,
-InsPremRur * [Percent]/100 sum_share
+InsPremRur * [Percent]/100 sum_fee
 from 
 (
 select c.*,
 s.Code SeriaCode,
 ca.AgentId, ca.[Percent], 
-(select sum(InsPremRur) from ContractRisk cr where cr.ContractId = c.ContractId) InsPremRur
+(select sum(InsPremRur) from ContractRisk cr where cr.ContractId = c.ContractId) InsPremRur,
+st.code stat_code
 from contract c
 join ContractStatus cs on cs.ContractStatusId = c.ContractStatusId
 join Status st on st.StatusId = cs.StatusId
 join seria s on s.SeriaId = c.seriaid
 left join ContractAgent ca on ca.ContractId = c.ContractId
-where st.Code = 'confirmed'
+where st.Code in ('confirmed','annul')
 ) c1
-
+================================
 CREATE TABLE [dbo].[AgentUser] (
     [AgentUserId]  UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
     [AgentId]      UNIQUEIDENTIFIER NULL,
@@ -27,11 +55,11 @@ CREATE TABLE [dbo].[AgentUser] (
     +CONSTRAINT [FK_AgentUser_ToAgent] FOREIGN KEY ([AgentID]) REFERENCES [Agent]([AgentId])
 );
 
-
+=========================
 INSERT INTO [dbo].[AddRefs] ([AddRefsId], [Code], [Value], [OrderNum]) VALUES (N'9c791649-711a-480f-9b13-0bebcb7df102', N'subjtype                      ', N'Физ-лицо', CAST(1 AS Decimal(18, 0)))
 INSERT INTO [dbo].[AddRefs] ([AddRefsId], [Code], [Value], [OrderNum]) VALUES (N'a9b967e7-25bb-4b10-bade-f4ee3b6a57c9', N'subjtype                      ', N'Юр-лицо', CAST(0 AS Decimal(18, 0)))
 INSERT INTO [dbo].[AddRefs] ([AddRefsId], [Code], [Value], [OrderNum]) VALUES (N'2f1cc5dd-98fb-46fd-bfd6-2a7f263e5c56', N'subjtype                      ', N'IC', NULL)
-
+========================
 CREATE TABLE [dbo].[AddRefs] (
   =  [AddRefsId] UNIQUEIDENTIFIER NOT NULL DEFAULT newid(),
     [Code]      NCHAR (30)       NULL,
@@ -39,7 +67,7 @@ CREATE TABLE [dbo].[AddRefs] (
     [OrderNum]  DECIMAL (18)     NULL,
     PRIMARY KEY CLUSTERED ([AddRefsId] ASC)
 );
-
+========================
 26.08.2015
 CREATE TABLE [dbo].[Agent] (
     [AgentId]           UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,

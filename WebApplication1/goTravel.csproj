@@ -368,6 +368,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RiskToPrint.cs" />
     <Compile Include="Servises\ContractService.cs" />
+    <Compile Include="Servises\RepAgentsQuery.cs" />
+    <Compile Include="Servises\rep_act_agent_work.cs" />
+    <Compile Include="Servises\rep_bordero_agent.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="UserIdFilter.cs" />
   </ItemGroup>

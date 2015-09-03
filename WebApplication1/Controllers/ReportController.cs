@@ -13,6 +13,7 @@ using System.Net.Mime;
 using System.Data.Entity;
 using Microsoft.AspNet.Identity;
 using System.ComponentModel.DataAnnotations;
+using gTravel.Servises;
 
 namespace gTravel.Controllers
 {
@@ -31,20 +32,7 @@ namespace gTravel.Controllers
         }
 
 
-        public class RepAgentsQuery
-        {
-            [DataType(DataType.Date)]
-            [DisplayFormat(DataFormatString = "{0:dd'.'MM'.'yyyy}", ApplyFormatInEditMode = true)]
-            [Display(Name = "Дата с")]
-            public DateTime? d1 { get; set; }
 
-            [DataType(DataType.Date)]
-            [DisplayFormat(DataFormatString = "{0:dd'.'MM'.'yyyy}", ApplyFormatInEditMode = true)]
-            [Display(Name = "Дата по")]
-            public DateTime? d2 { get; set; }
-
-            public Guid Agents { get; set; }
-        }
 
         public ActionResult RepAgents()
         {
@@ -62,68 +50,19 @@ namespace gTravel.Controllers
 
         public void RepAgentsQue(RepAgentsQuery q)
         {
-
-            XLWorkbook workbook = new XLWorkbook();
-            var ws = workbook.Worksheets.Add("Акт выполненных работ");
-
-            var agent = db.Agents.SingleOrDefault(x => x.AgentId == q.Agents);
-
-
-            ws.Cell(6, 1).SetValue("Полис");
-            ws.Cell(6, 2).SetValue("Страховой взнос, руб");
-            ws.Cell(6, 3).SetValue("Агентское вознагр,%");
-            ws.Cell(6, 4).SetValue("Агентское вознагр,руб");
-
-            //ws.Cell(7, 5).SetValue("Полис");
-            //ws.Cell(7, 6).SetValue("Страховой взнос, руб");
-            //ws.Cell(7, 7).SetValue("Агентское вознагр,%");
-            //ws.Cell(7, 8).SetValue("Агентское вознагр,руб");
-
-            var rdata = db.v_contract_agent.Where(x => x.AgentId == q.Agents).OrderBy(o=>o.seriaid).ThenBy(o=>o.contractnumber).ToList();
-
-            int irow=7;
-
-            foreach(var row in rdata)
+            switch(q.action)
             {
-                ws.Cell(irow,1).SetValue(row.SeriaCode.Trim() + "-" + row.contractnumber.Value.ToString());
-                ws.Cell(irow, 2).SetValue(row.InsPremRur);
-                ws.Cell(irow, 3).SetValue(row.Percent);
-                ws.Cell(irow, 4).SetValue(row.sum_share);
-
-                    irow++;
+                case "ActClosedWork":
+                    new rep_act_agent_work(db).printout(q);
+                    break;
+                case "bordero":
+                    new rep_bordero(db).printout(q);
+                    break;
             }
-
-            ws.Columns(1, 4).AdjustToContents();
-
-            ws.Cell(2, 1).SetValue("Акт выполнения работ № ______ от \"     \" __________ 200__ г.").Style.Font.FontSize = 14;
-            ws.Cell(3, 1).SetValue(string.Format("Страховой агент {0}", agent.Name)).Style.Font.FontSize = 14;
-
-
-            ws.Cell(5, 1).SetValue(string.Format("За период с {0} по {1} при содействии указанного страхового агента  согласно " +
-     "договору № {2} от {3}г. получены страховые премии и начислено агентское " +
-     "вознаграждение по следующим полисам:",
-     q.d1.Value.ToShortDateString(),
-     q.d2.Value.ToShortDateString(),
-     (string.IsNullOrEmpty(agent.AgentContractNum)) ? "" : agent.AgentContractNum,
-     (agent.AgentContractDate.HasValue)?agent.AgentContractDate.Value.ToShortDateString():""
-     )).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
-
-
-            ws.Row(5).Height = 60;
-            ws.Range(5, 1, 5, 4).Merge();
-
-            ws.Cell(5, 1).Style.Alignment.WrapText = true;
-
-            Response.Clear();
-            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.AddHeader("content-disposition", "attachment;filename=\"actw.xlsx\"");
-
-            workbook.SaveAs(Response.OutputStream);
-
-            Response.End();
 
         }
 
+        
 
 
 

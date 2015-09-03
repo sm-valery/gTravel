@@ -30,6 +30,8 @@ namespace gTravel.Controllers
             ViewBag.filtr = "";
             ViewBag.contractnumber = contractnumber;
 
+            ViewBag.isic = mLib.AgentInRole(userid, "IC");
+
             //серия по умолчанию
             ViewBag.seria = MainSeria;
 

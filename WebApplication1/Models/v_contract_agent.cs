@@ -28,10 +28,11 @@ namespace gTravel.Models
         public Nullable<System.DateTime> date_out { get; set; }
         public string contractnumberformat { get; set; }
         public Nullable<int> tripduration { get; set; }
+        public string SeriaCode { get; set; }
         public Nullable<System.Guid> AgentId { get; set; }
         public Nullable<decimal> Percent { get; set; }
         public Nullable<decimal> InsPremRur { get; set; }
-        public Nullable<decimal> sum_share { get; set; }
-        public string SeriaCode { get; set; }
+        public string stat_code { get; set; }
+        public Nullable<decimal> sum_fee { get; set; }
     }
 }
