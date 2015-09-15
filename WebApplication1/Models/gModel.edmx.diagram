@@ -95,6 +95,7 @@
         <AssociationConnector Association="goDbModel.FK_AgentUser_ToAgent" />
         <AssociationConnector Association="goDbModel.FK_AgentUser_ToTable_1" />
         <EntityTypeShape EntityType="goDbModel.v_contract_agent" Width="1.5" PointX="16.375" PointY="21.875" />
+        <EntityTypeShape EntityType="goDbModel.v_bordero_agent" Width="1.5" PointX="0.75" PointY="22.875" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

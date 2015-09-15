@@ -1,4 +1,52 @@
-﻿INSERT INTO [dbo].[Status] ([StatusId], [Code], [Name], [Readonly]) VALUES (N'db05820a-f4c3-42a9-bb34-7d9ad4c3022e', N'canc', N'автоаннуляция            ', 1)
+﻿CREATE VIEW [dbo].[v_bordero_agent]
+	AS
+		select
+c1.*,
+s.Name1,
+InsPremRur * [Percent]/100 sum_fee
+from 
+(
+select c.*,
+s.Code SeriaCode,
+ca.AgentId, ca.[Percent], 
+(select sum(InsPrem) from ContractRisk cr where cr.ContractId = c.ContractId) InsPrem,
+(select sum(InsPremRur) from ContractRisk cr where cr.ContractId = c.ContractId) InsPremRur,
+(select sum(FranshPerc) from ContractRisk cr where cr.ContractId = c.ContractId) Fransh,
+(select sum(InsSum) from ContractRisk cr where cr.ContractId = c.ContractId) InsSum,
+dbo.add_str1(c.ContractId) as terr_name,
+st.code stat_code
+from contract c
+join ContractStatus cs on cs.ContractStatusId = c.ContractStatusId
+join Status st on st.StatusId = cs.StatusId
+join seria s on s.SeriaId = c.seriaid
+left join ContractAgent ca on ca.ContractId = c.ContractId
+where st.Code in ('confirmed','annul')
+) c1
+left join subject s on s.ContractId = c1.ContractId
+
+====================
+CREATE FUNCTION [dbo].[add_str1]
+(
+	@ContractId uniqueidentifier
+)
+RETURNS varchar(2000)
+AS
+BEGIN
+	declare @ret varchar(2000)
+	set @ret=''
+
+	select @ret = @ret + t.Name +', '
+	from dbo.Contract_territory cr
+	join dbo.Territory t on t.TerritoryId = cr.TerritoryId
+	where cr.ContractId = @ContractId
+
+	return @ret
+
+
+END
+
+=================
+INSERT INTO [dbo].[Status] ([StatusId], [Code], [Name], [Readonly]) VALUES (N'db05820a-f4c3-42a9-bb34-7d9ad4c3022e', N'canc', N'автоаннуляция            ', 1)
 ===============
 
 CREATE VIEW [dbo].[v_contract]

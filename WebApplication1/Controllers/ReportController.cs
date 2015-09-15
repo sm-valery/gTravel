@@ -56,7 +56,7 @@ namespace gTravel.Controllers
                     new rep_act_agent_work(db).printout(q);
                     break;
                 case "bordero":
-                    new rep_bordero(db).printout(q);
+                    new rep_bordero_agent(db).printout(q);
                     break;
             }
 

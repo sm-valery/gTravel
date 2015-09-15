@@ -487,6 +487,40 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractcount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_agent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_bordero_agent">
+          <Key>
+            <PropertyRef Name="ContractId" />
+            <PropertyRef Name="currencyid" />
+            <PropertyRef Name="seriaid" />
+          </Key>
+          <Property Name="ContractId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="currencyid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="seriaid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="date_begin" Type="date" />
+          <Property Name="date_end" Type="date" />
+          <Property Name="date_diff" Type="int" />
+          <Property Name="Holder_SubjectId" Type="uniqueidentifier" />
+          <Property Name="ContractStatusId" Type="uniqueidentifier" />
+          <Property Name="period_multi_type" Type="nchar" MaxLength="1" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="date_out" Type="datetime" />
+          <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
+          <Property Name="tripduration" Type="int" />
+          <Property Name="SeriaCode" Type="nchar" MaxLength="10" />
+          <Property Name="AgentId" Type="uniqueidentifier" />
+          <Property Name="Percent" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="InsPrem" Type="money" />
+          <Property Name="InsPremRur" Type="money" />
+          <Property Name="Fransh" Type="float" />
+          <Property Name="InsSum" Type="money" />
+          <Property Name="terr_name" Type="varchar" MaxLength="2000" />
+          <Property Name="stat_code" Type="varchar" MaxLength="10" />
+          <Property Name="Name1" Type="nchar" MaxLength="255" />
+          <Property Name="sum_fee" Type="numeric" Precision="38" Scale="6" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero_new">
           <Key>
@@ -1233,6 +1267,35 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
     [v_bordero].[contractcount] AS [contractcount]
     FROM [dbo].[v_bordero] AS [v_bordero]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="v_bordero_agent" EntityType="Self.v_bordero_agent" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_bordero_agent].[ContractId] AS [ContractId], 
+    [v_bordero_agent].[currencyid] AS [currencyid], 
+    [v_bordero_agent].[contractnumber] AS [contractnumber], 
+    [v_bordero_agent].[seriaid] AS [seriaid], 
+    [v_bordero_agent].[date_begin] AS [date_begin], 
+    [v_bordero_agent].[date_end] AS [date_end], 
+    [v_bordero_agent].[date_diff] AS [date_diff], 
+    [v_bordero_agent].[Holder_SubjectId] AS [Holder_SubjectId], 
+    [v_bordero_agent].[ContractStatusId] AS [ContractStatusId], 
+    [v_bordero_agent].[period_multi_type] AS [period_multi_type], 
+    [v_bordero_agent].[UserId] AS [UserId], 
+    [v_bordero_agent].[date_out] AS [date_out], 
+    [v_bordero_agent].[contractnumberformat] AS [contractnumberformat], 
+    [v_bordero_agent].[tripduration] AS [tripduration], 
+    [v_bordero_agent].[SeriaCode] AS [SeriaCode], 
+    [v_bordero_agent].[AgentId] AS [AgentId], 
+    [v_bordero_agent].[Percent] AS [Percent], 
+    [v_bordero_agent].[InsPrem] AS [InsPrem], 
+    [v_bordero_agent].[InsPremRur] AS [InsPremRur], 
+    [v_bordero_agent].[Fransh] AS [Fransh], 
+    [v_bordero_agent].[InsSum] AS [InsSum], 
+    [v_bordero_agent].[terr_name] AS [terr_name], 
+    [v_bordero_agent].[stat_code] AS [stat_code], 
+    [v_bordero_agent].[Name1] AS [Name1], 
+    [v_bordero_agent].[sum_fee] AS [sum_fee]
+    FROM [dbo].[v_bordero_agent] AS [v_bordero_agent]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="v_bordero_new" EntityType="Self.v_bordero_new" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [v_bordero_new].[BorderoId] AS [BorderoId], 
@@ -1773,6 +1836,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
             <End Role="AgentUser" EntitySet="AgentUsers" />
           </AssociationSet>
           <EntitySet Name="v_contract_agent" EntityType="goDbModel.v_contract_agent" />
+          <EntitySet Name="v_bordero_agent" EntityType="goDbModel.v_bordero_agent" />
           </EntityContainer>
         <EntityType Name="ConditionSeria">
           <Key>
@@ -3094,6 +3158,38 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="stat_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="sum_fee" Type="Decimal" Precision="38" Scale="6" />
         </EntityType>
+        <EntityType Name="v_bordero_agent">
+          <Key>
+            <PropertyRef Name="ContractId" />
+            <PropertyRef Name="currencyid" />
+            <PropertyRef Name="seriaid" />
+          </Key>
+          <Property Name="ContractId" Type="Guid" Nullable="false" />
+          <Property Name="currencyid" Type="Guid" Nullable="false" />
+          <Property Name="contractnumber" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="seriaid" Type="Guid" Nullable="false" />
+          <Property Name="date_begin" Type="DateTime" Precision="0" />
+          <Property Name="date_end" Type="DateTime" Precision="0" />
+          <Property Name="date_diff" Type="Int32" />
+          <Property Name="Holder_SubjectId" Type="Guid" />
+          <Property Name="ContractStatusId" Type="Guid" />
+          <Property Name="period_multi_type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="date_out" Type="DateTime" Precision="3" />
+          <Property Name="contractnumberformat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tripduration" Type="Int32" />
+          <Property Name="SeriaCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AgentId" Type="Guid" />
+          <Property Name="Percent" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="InsPrem" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="InsPremRur" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Fransh" Type="Double" />
+          <Property Name="InsSum" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="terr_name" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="stat_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Name1" Type="String" MaxLength="255" FixedLength="true" Unicode="true" />
+          <Property Name="sum_fee" Type="Decimal" Precision="38" Scale="6" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3784,6 +3880,37 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="sum_fee" ColumnName="sum_fee" />
                 <ScalarProperty Name="stat_code" ColumnName="stat_code" />
                 <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
+                <ScalarProperty Name="Percent" ColumnName="Percent" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="SeriaCode" ColumnName="SeriaCode" />
+                <ScalarProperty Name="tripduration" ColumnName="tripduration" />
+                <ScalarProperty Name="contractnumberformat" ColumnName="contractnumberformat" />
+                <ScalarProperty Name="date_out" ColumnName="date_out" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="period_multi_type" ColumnName="period_multi_type" />
+                <ScalarProperty Name="ContractStatusId" ColumnName="ContractStatusId" />
+                <ScalarProperty Name="Holder_SubjectId" ColumnName="Holder_SubjectId" />
+                <ScalarProperty Name="date_diff" ColumnName="date_diff" />
+                <ScalarProperty Name="date_end" ColumnName="date_end" />
+                <ScalarProperty Name="date_begin" ColumnName="date_begin" />
+                <ScalarProperty Name="seriaid" ColumnName="seriaid" />
+                <ScalarProperty Name="contractnumber" ColumnName="contractnumber" />
+                <ScalarProperty Name="currencyid" ColumnName="currencyid" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_bordero_agent">
+            <EntityTypeMapping TypeName="goDbModel.v_bordero_agent">
+              <MappingFragment StoreEntitySet="v_bordero_agent">
+                <ScalarProperty Name="sum_fee" ColumnName="sum_fee" />
+                <ScalarProperty Name="Name1" ColumnName="Name1" />
+                <ScalarProperty Name="stat_code" ColumnName="stat_code" />
+                <ScalarProperty Name="terr_name" ColumnName="terr_name" />
+                <ScalarProperty Name="InsSum" ColumnName="InsSum" />
+                <ScalarProperty Name="Fransh" ColumnName="Fransh" />
+                <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
+                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
                 <ScalarProperty Name="Percent" ColumnName="Percent" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="SeriaCode" ColumnName="SeriaCode" />

@@ -341,6 +341,9 @@
     <Compile Include="Models\v_bordero.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\v_bordero_agent.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\v_bordero_new.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
