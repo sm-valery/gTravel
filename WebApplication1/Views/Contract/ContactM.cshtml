@@ -80,21 +80,21 @@
         </div>
         <div class="col-sm-2">
             Дата выдачи:
-            @Html.TextBoxFor(m => Model.date_begin, new { @class = "form-control input-sm", placeholder = "дд.мм.гггг" })
+            @Html.TextBoxFor(m => Model.date_begin, new { @class = "form-control input-sm short-date", placeholder = "ддмм" })
         </div>
     </div>
     <div class="row">
         <div class="col-sm-2">
             Период страхования c:
-            @Html.TextBoxFor(m => Model.date_begin, new { @class = "form-control input-sm", placeholder = "дд.мм.гггг" })
+            @Html.TextBoxFor(m => Model.date_begin, new { @class = "form-control input-sm short-date", placeholder = "ддмм" })
         </div>
         <div class="col-sm-2">
             по:
-            @Html.TextBoxFor(m => Model.date_end, new { @class = "form-control input-sm", placeholder = "дд.мм.гггг" })
+            @Html.TextBoxFor(m => Model.date_end, new { @class = "form-control input-sm short-date", placeholder = "ддмм" })
         </div>
         <div class="col-sm-1">
             дней:
-            @Html.TextBoxFor(m => Model.date_diff, new { @class = "form-control input-sm" })
+            @Html.TextBoxFor(m => Model.date_diff, new { @class = "form-control input-sm short-date" })
         </div>
         <div class="col-sm-1">
             срок:
@@ -210,6 +210,22 @@
     }
 
     $(function () {
+
+        $(".short-date").change(function () {
+
+            if ($(this).val().length == 4)
+            {
+                var prepval = $(this).val().toString();
+
+                var now = new Date();
+                var newval = prepval.substring(0, 2) +'.'+ prepval.substring(2, 4)+ '.'+now.getFullYear();
+                
+                $(this).val(newval);
+            }
+            alert(this.id);
+
+        });
+        
 
         @*$(".grid-input").keypress(function (event) {
 

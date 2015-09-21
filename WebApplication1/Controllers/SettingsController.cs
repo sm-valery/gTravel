@@ -127,9 +127,12 @@ namespace gTravel.Controllers
 
         public ActionResult Seria_edit(Guid id)
         {
-            ViewBag.DefaultCurrencyId = new SelectList(db.Currencies, "CurrencyId", "name");
+            var s = db.serias.SingleOrDefault(x => x.SeriaId == id);
 
-            return View(db.serias.SingleOrDefault(x=>x.SeriaId == id));
+            ViewBag.DefaultCurrencyId = new SelectList(db.Currencies, "CurrencyId", "name",s.DefaultCurrencyId);
+            ViewBag.DefaultTerritoryId = new SelectList(db.Territories, "TerritoryId", "name", s.DefaultTerritoryId);
+
+            return View(s);
         }
 
         [HttpPost]
@@ -144,6 +147,7 @@ namespace gTravel.Controllers
             }
 
             ViewBag.DefaultCurrencyId = new SelectList(db.Currencies, "CurrencyId", "name");
+            ViewBag.DefaultTerritoryId = new SelectList(db.Territories, "TerritoryId", "name", s.DefaultTerritoryId);
 
             return View(s);
         }
