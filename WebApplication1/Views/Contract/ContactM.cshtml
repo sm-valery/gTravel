@@ -64,8 +64,15 @@
 </style>
 
 <div class="well well-sm">@Model.seria.Code . @Model.seria.Name</div>
-@using (Html.BeginForm())
+@using (Html.BeginForm("ContractM", "Contract", FormMethod.Post))
 {
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => Model.ContractId)
+    @Html.HiddenFor(m => Model.ContractStatusId)
+    @Html.HiddenFor(m => Model.seriaid)
+    @Html.HiddenFor(m => Model.UserId)
+    
     <div class="row">
         <div class="col-md-2">
             Номер:
@@ -80,7 +87,7 @@
         </div>
         <div class="col-sm-2">
             Дата выдачи:
-            @Html.TextBoxFor(m => Model.date_begin, new { @class = "form-control input-sm short-date", placeholder = "ддмм" })
+            @Html.TextBoxFor(m => Model.date_out, new { @class = "form-control input-sm short-date", placeholder = "ддмм" })
         </div>
     </div>
     <div class="row">
@@ -117,7 +124,7 @@
 
                 @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control" })
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">в спис</button>
+                    <button id="add_isd" class="btn btn-default" type="button">в спис</button>
                 </span>
             </div><!-- /input-group -->
         </div>
@@ -151,8 +158,8 @@
             @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
         </div>
     </div>
-    
-    
+
+
     <div class="row">
         <div class="col-lg-3">
             Агент 1
@@ -160,7 +167,7 @@
 
         </div>
         <div class="col-lg-1">
-           %
+            %
             @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
         </div>
         <div class="col-lg-3">
@@ -181,7 +188,7 @@
 
 
 <div class="alert alert-info">
-    переход от поля к полю: <b>TAB</b>, открыть список значений, нажатия на кнопки: <b>SPACE</b>, добавить нового застрахованного: <b>ENTER</b> в последней колонке
+    переход от поля к полю: <b>TAB</b>, открыть список значений, нажатия на кнопки: <b>SPACE</b>, добавить нового застрахованного: <b>ENTER</b> в последней колонке, сохранить полис из любого поля <b>ENTER</b>
 </div>
 <script type="text/javascript">
     function addnewassured(event) {
@@ -209,23 +216,76 @@
         }
     }
 
+    function prepdateyy(me) {
+
+        if (me.value.length == 6) {
+            var prepval = me.value.toString();
+            var now = new Date();
+            var yy = prepval.substring(4, 6);
+
+            var nowyy = now.getFullYear().toString().substring(2, 4);
+
+            if (yy < nowyy) {
+                nowyy = "20" + yy;
+            }
+            else {
+                nowyy = "19" + yy;
+            }
+
+            var newval = prepval.substring(0, 2) + '.' + prepval.substring(2, 4) + '.' + nowyy;
+
+            me.value = newval;
+        }
+
+    }
+
     $(function () {
+
+        $("#add_isd").click(function () {
+
+            var newv = $("#Subject_Name1").val();
+
+            $("table input:first").val(newv);
+            $("table input:first").focus();
+        });
 
         $(".short-date").change(function () {
 
-            if ($(this).val().length == 4)
-            {
+            if ($(this).val().length == 4) {
                 var prepval = $(this).val().toString();
 
                 var now = new Date();
-                var newval = prepval.substring(0, 2) +'.'+ prepval.substring(2, 4)+ '.'+now.getFullYear();
-                
+                var newval = prepval.substring(0, 2) + '.' + prepval.substring(2, 4) + '.' + now.getFullYear();
+
                 $(this).val(newval);
             }
-            alert(this.id);
+            if (this.id == 'date_begin' || this.id == 'date_end') {
+                var d1 = $("#date_begin").val();
+                var d2 = $("#date_end").val();
+
+
+
+                $.ajax({
+                    url: '@Url.Action("get_strperiodday","Contract")',
+                    data: {
+                        date_from: d1,
+                        date_to: d2
+                    },
+                    error: function (request, status, error) {
+                        alert(error);
+                    },
+                    success: function (data) {
+
+                        $("#date_diff").val(data);
+                    }
+                });
+            }
 
         });
-        
+
+
+
+
 
         @*$(".grid-input").keypress(function (event) {
 

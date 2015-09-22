@@ -594,10 +594,22 @@ namespace gTravel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserIdFilter]
-        public ActionResult ContactM()
+        public ActionResult ContractM(Contract c, string[] Contract_territory_chosen)
         {
+            
 
-            return View();
+            foreach(var t in Contract_territory_chosen)
+            {
+                var 
+
+
+                //c.Contract_territory.Add(new Contract_territory(){ ContractId = c.ContractId})
+            }
+            
+
+           ContractSave(c);
+
+            return View(c);
         }
 
 
