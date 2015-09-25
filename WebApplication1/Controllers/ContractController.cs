@@ -594,7 +594,9 @@ namespace gTravel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserIdFilter]
-        public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen)
+        public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen,
+            Subject[] insd
+        )
         {
             
             //добавить территорию
@@ -609,6 +611,9 @@ namespace gTravel.Controllers
                     TerritoryId = t
                 });
             }
+//список застрахованных
+
+
             
 
            ContractSave(c);
