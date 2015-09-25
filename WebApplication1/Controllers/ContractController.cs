@@ -594,16 +594,20 @@ namespace gTravel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserIdFilter]
-        public ActionResult ContractM(Contract c, string[] Contract_territory_chosen)
+        public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen)
         {
             
+            //добавить территорию
+            db.Contract_territory.RemoveRange(db.Contract_territory.Where(x=>x.ContractId==c.ContractId));
 
             foreach(var t in Contract_territory_chosen)
             {
-                var 
-
-
-                //c.Contract_territory.Add(new Contract_territory(){ ContractId = c.ContractId})
+                c.Contract_territory.Add(new Contract_territory()
+                {
+                    ContractId = c.ContractId,
+                    ContractTerritoryId = Guid.NewGuid(),
+                    TerritoryId = t
+                });
             }
             
 
