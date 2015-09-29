@@ -72,6 +72,7 @@
     @Html.HiddenFor(m => Model.ContractStatusId)
     @Html.HiddenFor(m => Model.seriaid)
     @Html.HiddenFor(m => Model.UserId)
+    @Html.HiddenFor(m=> Model.Holder_SubjectId)
     
     <div class="row">
         <div class="col-md-2">
@@ -122,6 +123,7 @@
             Страхователь:
             <div class="input-group">
 
+
                 @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control" })
                 <span class="input-group-btn">
                     <button id="add_isd" class="btn btn-default" type="button">в спис</button>
@@ -134,7 +136,7 @@
 
 
     <div class="well well-sm">
-        <table>
+        <table id="subjtable">
 
             <tr>
                 <td>ФИО</td>
@@ -194,9 +196,13 @@
     function addnewassured(event) {
         if (event.which == 13) {
 
+            var subj_count = $("#subjtable tr").length;
+    
             $.ajax({
                 url: '@Url.Action("_ContractMNewAssured")',
-
+                data: {
+                    idx: subj_count
+                },
                 error: function (request, status, error) {
                     alert(error);
                 },

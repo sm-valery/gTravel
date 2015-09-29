@@ -594,8 +594,7 @@ namespace gTravel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserIdFilter]
-        public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen,
-            Subject[] insd
+        public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen
         )
         {
             
@@ -612,18 +611,38 @@ namespace gTravel.Controllers
                 });
             }
 //список застрахованных
+            db.Subjects.RemoveRange(db.Subjects.Where(x => x.ContractId == c.ContractId));
+            foreach(var s in c.Subjects)
+            {
+                
+                //если пустое наименование, то не сохраняем
+                if (string.IsNullOrEmpty(s.Name1))
+                    continue;
 
+                s.SubjectId = Guid.NewGuid();
+                s.ContractId = c.ContractId;
+                db.Subjects.Add(s);
+            }
 
+            //страхователь
+            var st = db.Subjects.SingleOrDefault(x=>x.SubjectId == c.Holder_SubjectId);
+            st.Name1 = c.Subject.Name1;
+            db.Entry(st).State = EntityState.Modified;
+
+            //риск
+            var risk = db.ContractRisks.SingleOrDefault(x => x.ContractId==c.ContractId);
             
+            risk.BaseTarif
 
-           ContractSave(c);
+           //ContractSave(c);
 
             return View(c);
         }
 
 
-        public PartialViewResult _ContractMNewAssured()
+        public PartialViewResult _ContractMNewAssured(decimal? idx)
         {
+            ViewBag.idx = (idx.HasValue)?idx-1:0;
             return PartialView();
         }
 
