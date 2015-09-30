@@ -141,7 +141,6 @@
             <tr>
                 <td>ФИО</td>
                 <td>ДР</td>
-                <td>Франш</td>
                 <td>Пасп</td>
 
             </tr>
@@ -150,16 +149,18 @@
         </table>
     </div>
 
-    <div class="row">
+    @Html.Action("_ContractM_Risk",new {contractid = Model.ContractId})
+    @*<div class="row">
         <div class="col-lg-2">
             Страх. сумма
+            @Html.TextBox("InsSum",)
             @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
         </div>
         <div class="col-lg-2">
             Страх. премия
             @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
         </div>
-    </div>
+    </div>*@
 
 
     <div class="row">

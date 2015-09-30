@@ -591,6 +591,13 @@ namespace gTravel.Controllers
             return View(cs.GetContractForEdit(c.ContractId,userid));
         }
 
+
+        public PartialViewResult _ContractM_Risk(Guid contractid)
+        {
+
+            return PartialView(db.ContractRisks.SingleOrDefault(x=>x.ContractId==contractid));
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserIdFilter]
@@ -632,7 +639,7 @@ namespace gTravel.Controllers
             //риск
             var risk = db.ContractRisks.SingleOrDefault(x => x.ContractId==c.ContractId);
             
-            risk.BaseTarif
+           // risk.BaseTarif
 
            //ContractSave(c);
 
