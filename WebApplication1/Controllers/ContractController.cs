@@ -601,21 +601,23 @@ namespace gTravel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserIdFilter]
-        public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen
-        )
+        public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen)
         {
             
             //добавить территорию
             db.Contract_territory.RemoveRange(db.Contract_territory.Where(x=>x.ContractId==c.ContractId));
 
-            foreach(var t in Contract_territory_chosen)
+            if (Contract_territory_chosen != null)
             {
-                c.Contract_territory.Add(new Contract_territory()
+                foreach (var t in Contract_territory_chosen)
                 {
-                    ContractId = c.ContractId,
-                    ContractTerritoryId = Guid.NewGuid(),
-                    TerritoryId = t
-                });
+                    c.Contract_territory.Add(new Contract_territory()
+                    {
+                        ContractId = c.ContractId,
+                        ContractTerritoryId = Guid.NewGuid(),
+                        TerritoryId = t
+                    });
+                }
             }
 //список застрахованных
             db.Subjects.RemoveRange(db.Subjects.Where(x => x.ContractId == c.ContractId));
@@ -626,6 +628,7 @@ namespace gTravel.Controllers
                 if (string.IsNullOrEmpty(s.Name1))
                     continue;
 
+                s.Name1.Trim();
                 s.SubjectId = Guid.NewGuid();
                 s.ContractId = c.ContractId;
                 db.Subjects.Add(s);
@@ -633,17 +636,22 @@ namespace gTravel.Controllers
 
             //страхователь
             var st = db.Subjects.SingleOrDefault(x=>x.SubjectId == c.Holder_SubjectId);
-            st.Name1 = c.Subject.Name1;
+            st.Name1 = (!string.IsNullOrEmpty( c.Subject.Name1))?c.Subject.Name1.Trim():"";
             db.Entry(st).State = EntityState.Modified;
 
             //риск
-            var risk = db.ContractRisks.SingleOrDefault(x => x.ContractId==c.ContractId);
-            
-           // risk.BaseTarif
+           foreach(var r in c.ContractRisks)
+           {
+               r.InsFeeRur = r.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
+               db.Entry(r).State = EntityState.Modified;
+           }
 
-           //ContractSave(c);
+           db.Entry(c).State = EntityState.Modified;
+         
+           db.SaveChanges();
+       //  ContractSave(c);
 
-            return View(c);
+           return RedirectToAction("index");
         }
 
 

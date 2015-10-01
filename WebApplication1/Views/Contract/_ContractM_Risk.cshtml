@@ -1,15 +1,24 @@
 ﻿@model gTravel.Models.ContractRisk
 
-@Html.TextBox(string.Format("ContractAgents[{0}].Percent", indx), Model.Percent, new { @class = "form-control input-sm" })
+
+@Html.Hidden("ContractRisks[0].ContractRiskId",Model.ContractRiskId)
+@Html.Hidden("ContractRisks[0].ContractId", Model.ContractId)
+@Html.Hidden("ContractRisks[0].RiskId", Model.RiskId)
+@Html.Hidden("ContractRisks[0].isMandatory", Model.isMandatory)
+@Html.Hidden("ContractRisks[0].RiskProgramId", Model.RiskProgramId)
 
 <div class="row">
         <div class="col-lg-2">
             Страх. сумма
-            @Html.TextBox("ContractRisks[]")
-            @*@Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })*@
+            @Html.TextBox("ContractRisks[0].InsSum", Model.InsSum, new { @class = "form-control input-sm" })
+          
         </div>
         <div class="col-lg-2">
             Страх. премия
-            @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
+            @Html.TextBox("ContractRisks[0].InsPrem", Model.InsPrem, new { @class = "form-control input-sm" })
         </div>
+    <div class="col-lg-2">
+        Франшиза(проц)
+        @Html.TextBox("ContractRisks[0].FranshPerc", Model.FranshPerc, new { @class = "form-control input-sm" })
+    </div>
     </div>
