@@ -74,6 +74,8 @@
     @Html.HiddenFor(m => Model.UserId)
     @Html.HiddenFor(m=> Model.Holder_SubjectId)
     
+
+
     <div class="row">
         <div class="col-md-2">
             Номер:
@@ -123,6 +125,7 @@
             Страхователь:
             <div class="input-group">
 
+                @Html.HiddenFor(model=>Model.Subject.SubjectId)
 
                 @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control" })
                 <span class="input-group-btn">

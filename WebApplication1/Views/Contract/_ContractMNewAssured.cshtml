@@ -2,8 +2,12 @@
     decimal idx = (decimal)ViewBag.idx;
 }
 
+
+
 <tr>
     <td>
+        @Html.Hidden(string.Format("Subjects[{0}].ContractId", idx), (string)ViewBag.ContractId)
+
         <input type="text" name="@string.Format("Subjects[{0}].Name1", idx)" class="form-control input-sm" />
     </td>
     <td>

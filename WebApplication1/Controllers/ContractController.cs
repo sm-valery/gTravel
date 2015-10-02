@@ -620,24 +620,39 @@ namespace gTravel.Controllers
                 }
             }
 //список застрахованных
+
             db.Subjects.RemoveRange(db.Subjects.Where(x => x.ContractId == c.ContractId));
-            foreach(var s in c.Subjects)
+            int subjcount=0;
+            foreach (var s in c.Subjects)
             {
-                
+
                 //если пустое наименование, то не сохраняем
                 if (string.IsNullOrEmpty(s.Name1))
                     continue;
+
+                subjcount++;
 
                 s.Name1.Trim();
                 s.SubjectId = Guid.NewGuid();
                 s.ContractId = c.ContractId;
                 db.Subjects.Add(s);
             }
-
+            c.Subjects = null;
+    
+            if(subjcount==0)
+            {
+                db.Subjects.Add(new Subject {
+                SubjectId= Guid.NewGuid(),
+                ContractId = c.ContractId
+                });
+            }
             //страхователь
-            var st = db.Subjects.SingleOrDefault(x=>x.SubjectId == c.Holder_SubjectId);
-            st.Name1 = (!string.IsNullOrEmpty( c.Subject.Name1))?c.Subject.Name1.Trim():"";
-            db.Entry(st).State = EntityState.Modified;
+            //var st = db.Subjects.SingleOrDefault(x=>x.SubjectId == c.Holder_SubjectId);
+            //st.Name1 = (!string.IsNullOrEmpty( c.Subject.Name1))?c.Subject.Name1.Trim():"";
+            
+//            c.Subject = st;
+
+            db.Entry(c.Subject).State = EntityState.Modified;
 
             //риск
            foreach(var r in c.ContractRisks)
