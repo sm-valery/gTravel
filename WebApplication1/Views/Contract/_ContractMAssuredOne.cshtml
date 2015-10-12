@@ -1,0 +1,23 @@
+﻿@model gTravel.Models.Subject
+
+<tr>
+    <td>
+
+        <input type="text" name="@string.Format("Subjects[{0}].Name1", Model.num)" id="@string.Format("Subjects_{0}__Name1",Model.num)" class="form-control input-sm" value="@Model.Name1" />
+
+        @Html.Hidden(string.Format("Subjects[{0}].ContractId", Model.ContractId), (string)ViewBag.ContractId)
+        @Html.Hidden(string.Format("Subjects[{0}].num", Model.num), (string)ViewBag.ContractId)
+
+    </td>
+    <td>
+        <input type="text" name="@string.Format("Subjects[{0}].DateOfBirth", Model.num)" class="form-control input-sm short-date-yy" placeholder="ддммгг" onchange="prepdateyy(this)" value="@Model.DateOfBirth" />
+    </td>
+    @*<td>
+            <input type="text" class="form-control input-sm" />
+        </td>*@
+    <td>
+        <input type="text" name="@string.Format("Subjects[{0}].Pasport", Model.num)" class="form-control input-sm" onkeypress="addnewassured(event)" value="@Model.Pasport" />
+    </td>
+
+</tr>
+

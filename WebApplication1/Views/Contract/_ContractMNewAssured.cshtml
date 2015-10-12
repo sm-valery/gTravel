@@ -6,9 +6,12 @@
 
 <tr>
     <td>
+
+        <input type="text" name="@string.Format("Subjects[{0}].Name1", idx)" id="@string.Format("Subjects_{0}__Name1",idx)" class="form-control input-sm" />
+
         @Html.Hidden(string.Format("Subjects[{0}].ContractId", idx), (string)ViewBag.ContractId)
 
-        <input type="text" name="@string.Format("Subjects[{0}].Name1", idx)" class="form-control input-sm" />
+
     </td>
     <td>
         <input type="text" name="@string.Format("Subjects[{0}].DateOfBirth", idx)" class="form-control input-sm short-date-yy" placeholder="ддммгг" onchange="prepdateyy(this)" />
@@ -16,6 +19,8 @@
     @*<td>
         <input type="text" class="form-control input-sm" />
     </td>*@
-    <td><input type="text" name="@string.Format("Subjects[{0}].Pasport", idx)" class="form-control input-sm" onkeypress="addnewassured(event)" /></td>
+    <td>
+        <input type="text" name="@string.Format("Subjects[{0}].Pasport", idx)" class="form-control input-sm" onkeypress="addnewassured(event)" />
+    </td>
 
 </tr>

@@ -605,20 +605,24 @@ namespace gTravel.Controllers
         {
             
             //добавить территорию
-            db.Contract_territory.RemoveRange(db.Contract_territory.Where(x=>x.ContractId==c.ContractId));
+            db.Contract_territory.RemoveRange(db.Contract_territory.Where(x => x.ContractId == c.ContractId));
 
             if (Contract_territory_chosen != null)
             {
                 foreach (var t in Contract_territory_chosen)
                 {
-                    c.Contract_territory.Add(new Contract_territory()
+                    db.Contract_territory.Add(new Contract_territory()
                     {
                         ContractId = c.ContractId,
                         ContractTerritoryId = Guid.NewGuid(),
                         TerritoryId = t
                     });
+
+
                 }
             }
+
+
 //список застрахованных
 
             db.Subjects.RemoveRange(db.Subjects.Where(x => x.ContractId == c.ContractId));
@@ -637,8 +641,8 @@ namespace gTravel.Controllers
                 s.ContractId = c.ContractId;
                 db.Subjects.Add(s);
             }
-            c.Subjects = null;
-    
+
+          
             if(subjcount==0)
             {
                 db.Subjects.Add(new Subject {
@@ -669,11 +673,21 @@ namespace gTravel.Controllers
            return RedirectToAction("index");
         }
 
-
-        public PartialViewResult _ContractMNewAssured(decimal? idx)
+        public PartialViewResult _ContractMAssiredList(Guid contractid)
         {
-            ViewBag.idx = (idx.HasValue)?idx-1:0;
-            return PartialView();
+            ViewBag.ContractId = contractid;
+
+            return PartialView(db.Subjects.Where(x=>x.ContractId == contractid).ToList());
+        }
+
+        public PartialViewResult _ContractMNewAssured(Guid contractid, int idx=0)
+        {
+            //ViewBag.idx = (idx.HasValue)?idx-1:0;
+            return PartialView("_ContractMAssuredOne", new Subject() { 
+                ContractId = contractid,
+                Name1 = "",
+                num = idx
+            });
         }
 
 

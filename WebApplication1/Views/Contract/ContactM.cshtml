@@ -147,7 +147,10 @@
                 <td>Пасп</td>
 
             </tr>
-            @Html.Action("_ContractMNewAssured")
+
+            @Html.Action("_ContractMAssiredList", new {contractid = Model.ContractId })
+
+            @*@Html.Action("_ContractMNewAssured")*@
 
         </table>
     </div>
@@ -165,27 +168,49 @@
         </div>
     </div>*@
 
+    
+        gTravel.Models.ContractAgent ag1 = new gTravel.Models.ContractAgent();
+        gTravel.Models.ContractAgent ag2 = new gTravel.Models.ContractAgent();
 
-    <div class="row">
+    int agpos = 0;
+    
+    foreach(var ag in Model.ContractAgents)
+    {
+        if (agpos == 0)
+        {
+            ag1 = ag;
+        }
+            else
+        {
+            ag2 = ag;
+        }
+            
+        
+        agpos++;
+    }   
+    
+    
+
+    @*<div class="row">
         <div class="col-lg-3">
             Агент 1
-            @Html.DropDownList("agentlist", null, new { @class = "form-control input-sm chosen-select" })
-
+            @Html.DropDownList("ContractAgents[0].AgentId", (SelectList)ViewBag.agentlist, new { @class = "form-control input-sm chosen-select" })
+        
         </div>
         <div class="col-lg-1">
             %
-            @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
-        </div>
+            @Html.TextBox("ContractAgents[0].Percent", ag1.Percent, new { @class = "form-control input-sm" })
+         </div>
         <div class="col-lg-3">
             Агент 2
-            @Html.DropDownList("agentlist", null, new { @class = "form-control input-sm chosen-select" })
-        </div>
+            @Html.DropDownList("ContractAgents[1].AgentId", (SelectList)ViewBag.agentlist, new { @class = "form-control input-sm chosen-select" })
+         </div>
         <div class="col-lg-1">
             %
-            @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control input-sm" })
+            @Html.TextBox("ContractAgents[1].Percent", ag2.Percent, new { @class = "form-control input-sm" })
         </div>
         <div class="col-lg-4">  </div>
-    </div>
+    </div>*@
 
     <hr />
     <button class="btn btn-default">По образцу</button>
@@ -206,15 +231,16 @@
             $.ajax({
                 url: '@Url.Action("_ContractMNewAssured")',
                 data: {
+                    contractid='@Model.ContractId',
                     idx: subj_count
                 },
                 error: function (request, status, error) {
                     alert(error);
                 },
                 success: function (data) {
-                    $("table").append(data);
+                    $("#subjtable").append(data);
 
-                    $("table tr:last input:first").focus();
+                    $("#subjtable tr:last input:first").focus();
                 }
             });
 
@@ -253,11 +279,11 @@
     $(function () {
 
         $("#add_isd").click(function () {
-
+   
             var newv = $("#Subject_Name1").val();
 
-            $("table input:first").val(newv);
-            $("table input:first").focus();
+            $("#Subjects_0__Name1").val(newv).focus();
+           // $("#Subjects_0__ContractId").focus();
         });
 
         $(".short-date").change(function () {

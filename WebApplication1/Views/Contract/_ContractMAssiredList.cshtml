@@ -1,0 +1,20 @@
+﻿@model IEnumerable<gTravel.Models.Subject>
+
+
+@if (Model.Count() == 0)
+{
+    @Html.Partial("_ContractMAssuredOne", new gTravel.Models.Subject() { 
+    ContractId = (Guid)ViewBag.ContractId,
+    num=0})
+}
+else
+{
+
+    foreach (var item in Model)
+    {
+
+        @Html.Partial("_ContractMAssuredOne", item)
+
+    }
+
+}
