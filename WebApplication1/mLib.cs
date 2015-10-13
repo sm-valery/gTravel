@@ -180,6 +180,7 @@ namespace gTravel.Models
             stat.ContractId = this.ContractId;
 
             stat.StatusId = db.Status.SingleOrDefault(x => x.Code.Trim() == new_status_code).StatusId;
+
             stat.DateInsert = DateTime.Now;
             stat.UserId = userid;
 

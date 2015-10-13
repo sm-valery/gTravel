@@ -146,6 +146,60 @@ namespace gTravel.Servises
             return newcontract.ContractId;
         }
 
+        public Guid copy_as_template(Guid contract_id,string userid)
+        {
+            var c = db.Contracts.SingleOrDefault(x => x.ContractId == contract_id);
+
+            var newcontract = create_contract(c.seriaid, userid);
+
+            //contract
+            newcontract.date_begin = c.date_begin;
+            newcontract.date_end = c.date_end;
+            newcontract.currencyid = c.currencyid;
+            newcontract.date_diff = c.date_diff;
+            newcontract.period_multi_type = c.period_multi_type;
+            newcontract.tripduration = c.tripduration;
+
+            //территория
+            db.Contract_territory.RemoveRange(db.Contract_territory.Where(x => x.ContractId == newcontract.ContractId));
+
+            foreach (var t in c.Contract_territory)
+            {
+                db.Contract_territory.Add(new Contract_territory()
+                {
+                    ContractTerritoryId = Guid.NewGuid(),
+                    ContractId = newcontract.ContractId,
+                    TerritoryId = t.TerritoryId
+                });
+            }
+
+            //агенты
+            foreach (var ag in c.ContractAgents)
+            {
+                db.ContractAgents.Add(new ContractAgent()
+                {
+                    ContractAgentId = Guid.NewGuid(),
+                    ContractId = newcontract.ContractId,
+                    AgentId = ag.AgentId,
+                    Percent = ag.Percent,
+                    num = ag.num
+                });
+            }
+
+
+            var tmprisk = db.ContractRisks.FirstOrDefault(x => x.ContractId == c.ContractId);
+
+            var cr = db.ContractRisks.SingleOrDefault(x => x.ContractId == newcontract.ContractId);
+            cr.FranshPerc = tmprisk.FranshPerc;
+            cr.InsSum = tmprisk.InsSum;
+            db.Entry(cr).State = EntityState.Modified;
+
+
+            db.SaveChanges();
+
+            return newcontract.ContractId;
+        }
+
         public void DocRellAdd(Guid docid, Guid parentid, string reltype)
         {
             db.DocRels.Add(new DocRel()

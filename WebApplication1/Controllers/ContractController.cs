@@ -601,8 +601,9 @@ namespace gTravel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserIdFilter]
-        public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen)
+        public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen, string faction, string userid)
         {
+            c.db = db;
             
             //добавить территорию
             db.Contract_territory.RemoveRange(db.Contract_territory.Where(x => x.ContractId == c.ContractId));
@@ -627,21 +628,23 @@ namespace gTravel.Controllers
 
             db.Subjects.RemoveRange(db.Subjects.Where(x => x.ContractId == c.ContractId));
             int subjcount=0;
-            foreach (var s in c.Subjects)
+            if (c.Subjects != null)
             {
+                foreach (var s in c.Subjects)
+                {
 
-                //если пустое наименование, то не сохраняем
-                if (string.IsNullOrEmpty(s.Name1))
-                    continue;
+                    //если пустое наименование, то не сохраняем
+                    if (string.IsNullOrEmpty(s.Name1))
+                        continue;
 
-                subjcount++;
+                    subjcount++;
 
-                s.Name1.Trim();
-                s.SubjectId = Guid.NewGuid();
-                s.ContractId = c.ContractId;
-                db.Subjects.Add(s);
+                    s.Name1.Trim();
+                    s.SubjectId = Guid.NewGuid();
+                    s.ContractId = c.ContractId;
+                    db.Subjects.Add(s);
+                }
             }
-
           
             if(subjcount==0)
             {
@@ -651,42 +654,77 @@ namespace gTravel.Controllers
                 });
             }
             //страхователь
-            //var st = db.Subjects.SingleOrDefault(x=>x.SubjectId == c.Holder_SubjectId);
-            //st.Name1 = (!string.IsNullOrEmpty( c.Subject.Name1))?c.Subject.Name1.Trim():"";
-            
-//            c.Subject = st;
-
             db.Entry(c.Subject).State = EntityState.Modified;
 
             //риск
            foreach(var r in c.ContractRisks)
            {
+               //r.InsPrem = r.BaseTarif * c.Subjects.Count();//
+
                r.InsFeeRur = r.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
                db.Entry(r).State = EntityState.Modified;
            }
 
+            //агенты
+          // db.ContractAgents.RemoveRange(c.ContractAgents);
+
+
+            foreach(var ag in c.ContractAgents)
+            {
+                if(ag.ContractAgentId == Guid.Empty)
+                {
+
+                    db.ContractAgents.Add(new ContractAgent()
+                    {
+                        ContractAgentId = Guid.NewGuid(),
+                        ContractId = ag.ContractId,
+                        AgentId = ag.AgentId,
+                        Percent = ag.Percent,
+                        num = ag.num
+                    });
+                }
+                else
+                {
+                    db.Entry(ag).State = EntityState.Modified;
+                }
+            }
+            c.ContractAgents = null;
+
+            c.ContractStatusId = c.change_status(userid, "confirmed");
+
            db.Entry(c).State = EntityState.Modified;
          
            db.SaveChanges();
-       //  ContractSave(c);
+  
 
-           return RedirectToAction("index");
+            if(faction=="copy")
+            {
+                var newcc = new ContractService().copy_as_template(c.ContractId, userid);
+
+                return RedirectToAction("Contract_edit", new { contractid = newcc });
+            }
+
+                
+            return RedirectToAction("index");
+           
         }
 
-        public PartialViewResult _ContractMAssiredList(Guid contractid)
-        {
-            ViewBag.ContractId = contractid;
+        //public PartialViewResult _ContractMAssiredList(Guid contractid)
+        //{
+        //    ViewBag.ContractId = contractid;
 
-            return PartialView(db.Subjects.Where(x=>x.ContractId == contractid).ToList());
-        }
+        //    return PartialView(db.Subjects.Where(x=>x.ContractId == contractid).OrderBy(x=>x.num).ToList());
+        //}
 
         public PartialViewResult _ContractMNewAssured(Guid contractid, int idx=0)
         {
             //ViewBag.idx = (idx.HasValue)?idx-1:0;
+            ViewBag.ContractId = contractid;
+
             return PartialView("_ContractMAssuredOne", new Subject() { 
                 ContractId = contractid,
                 Name1 = "",
-                num = idx
+                num = idx-1
             });
         }
 

@@ -1,4 +1,10 @@
-﻿CREATE VIEW [dbo].[v_bordero_agent]
+﻿
+--done
+update riskseria 
+set InsSumDefauld = 30000
+where seriaid = 'a032e388-f7f1-43c6-ae30-91c111768460'
+
+CREATE VIEW [dbo].[v_bordero_agent]
 	AS
 		select
 c1.*,

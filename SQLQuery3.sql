@@ -1,10 +1,1 @@
-﻿USE [C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF]
-GO
-
-DECLARE	@return_value Int
-
-EXEC	@return_value = [dbo].[cleardb]
-
-SELECT	@return_value as 'Return Value'
-
-GO
+﻿select * from ContractAgent where ContractId='{1d636fb4-4c08-4c94-bb00-c5be17591564}'
