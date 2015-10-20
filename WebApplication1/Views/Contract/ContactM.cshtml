@@ -66,11 +66,14 @@
 <div class="well well-sm">@Model.seria.Code . @Model.seria.Name</div>
 @using (Html.BeginForm("ContractM", "Contract", FormMethod.Post))
 {
+    @Html.ValidationSummary()
+    
     @Html.AntiForgeryToken()
 
     @Html.HiddenFor(m => Model.ContractId)
     @Html.HiddenFor(m => Model.ContractStatusId)
     @Html.HiddenFor(m => Model.seriaid)
+
     @Html.HiddenFor(m => Model.UserId)
     @Html.HiddenFor(m => Model.Holder_SubjectId)
 
@@ -214,7 +217,7 @@
 
 
 
-            <div class="row">
+            <div class="row" style="margin-top:3px;">
                 <div class="col-lg-3">
                     Агент 1
                     @droplist("ContractAgents[0].AgentId", (SelectList)ViewBag.agentlist, ag1.AgentId.ToString())
@@ -244,6 +247,7 @@
             </div>
 
             <hr />
+    
             <button name="faction" class="btn btn-default" value="copy">По образцу</button>
             <button name="faction" class="btn btn-primary btn-sm" value="save">Сохранить</button>
 <a href='@Url.Action("index")' class="btn btn-default">Закрыть</a> 

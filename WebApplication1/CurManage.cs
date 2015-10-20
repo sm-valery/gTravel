@@ -11,6 +11,14 @@ namespace gTravel
 
     public static class CurrManage
     {
+        public static decimal vtorur(goDbEntities db, Guid curid, DateTime? dt, decimal? curvalue)
+        {
+            if (!curvalue.HasValue)
+                return 0;
+
+            return Math.Round(curvalue.Value * getCurRate(db, curid, dt),2);
+        }
+
         public static decimal getCurRate(goDbEntities db, Guid curid, DateTime? dt, bool updateifnotfound = true)
         {
             decimal ret = 0;

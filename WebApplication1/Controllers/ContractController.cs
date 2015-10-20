@@ -604,7 +604,9 @@ namespace gTravel.Controllers
         public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen, string faction, string userid)
         {
             c.db = db;
-            
+
+            var cs = new ContractService();
+       
             //добавить территорию
             db.Contract_territory.RemoveRange(db.Contract_territory.Where(x => x.ContractId == c.ContractId));
 
@@ -661,7 +663,10 @@ namespace gTravel.Controllers
            {
                //r.InsPrem = r.BaseTarif * c.Subjects.Count();//
 
-               r.InsFeeRur = r.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
+               r.InsPremRur = CurrManage.vtorur(db, c.currencyid, c.date_out, r.InsPrem);
+                   //r.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
+               
+
                db.Entry(r).State = EntityState.Modified;
            }
 
@@ -690,16 +695,48 @@ namespace gTravel.Controllers
             }
             c.ContractAgents = null;
 
-            c.ContractStatusId = c.change_status(userid, "confirmed");
-
            db.Entry(c).State = EntityState.Modified;
          
            db.SaveChanges();
-  
 
-            if(faction=="copy")
+            if(!c.contractnumber.HasValue)
             {
-                var newcc = new ContractService().copy_as_template(c.ContractId, userid);
+                ModelState.AddModelError(string.Empty, "Заполните номер договора!");
+            }
+            
+            if(c.date_out.Value.Date>c.date_begin.Value.Date)
+            {
+                ModelState.AddModelError(string.Empty, "Дата выдачи не может быть больше даты начала страхования!");
+            }
+
+            if(c.tripduration > c.date_diff)
+            {
+                ModelState.AddModelError(string.Empty, "Поле «срок» не может быть больше, чем поле «дней»!");
+            }
+
+            if(db.Contracts.Any(x=>x.contractnumber==c.contractnumber && x.currencyid == c.currencyid && x.ContractId != c.ContractId))
+            {
+                ModelState.AddModelError(string.Empty, "Такой номер договора уже существует!");
+            }
+
+            if(!ModelState.IsValid)
+            {
+
+                Contract cc = new ContractService(db).GetContractForEdit(c.ContractId, userid);
+
+                ContractForm_ini(cc, userid);
+                
+                return View(cc.seria.formname, cc);
+
+            }
+
+            c.ContractStatusId = c.change_status(userid, "confirmed");
+            db.SaveChanges();
+
+
+           if (faction=="copy")
+            {
+                var newcc = cs.copy_as_template(c.ContractId, userid);
 
                 return RedirectToAction("Contract_edit", new { contractid = newcc });
             }
@@ -1522,7 +1559,20 @@ namespace gTravel.Controllers
             
         //}
 
+        public ActionResult get_rurvalue(string dateout, decimal cval, Guid curid)
+        {
+            string ret = "0";
+            DateTime prepdate;
 
+            if(DateTime.TryParse(dateout, out prepdate))
+            {
+                ret = CurrManage.vtorur(db, curid, prepdate, cval).ToString();
+            }
+
+            
+
+            return Content(ret);
+        }
 
         protected override void Dispose(bool disposing)
         {

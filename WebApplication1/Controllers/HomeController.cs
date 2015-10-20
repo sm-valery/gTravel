@@ -19,7 +19,10 @@ namespace gTravel.Controllers
 
         public ActionResult test()
         {
-            return Content("<span>111</span>");
+
+
+
+            return View();
         }
 
         public ActionResult About()

@@ -253,7 +253,7 @@ namespace gTravel.Servises
             var c = db.Contracts.Include("Contract_territory")
               .Include("ContractConditions")
               .Include("ContractConditions.Condition")
-                // .Include("Subjects")
+              .Include("seria")
               .Include("ContractStatu")
               .SingleOrDefault(x => x.ContractId == contractid);
 
@@ -635,6 +635,7 @@ namespace gTravel.Servises
             db.ContractFactors.RemoveRange(db.ContractFactors.Where(x => x.ContractId == c.ContractId && x.Factor.auto));
             db.SaveChanges();
         }
+
 
 
         private decimal calcprem(decimal basetarif, IEnumerable<v_contract_factors> vContractFactors, int subj_count, decimal daycount = 0, bool ismulty = false, int risk_seria_type_tarif = 0, decimal inssum = 0)
