@@ -1,22 +1,25 @@
 ﻿@model gTravel.Models.Subject
 
+@{
+    int iNum = (Model.num.HasValue) ? Model.num.Value : 0;
+}
 <tr>
     <td>
 
-        <input type="text" name="@string.Format("Subjects[{0}].Name1", Model.num)" id="@string.Format("Subjects_{0}__Name1",Model.num)" class="form-control input-sm" value="@Model.Name1" />
+        <input type="text" name="@string.Format("Subjects[{0}].Name1", iNum)" id="@string.Format("Subjects_{0}__Name1",iNum)" class="form-control input-sm" value="@Model.Name1" />
 
-        @Html.Hidden(string.Format("Subjects[{0}].ContractId", Model.num), Model.ContractId)
-        @Html.Hidden(string.Format("Subjects[{0}].num", Model.num), Model.num)
+        @Html.Hidden(string.Format("Subjects[{0}].ContractId", iNum), Model.ContractId)
+        @Html.Hidden(string.Format("Subjects[{0}].num", iNum), iNum)
 
     </td>
     <td>
-        <input type="text" name="@string.Format("Subjects[{0}].DateOfBirth", Model.num)" class="form-control input-sm short-date-yy" placeholder="ддммгг" onchange="prepdateyy(this)" value="@Model.DateOfBirth" />
+        <input type="text" name="@string.Format("Subjects[{0}].DateOfBirth", iNum)" class="form-control input-sm short-date-yy" placeholder="ддммгг" onchange="prepdateyy(this)" value="@Model.DateOfBirth" />
     </td>
     @*<td>
             <input type="text" class="form-control input-sm" />
         </td>*@
     <td>
-        <input type="text" name="@string.Format("Subjects[{0}].Pasport", Model.num)" class="form-control input-sm" onkeypress="addnewassured(event)" value="@Model.Pasport" />
+        <input type="text" name="@string.Format("Subjects[{0}].Pasport", iNum)" class="form-control input-sm" onkeypress="addnewassured(event)" value="@Model.Pasport" />
     </td>
 
 </tr>

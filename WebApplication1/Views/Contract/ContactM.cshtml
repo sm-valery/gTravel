@@ -64,7 +64,7 @@
 </style>
 
 <div class="well well-sm">@Model.seria.Code . @Model.seria.Name</div>
-@using (Html.BeginForm("ContractM", "Contract", FormMethod.Post, new {onsubmit="return false;", id="fpolis"}))
+@using (Html.BeginForm("ContractM", "Contract", FormMethod.Post, new {id="fpolis"}))
 {
     //, onsubmit = "return false;" 
     @Html.ValidationSummary()
@@ -133,7 +133,8 @@
 
                 @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control" })
                 <span class="input-group-btn">
-                    <a href="#" id="add_isd" class="btn btn-default">в спис</a>
+                    <button id="add_isd" class="btn btn-default" type="button">в спис</button>
+                    @*<a href="#" id="add_isd" class="btn btn-default">в спис</a>*@
                 </span>
             </div><!-- /input-group -->
         </div>
@@ -248,11 +249,11 @@
             </div>
 
             <hr />
+    <button name="faction" class="btn btn-primary btn-sm" value="save">Сохранить</button>
+    <button name="faction" class="btn btn-default" value="copy">По образцу</button>
 
-    <input type="hidden" name="faction" />
-    
-    <a href="#" class="btn btn-default" data-fpolis-action ="copy">По образцу</a>
-    <a href="#" class="btn btn-primary btn-sm" data-fpolis-action ="save">Сохранить</a>
+    @*<a href="#" class="btn btn-default" data-fpolis-action ="copy">По образцу</a>
+    <a href="#" class="btn btn-primary btn-sm" data-fpolis-action ="save">Сохранить</a>*@
 
 <a href='@Url.Action("index")' class="btn btn-default">Закрыть</a> 
 }
@@ -317,17 +318,8 @@
 
     $(function () {
 
-        $(".fpolis-submit").click(function (e) {
-            alert("sss");
-            e.preventDefault();
-        });
-
-        $(".fpolis").keypress(function (e) {
-            alert(e.event);
-        });
-
         $("#add_isd").click(function () {
-
+          
             var newv = $("#Subject_Name1").val();
 
             $("#Subjects_0__Name1").val(newv).focus();

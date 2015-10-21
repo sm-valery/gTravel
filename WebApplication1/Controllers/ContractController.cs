@@ -601,7 +601,7 @@ namespace gTravel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserIdFilter]
-        public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen, string faction, string userid)
+        public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen, string userid, string faction = "save")
         {
             c.db = db;
 
@@ -652,7 +652,8 @@ namespace gTravel.Controllers
             {
                 db.Subjects.Add(new Subject {
                 SubjectId= Guid.NewGuid(),
-                ContractId = c.ContractId
+                ContractId = c.ContractId,
+                 num=0
                 });
             }
             //страхователь
@@ -703,6 +704,13 @@ namespace gTravel.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Заполните номер договора!");
             }
+            else
+            {
+                if (db.Contracts.Any(x => x.contractnumber == c.contractnumber && x.currencyid == c.currencyid && x.ContractId != c.ContractId))
+                {
+                    ModelState.AddModelError(string.Empty, "Такой номер договора уже существует!");
+                }
+            }
             
             if(c.date_out.Value.Date>c.date_begin.Value.Date)
             {
@@ -714,10 +722,7 @@ namespace gTravel.Controllers
                 ModelState.AddModelError(string.Empty, "Поле «срок» не может быть больше, чем поле «дней»!");
             }
 
-            if(db.Contracts.Any(x=>x.contractnumber==c.contractnumber && x.currencyid == c.currencyid && x.ContractId != c.ContractId))
-            {
-                ModelState.AddModelError(string.Empty, "Такой номер договора уже существует!");
-            }
+      
 
             if(!ModelState.IsValid)
             {
