@@ -1143,7 +1143,7 @@ namespace gTravel.Controllers
 
         [UserIdFilter]
         [ContractUserFilter]
-        public ActionResult Contract_edit(Guid contractid, string userid)
+        public ActionResult Contract_edit(Guid contractid, string mess, string userid)
         {
 
 

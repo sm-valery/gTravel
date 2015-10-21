@@ -64,8 +64,9 @@
 </style>
 
 <div class="well well-sm">@Model.seria.Code . @Model.seria.Name</div>
-@using (Html.BeginForm("ContractM", "Contract", FormMethod.Post))
+@using (Html.BeginForm("ContractM", "Contract", FormMethod.Post, new {onsubmit="return false;", id="fpolis"}))
 {
+    //, onsubmit = "return false;" 
     @Html.ValidationSummary()
     
     @Html.AntiForgeryToken()
@@ -132,7 +133,7 @@
 
                 @Html.TextBoxFor(model => Model.Subject.Name1, new { @class = "form-control" })
                 <span class="input-group-btn">
-                    <button id="add_isd" class="btn btn-default" type="button">в спис</button>
+                    <a href="#" id="add_isd" class="btn btn-default">в спис</a>
                 </span>
             </div><!-- /input-group -->
         </div>
@@ -198,7 +199,7 @@
 
             int agpos = 0;
 
-            var ags = Model.ContractAgents.OrderBy(x=>x.num);
+            var ags = Model.ContractAgents.OrderBy(x => x.num);
 
             foreach (var ag in ags)
             {
@@ -222,9 +223,9 @@
                     Агент 1
                     @droplist("ContractAgents[0].AgentId", (SelectList)ViewBag.agentlist, ag1.AgentId.ToString())
 
-                    @Html.Hidden("ContractAgents[0].ContractAgentId",ag1.ContractAgentId)
+                    @Html.Hidden("ContractAgents[0].ContractAgentId", ag1.ContractAgentId)
                     @Html.Hidden("ContractAgents[0].ContractId", Model.ContractId)
-                    @Html.Hidden("ContractAgents[0].num",0)
+                    @Html.Hidden("ContractAgents[0].num", 0)
                 </div>
                 <div class="col-lg-1">
                     %
@@ -247,11 +248,14 @@
             </div>
 
             <hr />
+
+    <input type="hidden" name="faction" />
     
-            <button name="faction" class="btn btn-default" value="copy">По образцу</button>
-            <button name="faction" class="btn btn-primary btn-sm" value="save">Сохранить</button>
+    <a href="#" class="btn btn-default" data-fpolis-action ="copy">По образцу</a>
+    <a href="#" class="btn btn-primary btn-sm" data-fpolis-action ="save">Сохранить</a>
+
 <a href='@Url.Action("index")' class="btn btn-default">Закрыть</a> 
-   }
+}
 
 
 <div class="alert alert-info">
@@ -312,6 +316,15 @@
     }
 
     $(function () {
+
+        $(".fpolis-submit").click(function (e) {
+            alert("sss");
+            e.preventDefault();
+        });
+
+        $(".fpolis").keypress(function (e) {
+            alert(e.event);
+        });
 
         $("#add_isd").click(function () {
 
