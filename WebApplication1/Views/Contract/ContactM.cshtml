@@ -1,22 +1,37 @@
-﻿@helper droplist(string name, SelectList list, string selval)
+﻿@helper viewmess(string mess)
+{
+    if (!string.IsNullOrEmpty(mess))
+    {
+        <div class="alert alert-info">
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            @mess
+        </div>
+    }
+}
+
+@helper droplist(string name, SelectList list, string selval)
 {
 
     selval = (string.IsNullOrEmpty(selval)) ? Guid.Empty.ToString() : selval;
 
-<select name="@name" class="form-control input-sm chosen-select" data-val="true">
-    @foreach (var item in list)
+    <select name="@name" class="form-control input-sm chosen-select" data-val="true">
+        @foreach (var item in list)
         {
             if (selval == item.Value)
             {
-        <option value="@item.Value" selected="selected">@item.Text</option>
+                <option value="@item.Value" selected="selected">@item.Text</option>
             }
             else
             {
-        <option value="@item.Value">@item.Text</option>
+                <option value="@item.Value">@item.Text</option>
             }
 
         }
-</select>
+    </select>
 
 }
 
@@ -63,12 +78,18 @@
     }
 </style>
 
-<div class="well well-sm">@Model.seria.Code . @Model.seria.Name</div>
-@using (Html.BeginForm("ContractM", "Contract", FormMethod.Post, new {id="fpolis"}))
+@viewmess((String)ViewBag.message)
+
+
+<div class="well well-sm">
+    <span id="ischanged-mark"></span>
+    @Model.seria.Code . @Model.seria.Name
+</div>
+@using (Html.BeginForm("ContractM", "Contract", FormMethod.Post, new { id = "fpolis" }))
 {
-    //, onsubmit = "return false;" 
+    //, onsubmit = "return false;"
     @Html.ValidationSummary()
-    
+
     @Html.AntiForgeryToken()
 
     @Html.HiddenFor(m => Model.ContractId)
@@ -78,6 +99,7 @@
     @Html.HiddenFor(m => Model.UserId)
     @Html.HiddenFor(m => Model.Holder_SubjectId)
 
+    <input name="ischanged" id="ischanged" type="hidden" value="no" />
 
 
     <div class="row">
@@ -249,13 +271,13 @@
             </div>
 
             <hr />
-    <button name="faction" class="btn btn-primary btn-sm" value="save">Сохранить</button>
-    <button name="faction" class="btn btn-default" value="copy">По образцу</button>
+            <button name="faction" class="btn btn-primary btn-sm" value="save">Сохранить</button>
+            <button name="faction" class="btn btn-default" value="copy">По образцу</button>
 
-    @*<a href="#" class="btn btn-default" data-fpolis-action ="copy">По образцу</a>
-    <a href="#" class="btn btn-primary btn-sm" data-fpolis-action ="save">Сохранить</a>*@
+            @*<a href="#" class="btn btn-default" data-fpolis-action ="copy">По образцу</a>
+                <a href="#" class="btn btn-primary btn-sm" data-fpolis-action ="save">Сохранить</a>*@
 
-<a href='@Url.Action("index")' class="btn btn-default">Закрыть</a> 
+            <a href='@Url.Action("index")' class="btn btn-default">Закрыть</a>
 }
 
 
@@ -316,10 +338,27 @@
 
     }
 
+    function mark_changed() {
+
+        $("#ischanged").val("yes");
+        $("#ischanged-mark").text("* ");
+    }
+
     $(function () {
 
+
+
+        $("input").change(function () {
+            mark_changed();
+        });
+
+        $("select").change(function () {
+            mark_changed();
+        });
+
+
         $("#add_isd").click(function () {
-          
+
             var newv = $("#Subject_Name1").val();
 
             $("#Subjects_0__Name1").val(newv).focus();

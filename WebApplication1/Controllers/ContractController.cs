@@ -601,12 +601,19 @@ namespace gTravel.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [UserIdFilter]
-        public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen, string userid, string faction = "save")
+        public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen, string userid,  string ischanged, string faction = "save")
         {
             c.db = db;
 
             var cs = new ContractService();
-       
+
+            if (faction == "copy" && ischanged=="no")
+            {
+                var newcc = cs.copy_as_template(c.ContractId, userid);
+
+                return RedirectToAction("Contract_edit", new { contractid = newcc });
+            }
+
             //добавить территорию
             db.Contract_territory.RemoveRange(db.Contract_territory.Where(x => x.ContractId == c.ContractId));
 
@@ -650,6 +657,8 @@ namespace gTravel.Controllers
           
             if(subjcount==0)
             {
+                c.Subjects = null;
+
                 db.Subjects.Add(new Subject {
                 SubjectId= Guid.NewGuid(),
                 ContractId = c.ContractId,
@@ -743,7 +752,7 @@ namespace gTravel.Controllers
             {
                 var newcc = cs.copy_as_template(c.ContractId, userid);
 
-                return RedirectToAction("Contract_edit", new { contractid = newcc });
+                return RedirectToAction("Contract_edit", new { contractid = newcc, mess = string.Format("Полис {0} сохранен",c.contractnumber) });
             }
 
                 
@@ -1156,6 +1165,7 @@ namespace gTravel.Controllers
 
             ContractForm_ini(c,userid);
 
+            ViewBag.message = mess;
 
             return View(c.seria.formname, c);
         }
