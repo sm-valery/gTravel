@@ -1,4 +1,17 @@
-﻿
+﻿CREATE TABLE [dbo].[Agent] (
+    [AgentId]           UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [Name]              NVARCHAR (50)    NULL,
+    [AgentContractNum]  NVARCHAR (50)    NULL,
+    [AgentContractDate] DATE             NULL,
+    [ParentId]          UNIQUEIDENTIFIER NULL,
+    [AgentType]         UNIQUEIDENTIFIER NULL,
+  +  [DirectorName] NVARCHAR(50) NULL, 
+    PRIMARY KEY CLUSTERED ([AgentId] ASC),
+    CONSTRAINT [FK_Agent_ToAgent] FOREIGN KEY ([ParentId]) REFERENCES [dbo].[Agent] ([AgentId]),
+    CONSTRAINT [FK_Agent_ToAgentType] FOREIGN KEY ([AgentType]) REFERENCES [dbo].[AddRefs] ([AddRefsId])
+);
+
+
 --done
 update riskseria 
 set InsSumDefauld = 30000

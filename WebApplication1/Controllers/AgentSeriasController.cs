@@ -83,6 +83,21 @@ namespace gTravel.Controllers
             return null;
         }
         
+        public ActionResult EditDirector(Guid pk, string value)
+        {
+            var ag = db.Agents.SingleOrDefault(x => x.AgentId == pk);
+
+            if (ag == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            ag.DirectorName = value;
+
+            db.Entry(ag).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return null;
+        }
+
         // GET: AgentSerias/Details/5
         public ActionResult Details(Guid? id)
         {

@@ -85,6 +85,17 @@
 <p></p>
 
 <fieldset>
+    <legend>Компания</legend>
+    <div class="row">
+        <div class="col-md-3">Директор ФИО:</div>
+        <div class="col-md-7">
+            <a href="#" id="dirname" data-type="text" data-pk="@agent.AgentId" data-url="@Url.Action("EditDirector")" data-title="Новое значение">@agent.DirectorName</a>
+        </div>
+    </div>
+</fieldset>
+
+<p>`</p>
+<fieldset>
     <legend>Роли</legend>
     @Ajax.ActionLink("Добавить роль", "_addRole", new { agentid = agent.AgentId },
             new AjaxOptions
@@ -114,6 +125,7 @@
 
     $(document).ready(function () {
         $('#docnumber').editable();
+        $('#dirname').editable();
         $('#agentdate').editable(
             {
                 format: 'dd.mm.yyyy',    

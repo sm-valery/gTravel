@@ -1589,6 +1589,18 @@ namespace gTravel.Controllers
             return Content(ret);
         }
 
+        public string get_agentcommition(Guid seriaid, Guid agentid)
+        {
+            string ret = "";
+
+            var aret = db.AgentSerias.FirstOrDefault(x => x.SeriaId == seriaid && x.AgentId == agentid);
+
+            if (aret != null)
+                ret = aret.AgentFee.ToString();
+
+            return ret;
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
