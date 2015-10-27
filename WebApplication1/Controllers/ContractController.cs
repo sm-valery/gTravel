@@ -603,13 +603,16 @@ namespace gTravel.Controllers
         [UserIdFilter]
         public ActionResult ContractM(Contract c, Guid[] Contract_territory_chosen, string userid,  string ischanged, string faction = "save")
         {
+            decimal ContractInsPrem = 0;
+            decimal ContractInsPremRur = 0;
+
             c.db = db;
 
             var cs = new ContractService();
 
             if (faction == "copy" && ischanged=="no")
             {
-                var newcc = cs.copy_as_template(c.ContractId, userid);
+                var newcc = cs.copy_as_04template(c.ContractId, userid);
 
                 return RedirectToAction("Contract_edit", new { contractid = newcc });
             }
@@ -668,14 +671,14 @@ namespace gTravel.Controllers
             //страхователь
             db.Entry(c.Subject).State = EntityState.Modified;
 
+
             //риск
            foreach(var r in c.ContractRisks)
            {
-               //r.InsPrem = r.BaseTarif * c.Subjects.Count();//
-
-               r.InsPremRur = CurrManage.vtorur(db, c.currencyid, c.date_out, r.InsPrem);
-                   //r.InsPrem * CurrManage.getCurRate(db, c.currencyid, c.date_out);
                
+               r.InsPremRur = CurrManage.vtorur(db, c.currencyid, c.date_out, r.InsPrem);
+               ContractInsPrem =  r.InsPrem.Value;
+               ContractInsPremRur = r.InsPremRur.Value;
 
                db.Entry(r).State = EntityState.Modified;
            }
@@ -683,20 +686,22 @@ namespace gTravel.Controllers
             //агенты
           // db.ContractAgents.RemoveRange(c.ContractAgents);
 
-
+         
             foreach(var ag in c.ContractAgents)
             {
                 if(ag.ContractAgentId == Guid.Empty)
                 {
-
+                
                     db.ContractAgents.Add(new ContractAgent()
                     {
                         ContractAgentId = Guid.NewGuid(),
                         ContractId = ag.ContractId,
                         AgentId = ag.AgentId,
                         Percent = ag.Percent,
-                        num = ag.num
-                    });
+                        num = ag.num,
+                        InsPrem = mLib.calcAgentCommision(ContractInsPrem, ag.Percent), //(ag.Percent.HasValue)? Math.Round(ag.Percent.Value * ContractInsPrem/100,2,MidpointRounding.AwayFromZero):0,
+                        InsPremRur = mLib.calcAgentCommision(ContractInsPremRur, ag.Percent) // (ag.Percent.HasValue) ? Math.Round(ag.Percent.Value * ContractInsPremRur / 100, 2, MidpointRounding.AwayFromZero) : 0
+    });
                 }
                 else
                 {
@@ -750,7 +755,7 @@ namespace gTravel.Controllers
 
            if (faction=="copy")
             {
-                var newcc = cs.copy_as_template(c.ContractId, userid);
+                var newcc = cs.copy_as_04template(c.ContractId, userid);
 
                 return RedirectToAction("Contract_edit", new { contractid = newcc, mess = string.Format("Полис {0} сохранен",c.contractnumber) });
             }

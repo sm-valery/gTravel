@@ -159,14 +159,20 @@ namespace gTravel.Models
                 caguser.ContractAgentId = Guid.NewGuid();
                 caguser.ContractId = this.ContractId;
                 caguser.num = 1;
-
-          
+ 
                 caguser.AgentId = mLib.GetCurrentUserAgent(this.UserId).AgentId;
 
                 var ags = db.AgentSerias.SingleOrDefault(x => x.AgentId == caguser.AgentId && x.SeriaId == this.seriaid);
             if(ags!=null)
                 caguser.Percent = ags.AgentFee;
 
+            decimal ContractPrem = (decimal)this.ContractRisks.Sum(x=>x.InsPrem);
+            decimal ContractPremRur = (decimal)this.ContractRisks.Sum(x=>x.InsPremRur);
+
+
+            caguser.InsPrem = mLib.calcAgentCommision(ContractPrem, caguser.Percent);
+            caguser.InsPremRur = mLib.calcAgentCommision(ContractPremRur, caguser.Percent);
+         
 
                 db.ContractAgents.Add(caguser);
 
@@ -420,6 +426,10 @@ namespace gTravel
 
     static class mLib
     {
+        public static decimal calcAgentCommision(decimal moneyvalue, decimal? percent)
+        {
+            return (percent.HasValue)? Math.Round(percent.Value * moneyvalue/100,2,MidpointRounding.AwayFromZero):0;
+        }
 
         public static void NoAjaxCache()
         {
@@ -558,6 +568,7 @@ namespace gTravel
             return ret;
 
         }
+
 
 
     }

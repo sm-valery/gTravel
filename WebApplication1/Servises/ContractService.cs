@@ -146,7 +146,7 @@ namespace gTravel.Servises
             return newcontract.ContractId;
         }
 
-        public Guid copy_as_template(Guid contract_id,string userid)
+        public Guid copy_as_04template(Guid contract_id,string userid)
         {
             var c = db.Contracts.SingleOrDefault(x => x.ContractId == contract_id);
 
@@ -173,18 +173,7 @@ namespace gTravel.Servises
                 });
             }
 
-            //агенты
-            foreach (var ag in c.ContractAgents)
-            {
-                db.ContractAgents.Add(new ContractAgent()
-                {
-                    ContractAgentId = Guid.NewGuid(),
-                    ContractId = newcontract.ContractId,
-                    AgentId = ag.AgentId,
-                    Percent = ag.Percent,
-                    num = ag.num
-                });
-            }
+
 
 
             var tmprisk = db.ContractRisks.FirstOrDefault(x => x.ContractId == c.ContractId);
@@ -194,6 +183,20 @@ namespace gTravel.Servises
             cr.InsSum = tmprisk.InsSum;
             db.Entry(cr).State = EntityState.Modified;
 
+            //агенты
+            foreach (var ag in c.ContractAgents)
+            {
+                db.ContractAgents.Add(new ContractAgent()
+                {
+                    ContractAgentId = Guid.NewGuid(),
+                    ContractId = newcontract.ContractId,
+                    AgentId = ag.AgentId,
+                    Percent = ag.Percent,
+                    num = ag.num,
+                    InsPrem = mLib.calcAgentCommision(cr.InsSum.Value, ag.Percent),
+                    InsPremRur = mLib.calcAgentCommision(cr.InsPremRur.Value, ag.Percent)
+                });
+            }
 
             db.SaveChanges();
 

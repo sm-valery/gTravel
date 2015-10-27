@@ -177,6 +177,8 @@
           <Property Name="AgentId" Type="uniqueidentifier" />
           <Property Name="Percent" Type="numeric" Precision="18" Scale="0" />
           <Property Name="num" Type="int" />
+          <Property Name="InsPrem" Type="money" />
+          <Property Name="InsPremRur" Type="money" />
         </EntityType>
         <EntityType Name="ContractCondition">
           <Key>
@@ -456,7 +458,7 @@
           <Property Name="Code" Type="nchar" MaxLength="20" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_agentseria' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_agentseria' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_agentseria">
           <Key>
             <PropertyRef Name="SeriaId" />
@@ -476,7 +478,7 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -488,7 +490,7 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="contractcount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_agent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_agent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero_agent">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -522,7 +524,7 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="sum_fee" Type="numeric" Precision="38" Scale="6" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero_new">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -545,7 +547,7 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="agentname" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -581,7 +583,7 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="PrintFunction" Type="varchar" MaxLength="128" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_ag">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -608,7 +610,7 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_agent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_agent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_agent">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -637,7 +639,7 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="sum_fee" Type="numeric" Precision="38" Scale="6" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_factors' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_factors' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_factors">
           <Key>
             <PropertyRef Name="ContractFactorId" />
@@ -654,7 +656,7 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="FactorAccess" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_history">
           <Key>
             <PropertyRef Name="ContractStatusId" />
@@ -669,7 +671,7 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_importlog">
           <Key>
             <PropertyRef Name="ImportLogId" />
@@ -683,7 +685,7 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="contractcount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_Tarifs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_Tarifs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_Tarifs">
           <Key>
             <PropertyRef Name="TarifId" />
@@ -2542,6 +2544,8 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <Property Name="Percent" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="num" Type="Int32" />
           <NavigationProperty Name="Contract" Relationship="goDbModel.FK_ContractAgent_ToTable" FromRole="ContractAgent" ToRole="Contract" />
+          <Property Name="InsPrem" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="InsPremRur" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="AgentRole">
           <Key>
@@ -3624,6 +3628,8 @@ warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v
           <EntitySetMapping Name="ContractAgents">
             <EntityTypeMapping TypeName="goDbModel.ContractAgent">
               <MappingFragment StoreEntitySet="ContractAgent">
+                <ScalarProperty Name="InsPremRur" ColumnName="InsPremRur" />
+                <ScalarProperty Name="InsPrem" ColumnName="InsPrem" />
                 <ScalarProperty Name="num" ColumnName="num" />
                 <ScalarProperty Name="Percent" ColumnName="Percent" />
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />

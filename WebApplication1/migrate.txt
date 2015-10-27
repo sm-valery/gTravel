@@ -1,4 +1,16 @@
-﻿CREATE TABLE [dbo].[Agent] (
+﻿CREATE TABLE [dbo].[ContractAgent] (
+    [ContractAgentId] UNIQUEIDENTIFIER NOT NULL,
+    [ContractId]      UNIQUEIDENTIFIER NULL,
+    [AgentId]         UNIQUEIDENTIFIER NULL,
+    [Percent]         NUMERIC (18)     NULL,
+    [num]             INT              NULL,
+  +  [InsPrem] MONEY NULL, 
+  +  [InsPremRur] MONEY NULL, 
+    PRIMARY KEY CLUSTERED ([ContractAgentId] ASC),
+    CONSTRAINT [FK_ContractAgent_ToTable] FOREIGN KEY ([ContractId]) REFERENCES [dbo].[Contract] ([ContractId])
+);
+
+CREATE TABLE [dbo].[Agent] (
     [AgentId]           UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
     [Name]              NVARCHAR (50)    NULL,
     [AgentContractNum]  NVARCHAR (50)    NULL,
