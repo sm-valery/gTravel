@@ -472,7 +472,9 @@ foreach (var item in Model.Subjects.OrderBy(x => x.num))
                     </div>
                     <div class="row">
                         <div class="col-xs-3">
-                            Курс на дату выдачи:
+                            <span style="font-style:italic;">
+                                Курс на дату выдачи:
+                            </span>
                             <span class="input-value">
                                 @{
     Html.RenderAction("_print_currate", new { cdate = Model.date_out, curid = Model.currencyid });
