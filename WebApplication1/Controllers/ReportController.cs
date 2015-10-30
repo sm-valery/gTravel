@@ -36,8 +36,11 @@ namespace gTravel.Controllers
 
         public ActionResult RepAgents()
         {
+            var ags = db.Agents.OrderBy(o=>o.Name).ToList();
 
-            ViewBag.Agents = new SelectList(db.Agents.OrderBy(o=>o.Name), "AgentId", "Name");
+            ags.Add(new Agent() { AgentId = Guid.Empty, Name = "Все" });
+
+            ViewBag.Agents = new SelectList(ags, "AgentId", "Name");
 
             DateTime d1 = DateTime.Parse(string.Format("01.{0}.{1}",DateTime.Now.Month,DateTime.Now.Year));
 
@@ -58,6 +61,11 @@ namespace gTravel.Controllers
                 case "bordero":
                     new rep_bordero_agent(db).printout(q);
                     break;
+                case "agentsalary":
+                    new rep_agentsalary(db).printout(q);
+                    break;
+
+
             }
 
         }

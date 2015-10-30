@@ -1,7 +1,12 @@
 ﻿select ag.AgentId, ag.Name, count(*) sold,
 sum(cr.InsPrem) Prem,
 sum(cr.InsPremRur) PremRur,
-sum(ca.percent*
+sum(ca.insprem) comm,
+sum(ca.inspremrur) commrur,
+count(case st.code
+when 'annul' then 1 end) annul_count,
+sum(case st.code when 'annul' then cr.InsPremRur end) annul_sum ,
+sum(case st.code when 'annul' then ca.inspremrur end) annul_comm
 from contract c
 join ContractStatus cs on cs.ContractStatusId = c.ContractStatusId
 join Status st on st.StatusId = cs.StatusId

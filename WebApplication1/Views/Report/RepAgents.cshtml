@@ -15,17 +15,19 @@
     <div class="row">
 
         <div class="col-lg-4">
-            <div id="Agentsearch" class="input-group" style="margin-bottom:2px; ">
-                <input type="text" class="form-control" placeholder="поиск...">
-                @*<span class="input-group-btn">
-                        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                    </span>*@
-            </div>
 
-            <br />
 
-         
-            @Html.ListBox("Agents", null, new { @class = "form-control", style = "height:400px; ",Multiple="none"})
+                <div id="Agentsearch" class="input-group" style="margin-bottom:2px; ">
+                    <input type="text" class="form-control" placeholder="поиск...">
+                    @*<span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>*@
+                </div>
+
+                <br />
+
+
+                @Html.ListBox("Agents", null, new { @class = "form-control", style = "height:400px; ", Multiple = "none" })
 
         </div>
 
@@ -55,7 +57,9 @@
                         <li role="presentation">
                             <a class="runreport" id="bordero" href="#">Бордеро агента</a>
                         </li>
-                        <li role="presentation"><a href="#">Отчет о зарплате агентов</a></li>
+                        <li role="presentation">
+                            <a class="runreport" id="agentsalary" href="#">Отчет о зарплате агентов</a>
+                        </li>
                     </ul>
 
 
@@ -126,7 +130,7 @@
             {
                 $("#action").val(this.id);
 
-                var sss = $("#action").val();
+               // var sss = $("#action").val();
 
 
                 $("form").submit();
