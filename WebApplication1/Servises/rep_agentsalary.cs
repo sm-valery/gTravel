@@ -52,12 +52,12 @@ namespace gTravel.Servises
                 ws.Cell(nrow, 5).SetValue(row.comm);
                 ws.Cell(nrow, 6).SetValue(row.commrur);
                 ws.Cell(nrow, 7).SetValue(row.annul_count);
-                ws.Cell(nrow, 8).SetValue(row.annul_sum);
+                ws.Cell(nrow, 8).SetValue(row.annul_sum_rur);
                 ws.Cell(nrow, 9).SetValue(row.Prem - row.annul_sum);
-                //ws.Cell(nrow, 10).SetValue(row.PremRur - row.);
-                ws.Cell(nrow, 11).SetValue(row.);
-                ws.Cell(nrow, 12).SetValue(row.);
-                ws.Cell(nrow, 13).SetValue(row.);
+                ws.Cell(nrow, 10).SetValue(row.PremRur - row.annul_sum_rur);
+                ws.Cell(nrow, 11).SetValue(row.annul_comm_rur);
+                ws.Cell(nrow, 12).SetValue(row.comm-row.annul_comm);
+                ws.Cell(nrow, 13).SetValue(row.commrur - row.annul_comm_rur);
 
                     nrow++;
             }

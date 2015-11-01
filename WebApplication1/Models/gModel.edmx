@@ -458,7 +458,7 @@
           <Property Name="Code" Type="nchar" MaxLength="20" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_agentseria' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_agentseria' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_agentseria">
           <Key>
             <PropertyRef Name="SeriaId" />
@@ -478,7 +478,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -490,7 +490,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractcount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_agent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_agent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero_agent">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -524,7 +524,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="sum_fee" Type="numeric" Precision="38" Scale="6" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_bordero_new' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_bordero_new">
           <Key>
             <PropertyRef Name="BorderoId" />
@@ -547,7 +547,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="agentname" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -583,7 +583,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="PrintFunction" Type="varchar" MaxLength="128" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_ag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_ag">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -610,7 +610,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractnumberformat" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_agent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_agent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_agent">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -639,7 +639,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="sum_fee" Type="numeric" Precision="38" Scale="6" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_factors' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_factors' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_factors">
           <Key>
             <PropertyRef Name="ContractFactorId" />
@@ -656,7 +656,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="FactorAccess" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_contract_history' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_contract_history">
           <Key>
             <PropertyRef Name="ContractStatusId" />
@@ -671,7 +671,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractnumber" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_importlog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_importlog">
           <Key>
             <PropertyRef Name="ImportLogId" />
@@ -685,7 +685,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Name="contractcount" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_Tarifs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'C:\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.MDF.dbo.v_Tarifs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_Tarifs">
           <Key>
             <PropertyRef Name="TarifId" />
@@ -1844,7 +1844,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           </AssociationSet>
           <EntitySet Name="v_contract_agent" EntityType="goDbModel.v_contract_agent" />
           <EntitySet Name="v_bordero_agent" EntityType="goDbModel.v_bordero_agent" />
-          <FunctionImport Name="agentSalary" ReturnType="Collection(goDbModel.agentSalary_Result)">
+          <FunctionImport Name="agentSalary" ReturnType="Collection(goDbModel.agentSalary_Result3)">
             <Parameter Name="dt1" Mode="In" Type="DateTime" />
             <Parameter Name="dt2" Mode="In" Type="DateTime" />
           </FunctionImport>
@@ -3216,6 +3216,45 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           <Property Type="Decimal" Name="annul_sum" Nullable="true" Precision="19" />
           <Property Type="Decimal" Name="annul_comm" Nullable="true" Precision="19" />
         </ComplexType>
+        <ComplexType Name="agentSalary_Result1">
+          <Property Type="Guid" Name="AgentId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="sold" Nullable="true" />
+          <Property Type="Decimal" Name="Prem" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="PremRur" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="comm" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="commrur" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="annul_count" Nullable="true" />
+          <Property Type="Decimal" Name="annul_sum_rur" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="annul_comm" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="agentSalary_Result2">
+          <Property Type="Guid" Name="AgentId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="sold" Nullable="true" />
+          <Property Type="Decimal" Name="Prem" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="PremRur" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="comm" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="commrur" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="annul_count" Nullable="true" />
+          <Property Type="Decimal" Name="annul_sum_rur" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="annul_sum" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="annul_comm" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="agentSalary_Result3">
+          <Property Type="Guid" Name="AgentId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="sold" Nullable="true" />
+          <Property Type="Decimal" Name="Prem" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="PremRur" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="comm" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="commrur" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="annul_count" Nullable="true" />
+          <Property Type="Decimal" Name="annul_sum_rur" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="annul_sum" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="annul_comm" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="annul_comm_rur" Nullable="true" Precision="19" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3962,7 +4001,7 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="agentSalary" FunctionName="goDbModel.Store.agentSalary">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="goDbModel.agentSalary_Result">
+              <ComplexTypeMapping TypeName="goDbModel.agentSalary_Result3">
                 <ScalarProperty Name="AgentId" ColumnName="AgentId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="sold" ColumnName="sold" />
@@ -3971,8 +4010,10 @@ warning 6002: The table/view 'C:\PROJECTS\GTRAVEL\WEBAPPLICATION1\APP_DATA\GODB.
                 <ScalarProperty Name="comm" ColumnName="comm" />
                 <ScalarProperty Name="commrur" ColumnName="commrur" />
                 <ScalarProperty Name="annul_count" ColumnName="annul_count" />
+                <ScalarProperty Name="annul_sum_rur" ColumnName="annul_sum_rur" />
                 <ScalarProperty Name="annul_sum" ColumnName="annul_sum" />
                 <ScalarProperty Name="annul_comm" ColumnName="annul_comm" />
+                <ScalarProperty Name="annul_comm_rur" ColumnName="annul_comm_rur" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

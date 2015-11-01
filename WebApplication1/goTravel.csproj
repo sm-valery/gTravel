@@ -195,6 +195,15 @@
     <Compile Include="Models\agentSalary_Result.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\agentSalary_Result1.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\agentSalary_Result2.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\agentSalary_Result3.cs">
+      <DependentUpon>gModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AgentSeria.cs">
       <DependentUpon>gModel.tt</DependentUpon>
     </Compile>

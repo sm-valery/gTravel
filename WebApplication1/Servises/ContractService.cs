@@ -250,7 +250,6 @@ namespace gTravel.Servises
             return db.spContract(userid, null, null, contractid, null).Any();
         }
 
-
         public Contract GetContractForEdit(Guid contractid, string userid)
         {
             var c = db.Contracts.Include("Contract_territory")

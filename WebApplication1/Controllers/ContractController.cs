@@ -677,8 +677,8 @@ namespace gTravel.Controllers
            {
                
                r.InsPremRur = CurrManage.vtorur(db, c.currencyid, c.date_out, r.InsPrem);
-               ContractInsPrem =  r.InsPrem.Value;
-               ContractInsPremRur = r.InsPremRur.Value;
+               ContractInsPrem =  (r.InsPrem.HasValue)?r.InsPrem.Value:0;
+               ContractInsPremRur = (r.InsPremRur.HasValue)?r.InsPremRur.Value:0;
 
                db.Entry(r).State = EntityState.Modified;
            }
@@ -725,10 +725,17 @@ namespace gTravel.Controllers
                     ModelState.AddModelError(string.Empty, "Такой номер договора уже существует!");
                 }
             }
-            
-            if(c.date_out.Value.Date>c.date_begin.Value.Date)
+
+            if (!c.date_out.HasValue || !c.date_begin.HasValue)
             {
-                ModelState.AddModelError(string.Empty, "Дата выдачи не может быть больше даты начала страхования!");
+                ModelState.AddModelError(string.Empty, "Дата выдачи или дата начала не заполнены!");
+            }
+            else
+            {
+                if (c.date_out.Value.Date > c.date_begin.Value.Date)
+                {
+                    ModelState.AddModelError(string.Empty, "Дата выдачи не может быть больше даты начала страхования!");
+                }
             }
 
             if(c.tripduration > c.date_diff)

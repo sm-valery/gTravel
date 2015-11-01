@@ -1,4 +1,44 @@
-﻿update ca 
+﻿CREATE PROCEDURE [dbo].[spContract]
+=================
+
+CREATE VIEW [dbo].[v_contract]
+	AS 
+	SELECT * from v_allcontract c
+	where c.status_code !='project' and c.contractnumber is not null
+
+	=================
+
+	CREATE VIEW [dbo].[v_allcontract]
+	AS 
+	SELECT c.*, u.UserName,  cr.code curr_code,
+	st.Name status_name,
+	st.Code status_code,
+	au.AgentId,
+	a.name agentname,
+	--dbo.add_str1(c.ContractId) as terr_name,
+	(select count(*) from Subject ss where ss.ContractId = c.ContractId) subject_count,
+	si.Name1 as holder_name,
+	( select sum(crisk.InsPrem) from ContractRisk crisk where crisk.ContractId=c.ContractId) InsPrem,
+	( select sum(crisk.InsPremRur) from ContractRisk crisk where crisk.ContractId=c.ContractId) InsPremRur,
+	( select sum(crisk.InsFee) from ContractRisk crisk where crisk.ContractId=c.ContractId) InsFee,
+	sr.Code serianame,
+	sr.PrintFunction
+	 FROM [Contract] c
+	join ContractStatus cs on cs.ContractStatusId = c.ContractStatusId
+	join Status st on st.StatusId = cs.StatusId 
+	left join AspNetUsers u on u.Id = c.UserId
+	left join AgentUser au on au.UserId = c.UserId
+	left join agent a on a.AgentId = au.AgentId
+	left join Currency cr on  cr.CurrencyId = c.currencyid
+	left join Subject si on si.SubjectId = c.Holder_SubjectId
+	left join seria sr on sr.SeriaId = c.seriaid
+==========
+insert into Status (StatusId,Code,Name,Readonly) 
+values (newid(),'notsave','не сохранен',0)
+
+
+=======
+update ca 
 set ca.insprem = r.insprem
 from ContractAgent ca
 join 
@@ -7,7 +47,7 @@ select sum(cr.insprem) insprem, cr.ContractId from contractrisk cr group by cr.C
 ) r on r.ContractId = ca.ContractId
 where ca.insprem = 0 or ca.insprem is null
 
-
+========
 
 update ca
 set ca.inspremrur = round( ca.InsPrem * (select top 1 rate from CurRate where CurRate.RateDate = cast( c.date_out as date)),2)
@@ -16,11 +56,11 @@ join Contract c on c.ContractId = ca.ContractId
 where ca.InsPremRur is null
 ===============
 
+
 CREATE PROCEDURE [dbo].[agentSalary]
 	@dt1 datetime,
 	@dt2 datetime
 AS
-
 select ag.AgentId, ag.Name, count(*) sold,
 sum(cr.InsPrem) Prem,
 sum(cr.InsPremRur) PremRur,
@@ -28,8 +68,10 @@ sum(ca.insprem) comm,
 sum(ca.inspremrur) commrur,
 count(case st.code
 when 'annul' then 1 end) annul_count,
-sum(case st.code when 'annul' then cr.InsPremRur end) annul_sum ,
-sum(case st.code when 'annul' then ca.inspremrur end) annul_comm
+sum(case st.code when 'annul' then cr.InsPremRur end) annul_sum_rur ,
+sum(case st.code when 'annul' then cr.InsPrem end) annul_sum ,
+sum(case st.code when 'annul' then ca.insprem end) annul_comm,
+sum(case st.code when 'annul' then ca.inspremrur end) annul_comm_rur
 from contract c
 join ContractStatus cs on cs.ContractStatusId = c.ContractStatusId
 join Status st on st.StatusId = cs.StatusId
@@ -40,6 +82,7 @@ where st.Code in ('confirmed','annul')
 and c.date_out between @dt1 and @dt2
 group by ag.AgentId, ag.Name
 order by ag.Name
+
 =========================
 
 CREATE TABLE [dbo].[ContractAgent] (

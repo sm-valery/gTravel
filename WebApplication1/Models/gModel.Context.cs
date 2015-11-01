@@ -162,7 +162,7 @@ namespace gTravel.Models
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<Nullable<System.Guid>>("[goDbEntities].[getAgentSeriaId](@UserId, @SeriaId)", userIdParameter, seriaIdParameter);
         }
     
-        public virtual ObjectResult<agentSalary_Result> agentSalary(Nullable<System.DateTime> dt1, Nullable<System.DateTime> dt2)
+        public virtual ObjectResult<agentSalary_Result3> agentSalary(Nullable<System.DateTime> dt1, Nullable<System.DateTime> dt2)
         {
             var dt1Parameter = dt1.HasValue ?
                 new ObjectParameter("dt1", dt1) :
@@ -172,7 +172,7 @@ namespace gTravel.Models
                 new ObjectParameter("dt2", dt2) :
                 new ObjectParameter("dt2", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<agentSalary_Result>("agentSalary", dt1Parameter, dt2Parameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<agentSalary_Result3>("agentSalary", dt1Parameter, dt2Parameter);
         }
     }
 }
