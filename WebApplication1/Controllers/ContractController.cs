@@ -1235,7 +1235,12 @@ namespace gTravel.Controllers
            
         }
 
-        
+        public string get_lastdate(DateTime date_from, int daycount)
+        {
+
+
+            return date_from.AddDays(daycount).ToShortDateString();
+        }
 
         public ActionResult get_strperiodday(string date_from, string date_to)
         {

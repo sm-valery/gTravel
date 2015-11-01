@@ -384,6 +384,25 @@
         // $("#Subjects_0__ContractId").focus();
     });
 
+    $("#date_diff").change(function () {
+        var d1 = $("#date_begin").val();
+        var dc = $("#date_diff").val();
+     
+        $.ajax({
+            url: '@Url.Action("get_lastdate","Contract")',
+            data: {
+                date_from: d1,
+                daycount: dc
+            },
+            error: function (request, status, error) {
+                $("#date_end").val("0");
+            },
+            success: function (data) {
+                $("#date_end").val(data);
+            }
+        });
+    });
+
     $(".short-date").change(function () {
 
         if ($(this).val().length == 4) {
