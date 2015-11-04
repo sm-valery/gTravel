@@ -186,15 +186,17 @@ namespace gTravel.Servises
             //агенты
             foreach (var ag in c.ContractAgents)
             {
+                decimal agPercent = (ag.Percent.HasValue) ? ag.Percent.Value : 0;
+
                 db.ContractAgents.Add(new ContractAgent()
                 {
                     ContractAgentId = Guid.NewGuid(),
                     ContractId = newcontract.ContractId,
                     AgentId = ag.AgentId,
-                    Percent = ag.Percent,
+                    Percent = agPercent,
                     num = ag.num,
-                    InsPrem = mLib.calcAgentCommision(cr.InsSum.Value, ag.Percent),
-                    InsPremRur = mLib.calcAgentCommision(cr.InsPremRur.Value, ag.Percent)
+                    InsPrem = mLib.calcAgentCommision((cr.InsSum.HasValue)?cr.InsSum.Value:0, agPercent),
+                    InsPremRur = mLib.calcAgentCommision((cr.InsPremRur.HasValue)?cr.InsPremRur.Value:0, agPercent)
                 });
             }
 

@@ -610,7 +610,7 @@ namespace gTravel.Controllers
 
             var cs = new ContractService();
 
-            if (faction == "copy" && ischanged=="no")
+            if (faction == "copy" && ischanged=="no" && c.contractnumber.HasValue)
             {
                 var newcc = cs.copy_as_04template(c.ContractId, userid);
 
