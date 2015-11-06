@@ -8,26 +8,38 @@
 <h3>@ViewBag.Title</h3>
 <hr />
 
-@using (Html.BeginForm("RepAgentsQue", null, FormMethod.Post, new { @class = "form-inline", role = "form", id = "form01" }))
+
+
+@using (Html.BeginForm("RepAgents", null, FormMethod.Post, new { @class = "form-inline", role = "form", id = "form01" }))
 {
     @Html.Hidden("action")
-    
+
+    if (!string.IsNullOrEmpty(Model.errormess))
+    {
+        <div class="alert alert-danger disabled">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            @Model.errormess
+</div>
+    }
     <div class="row">
 
         <div class="col-lg-4">
 
 
-                <div id="Agentsearch" class="input-group" style="margin-bottom:2px; ">
-                    <input type="text" class="form-control" placeholder="поиск...">
-                    @*<span class="input-group-btn">
-                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                </span>*@
-                </div>
+            <div id="Agentsearch" class="input-group" style="margin-bottom:2px; ">
+                <input type="text" class="form-control" placeholder="поиск...">
+                @*<span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>*@
+            </div>
 
-                <br />
+            <br />
 
 
-                @Html.ListBox("Agents", null, new { @class = "form-control", style = "height:400px; ", Multiple = "none" })
+            @Html.ListBox("Agents", null, new { @class = "form-control", style = "height:400px; ", Multiple = "none" })
 
         </div>
 
@@ -125,20 +137,17 @@
 
         $(".runreport").click(function (e) {
 
-    
-            if ($("#Agents").val() != null)
-            {
-                $("#action").val(this.id);
 
-               // var sss = $("#action").val();
+            //if ($("#Agents").val() != null)
+            //{
+            $("#action").val(this.id);
 
+            $("form").submit();
 
-                $("form").submit();
-
-            } else
-            {
-                alert("Не выбран агент!");
-}
+            //            } else
+            //            {
+            //                alert("Не выбран агент!");
+            //}
 
             e.preventDefault();
         });

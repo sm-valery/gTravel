@@ -58,8 +58,8 @@ namespace gTravel.Servises
                     sum_fee_aanul += row.sum_fee.Value;
                 }
 
-                sum_all += row.InsPremRur.Value;
-                sum_fee += row.sum_fee.Value;
+                sum_all += (row.InsPremRur.HasValue)?row.InsPremRur.Value:0;
+                sum_fee += (row.sum_fee.HasValue)?row.sum_fee.Value:0;
 
                 irow++;
             }

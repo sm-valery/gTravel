@@ -705,6 +705,9 @@ namespace gTravel.Controllers
                 }
                 else
                 {
+                    ag.InsPrem = mLib.calcAgentCommision(ContractInsPrem, ag.Percent);
+                    ag.InsPremRur = mLib.calcAgentCommision(ContractInsPremRur, ag.Percent);
+
                     db.Entry(ag).State = EntityState.Modified;
                 }
             }

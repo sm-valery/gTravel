@@ -50,6 +50,48 @@ namespace gTravel.Controllers
                 d2 = d1.AddMonths(1).AddDays(-1)
             });
         }
+        [HttpPost]
+        public ActionResult RepAgents(RepAgentsQuery q)
+        {
+            if (!q.d1.HasValue)
+            {
+                q.errormess = "Не выбрана дата начала периода!";
+            }
+            if (!q.d2.HasValue)
+            {
+                q.errormess = "Не выбрана дата конца периода!";
+            }
+
+            switch (q.action)
+            {
+                case "ActClosedWork":
+                    if (!q.Agents.HasValue)
+                    {
+                        q.errormess = "Не выбран агент!";
+                    }
+                    break;
+            }
+
+            if (string.IsNullOrEmpty(q.errormess))
+            {
+                RepAgentsQue(q);
+            }
+            else
+            {
+                var ags = db.Agents.OrderBy(o => o.Name).ToList();
+
+                ags.Add(new Agent() { AgentId = Guid.Empty, Name = "Все" });
+
+                ViewBag.Agents = new SelectList(ags, "AgentId", "Name");
+
+                return View(q);
+            }
+                
+
+                
+
+            return null;
+        }
 
         public void RepAgentsQue(RepAgentsQuery q)
         {

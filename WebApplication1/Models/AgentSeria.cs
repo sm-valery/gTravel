@@ -26,6 +26,7 @@ namespace gTravel.Models
         public Nullable<System.Guid> TerritoryGrpId { get; set; }
         public Nullable<decimal> AgentFee { get; set; }
         public bool HidePremium { get; set; }
+        public bool NotForUse { get; set; }
     
         public virtual TerritoryGrp TerritoryGrp { get; set; }
         public virtual ICollection<Factor> Factors { get; set; }

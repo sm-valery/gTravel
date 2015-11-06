@@ -42,6 +42,9 @@ namespace gTravel.Servises
             ws.Cell(nrow, 12).SetValue("ИТОГО комиссия агента, у.е");
             ws.Cell(nrow, 13).SetValue("ИТОГО комиссия агента, руб");
 
+            ws.Range(nrow, 1, nrow, 13).Style.Font.Bold = true;
+            ws.Range(nrow, 1, nrow, 13).SetAutoFilter();
+
             nrow++;
             foreach(var row in rdata)
             {
@@ -53,16 +56,18 @@ namespace gTravel.Servises
                 ws.Cell(nrow, 6).SetValue(row.commrur);
                 ws.Cell(nrow, 7).SetValue(row.annul_count);
                 ws.Cell(nrow, 8).SetValue(row.annul_sum_rur);
-                ws.Cell(nrow, 9).SetValue(row.Prem - row.annul_sum);
-                ws.Cell(nrow, 10).SetValue(row.PremRur - row.annul_sum_rur);
+                ws.Cell(nrow, 9).SetValue(((row.Prem.HasValue) ? row.Prem.Value : 0) - ((row.annul_sum.HasValue)?row.annul_sum.Value:0));
+                ws.Cell(nrow, 10).SetValue(((row.PremRur.HasValue)?row.PremRur.Value:0) - ((row.annul_sum_rur.HasValue)?row.annul_sum_rur.Value:0));
                 ws.Cell(nrow, 11).SetValue(row.annul_comm_rur);
-                ws.Cell(nrow, 12).SetValue(row.comm-row.annul_comm);
-                ws.Cell(nrow, 13).SetValue(row.commrur - row.annul_comm_rur);
+                ws.Cell(nrow, 12).SetValue(((row.comm.HasValue)?row.comm.Value:0)-((row.annul_comm.HasValue)?row.annul_comm.Value:0));
+                ws.Cell(nrow, 13).SetValue(((row.commrur.HasValue)?row.commrur.Value:0) - ((row.annul_comm_rur.HasValue)?row.annul_comm_rur.Value:0));
 
                     nrow++;
             }
 
             ws.Columns(1, 13).AdjustToContents();
+           
+           
 
             HttpContext.Current.Response.Clear();
             HttpContext.Current.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";

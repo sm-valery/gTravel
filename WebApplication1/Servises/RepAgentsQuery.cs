@@ -18,8 +18,9 @@ namespace gTravel.Servises
         [Display(Name = "Дата по")]
         public DateTime? d2 { get; set; }
 
-        public Guid Agents { get; set; }
+        public Guid? Agents { get; set; }
 
         public string action { get; set; }
+        public string errormess { get; set; }
     }
 }

@@ -1,13 +1,35 @@
-﻿CREATE PROCEDURE [dbo].[spContract]
-=================
+﻿CREATE VIEW [dbo].[v_agentseria]
+	AS SELECT ass.AgentId, s.*, au.UserId FROM AgentSeria ass
+	join seria s on s.SeriaId = ass.SeriaId
+	join AgentUser au on au.AgentId = ass.AgentId
+	where ass.NotForUse = 0
 
+==========
+
+CREATE TABLE [dbo].[AgentSeria] (
+    [AgentSeriaId]   UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [AgentId]        UNIQUEIDENTIFIER NULL,
+    [SeriaId]        UNIQUEIDENTIFIER NULL,
+    [TerritoryGrpId] UNIQUEIDENTIFIER NULL,
+    [AgentFee]       NUMERIC (18)     NULL,
+    [HidePremium]    BIT              DEFAULT ((0)) NOT NULL,
++    [NotForUse] BIT NOT NULL DEFAULT 0, 
+    PRIMARY KEY CLUSTERED ([AgentSeriaId] ASC),
+    CONSTRAINT [FK_AgentSeria_ToTerritoryGrp] FOREIGN KEY ([TerritoryGrpId]) REFERENCES [dbo].[TerritoryGrp] ([TerritoryGrpId]),
+    CONSTRAINT [FK_AgentSeria_Toseria] FOREIGN KEY ([SeriaId]) REFERENCES [dbo].[seria] ([SeriaId])
+);
+
+==============
+done CREATE PROCEDURE [dbo].[spContract]
+=================
+done
 CREATE VIEW [dbo].[v_contract]
 	AS 
 	SELECT * from v_allcontract c
 	where c.status_code !='project' and c.contractnumber is not null
 
 	=================
-
+done
 	CREATE VIEW [dbo].[v_allcontract]
 	AS 
 	SELECT c.*, u.UserName,  cr.code curr_code,
@@ -33,12 +55,10 @@ CREATE VIEW [dbo].[v_contract]
 	left join Subject si on si.SubjectId = c.Holder_SubjectId
 	left join seria sr on sr.SeriaId = c.seriaid
 ==========
-insert into Status (StatusId,Code,Name,Readonly) 
-values (newid(),'notsave','не сохранен',0)
 
 
 =======
-update ca 
+done update ca 
 set ca.insprem = r.insprem
 from ContractAgent ca
 join 
@@ -48,7 +68,7 @@ select sum(cr.insprem) insprem, cr.ContractId from contractrisk cr group by cr.C
 where ca.insprem = 0 or ca.insprem is null
 
 ========
-
+done 
 update ca
 set ca.inspremrur = round( ca.InsPrem * (select top 1 rate from CurRate where CurRate.RateDate = cast( c.date_out as date)),2)
 from ContractAgent ca
@@ -56,8 +76,7 @@ join Contract c on c.ContractId = ca.ContractId
 where ca.InsPremRur is null
 ===============
 
-
-CREATE PROCEDURE [dbo].[agentSalary]
+done CREATE PROCEDURE [dbo].[agentSalary]
 	@dt1 datetime,
 	@dt2 datetime
 AS
@@ -85,7 +104,7 @@ order by ag.Name
 
 =========================
 
-CREATE TABLE [dbo].[ContractAgent] (
+done CREATE TABLE [dbo].[ContractAgent] (
     [ContractAgentId] UNIQUEIDENTIFIER NOT NULL,
     [ContractId]      UNIQUEIDENTIFIER NULL,
     [AgentId]         UNIQUEIDENTIFIER NULL,
@@ -97,7 +116,7 @@ CREATE TABLE [dbo].[ContractAgent] (
     CONSTRAINT [FK_ContractAgent_ToTable] FOREIGN KEY ([ContractId]) REFERENCES [dbo].[Contract] ([ContractId])
 );
 ===========================
-CREATE TABLE [dbo].[Agent] (
+done CREATE TABLE [dbo].[Agent] (
     [AgentId]           UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
     [Name]              NVARCHAR (50)    NULL,
     [AgentContractNum]  NVARCHAR (50)    NULL,
