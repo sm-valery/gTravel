@@ -64,10 +64,16 @@ namespace gTravel.Controllers
 
             switch (q.action)
             {
+
                 case "ActClosedWork":
                     if (!q.Agents.HasValue)
                     {
                         q.errormess = "Не выбран агент!";
+                    }
+
+                    if(q.Agents == Guid.Empty)
+                    {
+                        q.errormess = "Необходимо выбрать только одного агента!";
                     }
                     break;
             }
